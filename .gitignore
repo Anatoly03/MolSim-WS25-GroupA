@@ -38,3 +38,15 @@
 # Build folders.
 # This rule ignores any folder in the project root that contains "build"
 /*build*/
+
+# MacOS folder attributes
+.DS_Store
+
+# CMake generated files
+CMakeFiles
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# Runnable output
+MolSim
