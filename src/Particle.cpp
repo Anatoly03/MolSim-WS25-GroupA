@@ -68,3 +68,21 @@ std::ostream &operator<<(std::ostream &stream, Particle &p) {
   stream << p.toString();
   return stream;
 }
+
+void Particle::setNewF (const std::array<double, 3>& new_f) {
+  old_f=f;
+  f=new_f;
+
+}
+
+void Particle::setNewV (const std::array<double, 3>& new_v) {
+
+  v=new_v;
+
+}
+
+void Particle::setNewX (const std::array<double, 3>& new_x) {
+
+  x=new_x;
+
+}

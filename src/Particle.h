@@ -70,6 +70,17 @@ class Particle {
   bool operator==(Particle &other);
 
   std::string toString() const;
+
+  /**
+   *
+   * added some methods to help change the values
+   */
+
+  void setNewF(const std::array<double, 3>& new_f);
+
+  void setNewV (const std::array<double, 3>& new_v);
+
+  void setNewX (const std::array<double, 3>& new_x);
 };
 
 std::ostream &operator<<(std::ostream &stream, Particle &p);
