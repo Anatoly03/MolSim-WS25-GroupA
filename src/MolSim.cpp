@@ -39,7 +39,7 @@ int main(int argc, char *argsv[]) {
   std::cout << "Hello from MolSim for PSE!" << std::endl;
   if (argc != 2) {
     std::cout << "Erroneous programme call! " << std::endl;
-    std::cout << "./molsym filename" << std::endl;
+    std::cout << "./MolSim input/eingabe-sonne.txt" << std::endl;
   }
 
   FileReader fileReader;
