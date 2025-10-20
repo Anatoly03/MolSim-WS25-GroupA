@@ -117,7 +117,7 @@ int main(int argc, char *argsv[]) {
 
   if (argc != 2) {
     std::cout << "Erroneous programme call! " << std::endl;
-    std::cout << "./molsym filename" << std::endl;
+    std::cout << "./MolSim input/eingabe-sonne.txt" << std::endl;
   }
 
   FileReader fileReader;
