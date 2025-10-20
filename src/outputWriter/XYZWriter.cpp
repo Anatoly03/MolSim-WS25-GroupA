@@ -5,10 +5,12 @@
  *      Author: eckhardw
  */
 
-#include "outputWriter/XYZWriter.h"
+#include "./XYZWriter.h"
 
 #include <iomanip>
 #include <sstream>
+
+#include "math/Vec3.h"
 
 namespace outputWriter {
 
@@ -28,14 +30,10 @@ void XYZWriter::plotParticles(std::list<Particle> particles, const std::string &
        << std::endl;
 
   for (auto &p : particles) {
-    std::array<double, 3> x = p.getX();
+    Vec3D x = p.getX();
     file << "Ar ";
     file.setf(std::ios_base::showpoint);
-
-    for (auto &xi : x) {
-      file << xi << " ";
-    }
-
+    file << x.x << " " << x.y << " " << x.z << " ";
     file << std::endl;
   }
 

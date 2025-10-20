@@ -9,28 +9,29 @@
 
 #include <array>
 #include <string>
+#include "math/Vec3.h"
 
 class Particle {
  private:
   /**
    * Position of the particle
    */
-  std::array<double, 3> x;
+  Vec3D x;
 
   /**
    * Velocity of the particle
    */
-  std::array<double, 3> v;
+  Vec3D v;
 
   /**
    * Force effective on this particle
    */
-  std::array<double, 3> f;
+  Vec3D f;
 
   /**
    * Force which was effective on this particle
    */
-  std::array<double, 3> old_f;
+  Vec3D old_f;
 
   /**
    * Mass of this particle
@@ -51,17 +52,17 @@ class Particle {
   Particle(
       // for visualization, we need always 3 coordinates
       // -> in case of 2d, we use only the first and the second
-      std::array<double, 3> x_arg, std::array<double, 3> v_arg, double m_arg, int type = 0);
+      Vec3D x_arg, Vec3D v_arg, double m_arg, int type = 0);
 
   virtual ~Particle();
 
-  const std::array<double, 3> &getX() const;
+  const Vec3D &getX() const;
 
-  const std::array<double, 3> &getV() const;
+  const Vec3D &getV() const;
 
-  const std::array<double, 3> &getF() const;
+  const Vec3D &getF() const;
 
-  const std::array<double, 3> &getOldF() const;
+  const Vec3D &getOldF() const;
 
   double getM() const;
 

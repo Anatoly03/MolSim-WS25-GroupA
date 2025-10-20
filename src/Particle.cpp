@@ -10,6 +10,7 @@
 #include <iostream>
 
 #include "utils/ArrayUtils.h"
+#include "math/Vec3.h"
 
 Particle::Particle(int type_arg) {
   type = type_arg;
@@ -29,7 +30,7 @@ Particle::Particle(const Particle &other) {
 }
 
 // Todo: maybe use initializater list instead of copy?
-Particle::Particle(std::array<double, 3> x_arg, std::array<double, 3> v_arg, double m_arg, int type_arg) {
+Particle::Particle(Vec3D x_arg, Vec3D v_arg, double m_arg, int type_arg) {
   x = x_arg;
   v = v_arg;
   m = m_arg;
@@ -41,13 +42,13 @@ Particle::Particle(std::array<double, 3> x_arg, std::array<double, 3> v_arg, dou
 
 Particle::~Particle() { std::cout << "Particle destructed!" << std::endl; }
 
-const std::array<double, 3> &Particle::getX() const { return x; }
+const Vec3D &Particle::getX() const { return x; }
 
-const std::array<double, 3> &Particle::getV() const { return v; }
+const Vec3D &Particle::getV() const { return v; }
 
-const std::array<double, 3> &Particle::getF() const { return f; }
+const Vec3D &Particle::getF() const { return f; }
 
-const std::array<double, 3> &Particle::getOldF() const { return old_f; }
+const Vec3D &Particle::getOldF() const { return old_f; }
 
 double Particle::getM() const { return m; }
 
@@ -55,7 +56,7 @@ int Particle::getType() const { return type; }
 
 std::string Particle::toString() const {
   std::stringstream stream;
-  stream << "Particle: X:" << x << " v: " << v << " f: " << f << " old_f: " << old_f << " type: " << type;
+  stream << "Particle: X:" << x.asArray() << " v: " << v.asArray() << " f: " << f.asArray() << " old_f: " << old_f.asArray() << " type: " << type;
   return stream.str();
 }
 

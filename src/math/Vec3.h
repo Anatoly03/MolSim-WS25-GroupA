@@ -1,0 +1,104 @@
+/**
+ * @file Vec3.h
+ */
+
+#pragma once
+
+#include <array>
+#include <iostream>
+#include <type_traits>
+
+/**
+ * @struct Vec3
+ * @brief Represents a 3D vector.
+ * @note Use Vec3D as a typedef for Vec3<double>.
+ * 
+ * @example
+ * 
+ * ```c++
+ * Vec3 a, b, c;
+ * 
+ * a = Vec3(1.0);
+ * b = Vec3(-0.5);
+ * c = a + b;
+ * 
+ * assert(c.x == 0.5);
+ * ```
+ */
+template<typename T = double>
+struct Vec3 {
+    // require numeric types only.
+    // https://stackoverflow.com/a/26207551
+    static_assert(std::is_arithmetic<T>::value, "Vec3 requires an arithmetic generic type");
+
+    // attributes
+    T x;
+    T y;
+    T z;
+    
+    // constructors
+    Vec3() : x(0), y(0), z(0) {}
+    Vec3(T e) : x(e), y(e), z(e) {}
+    Vec3(T x_, T y_, T z_) : x(x_), y(y_), z(z_) {}
+
+    // methods
+
+    /**
+     * @brief Convert Vec3 to an array type. Useful for printing.
+     */
+    std::array<T, 3> asArray() const {
+        return {x, y, z};
+    }
+
+    // operator overloads
+    // allows to override symbols like the plus and minus and use it with vectors
+    // https://en.cppreference.com/w/cpp/language/operators.html
+    // https://www.geeksforgeeks.org/cpp/how-to-overload-the-plus-operator-in-cpp/
+
+    /**
+     * @brief Unary negation operator overload for Vec3.
+     */
+    inline constexpr Vec3 operator - () const {
+        return Vec3(-this->x, -this->y, -this->z);
+    }
+
+    /**
+     * @brief Binary addition operator overload for Vec3.
+     */
+    inline constexpr Vec3 operator + (const Vec3 &other) const {
+        return Vec3(this->x + other.x, this->y + other.y, this->z + other.z);
+    }
+
+    /**
+     * @brief Binary subtraction operator overload for Vec3.
+     */
+    inline constexpr Vec3 operator - (const Vec3 &other) const {
+        return Vec3(this->x - other.x, this->y - other.y, this->z - other.z);
+    }
+
+    /**
+     * @brief Vec3 equivalence.
+     */
+    inline constexpr bool operator == (const Vec3 &other) const {
+        return (this->x == other.x) && (this->y == other.y) && (this->z == other.z);
+    }
+
+    /**
+     * @brief Vec3 index-based member access
+     */
+    inline constexpr T& operator [] (size_t index) {
+        switch (index) {
+            case 0: return x;
+            case 1: return y;
+            case 2: return z;
+            default: throw std::out_of_range("Vec3 index out of range");
+        }
+    }
+};
+
+/**
+ * @struct Vec3D
+ * @brief Represents a 3D vector of type double.
+ */
+// https://www.geeksforgeeks.org/cpp/typedef-in-cpp/
+typedef Vec3<double> Vec3D;
