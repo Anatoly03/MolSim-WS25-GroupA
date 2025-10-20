@@ -27,7 +27,12 @@ file(GLOB_RECURSE MY_SRC
 )
 
 # create make target
-add_executable(MolSim ${MY_SRC})
+add_executable(MolSim ${MY_SRC}
+        /Vec3.cpp
+        /Vec3.cpp
+        src/MolSim.cpp
+        src/math/Vec3.h
+        src/Particle.cpp)
 
 target_include_directories(MolSim
         PRIVATE

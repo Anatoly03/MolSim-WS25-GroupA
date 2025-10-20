@@ -5,6 +5,7 @@
 #include "FileReader.h"
 //#include "outputWriter/XYZWriter.h"
 #include "utils/ArrayUtils.h"
+#include "math/Vec3.cpp"
 
 /**** forward declaration of the calculation functions ****/
 
@@ -150,7 +151,7 @@ int main(int argc, char *argsv[]) {
   std::cout << "output written. Terminating..." << std::endl;
   return 0;
 }
-
+/*
 void calculateF() {
   std::list<Particle>::iterator iterator;
   iterator = particles.begin();
@@ -170,6 +171,56 @@ void calculateF() {
         std :: array<double , 3> newX{};
         double xijDiffereneceTotal=0;
         double xijDifferenece=0;
+        for (int i = 0; i < p1.getX().size(); ++i) {
+          newX[i]=p2.getX()[i]-p1.getX()[i];
+          xijDifferenece=p1.getX()[i]-p2.getX()[i];
+          xijDiffereneceTotal+=xijDifferenece*xijDifferenece;
+        }
+        xijDiffereneceTotal=std::sqrt(xijDiffereneceTotal);
+        std::cout << "xijDiffereneceTotal " << xijDiffereneceTotal << std::endl;
+        double tempValue = (p1.getM() * p2.getM())/(xijDiffereneceTotal*xijDiffereneceTotal*xijDiffereneceTotal);
+        std::cout << "tempValue " << tempValue << std::endl;
+        std::cout<< "Particle difference: X:" << newX[0]  << " , " << newX[1] << " , " << newX[2] << std::endl;
+        std :: array<double , 3> F_ij={newX[0]*tempValue,newX[1]*tempValue,newX[2]*tempValue};
+        std::cout<< "F_ij: X:" << F_ij[0]  << " , " << F_ij[1] << " , " << F_ij[2] << std::endl;
+        F_i= addVectorDouble(F_i,F_ij);
+      }
+    }
+    std::cout << "partical " << p1 << " f finished." << std::endl;
+    p1.setNewF(F_i);
+    F_i[0]=0;
+    F_i[1]=0;
+    F_i[2]=0;
+    std::cout << "partical " << p1 << " f new finished." << std::endl;
+    std::cout << " " << std::endl;
+  }
+
+}
+*/
+
+void calculateF() {
+  std::list<Particle>::iterator iterator;
+  iterator = particles.begin();
+
+  std::cout << "calculating f..."<< std::endl;
+
+
+
+  for (auto &p1 : particles) {
+
+     math::Vec3 F_i = math::Vec3(0.,0.,0.);
+    for (auto &p2 : particles) {
+      // @TODO: insert calculation of forces here!
+      if(!(p1==p2)) {
+        std::cout << "current p1: "<< p1.toString() << std::endl;
+        std::cout << "comparing with p: "<< p2.toString() << std::endl;
+        math::Vec3 newX = math::Vec3(0.,0.,0.);
+        double xijDiffereneceTotal=0;
+        double xijDifferenece=0;
+        /**
+         * I stopped Here
+         */
+        newX=math::Vec3(p2.getX()[0],p2.getX()[1],p2.getX()[2])-math::Vec3(p1.getX()[0],p1.getX()[1],p1.getX()[2]);
         for (int i = 0; i < p1.getX().size(); ++i) {
           newX[i]=p2.getX()[i]-p1.getX()[i];
           xijDifferenece=p1.getX()[i]-p2.getX()[i];

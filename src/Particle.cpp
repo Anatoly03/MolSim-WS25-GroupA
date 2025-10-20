@@ -11,6 +11,8 @@
 
 #include "utils/ArrayUtils.h"
 
+#include "math/Vec3.cpp"
+
 Particle::Particle(int type_arg) {
   type = type_arg;
   std::cout << "Particle generated!" << std::endl;
@@ -38,6 +40,8 @@ Particle::Particle(std::array<double, 3> x_arg, std::array<double, 3> v_arg, dou
   old_f = {0., 0., 0.};
   std::cout << "Particle generated!" << std::endl;
 }
+
+
 
 Particle::~Particle() { std::cout << "Particle destructed!" << std::endl; }
 
