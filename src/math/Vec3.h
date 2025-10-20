@@ -46,6 +46,13 @@ struct Vec3 {
     /**
      * @brief Convert Vec3 to an array type. Useful for printing.
      */
+    double length() const {
+        return std::sqrt(double(x) * x + y * y + z * z);
+    }
+
+    /**
+     * @brief Convert Vec3 to an array type. Useful for printing.
+     */
     std::array<T, 3> asArray() const {
         return {x, y, z};
     }
@@ -54,6 +61,8 @@ struct Vec3 {
     // allows to override symbols like the plus and minus and use it with vectors
     // https://en.cppreference.com/w/cpp/language/operators.html
     // https://www.geeksforgeeks.org/cpp/how-to-overload-the-plus-operator-in-cpp/
+
+    // arithmetic and logical operators
 
     /**
      * @brief Unary negation operator overload for Vec3.
@@ -76,11 +85,56 @@ struct Vec3 {
         return Vec3(this->x - other.x, this->y - other.y, this->z - other.z);
     }
 
+    // TODO inline constexpr Vec3 operator * (const Vec3 &other) const
+
+    /**
+     * @brief Binary multiplication operator overload for Vec3 with a scalar
+     */
+    inline constexpr Vec3 operator * (const T &scalar) const {
+        return Vec3(this->x * scalar, this->y * scalar, this->z * scalar);
+    }
+
+    // TODO inline constexpr Vec3 operator * (const Vec3 &other) const
+
+    /**
+     * @brief Binary multiplication operator overload for Vec3 with a scalar
+     */
+    inline constexpr Vec3 operator / (const T &scalar) const {
+        return Vec3(this->x / scalar, this->y / scalar, this->z / scalar);
+    }
+
     /**
      * @brief Vec3 equivalence.
      */
     inline constexpr bool operator == (const Vec3 &other) const {
         return (this->x == other.x) && (this->y == other.y) && (this->z == other.z);
+    }
+
+    // assignment operators
+
+    /**
+     * @brief Assignment operator overload for Vec3.
+     */
+    inline constexpr Vec3& operator = (const Vec3 &other) {
+        // guard self assignment
+        if (this == &other)
+            return *this;
+    
+        this->x = other.x;
+        this->y = other.y;
+        this->z = other.z;
+
+        return *this;
+    }
+
+    /**
+     * @brief Binary addition operator overload for Vec3.
+     */
+    inline constexpr Vec3& operator += (const Vec3 &other) {
+        this->x += other.x;
+        this->y += other.y;
+        this->z += other.z;
+        return *this;
     }
 
     /**
@@ -102,3 +156,14 @@ struct Vec3 {
  */
 // https://www.geeksforgeeks.org/cpp/typedef-in-cpp/
 typedef Vec3<double> Vec3D;
+
+// implementations of operator overloads that do not belong in base struct
+
+/**
+ * @brief Binary multiplication operator overload for Vec3 with a scalar
+ * where the scalar is on the left side.
+ */
+template<typename T = double>
+inline constexpr Vec3<T> operator * (const T scalar, const Vec3<T> &other) {
+    return other * scalar;
+}

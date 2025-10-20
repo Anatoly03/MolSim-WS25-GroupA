@@ -62,6 +62,14 @@ class Particle {
 
   const Vec3D &getF() const;
 
+  void setX(Vec3D &x_);
+
+  void setV(Vec3D &v_);
+
+  void setF(Vec3D &f_);
+
+  void delayF();
+
   const Vec3D &getOldF() const;
 
   double getM() const;

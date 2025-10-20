@@ -26,11 +26,11 @@ struct Args {
     const char* output_dir;
 
     double start_time = 0;
-    double end_time = 5; // 1000;
+    double end_time = 100; // 1000
     double delta_t = 0.014;
 
     // constructor with default values
-    Args() : input_file(NULL), output_dir(NULL), start_time(0), end_time(5), delta_t(0.014) {}
+    Args() : input_file(NULL), output_dir(NULL), start_time(0), end_time(100), delta_t(0.014) {}
 };
 
 const char* const DEFAULT_OUTPUT_DIR = "gen";

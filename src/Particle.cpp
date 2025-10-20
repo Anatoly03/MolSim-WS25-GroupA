@@ -48,6 +48,17 @@ const Vec3D &Particle::getV() const { return v; }
 
 const Vec3D &Particle::getF() const { return f; }
 
+void Particle::setX(Vec3D &x_) { this->x = x_; }
+
+void Particle::setV(Vec3D &v_) { this->v = v_; }
+
+void Particle::setF(Vec3D &f_) { this->f = f_; }
+
+void Particle::delayF() {
+    this->old_f = this->f;
+    this->f = Vec3D(0);
+}
+
 const Vec3D &Particle::getOldF() const { return old_f; }
 
 double Particle::getM() const { return m; }
