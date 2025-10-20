@@ -2,6 +2,7 @@
 #include <iostream>
 #include <list>
 
+#include "Frame.h"
 #include "FileReader.h"
 #include "outputWriter/XYZWriter.h"
 #include "utils/ArrayUtils.h"
@@ -29,21 +30,21 @@ void calculateV();
 void plotParticles(int iteration);
 
 constexpr double start_time = 0;
-constexpr double end_time = 1000;
+constexpr double end_time = 10; // 1000;
 constexpr double delta_t = 0.014;
 
 // TODO: what data structure to pick?
 std::list<Particle> particles;
 
+/**
+ * The program entry point is the Rahmenprogramm which after getting all variables
+ * calls the molecular simulation methods.
+ */
 int main(int argc, char *argsv[]) {
-  std::cout << "Hello from MolSim for PSE!" << std::endl;
-  if (argc != 2) {
-    std::cout << "Erroneous programme call! " << std::endl;
-    std::cout << "./MolSim input/eingabe-sonne.txt" << std::endl;
-  }
+  const auto args = ProcessArgs(argc, argsv);
 
   FileReader fileReader;
-  fileReader.readFile(particles, argsv[1]);
+  fileReader.readFile(particles, args.input_file);
 
   double current_time = start_time;
 

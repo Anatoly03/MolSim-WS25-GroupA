@@ -47,3 +47,4 @@ CMakeFiles
 
 # Runnable output
 MolSim
+*.xyz

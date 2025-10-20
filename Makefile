@@ -166,6 +166,30 @@ src/FileReader.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/MolSim.dir/build.make CMakeFiles/MolSim.dir/src/FileReader.cpp.s
 .PHONY : src/FileReader.cpp.s
 
+src/Frame.o: src/Frame.cpp.o
+.PHONY : src/Frame.o
+
+# target to build an object file
+src/Frame.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MolSim.dir/build.make CMakeFiles/MolSim.dir/src/Frame.cpp.o
+.PHONY : src/Frame.cpp.o
+
+src/Frame.i: src/Frame.cpp.i
+.PHONY : src/Frame.i
+
+# target to preprocess a source file
+src/Frame.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MolSim.dir/build.make CMakeFiles/MolSim.dir/src/Frame.cpp.i
+.PHONY : src/Frame.cpp.i
+
+src/Frame.s: src/Frame.cpp.s
+.PHONY : src/Frame.s
+
+# target to generate assembly for a file
+src/Frame.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MolSim.dir/build.make CMakeFiles/MolSim.dir/src/Frame.cpp.s
+.PHONY : src/Frame.cpp.s
+
 src/MolSim.o: src/MolSim.cpp.o
 .PHONY : src/MolSim.o
 
@@ -213,6 +237,30 @@ src/Particle.s: src/Particle.cpp.s
 src/Particle.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/MolSim.dir/build.make CMakeFiles/MolSim.dir/src/Particle.cpp.s
 .PHONY : src/Particle.cpp.s
+
+src/math/Vec3.o: src/math/Vec3.cpp.o
+.PHONY : src/math/Vec3.o
+
+# target to build an object file
+src/math/Vec3.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MolSim.dir/build.make CMakeFiles/MolSim.dir/src/math/Vec3.cpp.o
+.PHONY : src/math/Vec3.cpp.o
+
+src/math/Vec3.i: src/math/Vec3.cpp.i
+.PHONY : src/math/Vec3.i
+
+# target to preprocess a source file
+src/math/Vec3.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MolSim.dir/build.make CMakeFiles/MolSim.dir/src/math/Vec3.cpp.i
+.PHONY : src/math/Vec3.cpp.i
+
+src/math/Vec3.s: src/math/Vec3.cpp.s
+.PHONY : src/math/Vec3.s
+
+# target to generate assembly for a file
+src/math/Vec3.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/MolSim.dir/build.make CMakeFiles/MolSim.dir/src/math/Vec3.cpp.s
+.PHONY : src/math/Vec3.cpp.s
 
 src/outputWriter/VTKWriter.o: src/outputWriter/VTKWriter.cpp.o
 .PHONY : src/outputWriter/VTKWriter.o
@@ -275,12 +323,18 @@ help:
 	@echo "... src/FileReader.o"
 	@echo "... src/FileReader.i"
 	@echo "... src/FileReader.s"
+	@echo "... src/Frame.o"
+	@echo "... src/Frame.i"
+	@echo "... src/Frame.s"
 	@echo "... src/MolSim.o"
 	@echo "... src/MolSim.i"
 	@echo "... src/MolSim.s"
 	@echo "... src/Particle.o"
 	@echo "... src/Particle.i"
 	@echo "... src/Particle.s"
+	@echo "... src/math/Vec3.o"
+	@echo "... src/math/Vec3.i"
+	@echo "... src/math/Vec3.s"
 	@echo "... src/outputWriter/VTKWriter.o"
 	@echo "... src/outputWriter/VTKWriter.i"
 	@echo "... src/outputWriter/VTKWriter.s"
