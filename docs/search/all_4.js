@@ -1,20 +1,7 @@
 var searchData=
 [
-  ['e_0',['E',['../classE.html',1,'']]],
-  ['elementwisepairop_1',['elementWisePairOp',['../namespaceArrayUtils.html#a9b9c0bb4a1f4358b8d9a436a583f8eda',1,'ArrayUtils']]],
-  ['elementwisescalarop_2',['elementWiseScalarOp',['../namespaceArrayUtils.html#a7959b05d2d307318e0bd1f79dbc3faec',1,'ArrayUtils']]],
-  ['end_5ftime_3',['end_time',['../MolSim_8cpp.html#a924c1917ec2c1749a9474c3266bfefe4',1,'MolSim.cpp']]],
-  ['enum_2eh_4',['enum.h',['../enum_8h.html',1,'']]],
-  ['enum_5ftest_5',['Enum_Test',['../classEnum__Test.html',1,'']]],
-  ['enumptr_6',['enumPtr',['../classJavadoc__Test.html#abcb36df9d8af3e69290c239ba483d6df',1,'Javadoc_Test::enumPtr()'],['../classQTstyle__Test.html#a973a4566c9a036f4eca508ba5fe80dcb',1,'QTstyle_Test::enumPtr()']]],
-  ['enumtype_7',['EnumType',['../classAfterdoc__Test.html#adab0cd7ad3b4875e245ca8f6238a388a',1,'Afterdoc_Test']]],
-  ['enumvar_8',['enumVar',['../classQTstyle__Test.html#a241fb54f66dc0b3b03eece3a1a1bf18b',1,'QTstyle_Test::enumVar()'],['../classJavadoc__Test.html#afcc11e097968fb44080b82b75032e40b',1,'Javadoc_Test::enumVar()']]],
-  ['errno_9',['errno',['../structcmd_8h.html#ad65a8842cc674e3ddf69355898c0ecbf',1,'structcmd.h']]],
-  ['etype_10',['EType',['../classAutolink__Test.html#aeb611627c332d067bded1806b1bb45c2',1,'Autolink_Test']]],
-  ['eval1_11',['EVal1',['../classAfterdoc__Test.html#adab0cd7ad3b4875e245ca8f6238a388aae054276790e35692ad0abe10c5b75da4',1,'Afterdoc_Test']]],
-  ['eval2_12',['EVal2',['../classAfterdoc__Test.html#adab0cd7ad3b4875e245ca8f6238a388aac849f37624d8d2d68ca72c4a8df9cf99',1,'Afterdoc_Test']]],
-  ['example_13',['example',['../classExample__Test.html#a22a62b12c65fd5e43b6eadaabb21ebb0',1,'Example_Test::example()'],['../classInclude__Test.html#aa286655e8f7f6a8ad203ef5fd8548b81',1,'Include_Test::example()'],['../classTag.html#acc641ffae34e2c4c03a6edf0a513be28',1,'Tag::example()']]],
-  ['example_2ecpp_14',['example.cpp',['../example_8cpp.html',1,'']]],
-  ['example_5ftest_15',['Example_Test',['../classExample__Test.html',1,'']]],
-  ['example_5ftest_2ecpp_16',['example_test.cpp',['../example__test_8cpp.html',1,'']]]
+  ['f_0',['f',['../classParticle.html#a795fa0b3046fc186e4ac1dc0b9230c4a',1,'Particle']]],
+  ['filereader_1',['FileReader',['../classFileReader.html',1,'FileReader'],['../classFileReader.html#a615dcb2443cad1f2ca123c7c0c334480',1,'FileReader::FileReader()']]],
+  ['filereader_2ecpp_2',['FileReader.cpp',['../FileReader_8cpp.html',1,'']]],
+  ['filereader_2eh_3',['FileReader.h',['../FileReader_8h.html',1,'']]]
 ];

@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['read_0',['read',['../structcmd_8h.html#a9c7b76d5266903891c803132d51ccb90',1,'structcmd.h']]],
-  ['readfile_1',['readFile',['../classFileReader.html#a98e0f676c498629dd005101f399f2a3c',1,'FileReader']]],
-  ['relates_2ecpp_2',['relates.cpp',['../relates_8cpp.html',1,'']]],
-  ['restypedef_2ecpp_3',['restypedef.cpp',['../restypedef_8cpp.html',1,'']]]
+  ['_7efilereader_0',['~FileReader',['../classFileReader.html#a1382969e8f1468f3b04ad4b44ab39dee',1,'FileReader']]],
+  ['_7eparticle_1',['~Particle',['../classParticle.html#ad030d0fe7b88cf81744b127c99244ff4',1,'Particle']]],
+  ['_7exyzwriter_2',['~XYZWriter',['../classoutputWriter_1_1XYZWriter.html#ad3fe6dbb5e1aa5bdeffcc9986795309b',1,'outputWriter::XYZWriter']]]
 ];
