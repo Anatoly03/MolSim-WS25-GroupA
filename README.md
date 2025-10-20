@@ -2,6 +2,8 @@
 
 The Molecular Dynamics teaching code.
 
+You can find the code documentation of the master branch at [our GitHub Pages](https://anatoly03.github.io/MolSim-WS25-GroupA/index.html).
+
 ### Setup
 
 Run the following commands in the terminal.
