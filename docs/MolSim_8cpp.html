@@ -81,18 +81,19 @@ $(function() {
 <div class="contents">
 <div class="textblock"><code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;list&gt;</code><br />
+<code>#include &quot;<a class="el" href="Frame_8h_source.html">Frame.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="FileReader_8h_source.html">FileReader.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="XYZWriter_8h_source.html">outputWriter/XYZWriter.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="ArrayUtils_8h_source.html">utils/ArrayUtils.h</a>&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a0fb73e818df59cf7c8817320cd59542f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="MolSim_8cpp.html#a0fb73e818df59cf7c8817320cd59542f">calculateF</a> ()</td></tr>
-<tr class="separator:a0fb73e818df59cf7c8817320cd59542f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6c59c4c130c452e82f3992fd17166bed"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="MolSim_8cpp.html#a6c59c4c130c452e82f3992fd17166bed">calculateX</a> ()</td></tr>
-<tr class="separator:a6c59c4c130c452e82f3992fd17166bed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a85d9ef8b7091f5cdaffa0c575eebf661"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="MolSim_8cpp.html#a85d9ef8b7091f5cdaffa0c575eebf661">calculateV</a> ()</td></tr>
-<tr class="separator:a85d9ef8b7091f5cdaffa0c575eebf661"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3dae9439e84b4df9a0ba56ed4d37e3cd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="MolSim_8cpp.html#a3dae9439e84b4df9a0ba56ed4d37e3cd">calculateForce</a> ()</td></tr>
+<tr class="separator:a3dae9439e84b4df9a0ba56ed4d37e3cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8294b722025297d3b1dbdaf789ffd1c5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="MolSim_8cpp.html#a8294b722025297d3b1dbdaf789ffd1c5">calculatePosition</a> (double dt)</td></tr>
+<tr class="separator:a8294b722025297d3b1dbdaf789ffd1c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac294d5b4fa93c4904effe7b3f991d62d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="MolSim_8cpp.html#ac294d5b4fa93c4904effe7b3f991d62d">calculateVelocity</a> (double dt)</td></tr>
+<tr class="separator:ac294d5b4fa93c4904effe7b3f991d62d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af4d25832793b65abf538fab0474a8e51"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="MolSim_8cpp.html#af4d25832793b65abf538fab0474a8e51">plotParticles</a> (int iteration)</td></tr>
 <tr class="separator:af4d25832793b65abf538fab0474a8e51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a329c95e85f063f49b0daaed5c5b56335"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="MolSim_8cpp.html#a329c95e85f063f49b0daaed5c5b56335">main</a> (int argc, char *argsv[])</td></tr>
@@ -100,24 +101,18 @@ Functions</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a638f9bb439eac914b175531577dfa7da"><td class="memItemLeft" align="right" valign="top">constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="MolSim_8cpp.html#a638f9bb439eac914b175531577dfa7da">start_time</a> = 0</td></tr>
-<tr class="separator:a638f9bb439eac914b175531577dfa7da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a924c1917ec2c1749a9474c3266bfefe4"><td class="memItemLeft" align="right" valign="top">constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="MolSim_8cpp.html#a924c1917ec2c1749a9474c3266bfefe4">end_time</a> = 1000</td></tr>
-<tr class="separator:a924c1917ec2c1749a9474c3266bfefe4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a17c077704a57c9103b5b3604a391dbd7"><td class="memItemLeft" align="right" valign="top">constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="MolSim_8cpp.html#a17c077704a57c9103b5b3604a391dbd7">delta_t</a> = 0.014</td></tr>
-<tr class="separator:a17c077704a57c9103b5b3604a391dbd7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7950012d7ef2d8e4c6d12f23f4b83127"><td class="memItemLeft" align="right" valign="top">std::list&lt; <a class="el" href="classParticle.html">Particle</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="MolSim_8cpp.html#a7950012d7ef2d8e4c6d12f23f4b83127">particles</a></td></tr>
 <tr class="separator:a7950012d7ef2d8e4c6d12f23f4b83127"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a0fb73e818df59cf7c8817320cd59542f" name="a0fb73e818df59cf7c8817320cd59542f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a0fb73e818df59cf7c8817320cd59542f">&#9670;&#160;</a></span>calculateF()</h2>
+<a id="a3dae9439e84b4df9a0ba56ed4d37e3cd" name="a3dae9439e84b4df9a0ba56ed4d37e3cd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3dae9439e84b4df9a0ba56ed4d37e3cd">&#9670;&#160;</a></span>calculateForce()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void calculateF </td>
+          <td class="memname">void calculateForce </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -128,16 +123,17 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a85d9ef8b7091f5cdaffa0c575eebf661" name="a85d9ef8b7091f5cdaffa0c575eebf661"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a85d9ef8b7091f5cdaffa0c575eebf661">&#9670;&#160;</a></span>calculateV()</h2>
+<a id="a8294b722025297d3b1dbdaf789ffd1c5" name="a8294b722025297d3b1dbdaf789ffd1c5"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8294b722025297d3b1dbdaf789ffd1c5">&#9670;&#160;</a></span>calculatePosition()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void calculateV </td>
+          <td class="memname">void calculatePosition </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>dt</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -146,16 +142,17 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a6c59c4c130c452e82f3992fd17166bed" name="a6c59c4c130c452e82f3992fd17166bed"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6c59c4c130c452e82f3992fd17166bed">&#9670;&#160;</a></span>calculateX()</h2>
+<a id="ac294d5b4fa93c4904effe7b3f991d62d" name="ac294d5b4fa93c4904effe7b3f991d62d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac294d5b4fa93c4904effe7b3f991d62d">&#9670;&#160;</a></span>calculateVelocity()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void calculateX </td>
+          <td class="memname">void calculateVelocity </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>dt</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -189,6 +186,7 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>The program entry point is the Rahmenprogramm which after getting all variables calls the molecular simulation methods. </p>
 
 </div>
 </div>
@@ -212,50 +210,6 @@ Variables</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a id="a17c077704a57c9103b5b3604a391dbd7" name="a17c077704a57c9103b5b3604a391dbd7"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a17c077704a57c9103b5b3604a391dbd7">&#9670;&#160;</a></span>delta_t</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr double delta_t = 0.014</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a924c1917ec2c1749a9474c3266bfefe4" name="a924c1917ec2c1749a9474c3266bfefe4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a924c1917ec2c1749a9474c3266bfefe4">&#9670;&#160;</a></span>end_time</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr double end_time = 1000</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="a7950012d7ef2d8e4c6d12f23f4b83127" name="a7950012d7ef2d8e4c6d12f23f4b83127"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a7950012d7ef2d8e4c6d12f23f4b83127">&#9670;&#160;</a></span>particles</h2>
 
@@ -266,28 +220,6 @@ Variables</h2></td></tr>
           <td class="memname">std::list&lt;<a class="el" href="classParticle.html">Particle</a>&gt; particles</td>
         </tr>
       </table>
-</div><div class="memdoc">
-
-</div>
-</div>
-<a id="a638f9bb439eac914b175531577dfa7da" name="a638f9bb439eac914b175531577dfa7da"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a638f9bb439eac914b175531577dfa7da">&#9670;&#160;</a></span>start_time</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr double start_time = 0</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 </div>

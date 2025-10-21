@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['xyzwriter_0',['XYZWriter',['../classoutputWriter_1_1XYZWriter.html#a73b1eacd622152993f2fa6c181e69c8a',1,'outputWriter::XYZWriter']]]
+  ['readfile_0',['readFile',['../classFileReader.html#a98e0f676c498629dd005101f399f2a3c',1,'FileReader']]]
 ];

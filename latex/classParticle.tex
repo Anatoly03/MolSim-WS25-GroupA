@@ -11,19 +11,27 @@
 \item 
 \mbox{\hyperlink{classParticle_a24b04cb7c6f7ea4242d25c410f44ae56}{Particle}} (const \mbox{\hyperlink{classParticle}{Particle}} \&other)
 \item 
-\mbox{\hyperlink{classParticle_abd17e9e13b8ed36738424c79aa14e127}{Particle}} (std\+::array$<$ double, 3 $>$ x\+\_\+arg, std\+::array$<$ double, 3 $>$ v\+\_\+arg, double m\+\_\+arg, int \mbox{\hyperlink{classParticle_a2b73dd42bcd56ba2e7ffeb0a5515a866}{type}}=0)
+\mbox{\hyperlink{classParticle_a31fca0fb8902e936942354e406063e14}{Particle}} (\mbox{\hyperlink{structVec3D}{Vec3D}} pos\+\_\+arg, \mbox{\hyperlink{structVec3D}{Vec3D}} vel\+\_\+arg, double mass\+\_\+arg, int \mbox{\hyperlink{classParticle_a2b73dd42bcd56ba2e7ffeb0a5515a866}{type}}=0)
 \item 
 virtual \mbox{\hyperlink{classParticle_ad030d0fe7b88cf81744b127c99244ff4}{$\sim$\+Particle}} ()
 \item 
-const std\+::array$<$ double, 3 $>$ \& \mbox{\hyperlink{classParticle_ad5f097eb9cef2c4f1bae890014282867}{getX}} () const
+const \mbox{\hyperlink{structVec3D}{Vec3D}} \& \mbox{\hyperlink{classParticle_abebd557d43067b18a69584d166507477}{get\+Position}} () const
 \item 
-const std\+::array$<$ double, 3 $>$ \& \mbox{\hyperlink{classParticle_afcca7d6019f3e2fdc8df36bd0428f492}{getV}} () const
+const \mbox{\hyperlink{structVec3D}{Vec3D}} \& \mbox{\hyperlink{classParticle_a200bcb363bb5dd0953359d0d822204cb}{get\+Velocity}} () const
 \item 
-const std\+::array$<$ double, 3 $>$ \& \mbox{\hyperlink{classParticle_a74b516167925a350dac3e96e7b3d98b3}{getF}} () const
+const \mbox{\hyperlink{structVec3D}{Vec3D}} \& \mbox{\hyperlink{classParticle_ab6921bdcd5b7d61944b7477d30fb8296}{get\+Force}} () const
 \item 
-const std\+::array$<$ double, 3 $>$ \& \mbox{\hyperlink{classParticle_a2523afe674a4a1f8a135fd62742ad614}{get\+OldF}} () const
+void \mbox{\hyperlink{classParticle_a9def23e7a996b40c62d02c3e1c12a9ee}{set\+Position}} (\mbox{\hyperlink{structVec3D}{Vec3D}} \&position\+\_\+)
 \item 
-double \mbox{\hyperlink{classParticle_aa83367a14789f70d80fbf565530f52b8}{getM}} () const
+void \mbox{\hyperlink{classParticle_ada24a0871655999de7c3522488ca637d}{set\+Velocity}} (\mbox{\hyperlink{structVec3D}{Vec3D}} \&velocity\+\_\+)
+\item 
+void \mbox{\hyperlink{classParticle_ac053850e3cf52e5be04c7a31e3db87dc}{set\+Force}} (\mbox{\hyperlink{structVec3D}{Vec3D}} \&force\+\_\+)
+\item 
+void \mbox{\hyperlink{classParticle_a8cd1d82f4bb4fab2bfedb7459c4a025c}{delay\+Force}} ()
+\item 
+const \mbox{\hyperlink{structVec3D}{Vec3D}} \& \mbox{\hyperlink{classParticle_a7eebbbd2af4ac99aef2dc1a66e2e8dc2}{get\+Old\+Force}} () const
+\item 
+double \mbox{\hyperlink{classParticle_ad08e7b1d0cc7cb17bd0602caa4a22bc6}{get\+Mass}} () const
 \item 
 int \mbox{\hyperlink{classParticle_a806c077af237adf8b34dd0661cf92e5f}{get\+Type}} () const
 \item 
@@ -34,15 +42,15 @@ std\+::string \mbox{\hyperlink{classParticle_a41f3a8baf5d8b29ec806681d63ab2f81}{
 \doxysubsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
-std\+::array$<$ double, 3 $>$ \mbox{\hyperlink{classParticle_a027e5a09c12953df5fcbbdb15896de3e}{x}}
+\mbox{\hyperlink{structVec3D}{Vec3D}} \mbox{\hyperlink{classParticle_a124fbe7889663b3f36266ff7d01b8c40}{position}}
 \item 
-std\+::array$<$ double, 3 $>$ \mbox{\hyperlink{classParticle_a0fe6d1e0651ad949d0b37ac327c9c6d1}{v}}
+\mbox{\hyperlink{structVec3D}{Vec3D}} \mbox{\hyperlink{classParticle_afa8e4a92006ccdfab63b5a3001e45e82}{velocity}}
 \item 
-std\+::array$<$ double, 3 $>$ \mbox{\hyperlink{classParticle_a795fa0b3046fc186e4ac1dc0b9230c4a}{f}}
+\mbox{\hyperlink{structVec3D}{Vec3D}} \mbox{\hyperlink{classParticle_a205483108a976170fe608414728e3435}{force}}
 \item 
-std\+::array$<$ double, 3 $>$ \mbox{\hyperlink{classParticle_a968dfd29adaa41fb25a08d3c45903156}{old\+\_\+f}}
+\mbox{\hyperlink{structVec3D}{Vec3D}} \mbox{\hyperlink{classParticle_ac93fc331a1d3e0cd6867559963f3a210}{old\+\_\+force}}
 \item 
-double \mbox{\hyperlink{classParticle_aedcc7e1bc53b0e2b1a4a07c9a1b47563}{m}}
+double \mbox{\hyperlink{classParticle_ae6d46dc24a6666d526f211151fecca5f}{mass}}
 \item 
 int \mbox{\hyperlink{classParticle_a2b73dd42bcd56ba2e7ffeb0a5515a866}{type}}
 \end{DoxyCompactItemize}
@@ -61,11 +69,11 @@ int \mbox{\hyperlink{classParticle_a2b73dd42bcd56ba2e7ffeb0a5515a866}{type}}
 \doxysubsubsection{\texorpdfstring{Particle()}{Particle()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
 {\footnotesize\ttfamily Particle\+::\+Particle (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classParticle}{Particle}} \&}]{other }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{classParticle_abd17e9e13b8ed36738424c79aa14e127}\label{classParticle_abd17e9e13b8ed36738424c79aa14e127}} 
+\mbox{\Hypertarget{classParticle_a31fca0fb8902e936942354e406063e14}\label{classParticle_a31fca0fb8902e936942354e406063e14}} 
 \index{Particle@{Particle}!Particle@{Particle}}
 \index{Particle@{Particle}!Particle@{Particle}}
 \doxysubsubsection{\texorpdfstring{Particle()}{Particle()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
-{\footnotesize\ttfamily Particle\+::\+Particle (\begin{DoxyParamCaption}\item[{std\+::array$<$ double, 3 $>$}]{x\+\_\+arg,  }\item[{std\+::array$<$ double, 3 $>$}]{v\+\_\+arg,  }\item[{double}]{m\+\_\+arg,  }\item[{int}]{type = {\ttfamily 0} }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily Particle\+::\+Particle (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structVec3D}{Vec3D}}}]{pos\+\_\+arg,  }\item[{\mbox{\hyperlink{structVec3D}{Vec3D}}}]{vel\+\_\+arg,  }\item[{double}]{mass\+\_\+arg,  }\item[{int}]{type = {\ttfamily 0} }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{classParticle_ad030d0fe7b88cf81744b127c99244ff4}\label{classParticle_ad030d0fe7b88cf81744b127c99244ff4}} 
 \index{Particle@{Particle}!````~Particle@{$\sim$Particle}}
@@ -76,23 +84,35 @@ int \mbox{\hyperlink{classParticle_a2b73dd42bcd56ba2e7ffeb0a5515a866}{type}}
 
 
 \doxysubsection{Member Function Documentation}
-\mbox{\Hypertarget{classParticle_a74b516167925a350dac3e96e7b3d98b3}\label{classParticle_a74b516167925a350dac3e96e7b3d98b3}} 
-\index{Particle@{Particle}!getF@{getF}}
-\index{getF@{getF}!Particle@{Particle}}
-\doxysubsubsection{\texorpdfstring{getF()}{getF()}}
-{\footnotesize\ttfamily const std\+::array$<$ double, 3 $>$ \& Particle\+::getF (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+\mbox{\Hypertarget{classParticle_a8cd1d82f4bb4fab2bfedb7459c4a025c}\label{classParticle_a8cd1d82f4bb4fab2bfedb7459c4a025c}} 
+\index{Particle@{Particle}!delayForce@{delayForce}}
+\index{delayForce@{delayForce}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{delayForce()}{delayForce()}}
+{\footnotesize\ttfamily void Particle\+::delay\+Force (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
-\mbox{\Hypertarget{classParticle_aa83367a14789f70d80fbf565530f52b8}\label{classParticle_aa83367a14789f70d80fbf565530f52b8}} 
-\index{Particle@{Particle}!getM@{getM}}
-\index{getM@{getM}!Particle@{Particle}}
-\doxysubsubsection{\texorpdfstring{getM()}{getM()}}
-{\footnotesize\ttfamily double Particle\+::getM (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+\mbox{\Hypertarget{classParticle_ab6921bdcd5b7d61944b7477d30fb8296}\label{classParticle_ab6921bdcd5b7d61944b7477d30fb8296}} 
+\index{Particle@{Particle}!getForce@{getForce}}
+\index{getForce@{getForce}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{getForce()}{getForce()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{structVec3D}{Vec3D}} \& Particle\+::get\+Force (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
-\mbox{\Hypertarget{classParticle_a2523afe674a4a1f8a135fd62742ad614}\label{classParticle_a2523afe674a4a1f8a135fd62742ad614}} 
-\index{Particle@{Particle}!getOldF@{getOldF}}
-\index{getOldF@{getOldF}!Particle@{Particle}}
-\doxysubsubsection{\texorpdfstring{getOldF()}{getOldF()}}
-{\footnotesize\ttfamily const std\+::array$<$ double, 3 $>$ \& Particle\+::get\+OldF (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+\mbox{\Hypertarget{classParticle_ad08e7b1d0cc7cb17bd0602caa4a22bc6}\label{classParticle_ad08e7b1d0cc7cb17bd0602caa4a22bc6}} 
+\index{Particle@{Particle}!getMass@{getMass}}
+\index{getMass@{getMass}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{getMass()}{getMass()}}
+{\footnotesize\ttfamily double Particle\+::get\+Mass (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classParticle_a7eebbbd2af4ac99aef2dc1a66e2e8dc2}\label{classParticle_a7eebbbd2af4ac99aef2dc1a66e2e8dc2}} 
+\index{Particle@{Particle}!getOldForce@{getOldForce}}
+\index{getOldForce@{getOldForce}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{getOldForce()}{getOldForce()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{structVec3D}{Vec3D}} \& Particle\+::get\+Old\+Force (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+\mbox{\Hypertarget{classParticle_abebd557d43067b18a69584d166507477}\label{classParticle_abebd557d43067b18a69584d166507477}} 
+\index{Particle@{Particle}!getPosition@{getPosition}}
+\index{getPosition@{getPosition}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{getPosition()}{getPosition()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{structVec3D}{Vec3D}} \& Particle\+::get\+Position (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
 \mbox{\Hypertarget{classParticle_a806c077af237adf8b34dd0661cf92e5f}\label{classParticle_a806c077af237adf8b34dd0661cf92e5f}} 
 \index{Particle@{Particle}!getType@{getType}}
@@ -100,23 +120,35 @@ int \mbox{\hyperlink{classParticle_a2b73dd42bcd56ba2e7ffeb0a5515a866}{type}}
 \doxysubsubsection{\texorpdfstring{getType()}{getType()}}
 {\footnotesize\ttfamily int Particle\+::get\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
-\mbox{\Hypertarget{classParticle_afcca7d6019f3e2fdc8df36bd0428f492}\label{classParticle_afcca7d6019f3e2fdc8df36bd0428f492}} 
-\index{Particle@{Particle}!getV@{getV}}
-\index{getV@{getV}!Particle@{Particle}}
-\doxysubsubsection{\texorpdfstring{getV()}{getV()}}
-{\footnotesize\ttfamily const std\+::array$<$ double, 3 $>$ \& Particle\+::getV (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
-
-\mbox{\Hypertarget{classParticle_ad5f097eb9cef2c4f1bae890014282867}\label{classParticle_ad5f097eb9cef2c4f1bae890014282867}} 
-\index{Particle@{Particle}!getX@{getX}}
-\index{getX@{getX}!Particle@{Particle}}
-\doxysubsubsection{\texorpdfstring{getX()}{getX()}}
-{\footnotesize\ttfamily const std\+::array$<$ double, 3 $>$ \& Particle\+::getX (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+\mbox{\Hypertarget{classParticle_a200bcb363bb5dd0953359d0d822204cb}\label{classParticle_a200bcb363bb5dd0953359d0d822204cb}} 
+\index{Particle@{Particle}!getVelocity@{getVelocity}}
+\index{getVelocity@{getVelocity}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{getVelocity()}{getVelocity()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{structVec3D}{Vec3D}} \& Particle\+::get\+Velocity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
 
 \mbox{\Hypertarget{classParticle_a5034babb77618a56e00927d8891afabe}\label{classParticle_a5034babb77618a56e00927d8891afabe}} 
 \index{Particle@{Particle}!operator==@{operator==}}
 \index{operator==@{operator==}!Particle@{Particle}}
 \doxysubsubsection{\texorpdfstring{operator==()}{operator==()}}
 {\footnotesize\ttfamily bool Particle\+::operator== (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classParticle}{Particle}} \&}]{other }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classParticle_ac053850e3cf52e5be04c7a31e3db87dc}\label{classParticle_ac053850e3cf52e5be04c7a31e3db87dc}} 
+\index{Particle@{Particle}!setForce@{setForce}}
+\index{setForce@{setForce}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{setForce()}{setForce()}}
+{\footnotesize\ttfamily void Particle\+::set\+Force (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structVec3D}{Vec3D}} \&}]{force\+\_\+ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classParticle_a9def23e7a996b40c62d02c3e1c12a9ee}\label{classParticle_a9def23e7a996b40c62d02c3e1c12a9ee}} 
+\index{Particle@{Particle}!setPosition@{setPosition}}
+\index{setPosition@{setPosition}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{setPosition()}{setPosition()}}
+{\footnotesize\ttfamily void Particle\+::set\+Position (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structVec3D}{Vec3D}} \&}]{position\+\_\+ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classParticle_ada24a0871655999de7c3522488ca637d}\label{classParticle_ada24a0871655999de7c3522488ca637d}} 
+\index{Particle@{Particle}!setVelocity@{setVelocity}}
+\index{setVelocity@{setVelocity}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{setVelocity()}{setVelocity()}}
+{\footnotesize\ttfamily void Particle\+::set\+Velocity (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structVec3D}{Vec3D}} \&}]{velocity\+\_\+ }\end{DoxyParamCaption})}
 
 \mbox{\Hypertarget{classParticle_a41f3a8baf5d8b29ec806681d63ab2f81}\label{classParticle_a41f3a8baf5d8b29ec806681d63ab2f81}} 
 \index{Particle@{Particle}!toString@{toString}}
@@ -127,43 +159,43 @@ int \mbox{\hyperlink{classParticle_a2b73dd42bcd56ba2e7ffeb0a5515a866}{type}}
 
 
 \doxysubsection{Member Data Documentation}
-\mbox{\Hypertarget{classParticle_a795fa0b3046fc186e4ac1dc0b9230c4a}\label{classParticle_a795fa0b3046fc186e4ac1dc0b9230c4a}} 
-\index{Particle@{Particle}!f@{f}}
-\index{f@{f}!Particle@{Particle}}
-\doxysubsubsection{\texorpdfstring{f}{f}}
-{\footnotesize\ttfamily std\+::array$<$double, 3$>$ Particle\+::f\hspace{0.3cm}{\ttfamily [private]}}
+\mbox{\Hypertarget{classParticle_a205483108a976170fe608414728e3435}\label{classParticle_a205483108a976170fe608414728e3435}} 
+\index{Particle@{Particle}!force@{force}}
+\index{force@{force}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{force}{force}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structVec3D}{Vec3D}} Particle\+::force\hspace{0.3cm}{\ttfamily [private]}}
 
-Force effective on this particle \mbox{\Hypertarget{classParticle_aedcc7e1bc53b0e2b1a4a07c9a1b47563}\label{classParticle_aedcc7e1bc53b0e2b1a4a07c9a1b47563}} 
-\index{Particle@{Particle}!m@{m}}
-\index{m@{m}!Particle@{Particle}}
-\doxysubsubsection{\texorpdfstring{m}{m}}
-{\footnotesize\ttfamily double Particle\+::m\hspace{0.3cm}{\ttfamily [private]}}
+Force effective on this particle \mbox{\Hypertarget{classParticle_ae6d46dc24a6666d526f211151fecca5f}\label{classParticle_ae6d46dc24a6666d526f211151fecca5f}} 
+\index{Particle@{Particle}!mass@{mass}}
+\index{mass@{mass}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{mass}{mass}}
+{\footnotesize\ttfamily double Particle\+::mass\hspace{0.3cm}{\ttfamily [private]}}
 
-Mass of this particle \mbox{\Hypertarget{classParticle_a968dfd29adaa41fb25a08d3c45903156}\label{classParticle_a968dfd29adaa41fb25a08d3c45903156}} 
-\index{Particle@{Particle}!old\_f@{old\_f}}
-\index{old\_f@{old\_f}!Particle@{Particle}}
-\doxysubsubsection{\texorpdfstring{old\_f}{old\_f}}
-{\footnotesize\ttfamily std\+::array$<$double, 3$>$ Particle\+::old\+\_\+f\hspace{0.3cm}{\ttfamily [private]}}
+Mass of this particle \mbox{\Hypertarget{classParticle_ac93fc331a1d3e0cd6867559963f3a210}\label{classParticle_ac93fc331a1d3e0cd6867559963f3a210}} 
+\index{Particle@{Particle}!old\_force@{old\_force}}
+\index{old\_force@{old\_force}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{old\_force}{old\_force}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structVec3D}{Vec3D}} Particle\+::old\+\_\+force\hspace{0.3cm}{\ttfamily [private]}}
 
-Force which was effective on this particle \mbox{\Hypertarget{classParticle_a2b73dd42bcd56ba2e7ffeb0a5515a866}\label{classParticle_a2b73dd42bcd56ba2e7ffeb0a5515a866}} 
+Force which was effective on this particle \mbox{\Hypertarget{classParticle_a124fbe7889663b3f36266ff7d01b8c40}\label{classParticle_a124fbe7889663b3f36266ff7d01b8c40}} 
+\index{Particle@{Particle}!position@{position}}
+\index{position@{position}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{position}{position}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structVec3D}{Vec3D}} Particle\+::position\hspace{0.3cm}{\ttfamily [private]}}
+
+Position of the particle \mbox{\Hypertarget{classParticle_a2b73dd42bcd56ba2e7ffeb0a5515a866}\label{classParticle_a2b73dd42bcd56ba2e7ffeb0a5515a866}} 
 \index{Particle@{Particle}!type@{type}}
 \index{type@{type}!Particle@{Particle}}
 \doxysubsubsection{\texorpdfstring{type}{type}}
 {\footnotesize\ttfamily int Particle\+::type\hspace{0.3cm}{\ttfamily [private]}}
 
-Type of the particle. Use it for whatever you want (e.\+g. to separate molecules belonging to different bodies, matters, and so on) \mbox{\Hypertarget{classParticle_a0fe6d1e0651ad949d0b37ac327c9c6d1}\label{classParticle_a0fe6d1e0651ad949d0b37ac327c9c6d1}} 
-\index{Particle@{Particle}!v@{v}}
-\index{v@{v}!Particle@{Particle}}
-\doxysubsubsection{\texorpdfstring{v}{v}}
-{\footnotesize\ttfamily std\+::array$<$double, 3$>$ Particle\+::v\hspace{0.3cm}{\ttfamily [private]}}
+Type of the particle. Use it for whatever you want (e.\+g. to separate molecules belonging to different bodies, matters, and so on) \mbox{\Hypertarget{classParticle_afa8e4a92006ccdfab63b5a3001e45e82}\label{classParticle_afa8e4a92006ccdfab63b5a3001e45e82}} 
+\index{Particle@{Particle}!velocity@{velocity}}
+\index{velocity@{velocity}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{velocity}{velocity}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structVec3D}{Vec3D}} Particle\+::velocity\hspace{0.3cm}{\ttfamily [private]}}
 
-Velocity of the particle \mbox{\Hypertarget{classParticle_a027e5a09c12953df5fcbbdb15896de3e}\label{classParticle_a027e5a09c12953df5fcbbdb15896de3e}} 
-\index{Particle@{Particle}!x@{x}}
-\index{x@{x}!Particle@{Particle}}
-\doxysubsubsection{\texorpdfstring{x}{x}}
-{\footnotesize\ttfamily std\+::array$<$double, 3$>$ Particle\+::x\hspace{0.3cm}{\ttfamily [private]}}
-
-Position of the particle 
+Velocity of the particle 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 

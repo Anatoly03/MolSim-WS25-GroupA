@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['filereader_0',['FileReader',['../classFileReader.html',1,'']]]
+  ['args_0',['Args',['../structArgs.html',1,'']]]
 ];

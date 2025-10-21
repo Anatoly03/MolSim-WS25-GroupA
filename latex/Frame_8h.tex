@@ -1,0 +1,65 @@
+\hypertarget{Frame_8h}{}\doxysection{src/\+Frame.h File Reference}
+\label{Frame_8h}\index{src/Frame.h@{src/Frame.h}}
+{\ttfamily \#include $<$getopt.\+h$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structArgs}{Args}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structArgs}{Args}} \mbox{\hyperlink{Frame_8h_af9550a38054a02dc006ae41409e93454}{Process\+Args}} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const char $\ast$const \mbox{\hyperlink{Frame_8h_a3b76e96927c8ecdbbf06c42b0ef86f67}{OPTSTRING}} = \char`\"{}ho\+:t\+:d\+:\char`\"{}
+\item 
+const option \mbox{\hyperlink{Frame_8h_a7c8ce0dd18b299455070fa3b6b0740d8}{GETOPT\+\_\+\+LONG}} \mbox{[}$\,$\mbox{]}
+\item 
+const char $\ast$const \mbox{\hyperlink{Frame_8h_af9cdebb16ac7f0dcf8d9767d49a7959d}{DEFAULT\+\_\+\+OUTPUT\+\_\+\+DIR}} = \char`\"{}gen\char`\"{}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{Frame_8h_af9550a38054a02dc006ae41409e93454}\label{Frame_8h_af9550a38054a02dc006ae41409e93454}} 
+\index{Frame.h@{Frame.h}!ProcessArgs@{ProcessArgs}}
+\index{ProcessArgs@{ProcessArgs}!Frame.h@{Frame.h}}
+\doxysubsubsection{\texorpdfstring{ProcessArgs()}{ProcessArgs()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structArgs}{Args}} Process\+Args (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
+
+The program entry point is the Rahmenprogramm which after getting all variables calls the molecular simulation methods. 
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{Frame_8h_af9cdebb16ac7f0dcf8d9767d49a7959d}\label{Frame_8h_af9cdebb16ac7f0dcf8d9767d49a7959d}} 
+\index{Frame.h@{Frame.h}!DEFAULT\_OUTPUT\_DIR@{DEFAULT\_OUTPUT\_DIR}}
+\index{DEFAULT\_OUTPUT\_DIR@{DEFAULT\_OUTPUT\_DIR}!Frame.h@{Frame.h}}
+\doxysubsubsection{\texorpdfstring{DEFAULT\_OUTPUT\_DIR}{DEFAULT\_OUTPUT\_DIR}}
+{\footnotesize\ttfamily const char$\ast$ const DEFAULT\+\_\+\+OUTPUT\+\_\+\+DIR = \char`\"{}gen\char`\"{}}
+
+\mbox{\Hypertarget{Frame_8h_a7c8ce0dd18b299455070fa3b6b0740d8}\label{Frame_8h_a7c8ce0dd18b299455070fa3b6b0740d8}} 
+\index{Frame.h@{Frame.h}!GETOPT\_LONG@{GETOPT\_LONG}}
+\index{GETOPT\_LONG@{GETOPT\_LONG}!Frame.h@{Frame.h}}
+\doxysubsubsection{\texorpdfstring{GETOPT\_LONG}{GETOPT\_LONG}}
+{\footnotesize\ttfamily const option GETOPT\+\_\+\+LONG\mbox{[}$\,$\mbox{]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=\ \{}
+\DoxyCodeLine{\ \ \ \ \{\textcolor{stringliteral}{"{}output"{}},\ required\_argument,\ 0,\ \textcolor{charliteral}{'o'}\},}
+\DoxyCodeLine{\ \ \ \ \{\textcolor{stringliteral}{"{}time"{}},\ required\_argument,\ 0,\ \textcolor{charliteral}{'t'}\},}
+\DoxyCodeLine{\ \ \ \ \{\textcolor{stringliteral}{"{}delta"{}},\ required\_argument,\ 0,\ \textcolor{charliteral}{'d'}\},}
+\DoxyCodeLine{\ \ \ \ \{\textcolor{stringliteral}{"{}help"{}},\ no\_argument,\ 0,\ \textcolor{charliteral}{'h'}\},}
+\DoxyCodeLine{\ \ \ \ \{0,\ 0,\ 0,\ 0\}}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+Definition of all long options. \mbox{\Hypertarget{Frame_8h_a3b76e96927c8ecdbbf06c42b0ef86f67}\label{Frame_8h_a3b76e96927c8ecdbbf06c42b0ef86f67}} 
+\index{Frame.h@{Frame.h}!OPTSTRING@{OPTSTRING}}
+\index{OPTSTRING@{OPTSTRING}!Frame.h@{Frame.h}}
+\doxysubsubsection{\texorpdfstring{OPTSTRING}{OPTSTRING}}
+{\footnotesize\ttfamily const char$\ast$ const OPTSTRING = \char`\"{}ho\+:t\+:d\+:\char`\"{}}
+
+The frame program of molsim. 

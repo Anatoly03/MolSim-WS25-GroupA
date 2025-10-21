@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['type_0',['type',['../classParticle.html#a2b73dd42bcd56ba2e7ffeb0a5515a866',1,'Particle']]]
+  ['particles_0',['particles',['../MolSim_8cpp.html#a7950012d7ef2d8e4c6d12f23f4b83127',1,'MolSim.cpp']]],
+  ['position_1',['position',['../classParticle.html#a124fbe7889663b3f36266ff7d01b8c40',1,'Particle']]]
 ];
