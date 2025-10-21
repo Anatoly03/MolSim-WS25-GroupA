@@ -44,16 +44,34 @@ struct Vec3 {
     // methods
 
     /**
-     * @brief Convert Vec3 to an array type. Useful for printing.
+     * @brief Vec3 dot product.
      */
-    double length() const {
-        return std::sqrt(double(x) * x + y * y + z * z);
+    // the type conversion to double is to avoid issues when T is an integer type
+    inline constexpr double dot(const Vec3 &o) const {
+        return (double(x) * o.x + double(y) * o.y + double(z) * o.z);
+    }
+    
+    /**
+     * @brief Vec3 cross product.
+     */
+    // the type conversion to double is to avoid issues when T is an integer type
+    inline constexpr Vec3 cross(const Vec3 &o) const {
+        return Vec3(y * o.z - z * o.y,z * o.x - x * o.z,x * o.y - y * o.x);
+    }
+
+    /**
+     * @brief Retrieve the length of the vector.
+     * @see https://de.wikipedia.org/wiki/Euklidische_Norm
+     */
+    // TODO differentiate by 1-norm, 2-norm, and the other norm that exists
+    inline constexpr double length() const {
+        return std::sqrt(dot(*this));
     }
 
     /**
      * @brief Convert Vec3 to an array type. Useful for printing.
      */
-    std::array<T, 3> asArray() const {
+    inline constexpr std::array<T, 3> asArray() const {
         return {x, y, z};
     }
 
@@ -68,46 +86,46 @@ struct Vec3 {
      * @brief Unary negation operator overload for Vec3.
      */
     inline constexpr Vec3 operator - () const {
-        return Vec3(-this->x, -this->y, -this->z);
+        return Vec3(-x, -y, -z);
     }
 
     /**
      * @brief Binary addition operator overload for Vec3.
      */
-    inline constexpr Vec3 operator + (const Vec3 &other) const {
-        return Vec3(this->x + other.x, this->y + other.y, this->z + other.z);
+    inline constexpr Vec3 operator + (const Vec3 &o) const {
+        return Vec3(x + o.x, y + o.y, z + o.z);
     }
 
     /**
      * @brief Binary subtraction operator overload for Vec3.
      */
-    inline constexpr Vec3 operator - (const Vec3 &other) const {
-        return Vec3(this->x - other.x, this->y - other.y, this->z - other.z);
+    inline constexpr Vec3 operator - (const Vec3 &o) const {
+        return Vec3(x - o.x, y - o.y, z - o.z);
     }
 
-    // TODO inline constexpr Vec3 operator * (const Vec3 &other) const
+    // TODO inline constexpr Vec3 operator * (const Vec3 &o) const
 
     /**
      * @brief Binary multiplication operator overload for Vec3 with a scalar
      */
     inline constexpr Vec3 operator * (const T &scalar) const {
-        return Vec3(this->x * scalar, this->y * scalar, this->z * scalar);
+        return Vec3(x * scalar, y * scalar, z * scalar);
     }
 
-    // TODO inline constexpr Vec3 operator * (const Vec3 &other) const
+    // TODO inline constexpr Vec3 operator * (const Vec3 &o) const
 
     /**
      * @brief Binary multiplication operator overload for Vec3 with a scalar
      */
     inline constexpr Vec3 operator / (const T &scalar) const {
-        return Vec3(this->x / scalar, this->y / scalar, this->z / scalar);
+        return Vec3(x / scalar, y / scalar, z / scalar);
     }
 
     /**
      * @brief Vec3 equivalence.
      */
-    inline constexpr bool operator == (const Vec3 &other) const {
-        return (this->x == other.x) && (this->y == other.y) && (this->z == other.z);
+    inline constexpr bool operator == (const Vec3 &o) const {
+        return (x == o.x) && (y == o.y) && (z == o.z);
     }
 
     // assignment operators
@@ -115,30 +133,29 @@ struct Vec3 {
     /**
      * @brief Assignment operator overload for Vec3.
      */
-    inline constexpr Vec3& operator = (const Vec3 &other) {
+    inline constexpr Vec3& operator = (const Vec3 &o) {
         // guard self assignment
-        if (this == &other)
+        if (this == &o)
             return *this;
     
-        this->x = other.x;
-        this->y = other.y;
-        this->z = other.z;
-
+        x = o.x;
+        y = o.y;
+        z = o.z;
         return *this;
     }
 
     /**
      * @brief Binary addition operator overload for Vec3.
      */
-    inline constexpr Vec3& operator += (const Vec3 &other) {
-        this->x += other.x;
-        this->y += other.y;
-        this->z += other.z;
+    inline constexpr Vec3& operator += (const Vec3 &o) {
+        x += o.x;
+        y += o.y;
+        z += o.z;
         return *this;
     }
 
     /**
-     * @brief Vec3 index-based member access
+     * @brief Vec3 index-based member access.
      */
     inline constexpr T& operator [] (size_t index) {
         switch (index) {

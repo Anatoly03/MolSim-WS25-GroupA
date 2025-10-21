@@ -79,6 +79,7 @@ void calculateF() {
             if (p1 == p2) continue;
 
             Vec3D diffX = p2.getX() - p1.getX();
+            // TODO discuss if length2 is needed
             double distance = diffX.length();
             double mulMass = p1.getM() * p2.getM();
 
