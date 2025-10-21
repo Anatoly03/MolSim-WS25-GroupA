@@ -130,6 +130,19 @@ MolSim/fast:
 .PHONY : MolSim/fast
 
 #=============================================================================
+# Target rules for targets named clean-vtk
+
+# Build rule for target.
+clean-vtk: cmake_check_build_system
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 clean-vtk
+.PHONY : clean-vtk
+
+# fast build rule for target.
+clean-vtk/fast:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/clean-vtk.dir/build.make CMakeFiles/clean-vtk.dir/build
+.PHONY : clean-vtk/fast
+
+#=============================================================================
 # Target rules for targets named format
 
 # Build rule for target.
@@ -318,6 +331,7 @@ help:
 	@echo "... depend"
 	@echo "... edit_cache"
 	@echo "... rebuild_cache"
+	@echo "... clean-vtk"
 	@echo "... format"
 	@echo "... MolSim"
 	@echo "... src/FileReader.o"

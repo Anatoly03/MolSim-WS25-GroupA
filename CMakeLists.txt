@@ -43,6 +43,9 @@ target_compile_options(MolSim
             $<$<CXX_COMPILER_ID:Intel>:-w3 -wd383,981,1418,1572,2259>
 )
 
+# create clean target to remove data bloat
+add_custom_target(clean-vtk COMMAND rm -rf *.xyz)
+
 # add additional modules
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/modules)
 
