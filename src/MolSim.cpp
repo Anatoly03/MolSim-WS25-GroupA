@@ -76,7 +76,6 @@ void calculateForce() {
             if (p1 == p2) continue;
 
             Vec3D diffX = p2.getPosition() - p1.getPosition();
-            // TODO discuss if length2 is needed
             double distance = diffX.length();
             double mulMass = p1.getMass() * p2.getMass();
 

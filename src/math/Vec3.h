@@ -47,16 +47,20 @@ struct Vec3 {
      * @brief Vec3 dot product.
      */
     // the type conversion to double is to avoid issues when T is an integer type
-    inline constexpr double dot(const Vec3 &o) const {
-        return (double(x) * o.x + double(y) * o.y + double(z) * o.z);
+    inline constexpr double dot(const Vec3 &other) const {
+        return double(x) * other.x + double(y) * other.y + double(z) * other.z;
     }
     
     /**
      * @brief Vec3 cross product.
      */
     // the type conversion to double is to avoid issues when T is an integer type
-    inline constexpr Vec3 cross(const Vec3 &o) const {
-        return Vec3(y * o.z - z * o.y,z * o.x - x * o.z,x * o.y - y * o.x);
+    inline constexpr Vec3 cross(const Vec3 &other) const {
+        return Vec3(
+            y * other.z - z * other.y,
+            z * other.x - x * other.z,
+            x * other.y - y * other.x
+        );
     }
 
     /**
@@ -92,15 +96,15 @@ struct Vec3 {
     /**
      * @brief Binary addition operator overload for Vec3.
      */
-    inline constexpr Vec3 operator + (const Vec3 &o) const {
-        return Vec3(x + o.x, y + o.y, z + o.z);
+    inline constexpr Vec3 operator + (const Vec3 &other) const {
+        return Vec3(x + other.x, y + other.y, z + other.z);
     }
 
     /**
      * @brief Binary subtraction operator overload for Vec3.
      */
-    inline constexpr Vec3 operator - (const Vec3 &o) const {
-        return Vec3(x - o.x, y - o.y, z - o.z);
+    inline constexpr Vec3 operator - (const Vec3 &other) const {
+        return Vec3(x - other.x, y - other.y, z - other.z);
     }
 
     // TODO inline constexpr Vec3 operator * (const Vec3 &o) const
@@ -124,8 +128,8 @@ struct Vec3 {
     /**
      * @brief Vec3 equivalence.
      */
-    inline constexpr bool operator == (const Vec3 &o) const {
-        return (x == o.x) && (y == o.y) && (z == o.z);
+    inline constexpr bool operator == (const Vec3 &other) const {
+        return (x == other.x) && (y == other.y) && (z == other.z);
     }
 
     // assignment operators
@@ -133,24 +137,24 @@ struct Vec3 {
     /**
      * @brief Assignment operator overload for Vec3.
      */
-    inline constexpr Vec3& operator = (const Vec3 &o) {
+    inline constexpr Vec3& operator = (const Vec3 &other) {
         // guard self assignment
-        if (this == &o)
+        if (this == &other)
             return *this;
     
-        x = o.x;
-        y = o.y;
-        z = o.z;
+        x = other.x;
+        y = other.y;
+        z = other.z;
         return *this;
     }
 
     /**
      * @brief Binary addition operator overload for Vec3.
      */
-    inline constexpr Vec3& operator += (const Vec3 &o) {
-        x += o.x;
-        y += o.y;
-        z += o.z;
+    inline constexpr Vec3& operator += (const Vec3 &other) {
+        x += other.x;
+        y += other.y;
+        z += other.z;
         return *this;
     }
 
