@@ -9,33 +9,34 @@
 
 #include <array>
 #include <string>
+#include "math/Vec3.h"
 
 class Particle {
  private:
   /**
    * Position of the particle
    */
-  std::array<double, 3> x;
+  Vec3D position;
 
   /**
    * Velocity of the particle
    */
-  std::array<double, 3> v;
+  Vec3D velocity;
 
   /**
    * Force effective on this particle
    */
-  std::array<double, 3> f;
+  Vec3D force;
 
   /**
    * Force which was effective on this particle
    */
-  std::array<double, 3> old_f;
+  Vec3D old_force;
 
   /**
    * Mass of this particle
    */
-  double m;
+  double mass;
 
   /**
    * Type of the particle. Use it for whatever you want (e.g. to separate
@@ -51,19 +52,27 @@ class Particle {
   Particle(
       // for visualization, we need always 3 coordinates
       // -> in case of 2d, we use only the first and the second
-      std::array<double, 3> x_arg, std::array<double, 3> v_arg, double m_arg, int type = 0);
+      Vec3D pos_arg, Vec3D vel_arg, double mass_arg, int type = 0);
 
   virtual ~Particle();
 
-  const std::array<double, 3> &getX() const;
+  const Vec3D &getPosition() const;
 
-  const std::array<double, 3> &getV() const;
+  const Vec3D &getVelocity() const;
 
-  const std::array<double, 3> &getF() const;
+  const Vec3D &getForce() const;
 
-  const std::array<double, 3> &getOldF() const;
+  void setPosition(Vec3D &position_);
 
-  double getM() const;
+  void setVelocity(Vec3D &velocity_);
+
+  void setForce(Vec3D &force_);
+
+  void delayForce();
+
+  const Vec3D &getOldForce() const;
+
+  double getMass() const;
 
   int getType() const;
 

@@ -4,6 +4,9 @@ cmake_minimum_required(VERSION 3.10)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+# Options
+option(ENABLE_VTK_OUTPUT "Enable VTK output support" ON)
+
 # define project name, version
 project(PSEMolDyn VERSION 0.0.1 LANGUAGES CXX)
 
@@ -39,6 +42,9 @@ target_compile_options(MolSim
             # disable some spam warnings for icpc...
             $<$<CXX_COMPILER_ID:Intel>:-w3 -wd383,981,1418,1572,2259>
 )
+
+# create clean target to remove data bloat
+add_custom_target(clean-vtk COMMAND rm -rf *.xyz)
 
 # add additional modules
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/modules)

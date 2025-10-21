@@ -12,13 +12,15 @@
 #include <iostream>
 #include <sstream>
 
+#include "math/Vec3.h"
+
 FileReader::FileReader() = default;
 
 FileReader::~FileReader() = default;
 
 void FileReader::readFile(std::list<Particle> &particles, char *filename) {
-  std::array<double, 3> x;
-  std::array<double, 3> v;
+  Vec3D x;
+  Vec3D v;
   double m;
   int num_particles = 0;
 
@@ -43,12 +45,13 @@ void FileReader::readFile(std::list<Particle> &particles, char *filename) {
     for (int i = 0; i < num_particles; i++) {
       std::istringstream datastream(tmp_string);
 
-      for (auto &xj : x) {
-        datastream >> xj;
-      }
-      for (auto &vj : v) {
-        datastream >> vj;
-      }
+      datastream >> x.x;
+      datastream >> x.y;
+      datastream >> x.z;
+      datastream >> v.x;
+      datastream >> v.y;
+      datastream >> v.z;
+
       if (datastream.eof()) {
         std::cout << "Error reading file: eof reached unexpectedly reading from line " << i << std::endl;
         exit(-1);

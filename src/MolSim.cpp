@@ -2,6 +2,7 @@
 #include <iostream>
 #include <list>
 
+#include "Frame.h"
 #include "FileReader.h"
 #include "outputWriter/XYZWriter.h"
 #include "utils/ArrayUtils.h"
@@ -11,52 +12,45 @@
 /**
  * calculate the force for all particles
  */
-void calculateF();
+void calculateForce();
 
 /**
  * calculate the position for all particles
  */
-void calculateX();
+void calculatePosition(double dt);
 
 /**
  * calculate the position for all particles
  */
-void calculateV();
+void calculateVelocity(double dt);
 
 /**
  * plot the particles to a xyz-file
  */
 void plotParticles(int iteration);
 
-constexpr double start_time = 0;
-constexpr double end_time = 1000;
-constexpr double delta_t = 0.014;
-
 // TODO: what data structure to pick?
 std::list<Particle> particles;
 
+/**
+ * The program entry point is the Rahmenprogramm which after getting all variables
+ * calls the molecular simulation methods.
+ */
 int main(int argc, char *argsv[]) {
-  std::cout << "Hello from MolSim for PSE!" << std::endl;
-  if (argc != 2) {
-    std::cout << "Erroneous programme call! " << std::endl;
-    std::cout << "./molsym filename" << std::endl;
-  }
+  const auto args = ProcessArgs(argc, argsv);
 
   FileReader fileReader;
-  fileReader.readFile(particles, argsv[1]);
+  fileReader.readFile(particles, args.input_file);
 
-  double current_time = start_time;
+  double current_time = args.start_time;
 
   int iteration = 0;
 
   // for this loop, we assume: current x, current f and current v are known
-  while (current_time < end_time) {
-    // calculate new x
-    calculateX();
-    // calculate new f
-    calculateF();
-    // calculate new v
-    calculateV();
+  while (current_time < args.end_time) {
+    calculatePosition(args.delta_t);
+    calculateForce();
+    calculateVelocity(args.delta_t);
 
     iteration++;
     if (iteration % 10 == 0) {
@@ -64,34 +58,48 @@ int main(int argc, char *argsv[]) {
     }
     std::cout << "Iteration " << iteration << " finished." << std::endl;
 
-    current_time += delta_t;
+    current_time += args.delta_t;
   }
 
   std::cout << "output written. Terminating..." << std::endl;
   return 0;
 }
 
-void calculateF() {
-  std::list<Particle>::iterator iterator;
-  iterator = particles.begin();
+void calculateForce() {
+    std::list<Particle>::iterator iterator;
+    iterator = particles.begin();
 
-  for (auto &p1 : particles) {
-    for (auto &p2 : particles) {
-      // @TODO: insert calculation of forces here!
+    for (auto &p1 : particles) {
+        Vec3D force(0);
+
+        for (auto &p2 : particles) {
+            if (p1 == p2) continue;
+
+            Vec3D diffX = p2.getPosition() - p1.getPosition();
+            // TODO discuss if length2 is needed
+            double distance = diffX.length();
+            double mulMass = p1.getMass() * p2.getMass();
+
+            force += diffX * (mulMass / (std::pow(distance, 3)));
+        }
+
+        p1.delayForce();
+        p1.setForce(force);
     }
-  }
 }
 
-void calculateX() {
-  for (auto &p : particles) {
-    // @TODO: insert calculation of position updates here!
-  }
+void calculatePosition(double dt) {
+    for (auto &p : particles) {
+        Vec3D x = p.getPosition() + dt * p.getVelocity() + std::pow(dt, 2) * p.getForce() / (2 * p.getMass());
+        p.setPosition(x);
+    }
 }
 
-void calculateV() {
-  for (auto &p : particles) {
-    // @TODO: insert calculation of veclocity updates here!
-  }
+void calculateVelocity(double dt) {
+    for (auto &p : particles) {
+        Vec3D v = p.getVelocity() + dt * ((p.getForce() + p.getOldForce()) / (2 * p.getMass()));
+        p.setVelocity(v);
+    }
 }
 
 void plotParticles(int iteration) {
