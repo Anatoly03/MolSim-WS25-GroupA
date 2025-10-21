@@ -16,27 +16,27 @@ class Particle {
   /**
    * Position of the particle
    */
-  Vec3D x;
+  Vec3D position;
 
   /**
    * Velocity of the particle
    */
-  Vec3D v;
+  Vec3D velocity;
 
   /**
    * Force effective on this particle
    */
-  Vec3D f;
+  Vec3D force;
 
   /**
    * Force which was effective on this particle
    */
-  Vec3D old_f;
+  Vec3D old_force;
 
   /**
    * Mass of this particle
    */
-  double m;
+  double mass;
 
   /**
    * Type of the particle. Use it for whatever you want (e.g. to separate
@@ -52,27 +52,27 @@ class Particle {
   Particle(
       // for visualization, we need always 3 coordinates
       // -> in case of 2d, we use only the first and the second
-      Vec3D x_arg, Vec3D v_arg, double m_arg, int type = 0);
+      Vec3D pos_arg, Vec3D vel_arg, double mass_arg, int type = 0);
 
   virtual ~Particle();
 
-  const Vec3D &getX() const;
+  const Vec3D &getPosition() const;
 
-  const Vec3D &getV() const;
+  const Vec3D &getVelocity() const;
 
-  const Vec3D &getF() const;
+  const Vec3D &getForce() const;
 
-  void setX(Vec3D &x_);
+  void setPosition(Vec3D &position_);
 
-  void setV(Vec3D &v_);
+  void setVelocity(Vec3D &velocity_);
 
-  void setF(Vec3D &f_);
+  void setForce(Vec3D &force_);
 
-  void delayF();
+  void delayForce();
 
-  const Vec3D &getOldF() const;
+  const Vec3D &getOldForce() const;
 
-  double getM() const;
+  double getMass() const;
 
   int getType() const;
 

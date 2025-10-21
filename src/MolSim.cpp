@@ -12,17 +12,17 @@
 /**
  * calculate the force for all particles
  */
-void calculateF();
+void calculateForce();
 
 /**
  * calculate the position for all particles
  */
-void calculateX(double dt);
+void calculatePosition(double dt);
 
 /**
  * calculate the position for all particles
  */
-void calculateV(double dt);
+void calculateVelocity(double dt);
 
 /**
  * plot the particles to a xyz-file
@@ -48,12 +48,9 @@ int main(int argc, char *argsv[]) {
 
   // for this loop, we assume: current x, current f and current v are known
   while (current_time < args.end_time) {
-    // calculate new x
-    calculateX(args.delta_t);
-    // calculate new f
-    calculateF();
-    // calculate new v
-    calculateV(args.delta_t);
+    calculatePosition(args.delta_t);
+    calculateForce();
+    calculateVelocity(args.delta_t);
 
     iteration++;
     if (iteration % 10 == 0) {
@@ -68,7 +65,7 @@ int main(int argc, char *argsv[]) {
   return 0;
 }
 
-void calculateF() {
+void calculateForce() {
     std::list<Particle>::iterator iterator;
     iterator = particles.begin();
 
@@ -78,30 +75,30 @@ void calculateF() {
         for (auto &p2 : particles) {
             if (p1 == p2) continue;
 
-            Vec3D diffX = p2.getX() - p1.getX();
+            Vec3D diffX = p2.getPosition() - p1.getPosition();
             // TODO discuss if length2 is needed
             double distance = diffX.length();
-            double mulMass = p1.getM() * p2.getM();
+            double mulMass = p1.getMass() * p2.getMass();
 
             force += diffX * (mulMass / (std::pow(distance, 3)));
         }
 
-        p1.delayF();
-        p1.setF(force);
+        p1.delayForce();
+        p1.setForce(force);
     }
 }
 
-void calculateX(double dt) {
+void calculatePosition(double dt) {
     for (auto &p : particles) {
-        Vec3D x = p.getX() + dt * p.getV() + std::pow(dt, 2) * p.getF() / (2 * p.getM());
-        p.setX(x);
+        Vec3D x = p.getPosition() + dt * p.getVelocity() + std::pow(dt, 2) * p.getForce() / (2 * p.getMass());
+        p.setPosition(x);
     }
 }
 
-void calculateV(double dt) {
+void calculateVelocity(double dt) {
     for (auto &p : particles) {
-        Vec3D v = p.getV() + dt * ((p.getF() + p.getOldF()) / (2 * p.getM()));
-        p.setV(v);
+        Vec3D v = p.getVelocity() + dt * ((p.getForce() + p.getOldForce()) / (2 * p.getMass()));
+        p.setVelocity(v);
     }
 }
 
