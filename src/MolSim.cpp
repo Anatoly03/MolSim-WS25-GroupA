@@ -4,6 +4,7 @@
 
 #include "Frame.h"
 #include "FileReader.h"
+#include "outputWriter/VTKWriter.h"
 #include "outputWriter/XYZWriter.h"
 #include "utils/ArrayUtils.h"
 
@@ -106,4 +107,6 @@ void plotParticles(int iteration) {
 
   outputWriter::XYZWriter writer;
   writer.plotParticles(particles, out_name, iteration);
+    outputWriter::VTKWriter writerVTK;
+    writerVTK.plotParticles(particles, out_name, iteration);
 }

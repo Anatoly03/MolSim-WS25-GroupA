@@ -14,6 +14,7 @@
 #include <vtkIntArray.h>
 #include <vtkPointData.h>
 #include <vtkXMLUnstructuredGridWriter.h>
+#include <array>
 
 #include <iomanip>
 #include <sstream>
@@ -42,11 +43,13 @@ void VTKWriter::plotParticles(std::list<Particle> particles, const std::string &
   typeArray->SetNumberOfComponents(1);
 
   for (auto &p : particles) {
-    points->InsertNextPoint(p.getX().data());
-    massArray->InsertNextValue(static_cast<float>(p.getM()));
-    velocityArray->InsertNextTuple(p.getV().data());
-    forceArray->InsertNextTuple(p.getF().data());
+    points->InsertNextPoint(p.getPosition().asArray().data());
+    massArray->InsertNextValue(static_cast<float>(p.getMass()));
+    velocityArray->InsertNextTuple(p.getVelocity().asArray().data());
+    forceArray->InsertNextTuple(p.getForce().asArray().data());
     typeArray->InsertNextValue(p.getType());
+
+
   }
 
   // Set up the grid

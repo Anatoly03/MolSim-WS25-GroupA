@@ -7,6 +7,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Options
 option(ENABLE_VTK_OUTPUT "Enable VTK output support" ON)
 
+
+
+
 # define project name, version
 project(PSEMolDyn VERSION 0.0.1 LANGUAGES CXX)
 
@@ -48,6 +51,11 @@ add_custom_target(clean-vtk COMMAND rm -rf *.xyz)
 
 # add additional modules
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/modules)
+
+#enables VTK
+if(ENABLE_VTK_OUTPUT)
+    target_compile_definitions(MolSim PRIVATE ENABLE_VTK_OUTPUT)
+endif()
 
 include(vtk)
 include(clang-format)

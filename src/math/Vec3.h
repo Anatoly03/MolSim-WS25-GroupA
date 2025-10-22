@@ -7,6 +7,7 @@
 #include <array>
 #include <iostream>
 #include <type_traits>
+#include <cmath>
 
 /**
  * @struct Vec3
