@@ -1,0 +1,70 @@
+\documentclass[aspectratio=169]{beamer}
+\usepackage[german]{babel}
+
+\usepackage{tikz, transparent, colortbl, pgfplots}
+\usepackage[export]{adjustbox}
+\usepackage[skins,theorems]{tcolorbox}
+ 
+\usetikzlibrary{automata,positioning}
+\setbeamercovered{transparent}
+\pgfplotsset{compat=1.18}
+\tcbset{highlight math style={enhanced,colframe=red,colback=white,arc=0pt,boxrule=1pt}}
+
+% Useful Read:
+% https://www.overleaf.com/learn/latex/Beamer
+
+\title{Molecular Dynamics}
+\subtitle{Group A}
+\author{Haoyuan Ma \and Zhengying Zhao \and Anatoly Weinstein}
+\date{31st of October 2025}
+
+\newcommand{\framebackground}[2]{
+    \begin{tikzpicture}
+        \transparent{#1}
+        \node[inner sep=0] at (current page.center) {
+            \includegraphics[height=\paperheight, right]{./media/tum-uhrenturm.png}
+        };
+        \transparent{1}
+        \node[anchor=south, text width=\paperwidth, text height=1.5cm, draw=none, align=center] at (current page.south) {
+            \insertpagenumber
+        };
+        \transparent{#2}
+        \node[anchor=south, text width=\paperwidth, text height=1.5cm, draw=none, align=right] at (current page.south) {
+            \small Anatoly W. \,\,
+        };
+    \end{tikzpicture}
+}
+
+\newcommand{\headerframe}{
+    \usebackgroundtemplate{
+        \framebackground{0.2}{1}
+    }
+}
+
+\newcommand{\simpleframe}{
+    \usebackgroundtemplate{
+        \framebackground{0}{1}
+    }
+}
+
+\newcommand{\blue}[1]{{\color{beamer@blendedblue} #1}}
+\newcommand{\yellow}[1]{{\color[HTML]{AF8F10} #1}}
+\newcommand{\gray}[1]{{\color[HTML]{8F8F8F} #1}}
+
+\begin{document}
+
+%
+% Frame
+%
+\usebackgroundtemplate{\framebackground{0.2}{0}}
+\begin{frame}
+    \maketitle
+\end{frame}
+
+\headerframe\begin{frame}{Slides}
+    \begin{itemize}
+        \item TODO
+    \end{itemize}
+\end{frame}
+
+\end{document}
