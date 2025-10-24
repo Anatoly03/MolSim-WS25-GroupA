@@ -4,9 +4,13 @@
 
 #include "Frame.h"
 #include "FileReader.h"
-#include "outputWriter/VTKWriter.h"
-#include "outputWriter/XYZWriter.h"
 #include "utils/ArrayUtils.h"
+
+#ifdef ENABLE_VTK_OUTPUT
+    #include "outputWriter/VTKWriter.h"
+#else
+    #include "outputWriter/XYZWriter.h"
+#endif
 
 /**** forward declaration of the calculation functions ****/
 
@@ -103,10 +107,13 @@ void calculateVelocity(double dt) {
 }
 
 void plotParticles(int iteration) {
-  std::string out_name("MD_vtk");
+    std::string out_name("MD_vtk");
 
-  outputWriter::XYZWriter writer;
-  writer.plotParticles(particles, out_name, iteration);
+#ifdef ENABLE_VTK_OUTPUT
     outputWriter::VTKWriter writerVTK;
     writerVTK.plotParticles(particles, out_name, iteration);
+#else
+    outputWriter::XYZWriter writer;
+    writer.plotParticles(particles, out_name, iteration);
+#endif
 }
