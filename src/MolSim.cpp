@@ -2,8 +2,9 @@
 #include <iostream>
 #include <list>
 
-#include "Frame.h"
 #include "FileReader.h"
+#include "Frame.h"
+#include "ParticleContainer.h"
 #include "utils/ArrayUtils.h"
 
 #ifdef ENABLE_VTK_OUTPUT
@@ -34,8 +35,6 @@ void calculateVelocity(double dt);
  */
 void plotParticles(int iteration);
 
-// TODO: what data structure to pick?
-std::list<Particle> particles;
 
 /**
  * The program entry point is the Rahmenprogramm which after getting all variables
@@ -43,9 +42,10 @@ std::list<Particle> particles;
  */
 int main(int argc, char *argsv[]) {
   const auto args = ProcessArgs(argc, argsv);
+  const auto particleContainer = new ParticleContainer();
 
   FileReader fileReader;
-  fileReader.readFile(particles, args.input_file);
+  fileReader.readFile(particleContainer, args.input_file);
 
   double current_time = args.start_time;
 
