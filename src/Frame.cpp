@@ -5,11 +5,12 @@
  */
 [[noreturn]]
 void printHelp(const char * progname) {
-    fprintf(stderr, 
+    fprintf(stderr,
         "Usage:\n"
-        "  %s [input] -o [output]\n\n"
+        "  %s [input] [options]\n\n"
+        "Input File Format:\n"
+        "  The input file contains the initial configuration of the particles.\n\n"
         "Options:\n"
-        "  -o, --output <dir>    output directory\n"
         "  -t, --time <int>      total simulation time (default: 1000)\n"
         "  -d, --delta <float>   time step delta (default: 0.014)\n"
         "  -h, --help            print this help message\n",
@@ -25,7 +26,7 @@ void printHelp(const char * progname) {
 [[noreturn]]
 void printUsage(const char * progname) {
     fprintf(stderr,
-        "Usage: %s [file] \t apply molecular simulation to input <file> and produce output in <dir>\n",
+        "Usage: %s [file]\n",
         progname
     );
     exit(1);
@@ -41,10 +42,6 @@ Args ProcessArgs(int argc, char *argv[]) {
     while ((opt = getopt_long(argc, argv, OPTSTRING, GETOPT_LONG, nullptr)) != -1) {
         switch (opt)
         {
-        case 'o':
-            // TODO input validation
-            args.output_dir = optarg;
-            break;
         case 't':
             // TODO input validation
             args.end_time = atof(optarg);
@@ -69,11 +66,6 @@ Args ProcessArgs(int argc, char *argv[]) {
     } else {
         fprintf(stderr, "missing positional argument: input file");
         printUsage(progname);
-    }
-
-    // if output directory is not set, use default
-    if (args.output_dir == NULL) {
-        args.output_dir = DEFAULT_OUTPUT_DIR;
     }
 
     return args;
