@@ -82,6 +82,49 @@ public:
     }
   }
 
+  iterator begin() { return particles_.begin(); }
+  iterator end() { return particles_.end(); }
+
+  void addParticle(const Particle& particle) { particles_.push_back(particle);}
+  void addParticle(Particle&& particle) { particles_.emplace_back(std::move(particle));}
+
+  void emplace_back(const Vec3D position, const Vec3D velocity, double mass, int type = 0) {
+    particles_.emplace_back(position, velocity, mass, type);
+  }
+
+  void pushback(const Particle& particle) { particles_.push_back(particle);}
+  void pushback(Particle&& particle) { particles_.emplace_back(std::move(particle));}
+
+  /**
+   * iteration for single particles
+   */
+  template <typename P>
+  void forEachParticle(P&& p) {
+    for (auto& particle : particles_) {
+      p(particle);
+    }
+  }
+
+  /**
+   * iteration for particle pairs
+   */
+  template <typename P>
+  void forEachParticlePair(P&& p) {
+   for (size_t i = 0; i < particles_.size(); ++i) {
+     for (size_t j = i+1; j < particles_.size(); ++j) {
+       p(particles_[i], particles_[j]);
+     }
+   }
+  }
+  template <typename P>
+  void forEachParticlePair(P&& p) const{
+    for (size_t i = 0; i < particles_.size(); ++i) {
+      for (size_t j = i+1; j < particles_.size(); ++j) {
+        p(particles_[i], particles_[j]);
+      }
+    }
+  }
+
 private:
   container_t particles_;
 };
