@@ -51,7 +51,6 @@ static void loadParticleContainer(std::list<Particle>& src, ParticleContainer& d
  */
 int main(int argc, char *argsv[]) {
   const auto args = ProcessArgs(argc, argsv);
-  const auto particleContainer = new ParticleContainer();
 
   double current_time = args.start_time;
 
@@ -84,6 +83,7 @@ static void loadParticleContainer(std::list<Particle>& src, ParticleContainer& d
   }
 }
 
+/*
 void calculateForce() {
     std::list<Particle>::iterator iterator;
     iterator = particles.begin();
@@ -105,6 +105,32 @@ void calculateForce() {
         p1.setForce(force);
     }
 }
+*/
+void calculateForce() {
+  // save old force and initialization
+  particles.forEachParticle([](Particle& particle) {
+    particle.delayForce();
+  });
+
+  // accumulate as pair
+  particles.forEachParticlePair([](Particle& a, Particle& b) {
+    Vec3D diffX = b.getPosition() - a.getPosition();
+    double distance = diffX.length();
+    if (distance == 0.0) return;
+    double mulMass = a.getMass() * b.getMass();
+
+    Vec3D force = diffX * mulMass / pow(distance, 3);
+
+    auto forceA = a.getForce();
+    forceA += force;
+    a.setForce(forceA);
+
+    auto forceB = b.getForce();
+    forceB += force;
+    b.setForce(forceB);
+  });
+
+}
 
 void calculatePosition(double dt) {
     for (auto &p : particles) {
@@ -120,14 +146,19 @@ void calculateVelocity(double dt) {
     }
 }
 
+static std::list <Particle> toList(const ParticleContainer& src) {
+  std::list <Particle> dst;
+  dst.assign(src.begin(), src.end());
+  return dst;
+}
+
 void plotParticles(int iteration) {
     std::string out_name("MD_vtk");
-
 #ifdef ENABLE_VTK_OUTPUT
     outputWriter::VTKWriter writerVTK;
-    writerVTK.plotParticles(particles, out_name, iteration);
+    writerVTK.plotParticles(toList(particles), out_name, iteration);
 #else
     outputWriter::XYZWriter writer;
-    writer.plotParticles(particles, out_name, iteration);
+    writer.plotParticles(toList(particles), out_name, iteration);
 #endif
 }

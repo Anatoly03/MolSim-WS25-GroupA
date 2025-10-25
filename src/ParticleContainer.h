@@ -30,6 +30,15 @@ public:
 
   iterator begin() { return particles_.begin(); }
   iterator end() { return particles_.end(); }
+  const_iterator begin() const { return particles_.begin(); }
+  const_iterator end() const { return particles_.end(); }
+
+  void clear() { particles_.clear(); }
+  void reserve(size_type capacity) { particles_.reserve(capacity); }
+
+  size_type size() const { return particles_.size(); }
+  size_type capacity() const { return particles_.capacity(); }
+
 
   void addParticle(const Particle& particle) { particles_.push_back(particle);}
   void addParticle(Particle&& particle) { particles_.emplace_back(std::move(particle));}
