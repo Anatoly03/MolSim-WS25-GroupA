@@ -45,6 +45,9 @@
 # CMake generated files
 CMakeFiles
 
+# Doxygen docs
+docs
+
 # Runnable output
 MolSim
 *.xyz
