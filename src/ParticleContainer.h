@@ -39,10 +39,6 @@ public:
   size_type size() const { return particles_.size(); }
   size_type capacity() const { return particles_.capacity(); }
 
-
-  void addParticle(const Particle& particle) { particles_.push_back(particle);}
-  void addParticle(Particle&& particle) { particles_.emplace_back(std::move(particle));}
-
   void emplace_back(const Vec3D position, const Vec3D velocity, double mass, int type = 0) {
     particles_.emplace_back(position, velocity, mass, type);
   }

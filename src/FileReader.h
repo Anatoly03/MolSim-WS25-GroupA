@@ -6,10 +6,6 @@
  */
 
 #pragma once
-
-#include <list>
-
-#include "Particle.h"
 #include "ParticleContainer.h"
 
 class FileReader {

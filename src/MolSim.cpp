@@ -78,34 +78,6 @@ int main(int argc, char *argsv[]) {
   return 0;
 }
 
-
-static void loadParticleContainer(std::list<Particle>& src, ParticleContainer& dst) {
-  dst.reserve(dst.size() + src.size());
-  for (auto& p : src) {
-    dst.emplace_back(p.getPosition(), p.getVelocity(), p.getMass(), p.getType());
-  }
-}
-
-/*
-void calculateForce() {
-    for (auto &p1 : particles) {
-        Vec3D force(0);
-
-        for (auto &p2 : particles) {
-            if (p1 == p2) continue;
-
-            Vec3D diffX = p2.getPosition() - p1.getPosition();
-            double distance = diffX.length();
-            double mulMass = p1.getMass() * p2.getMass();
-
-            force += diffX * (mulMass / (std::pow(distance, 3)));
-        }
-
-        p1.delayForce();
-        p1.setForce(force);
-    }
-}
-*/
 void calculateForce() {
   // save old force and initialization
   particles.forEachParticle([](Particle& particle) {
@@ -146,19 +118,13 @@ void calculateVelocity(double dt) {
     }
 }
 
-static std::list <Particle> toList(const ParticleContainer& src) {
-  std::list <Particle> dst;
-  dst.assign(src.begin(), src.end());
-  return dst;
-}
-
 void plotParticles(int iteration) {
     std::string out_name("MD_vtk");
 #ifdef ENABLE_VTK_OUTPUT
     outputWriter::VTKWriter writerVTK;
-    writerVTK.plotParticles(toList(particles), out_name, iteration);
+    writerVTK.plotParticles(particles, out_name, iteration);
 #else
     outputWriter::XYZWriter writer;
-    writer.plotParticles(toList(particles), out_name, iteration);
+    writer.plotParticles(particles, out_name, iteration);
 #endif
 }

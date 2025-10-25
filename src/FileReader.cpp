@@ -5,13 +5,11 @@
  *      Author: eckhardw
  */
 
-#include "FileReader.h"
 
-#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <sstream>
-
+#include "FileReader.h"
 #include "ParticleContainer.h"
 #include "math/Vec3.h"
 
