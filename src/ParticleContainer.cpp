@@ -3,14 +3,9 @@
 //
 
  /**
-  * Refactoring the documentation
+  * All interfaces are implemented inline.
+  * For further usage like Linked-Cell, implementation can be moved here
   **/
-  void ParticleContainer::addParticle(const Particle& particle) {
-    particles.push_back(particle);
-  }
-
-  void ParticleContainer::emplace_back(const Vec3D position, const Vec3D velocity, double mass, int type) {
-    particles.emplace_back(position, velocity, mass, type);
-  }
+#include "ParticleContainer.h"
 
 
