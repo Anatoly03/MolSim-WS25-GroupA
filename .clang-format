@@ -1,7 +1,7 @@
-# base is Google style guide
 BasedOnStyle: Google
-# we want more space per line
+# Ensures consistent tabulation
 ColumnLimit: 120
-# ensure consistent pointer alignment
+IndentWidth: 4
+# Ensures consistent pointer alignment
 DerivePointerAlignment: false
 PointerAlignment: Right
