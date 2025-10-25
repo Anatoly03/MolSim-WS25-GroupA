@@ -52,6 +52,9 @@ static void loadParticleContainer(std::list<Particle>& src, ParticleContainer& d
 int main(int argc, char *argsv[]) {
   const auto args = ProcessArgs(argc, argsv);
 
+  FileReader fileReader;
+  fileReader.readFile(particles, args.input_file);
+
   double current_time = args.start_time;
 
   int iteration = 0;
@@ -85,9 +88,6 @@ static void loadParticleContainer(std::list<Particle>& src, ParticleContainer& d
 
 /*
 void calculateForce() {
-    std::list<Particle>::iterator iterator;
-    iterator = particles.begin();
-
     for (auto &p1 : particles) {
         Vec3D force(0);
 
