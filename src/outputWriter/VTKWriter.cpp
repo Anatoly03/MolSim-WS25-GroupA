@@ -19,9 +19,11 @@
 #include <iomanip>
 #include <sstream>
 
+#include "../ParticleContainer.h"
+
 namespace outputWriter {
 
-void VTKWriter::plotParticles(std::list<Particle> particles, const std::string &filename, int iteration) {
+void VTKWriter::plotParticles(ParticleContainer particles, const std::string &filename, int iteration) {
   // Initialize points
   auto points = vtkSmartPointer<vtkPoints>::New();
 
