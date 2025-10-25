@@ -13,6 +13,11 @@
     #include "outputWriter/XYZWriter.h"
 #endif
 
+/**
+ * using ParticleContainer instead of std::list<Particle> particles
+ */
+static ParticleContainer particles;
+
 /**** forward declaration of the calculation functions ****/
 
 /**
@@ -35,6 +40,10 @@ void calculateVelocity(double dt);
  */
 void plotParticles(int iteration);
 
+/**
+ * copy the list from FileReader into ParticleConatiner
+ */
+static void loadParticleContainer(std::list<Particle>& src, ParticleContainer& dst);
 
 /**
  * The program entry point is the Rahmenprogramm which after getting all variables
@@ -43,9 +52,6 @@ void plotParticles(int iteration);
 int main(int argc, char *argsv[]) {
   const auto args = ProcessArgs(argc, argsv);
   const auto particleContainer = new ParticleContainer();
-
-  FileReader fileReader;
-  fileReader.readFile(particleContainer, args.input_file);
 
   double current_time = args.start_time;
 
@@ -68,6 +74,14 @@ int main(int argc, char *argsv[]) {
 
   std::cout << "output written. Terminating..." << std::endl;
   return 0;
+}
+
+
+static void loadParticleContainer(std::list<Particle>& src, ParticleContainer& dst) {
+  dst.reserve(dst.size() + src.size());
+  for (auto& p : src) {
+    dst.emplace_back(p.getPosition(), p.getVelocity(), p.getMass(), p.getType());
+  }
 }
 
 void calculateForce() {
