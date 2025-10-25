@@ -1,6 +1,7 @@
 
 #include <iostream>
 #include <list>
+#include <cmath>
 
 #include "FileReader.h"
 #include "Frame.h"
@@ -98,7 +99,7 @@ void calculateForce() {
     a.setForce(forceA);
 
     auto forceB = b.getForce();
-    forceB += force;
+    forceB -= force;
     b.setForce(forceB);
   });
 
