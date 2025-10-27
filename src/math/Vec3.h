@@ -5,28 +5,28 @@
 #pragma once
 
 #include <array>
+#include <cmath>
 #include <iostream>
 #include <type_traits>
-#include <cmath>
 
 /**
  * @struct Vec3
  * @brief Represents a 3D vector.
  * @note Use Vec3D as a typedef for Vec3<double>.
- * 
+ *
  * @example
- * 
+ *
  * ```c++
  * Vec3 a, b, c;
- * 
+ *
  * a = Vec3(1.0);
  * b = Vec3(-0.5);
  * c = a + b;
- * 
+ *
  * assert(c.x == 0.5);
  * ```
  */
-template<typename T = double>
+template <typename T = double>
 struct Vec3 {
     // require numeric types only.
     // https://stackoverflow.com/a/26207551
@@ -36,7 +36,7 @@ struct Vec3 {
     T x;
     T y;
     T z;
-    
+
     // constructors
     Vec3() : x(0), y(0), z(0) {}
     Vec3(T e) : x(e), y(e), z(e) {}
@@ -51,17 +51,13 @@ struct Vec3 {
     inline constexpr double dot(const Vec3 &other) const {
         return double(x) * other.x + double(y) * other.y + double(z) * other.z;
     }
-    
+
     /**
      * @brief Vec3 cross product.
      */
     // the type conversion to double is to avoid issues when T is an integer type
     inline constexpr Vec3 cross(const Vec3 &other) const {
-        return Vec3(
-            y * other.z - z * other.y,
-            z * other.x - x * other.z,
-            x * other.y - y * other.x
-        );
+        return Vec3(y * other.z - z * other.y, z * other.x - x * other.z, x * other.y - y * other.x);
     }
 
     /**
@@ -69,16 +65,12 @@ struct Vec3 {
      * @see https://de.wikipedia.org/wiki/Euklidische_Norm
      */
     // TODO differentiate by 1-norm, 2-norm, and the other norm that exists
-    inline constexpr double length() const {
-        return std::sqrt(dot(*this));
-    }
+    inline constexpr double length() const { return std::sqrt(dot(*this)); }
 
     /**
      * @brief Convert Vec3 to an array type. Useful for printing.
      */
-    inline constexpr std::array<T, 3> asArray() const {
-        return {x, y, z};
-    }
+    inline constexpr std::array<T, 3> asArray() const { return {x, y, z}; }
 
     // operator overloads
     // allows to override symbols like the plus and minus and use it with vectors
@@ -90,64 +82,52 @@ struct Vec3 {
     /**
      * @brief Unary plus operator overload for Vec3.
      */
-    inline constexpr Vec3 operator + () const {
-        return *this;
-    }
+    inline constexpr Vec3 operator+() const { return *this; }
 
     /**
      * @brief Unary minus operator overload for Vec3.
      */
-    inline constexpr Vec3 operator - () const {
-        return Vec3(-x, -y, -z);
-    }
+    inline constexpr Vec3 operator-() const { return Vec3(-x, -y, -z); }
 
     /**
      * @brief Binary addition operator overload for Vec3.
      */
-    inline constexpr Vec3 operator + (const Vec3 &other) const {
-        return Vec3(x + other.x, y + other.y, z + other.z);
-    }
+    inline constexpr Vec3 operator+(const Vec3 &other) const { return Vec3(x + other.x, y + other.y, z + other.z); }
 
     /**
      * @brief Binary subtraction operator overload for Vec3.
      */
-    inline constexpr Vec3 operator - (const Vec3 &other) const {
-        return Vec3(x - other.x, y - other.y, z - other.z);
-    }
+    inline constexpr Vec3 operator-(const Vec3 &other) const { return Vec3(x - other.x, y - other.y, z - other.z); }
 
     /**
      * @brief Binary multiplication operator overload for Vec3 with a scalar.
      */
-    inline constexpr Vec3 operator * (const T &scalar) const {
-        return Vec3(x * scalar, y * scalar, z * scalar);
-    }
+    inline constexpr Vec3 operator*(const T &scalar) const { return Vec3(x * scalar, y * scalar, z * scalar); }
 
     /**
      * @brief Binary multiplication operator overload for a scalar with a Vec3.
      * @note This is a friend function as the scalar is on the left.
      */
-    inline constexpr friend Vec3 operator * (const T &scalar, const Vec3 &other) {
+    inline constexpr friend Vec3 operator*(const T &scalar, const Vec3 &other) {
         return Vec3(other.x * scalar, other.y * scalar, other.z * scalar);
     }
 
     /**
      * @brief Binary division operator overload for Vec3 with a scalar.
      */
-    inline constexpr Vec3 operator / (const T &scalar) const {
-        return Vec3(x / scalar, y / scalar, z / scalar);
-    }
+    inline constexpr Vec3 operator/(const T &scalar) const { return Vec3(x / scalar, y / scalar, z / scalar); }
 
     /**
      * @brief Vec3 equivalence.
      */
-    inline constexpr bool operator == (const Vec3 &other) const {
+    inline constexpr bool operator==(const Vec3 &other) const {
         return (x == other.x) && (y == other.y) && (z == other.z);
     }
 
     /**
      * @brief Vec3 inequivalence.
      */
-    inline constexpr bool operator != (const Vec3 &other) const {
+    inline constexpr bool operator!=(const Vec3 &other) const {
         return (x != other.x) || (y != other.y) || (z != other.z);
     }
 
@@ -156,11 +136,10 @@ struct Vec3 {
     /**
      * @brief Assignment operator overload for Vec3.
      */
-    inline constexpr Vec3& operator = (const Vec3 &other) {
+    inline constexpr Vec3 &operator=(const Vec3 &other) {
         // guard self assignment
-        if (this == &other)
-            return *this;
-    
+        if (this == &other) return *this;
+
         x = other.x;
         y = other.y;
         z = other.z;
@@ -170,7 +149,7 @@ struct Vec3 {
     /**
      * @brief Binary addition operator overload for Vec3.
      */
-    inline constexpr Vec3& operator += (const Vec3 &other) {
+    inline constexpr Vec3 &operator+=(const Vec3 &other) {
         x += other.x;
         y += other.y;
         z += other.z;
@@ -180,7 +159,7 @@ struct Vec3 {
     /**
      * @brief Binary subtraction operator overload for Vec3.
      */
-    inline constexpr Vec3& operator -= (const Vec3 &other) {
+    inline constexpr Vec3 &operator-=(const Vec3 &other) {
         x -= other.x;
         y -= other.y;
         z -= other.z;
@@ -190,7 +169,7 @@ struct Vec3 {
     /**
      * @brief Binary multiplication operator overload for Vec3 with a scalar.
      */
-    inline constexpr Vec3& operator *= (const T &scalar) {
+    inline constexpr Vec3 &operator*=(const T &scalar) {
         x *= scalar;
         y *= scalar;
         z *= scalar;
@@ -200,7 +179,7 @@ struct Vec3 {
     /**
      * @brief Binary division operator overload for Vec3 with a scalar.
      */
-    inline constexpr Vec3& operator /= (const T &scalar) {
+    inline constexpr Vec3 &operator/=(const T &scalar) {
         x /= scalar;
         y /= scalar;
         z /= scalar;
@@ -210,12 +189,16 @@ struct Vec3 {
     /**
      * @brief Vec3 index-based member access.
      */
-    inline constexpr T& operator [] (size_t index) {
+    inline constexpr T &operator[](size_t index) {
         switch (index) {
-            case 0: return x;
-            case 1: return y;
-            case 2: return z;
-            default: throw std::out_of_range("Vec3 index out of range");
+            case 0:
+                return x;
+            case 1:
+                return y;
+            case 2:
+                return z;
+            default:
+                throw std::out_of_range("Vec3 index out of range");
         }
     }
 };

@@ -5,25 +5,24 @@
 #pragma once
 
 #include <getopt.h>
+
 #include <iostream>
 
-const char* const OPTSTRING = "ht:d:";
+const char *const OPTSTRING = "ht:d:";
 
 /**
  * Definition of all long options.
  */
-const option GETOPT_LONG[] = {
-    {"time", required_argument, 0, 't'},
-    {"delta", required_argument, 0, 'd'},
-    {"help", no_argument, 0, 'h'},
-    {0, 0, 0, 0}
-};
+const option GETOPT_LONG[] = {{"time", required_argument, 0, 't'},
+                              {"delta", required_argument, 0, 'd'},
+                              {"help", no_argument, 0, 'h'},
+                              {0, 0, 0, 0}};
 
 /**
  * Structure to hold all program arguments.
  */
 struct Args {
-    char* input_file;
+    char *input_file;
 
     double start_time = 0;
     double end_time = 1000;
