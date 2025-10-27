@@ -32,7 +32,12 @@ void printUsage(const char * progname) {
     exit(1);
 }
 
-// process command line arguments and return Args struct
+/**
+ * @brief Process command line arguments and return Args struct.
+ * @param argc Argument count
+ * @param argv CLI options
+ * @return Parsed {@link Args} struct
+ */
 Args ProcessArgs(int argc, char *argv[]) {
     const char *progname = argv[0];
     Args args = Args();
@@ -43,11 +48,9 @@ Args ProcessArgs(int argc, char *argv[]) {
         switch (opt)
         {
         case 't':
-            // TODO input validation
             args.end_time = atof(optarg);
             break;
         case 'd':
-            // TODO input validation
             args.delta_t = atof(optarg);
             break;
 

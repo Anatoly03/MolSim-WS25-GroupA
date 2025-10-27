@@ -88,7 +88,14 @@ struct Vec3 {
     // arithmetic and logical operators
 
     /**
-     * @brief Unary negation operator overload for Vec3.
+     * @brief Unary plus operator overload for Vec3.
+     */
+    inline constexpr Vec3 operator + () const {
+        return *this;
+    }
+
+    /**
+     * @brief Unary minus operator overload for Vec3.
      */
     inline constexpr Vec3 operator - () const {
         return Vec3(-x, -y, -z);
@@ -108,19 +115,23 @@ struct Vec3 {
         return Vec3(x - other.x, y - other.y, z - other.z);
     }
 
-    // TODO inline constexpr Vec3 operator * (const Vec3 &o) const
-
     /**
-     * @brief Binary multiplication operator overload for Vec3 with a scalar
+     * @brief Binary multiplication operator overload for Vec3 with a scalar.
      */
     inline constexpr Vec3 operator * (const T &scalar) const {
         return Vec3(x * scalar, y * scalar, z * scalar);
     }
 
-    // TODO inline constexpr Vec3 operator * (const Vec3 &o) const
+    /**
+     * @brief Binary multiplication operator overload for a scalar with a Vec3.
+     * @note This is a friend function as the scalar is on the left.
+     */
+    inline constexpr friend Vec3 operator * (const T &scalar, const Vec3 &other) {
+        return Vec3(other.x * scalar, other.y * scalar, other.z * scalar);
+    }
 
     /**
-     * @brief Binary multiplication operator overload for Vec3 with a scalar
+     * @brief Binary division operator overload for Vec3 with a scalar.
      */
     inline constexpr Vec3 operator / (const T &scalar) const {
         return Vec3(x / scalar, y / scalar, z / scalar);
@@ -131,6 +142,13 @@ struct Vec3 {
      */
     inline constexpr bool operator == (const Vec3 &other) const {
         return (x == other.x) && (y == other.y) && (z == other.z);
+    }
+
+    /**
+     * @brief Vec3 inequivalence.
+     */
+    inline constexpr bool operator != (const Vec3 &other) const {
+        return (x != other.x) || (y != other.y) || (z != other.z);
     }
 
     // assignment operators
@@ -160,6 +178,36 @@ struct Vec3 {
     }
 
     /**
+     * @brief Binary subtraction operator overload for Vec3.
+     */
+    inline constexpr Vec3& operator -= (const Vec3 &other) {
+        x -= other.x;
+        y -= other.y;
+        z -= other.z;
+        return *this;
+    }
+
+    /**
+     * @brief Binary multiplication operator overload for Vec3 with a scalar.
+     */
+    inline constexpr Vec3& operator *= (const T &scalar) {
+        x *= scalar;
+        y *= scalar;
+        z *= scalar;
+        return *this;
+    }
+
+    /**
+     * @brief Binary division operator overload for Vec3 with a scalar.
+     */
+    inline constexpr Vec3& operator /= (const T &scalar) {
+        x /= scalar;
+        y /= scalar;
+        z /= scalar;
+        return *this;
+    }
+
+    /**
      * @brief Vec3 index-based member access.
      */
     inline constexpr T& operator [] (size_t index) {
@@ -178,14 +226,3 @@ struct Vec3 {
  */
 // https://www.geeksforgeeks.org/cpp/typedef-in-cpp/
 typedef Vec3<double> Vec3D;
-
-// implementations of operator overloads that do not belong in base struct
-
-/**
- * @brief Binary multiplication operator overload for Vec3 with a scalar
- * where the scalar is on the left side.
- */
-template<typename T = double>
-inline constexpr Vec3<T> operator * (const T scalar, const Vec3<T> &other) {
-    return other * scalar;
-}
