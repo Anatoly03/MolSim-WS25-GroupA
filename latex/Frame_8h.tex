@@ -11,7 +11,7 @@ struct \mbox{\hyperlink{structArgs}{Args}}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{structArgs}{Args}} \mbox{\hyperlink{Frame_8h_af9550a38054a02dc006ae41409e93454}{Process\+Args}} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Process command line arguments and return \mbox{\hyperlink{structArgs}{Args}} struct. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
@@ -28,7 +28,23 @@ const option \mbox{\hyperlink{Frame_8h_a7c8ce0dd18b299455070fa3b6b0740d8}{GETOPT
 \doxysubsubsection{\texorpdfstring{ProcessArgs()}{ProcessArgs()}}
 {\footnotesize\ttfamily \mbox{\hyperlink{structArgs}{Args}} Process\+Args (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
 
-The program entry point is the Rahmenprogramm which after getting all variables calls the molecular simulation methods. 
+
+
+Process command line arguments and return \mbox{\hyperlink{structArgs}{Args}} struct. 
+
+The program entry point is the Rahmenprogramm which after getting all variables calls the molecular simulation methods.
+
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & Argument count \\
+\hline
+{\em argv} & CLI options \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Parsed {\ttfamily \mbox{\hyperlink{structArgs}{Args}}} struct 
+\end{DoxyReturn}
+
 
 \doxysubsection{Variable Documentation}
 \mbox{\Hypertarget{Frame_8h_a7c8ce0dd18b299455070fa3b6b0740d8}\label{Frame_8h_a7c8ce0dd18b299455070fa3b6b0740d8}} 

@@ -81,8 +81,10 @@ $(function() {
 <div class="contents">
 <div class="textblock"><code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;list&gt;</code><br />
-<code>#include &quot;<a class="el" href="Frame_8h_source.html">Frame.h</a>&quot;</code><br />
+<code>#include &lt;cmath&gt;</code><br />
 <code>#include &quot;<a class="el" href="FileReader_8h_source.html">FileReader.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="Frame_8h_source.html">Frame.h</a>&quot;</code><br />
+<code>#include &quot;<a class="el" href="ParticleContainer_8h_source.html">ParticleContainer.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="ArrayUtils_8h_source.html">utils/ArrayUtils.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="XYZWriter_8h_source.html">outputWriter/XYZWriter.h</a>&quot;</code><br />
 </div><table class="memberdecls">
@@ -96,13 +98,15 @@ Functions</h2></td></tr>
 <tr class="separator:ac294d5b4fa93c4904effe7b3f991d62d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af4d25832793b65abf538fab0474a8e51"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="MolSim_8cpp.html#af4d25832793b65abf538fab0474a8e51">plotParticles</a> (int iteration)</td></tr>
 <tr class="separator:af4d25832793b65abf538fab0474a8e51"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8b4878eabdcf6ac8245cfa20154213c9"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="MolSim_8cpp.html#a8b4878eabdcf6ac8245cfa20154213c9">loadParticleContainer</a> (std::list&lt; <a class="el" href="classParticle.html">Particle</a> &gt; &amp;src, <a class="el" href="classParticleContainer.html">ParticleContainer</a> &amp;dst)</td></tr>
+<tr class="separator:a8b4878eabdcf6ac8245cfa20154213c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a329c95e85f063f49b0daaed5c5b56335"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="MolSim_8cpp.html#a329c95e85f063f49b0daaed5c5b56335">main</a> (int argc, char *argsv[])</td></tr>
 <tr class="separator:a329c95e85f063f49b0daaed5c5b56335"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a7950012d7ef2d8e4c6d12f23f4b83127"><td class="memItemLeft" align="right" valign="top">std::list&lt; <a class="el" href="classParticle.html">Particle</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="MolSim_8cpp.html#a7950012d7ef2d8e4c6d12f23f4b83127">particles</a></td></tr>
-<tr class="separator:a7950012d7ef2d8e4c6d12f23f4b83127"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6b352757b6951d85f71bd9cbc47cf619"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classParticleContainer.html">ParticleContainer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="MolSim_8cpp.html#a6b352757b6951d85f71bd9cbc47cf619">particles</a></td></tr>
+<tr class="separator:a6b352757b6951d85f71bd9cbc47cf619"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
 <a id="a3dae9439e84b4df9a0ba56ed4d37e3cd" name="a3dae9439e84b4df9a0ba56ed4d37e3cd"></a>
@@ -161,6 +165,43 @@ Variables</h2></td></tr>
 
 </div>
 </div>
+<a id="a8b4878eabdcf6ac8245cfa20154213c9" name="a8b4878eabdcf6ac8245cfa20154213c9"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8b4878eabdcf6ac8245cfa20154213c9">&#9670;&#160;</a></span>loadParticleContainer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static void loadParticleContainer </td>
+          <td>(</td>
+          <td class="paramtype">std::list&lt; <a class="el" href="classParticle.html">Particle</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>src</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype"><a class="el" href="classParticleContainer.html">ParticleContainer</a> &amp;&#160;</td>
+          <td class="paramname"><em>dst</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>copy the list from <a class="el" href="classFileReader.html">FileReader</a> into ParticleConatiner </p>
+
+</div>
+</div>
 <a id="a329c95e85f063f49b0daaed5c5b56335" name="a329c95e85f063f49b0daaed5c5b56335"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a329c95e85f063f49b0daaed5c5b56335">&#9670;&#160;</a></span>main()</h2>
 
@@ -210,17 +251,26 @@ Variables</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Variable Documentation</h2>
-<a id="a7950012d7ef2d8e4c6d12f23f4b83127" name="a7950012d7ef2d8e4c6d12f23f4b83127"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7950012d7ef2d8e4c6d12f23f4b83127">&#9670;&#160;</a></span>particles</h2>
+<a id="a6b352757b6951d85f71bd9cbc47cf619" name="a6b352757b6951d85f71bd9cbc47cf619"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a6b352757b6951d85f71bd9cbc47cf619">&#9670;&#160;</a></span>particles</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">std::list&lt;<a class="el" href="classParticle.html">Particle</a>&gt; particles</td>
+          <td class="memname"><a class="el" href="classParticleContainer.html">ParticleContainer</a> particles</td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+<p>using <a class="el" href="classParticleContainer.html" title="Refactoring,owning container for Particle with simple iteration over particles and particle pairs.">ParticleContainer</a> instead of std::list&lt;Particle&gt; particles </p>
 
 </div>
 </div>

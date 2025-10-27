@@ -2,8 +2,10 @@
 \label{MolSim_8cpp}\index{src/MolSim.cpp@{src/MolSim.cpp}}
 {\ttfamily \#include $<$iostream$>$}\newline
 {\ttfamily \#include $<$list$>$}\newline
-{\ttfamily \#include \char`\"{}Frame.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$cmath$>$}\newline
 {\ttfamily \#include \char`\"{}File\+Reader.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Frame.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Particle\+Container.\+h\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}utils/\+Array\+Utils.\+h\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}output\+Writer/\+XYZWriter.\+h\char`\"{}}\newline
 \doxysubsection*{Functions}
@@ -17,12 +19,14 @@ void \mbox{\hyperlink{MolSim_8cpp_ac294d5b4fa93c4904effe7b3f991d62d}{calculate\+
 \item 
 void \mbox{\hyperlink{MolSim_8cpp_af4d25832793b65abf538fab0474a8e51}{plot\+Particles}} (int iteration)
 \item 
+static void \mbox{\hyperlink{MolSim_8cpp_a8b4878eabdcf6ac8245cfa20154213c9}{load\+Particle\+Container}} (std\+::list$<$ \mbox{\hyperlink{classParticle}{Particle}} $>$ \&src, \mbox{\hyperlink{classParticleContainer}{Particle\+Container}} \&dst)
+\item 
 int \mbox{\hyperlink{MolSim_8cpp_a329c95e85f063f49b0daaed5c5b56335}{main}} (int argc, char $\ast$argsv\mbox{[}$\,$\mbox{]})
 \end{DoxyCompactItemize}
 \doxysubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
-std\+::list$<$ \mbox{\hyperlink{classParticle}{Particle}} $>$ \mbox{\hyperlink{MolSim_8cpp_a7950012d7ef2d8e4c6d12f23f4b83127}{particles}}
+static \mbox{\hyperlink{classParticleContainer}{Particle\+Container}} \mbox{\hyperlink{MolSim_8cpp_a6b352757b6951d85f71bd9cbc47cf619}{particles}}
 \end{DoxyCompactItemize}
 
 
@@ -45,7 +49,13 @@ calculate the position for all particles \mbox{\Hypertarget{MolSim_8cpp_ac294d5b
 \doxysubsubsection{\texorpdfstring{calculateVelocity()}{calculateVelocity()}}
 {\footnotesize\ttfamily void calculate\+Velocity (\begin{DoxyParamCaption}\item[{double}]{dt }\end{DoxyParamCaption})}
 
-calculate the position for all particles \mbox{\Hypertarget{MolSim_8cpp_a329c95e85f063f49b0daaed5c5b56335}\label{MolSim_8cpp_a329c95e85f063f49b0daaed5c5b56335}} 
+calculate the position for all particles \mbox{\Hypertarget{MolSim_8cpp_a8b4878eabdcf6ac8245cfa20154213c9}\label{MolSim_8cpp_a8b4878eabdcf6ac8245cfa20154213c9}} 
+\index{MolSim.cpp@{MolSim.cpp}!loadParticleContainer@{loadParticleContainer}}
+\index{loadParticleContainer@{loadParticleContainer}!MolSim.cpp@{MolSim.cpp}}
+\doxysubsubsection{\texorpdfstring{loadParticleContainer()}{loadParticleContainer()}}
+{\footnotesize\ttfamily static void load\+Particle\+Container (\begin{DoxyParamCaption}\item[{std\+::list$<$ \mbox{\hyperlink{classParticle}{Particle}} $>$ \&}]{src,  }\item[{\mbox{\hyperlink{classParticleContainer}{Particle\+Container}} \&}]{dst }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+copy the list from \mbox{\hyperlink{classFileReader}{File\+Reader}} into Particle\+Conatiner \mbox{\Hypertarget{MolSim_8cpp_a329c95e85f063f49b0daaed5c5b56335}\label{MolSim_8cpp_a329c95e85f063f49b0daaed5c5b56335}} 
 \index{MolSim.cpp@{MolSim.cpp}!main@{main}}
 \index{main@{main}!MolSim.cpp@{MolSim.cpp}}
 \doxysubsubsection{\texorpdfstring{main()}{main()}}
@@ -60,9 +70,10 @@ The program entry point is the Rahmenprogramm which after getting all variables 
 plot the particles to a xyz-\/file 
 
 \doxysubsection{Variable Documentation}
-\mbox{\Hypertarget{MolSim_8cpp_a7950012d7ef2d8e4c6d12f23f4b83127}\label{MolSim_8cpp_a7950012d7ef2d8e4c6d12f23f4b83127}} 
+\mbox{\Hypertarget{MolSim_8cpp_a6b352757b6951d85f71bd9cbc47cf619}\label{MolSim_8cpp_a6b352757b6951d85f71bd9cbc47cf619}} 
 \index{MolSim.cpp@{MolSim.cpp}!particles@{particles}}
 \index{particles@{particles}!MolSim.cpp@{MolSim.cpp}}
 \doxysubsubsection{\texorpdfstring{particles}{particles}}
-{\footnotesize\ttfamily std\+::list$<$\mbox{\hyperlink{classParticle}{Particle}}$>$ particles}
+{\footnotesize\ttfamily \mbox{\hyperlink{classParticleContainer}{Particle\+Container}} particles\hspace{0.3cm}{\ttfamily [static]}}
 
+using \mbox{\hyperlink{classParticleContainer}{Particle\+Container}} instead of std\+::list$<$\+Particle$>$ particles 

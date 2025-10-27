@@ -1,10 +1,11 @@
 var searchData=
 [
-  ['getforce_0',['getForce',['../classParticle.html#ab6921bdcd5b7d61944b7477d30fb8296',1,'Particle']]],
-  ['getmass_1',['getMass',['../classParticle.html#ad08e7b1d0cc7cb17bd0602caa4a22bc6',1,'Particle']]],
-  ['getoldforce_2',['getOldForce',['../classParticle.html#a7eebbbd2af4ac99aef2dc1a66e2e8dc2',1,'Particle']]],
-  ['getopt_5flong_3',['GETOPT_LONG',['../Frame_8h.html#a7c8ce0dd18b299455070fa3b6b0740d8',1,'Frame.h']]],
-  ['getposition_4',['getPosition',['../classParticle.html#abebd557d43067b18a69584d166507477',1,'Particle']]],
-  ['gettype_5',['getType',['../classParticle.html#a806c077af237adf8b34dd0661cf92e5f',1,'Particle']]],
-  ['getvelocity_6',['getVelocity',['../classParticle.html#a200bcb363bb5dd0953359d0d822204cb',1,'Particle']]]
+  ['filereader_0',['FileReader',['../classFileReader.html',1,'FileReader'],['../classFileReader.html#a615dcb2443cad1f2ca123c7c0c334480',1,'FileReader::FileReader()']]],
+  ['filereader_2ecpp_1',['FileReader.cpp',['../FileReader_8cpp.html',1,'']]],
+  ['filereader_2eh_2',['FileReader.h',['../FileReader_8h.html',1,'']]],
+  ['force_3',['force',['../classParticle.html#a205483108a976170fe608414728e3435',1,'Particle']]],
+  ['foreachparticle_4',['forEachParticle',['../classParticleContainer.html#a95cfe09ff678d0b8706d5623be52a9f4',1,'ParticleContainer']]],
+  ['foreachparticlepair_5',['forEachParticlePair',['../classParticleContainer.html#a2dbb273eef2f35cc2bc115f283c30244',1,'ParticleContainer::forEachParticlePair(P &amp;&amp;p)'],['../classParticleContainer.html#ae28d31e8513354fce65f5778501673be',1,'ParticleContainer::forEachParticlePair(P &amp;&amp;p) const']]],
+  ['frame_2ecpp_6',['Frame.cpp',['../Frame_8cpp.html',1,'']]],
+  ['frame_2eh_7',['Frame.h',['../Frame_8h.html',1,'']]]
 ];

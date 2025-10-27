@@ -9,7 +9,7 @@ void \mbox{\hyperlink{Frame_8cpp_a9ebc9ee81e9f5f6e2cca3949741554f1}{print\+Help}
 void \mbox{\hyperlink{Frame_8cpp_aad7cbdf76671f1d23c57b15faa5a212c}{print\+Usage}} (const char $\ast$progname)
 \begin{DoxyCompactList}\small\item\em Print usage message and exit. A short version of print help used only when an error occurs in program frame. \end{DoxyCompactList}\item 
 \mbox{\hyperlink{structArgs}{Args}} \mbox{\hyperlink{Frame_8cpp_af9550a38054a02dc006ae41409e93454}{Process\+Args}} (int argc, char $\ast$argv\mbox{[}$\,$\mbox{]})
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Process command line arguments and return \mbox{\hyperlink{structArgs}{Args}} struct. \end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \doxysubsection{Function Documentation}
@@ -39,4 +39,17 @@ Print usage message and exit. A short version of print help used only when an er
 \doxysubsubsection{\texorpdfstring{ProcessArgs()}{ProcessArgs()}}
 {\footnotesize\ttfamily \mbox{\hyperlink{structArgs}{Args}} Process\+Args (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$}]{argv\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
 
-The program entry point is the Rahmenprogramm which after getting all variables calls the molecular simulation methods. 
+
+
+Process command line arguments and return \mbox{\hyperlink{structArgs}{Args}} struct. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & Argument count \\
+\hline
+{\em argv} & CLI options \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Parsed {\ttfamily \mbox{\hyperlink{structArgs}{Args}}} struct 
+\end{DoxyReturn}

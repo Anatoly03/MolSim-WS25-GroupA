@@ -71,11 +71,15 @@
 \DoxyCodeLine{}
 \DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ arithmetic\ and\ logical\ operators}}
 \DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structVec3}{Vec3}}\ \mbox{\hyperlink{structVec3_aac3b5e1c0903b721d85cb2d790eca2ea}{operator\ +\ }}()\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{}
 \DoxyCodeLine{\ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structVec3}{Vec3}}\ \mbox{\hyperlink{structVec3_ad3302e65b5cbb3803c12f62144f9c265}{operator\ -\/\ }}()\textcolor{keyword}{\ const\ }\{}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structVec3_a7c150f37ecfa78ced8b83bd95908cc33}{Vec3}}(-\/\mbox{\hyperlink{structVec3_aeba95c52e15a5a7476550c1798210db2}{x}},\ -\/\mbox{\hyperlink{structVec3_a76f06eaf078504ac1d09c910ddb24696}{y}},\ -\/\mbox{\hyperlink{structVec3_a0f694311f956380952aee054cbabb8b6}{z}});}
 \DoxyCodeLine{\ \ \ \ \}}
 \DoxyCodeLine{}
-\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structVec3}{Vec3}}\ \mbox{\hyperlink{structVec3_ae65ea69359bef6d13c11ce73594a7ab7}{operator\ +\ }}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structVec3}{Vec3}}\ \&other)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structVec3}{Vec3}}\ \mbox{\hyperlink{structVec3_aac3b5e1c0903b721d85cb2d790eca2ea}{operator\ +\ }}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structVec3}{Vec3}}\ \&other)\textcolor{keyword}{\ const\ }\{}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structVec3_a7c150f37ecfa78ced8b83bd95908cc33}{Vec3}}(\mbox{\hyperlink{structVec3_aeba95c52e15a5a7476550c1798210db2}{x}}\ +\ other.\mbox{\hyperlink{structVec3_aeba95c52e15a5a7476550c1798210db2}{x}},\ \mbox{\hyperlink{structVec3_a76f06eaf078504ac1d09c910ddb24696}{y}}\ +\ other.\mbox{\hyperlink{structVec3_a76f06eaf078504ac1d09c910ddb24696}{y}},\ \mbox{\hyperlink{structVec3_a0f694311f956380952aee054cbabb8b6}{z}}\ +\ other.\mbox{\hyperlink{structVec3_a0f694311f956380952aee054cbabb8b6}{z}});}
 \DoxyCodeLine{\ \ \ \ \}}
 \DoxyCodeLine{}
@@ -83,13 +87,13 @@
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structVec3_a7c150f37ecfa78ced8b83bd95908cc33}{Vec3}}(\mbox{\hyperlink{structVec3_aeba95c52e15a5a7476550c1798210db2}{x}}\ -\/\ other.\mbox{\hyperlink{structVec3_aeba95c52e15a5a7476550c1798210db2}{x}},\ \mbox{\hyperlink{structVec3_a76f06eaf078504ac1d09c910ddb24696}{y}}\ -\/\ other.\mbox{\hyperlink{structVec3_a76f06eaf078504ac1d09c910ddb24696}{y}},\ \mbox{\hyperlink{structVec3_a0f694311f956380952aee054cbabb8b6}{z}}\ -\/\ other.\mbox{\hyperlink{structVec3_a0f694311f956380952aee054cbabb8b6}{z}});}
 \DoxyCodeLine{\ \ \ \ \}}
 \DoxyCodeLine{}
-\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ TODO\ inline\ constexpr\ Vec3\ operator\ *\ (const\ Vec3\ \&o)\ const}}
-\DoxyCodeLine{}
-\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structVec3}{Vec3}}\ \mbox{\hyperlink{structVec3_aef5f143bbb46d49f2e973c41b398a8e4}{operator\ *\ }}(\textcolor{keyword}{const}\ T\ \&scalar)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structVec3}{Vec3}}\ \mbox{\hyperlink{structVec3_a187b22d670faecb6bfe27132b0f1fca3}{operator\ *\ }}(\textcolor{keyword}{const}\ T\ \&scalar)\textcolor{keyword}{\ const\ }\{}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structVec3_a7c150f37ecfa78ced8b83bd95908cc33}{Vec3}}(\mbox{\hyperlink{structVec3_aeba95c52e15a5a7476550c1798210db2}{x}}\ *\ scalar,\ \mbox{\hyperlink{structVec3_a76f06eaf078504ac1d09c910ddb24696}{y}}\ *\ scalar,\ \mbox{\hyperlink{structVec3_a0f694311f956380952aee054cbabb8b6}{z}}\ *\ scalar);}
 \DoxyCodeLine{\ \ \ \ \}}
 \DoxyCodeLine{}
-\DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ TODO\ inline\ constexpr\ Vec3\ operator\ *\ (const\ Vec3\ \&o)\ const}}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ \textcolor{keyword}{friend}\ \mbox{\hyperlink{structVec3}{Vec3}}\ \mbox{\hyperlink{structVec3_a187b22d670faecb6bfe27132b0f1fca3}{operator\ *\ }}(\textcolor{keyword}{const}\ T\ \&scalar,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structVec3}{Vec3}}\ \&other)\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structVec3_a7c150f37ecfa78ced8b83bd95908cc33}{Vec3}}(other.\mbox{\hyperlink{structVec3_aeba95c52e15a5a7476550c1798210db2}{x}}\ *\ scalar,\ other.\mbox{\hyperlink{structVec3_a76f06eaf078504ac1d09c910ddb24696}{y}}\ *\ scalar,\ other.\mbox{\hyperlink{structVec3_a0f694311f956380952aee054cbabb8b6}{z}}\ *\ scalar);}
+\DoxyCodeLine{\ \ \ \ \}}
 \DoxyCodeLine{}
 \DoxyCodeLine{\ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structVec3}{Vec3}}\ \mbox{\hyperlink{structVec3_a6b34f96cf81612b05e1d4d64ee09bbd7}{operator\ /\ }}(\textcolor{keyword}{const}\ T\ \&scalar)\textcolor{keyword}{\ const\ }\{}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structVec3_a7c150f37ecfa78ced8b83bd95908cc33}{Vec3}}(\mbox{\hyperlink{structVec3_aeba95c52e15a5a7476550c1798210db2}{x}}\ /\ scalar,\ \mbox{\hyperlink{structVec3_a76f06eaf078504ac1d09c910ddb24696}{y}}\ /\ scalar,\ \mbox{\hyperlink{structVec3_a0f694311f956380952aee054cbabb8b6}{z}}\ /\ scalar);}
@@ -97,6 +101,10 @@
 \DoxyCodeLine{}
 \DoxyCodeLine{\ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structVec3_a363944e806ab7659a0dee64f23154ebc}{operator\ ==\ }}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structVec3}{Vec3}}\ \&other)\textcolor{keyword}{\ const\ }\{}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (\mbox{\hyperlink{structVec3_aeba95c52e15a5a7476550c1798210db2}{x}}\ ==\ other.\mbox{\hyperlink{structVec3_aeba95c52e15a5a7476550c1798210db2}{x}})\ \&\&\ (\mbox{\hyperlink{structVec3_a76f06eaf078504ac1d09c910ddb24696}{y}}\ ==\ other.\mbox{\hyperlink{structVec3_a76f06eaf078504ac1d09c910ddb24696}{y}})\ \&\&\ (\mbox{\hyperlink{structVec3_a0f694311f956380952aee054cbabb8b6}{z}}\ ==\ other.\mbox{\hyperlink{structVec3_a0f694311f956380952aee054cbabb8b6}{z}});}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{structVec3_a29b0273d4597c445fc9653e1328d44f4}{operator\ !=\ }}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structVec3}{Vec3}}\ \&other)\textcolor{keyword}{\ const\ }\{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (\mbox{\hyperlink{structVec3_aeba95c52e15a5a7476550c1798210db2}{x}}\ !=\ other.\mbox{\hyperlink{structVec3_aeba95c52e15a5a7476550c1798210db2}{x}})\ ||\ (\mbox{\hyperlink{structVec3_a76f06eaf078504ac1d09c910ddb24696}{y}}\ !=\ other.\mbox{\hyperlink{structVec3_a76f06eaf078504ac1d09c910ddb24696}{y}})\ ||\ (\mbox{\hyperlink{structVec3_a0f694311f956380952aee054cbabb8b6}{z}}\ !=\ other.\mbox{\hyperlink{structVec3_a0f694311f956380952aee054cbabb8b6}{z}});}
 \DoxyCodeLine{\ \ \ \ \}}
 \DoxyCodeLine{}
 \DoxyCodeLine{\ \ \ \ \textcolor{comment}{//\ assignment\ operators}}
@@ -119,6 +127,27 @@
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
 \DoxyCodeLine{\ \ \ \ \}}
 \DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structVec3}{Vec3}}\&\ \mbox{\hyperlink{structVec3_ac161c4e56a1d5cd3e2ddfcc8b2ba778f}{operator\ -\/=\ }}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structVec3}{Vec3}}\ \&other)\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{structVec3_aeba95c52e15a5a7476550c1798210db2}{x}}\ -\/=\ other.\mbox{\hyperlink{structVec3_aeba95c52e15a5a7476550c1798210db2}{x}};}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{structVec3_a76f06eaf078504ac1d09c910ddb24696}{y}}\ -\/=\ other.\mbox{\hyperlink{structVec3_a76f06eaf078504ac1d09c910ddb24696}{y}};}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{structVec3_a0f694311f956380952aee054cbabb8b6}{z}}\ -\/=\ other.\mbox{\hyperlink{structVec3_a0f694311f956380952aee054cbabb8b6}{z}};}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structVec3}{Vec3}}\&\ \mbox{\hyperlink{structVec3_aa1641cdda7f77b45a7ff7e2d00a7c8b7}{operator\ *=\ }}(\textcolor{keyword}{const}\ T\ \&scalar)\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{structVec3_aeba95c52e15a5a7476550c1798210db2}{x}}\ *=\ scalar;}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{structVec3_a76f06eaf078504ac1d09c910ddb24696}{y}}\ *=\ scalar;}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{structVec3_a0f694311f956380952aee054cbabb8b6}{z}}\ *=\ scalar;}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{}
+\DoxyCodeLine{\ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structVec3}{Vec3}}\&\ \mbox{\hyperlink{structVec3_a3acd2d9a2464088858076d5facd8d60b}{operator\ /=\ }}(\textcolor{keyword}{const}\ T\ \&scalar)\ \{}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{structVec3_aeba95c52e15a5a7476550c1798210db2}{x}}\ /=\ scalar;}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{structVec3_a76f06eaf078504ac1d09c910ddb24696}{y}}\ /=\ scalar;}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \mbox{\hyperlink{structVec3_a0f694311f956380952aee054cbabb8b6}{z}}\ /=\ scalar;}
+\DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ *\textcolor{keyword}{this};}
+\DoxyCodeLine{\ \ \ \ \}}
+\DoxyCodeLine{}
 \DoxyCodeLine{\ \ \ \ \textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ T\&\ \mbox{\hyperlink{structVec3_a06f9ab0ac7ee90c5936b9b6c0f710a81}{operator\ []\ }}(\textcolor{keywordtype}{size\_t}\ index)\ \{}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \textcolor{keywordflow}{switch}\ (index)\ \{}
 \DoxyCodeLine{\ \ \ \ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{case}\ 0:\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{structVec3_aeba95c52e15a5a7476550c1798210db2}{x}};}
@@ -131,13 +160,6 @@
 \DoxyCodeLine{}
 \DoxyCodeLine{\textcolor{comment}{//\ https://www.geeksforgeeks.org/cpp/typedef-\/in-\/cpp/}}
 \DoxyCodeLine{\textcolor{keyword}{typedef}\ \mbox{\hyperlink{structVec3}{Vec3<double>}}\ \mbox{\hyperlink{structVec3D}{Vec3D}};}
-\DoxyCodeLine{}
-\DoxyCodeLine{\textcolor{comment}{//\ implementations\ of\ operator\ overloads\ that\ do\ not\ belong\ in\ base\ struct}}
-\DoxyCodeLine{}
-\DoxyCodeLine{\textcolor{keyword}{template}<\textcolor{keyword}{typename}\ T\ =\ \textcolor{keywordtype}{double}>}
-\DoxyCodeLine{\textcolor{keyword}{inline}\ \textcolor{keyword}{constexpr}\ \mbox{\hyperlink{structVec3}{Vec3<T>}}\ \mbox{\hyperlink{Vec3_8h_adb7ea559455f3218d4d72524ce008e5d}{operator\ *\ }}(\textcolor{keyword}{const}\ T\ scalar,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structVec3}{Vec3<T>}}\ \&other)\ \{}
-\DoxyCodeLine{\ \ \ \ \textcolor{keywordflow}{return}\ other\ *\ scalar;}
-\DoxyCodeLine{\}}
 
 \end{DoxyCodeInclude}
  

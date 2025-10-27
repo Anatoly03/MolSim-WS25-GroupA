@@ -1,5 +1,9 @@
 var searchData=
 [
-  ['l2norm_0',['L2Norm',['../namespaceArrayUtils.html#a75ed8dcc1685d2373c6efcf45d4337fb',1,'ArrayUtils']]],
-  ['length_1',['length',['../structVec3.html#a146e00100a49a36b6c7ec58f4b3d34f6',1,'Vec3']]]
+  ['getforce_0',['getForce',['../classParticle.html#ab6921bdcd5b7d61944b7477d30fb8296',1,'Particle']]],
+  ['getmass_1',['getMass',['../classParticle.html#ad08e7b1d0cc7cb17bd0602caa4a22bc6',1,'Particle']]],
+  ['getoldforce_2',['getOldForce',['../classParticle.html#a7eebbbd2af4ac99aef2dc1a66e2e8dc2',1,'Particle']]],
+  ['getposition_3',['getPosition',['../classParticle.html#abebd557d43067b18a69584d166507477',1,'Particle']]],
+  ['gettype_4',['getType',['../classParticle.html#a806c077af237adf8b34dd0661cf92e5f',1,'Particle']]],
+  ['getvelocity_5',['getVelocity',['../classParticle.html#a200bcb363bb5dd0953359d0d822204cb',1,'Particle']]]
 ];

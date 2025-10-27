@@ -89,6 +89,7 @@ Functions</h2></td></tr>
 <tr class="memdesc:aad7cbdf76671f1d23c57b15faa5a212c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print usage message and exit. A short version of print help used only when an error occurs in program frame.  <br /></td></tr>
 <tr class="separator:aad7cbdf76671f1d23c57b15faa5a212c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af9550a38054a02dc006ae41409e93454"><td class="memItemLeft" align="right" valign="top"><a class="el" href="structArgs.html">Args</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="Frame_8cpp.html#af9550a38054a02dc006ae41409e93454">ProcessArgs</a> (int argc, char *argv[])</td></tr>
+<tr class="memdesc:af9550a38054a02dc006ae41409e93454"><td class="mdescLeft">&#160;</td><td class="mdescRight">Process command line arguments and return <a class="el" href="structArgs.html">Args</a> struct.  <br /></td></tr>
 <tr class="separator:af9550a38054a02dc006ae41409e93454"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
@@ -157,7 +158,16 @@ Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>The program entry point is the Rahmenprogramm which after getting all variables calls the molecular simulation methods. </p>
+
+<p>Process command line arguments and return <a class="el" href="structArgs.html">Args</a> struct. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">argc</td><td>Argument count </td></tr>
+    <tr><td class="paramname">argv</td><td>CLI options </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>Parsed <code><a class="el" href="structArgs.html">Args</a></code> struct </dd></dl>
 
 </div>
 </div>

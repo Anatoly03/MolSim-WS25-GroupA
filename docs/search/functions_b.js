@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['setforce_0',['setForce',['../classParticle.html#ac053850e3cf52e5be04c7a31e3db87dc',1,'Particle']]],
-  ['setposition_1',['setPosition',['../classParticle.html#a9def23e7a996b40c62d02c3e1c12a9ee',1,'Particle']]],
-  ['setvelocity_2',['setVelocity',['../classParticle.html#ada24a0871655999de7c3522488ca637d',1,'Particle']]]
+  ['readfile_0',['readFile',['../classFileReader.html#a64f3f751b42d2c7f04e4114076aa7e81',1,'FileReader']]],
+  ['reserve_1',['reserve',['../classParticleContainer.html#ad57d3839f9359306538240e44cac99fb',1,'ParticleContainer']]]
 ];
