@@ -80,7 +80,6 @@ int main(int argc, char *argsv[]) {
 }
 
 void calculateForce() {
-    // save old force and initialization
     particles.forEach([](Particle &particle) {
         Vec3D force(0);
 
@@ -102,16 +101,14 @@ void calculateForce() {
 
 void calculatePosition(const double dt) {
     particles.forEach([dt](Particle &particle) {
-        Vec3D x = particle.getPosition() + dt * particle.getVelocity() +
-                  std::pow(dt, 2) * particle.getForce() / (2 * particle.getMass());
+        Vec3D x = particle.getPosition() + dt * particle.getVelocity() + std::pow(dt, 2) * particle.getForce() / (2 * particle.getMass());
         particle.setPosition(x);
     });
 }
 
 void calculateVelocity(const double dt) {
     particles.forEach([dt](Particle &particle) {
-        Vec3D v =
-            particle.getVelocity() + dt * ((particle.getForce() + particle.getOldForce()) / (2 * particle.getMass()));
+        Vec3D v = particle.getVelocity() + dt * ((particle.getForce() + particle.getOldForce()) / (2 * particle.getMass()));
         particle.setVelocity(v);
     });
 }

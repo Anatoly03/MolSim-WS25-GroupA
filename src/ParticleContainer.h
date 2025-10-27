@@ -57,6 +57,16 @@ class ParticleContainer {
         }
     }
 
+    // /**
+    //  * @brief Reduction of an accumulator value, processing over all single particles.
+    //  */
+    // template<typename Acc>
+    // void reduce(const std::function<Acc(Particle &, Acc)> &callback, Acc acc) {
+    //     for (size_t i = 0; i < particles.size(); i++) {
+    //         acc = callback(particles[i], acc);
+    //     }
+    // }
+
     /**
      * @brief Iteration over distinct particle pairs.
      */
