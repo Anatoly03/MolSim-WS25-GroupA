@@ -80,11 +80,6 @@ std::string Particle::toString() const {
     return stream.str();
 }
 
-bool Particle::operator==(Particle &other) {
-    return (position == other.position) and (velocity == other.velocity) and (force == other.force) and
-           (type == other.type) and (mass == other.mass) and (old_force == other.old_force);
-}
-
 std::ostream &operator<<(std::ostream &stream, Particle &p) {
     stream << p.toString();
     return stream;

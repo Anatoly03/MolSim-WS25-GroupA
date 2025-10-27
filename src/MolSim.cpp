@@ -81,39 +81,39 @@ int main(int argc, char *argsv[]) {
 
 void calculateForce() {
     // save old force and initialization
-    particles.forEach([](Particle &particle) { particle.delayForce(); });
+    particles.forEach([](Particle &particle) {
+        Vec3D force(0);
 
-    // accumulate as pair
-    particles.forEachPair([](Particle &a, Particle &b) {
-        Vec3D diffX = b.getPosition() - a.getPosition();
-        double distance = diffX.length();
-        if (distance == 0.0) return;
-        double mulMass = a.getMass() * b.getMass();
+        particles.forEach([&particle, &force](const Particle &other) {
+            if (other == particle) return;
 
-        Vec3D force = diffX * mulMass / pow(distance, 3);
+            Vec3D diffX = other.getPosition() - particle.getPosition();
+            double distance = diffX.length();
+            double mulMass = particle.getMass() * other.getMass();
+            if (distance == 0.0) return;
 
-        auto forceA = a.getForce();
-        forceA += force;
-        a.setForce(forceA);
+            force += diffX * (mulMass / (std::pow(distance, 3)));
+        });
 
-        auto forceB = b.getForce();
-        forceB -= force;
-        b.setForce(forceB);
+        particle.delayForce();
+        particle.setForce(force);
     });
 }
 
-void calculatePosition(double dt) {
-    for (auto &p : particles) {
-        Vec3D x = p.getPosition() + dt * p.getVelocity() + std::pow(dt, 2) * p.getForce() / (2 * p.getMass());
-        p.setPosition(x);
-    }
+void calculatePosition(const double dt) {
+    particles.forEach([dt](Particle &particle) {
+        Vec3D x = particle.getPosition() + dt * particle.getVelocity() +
+                  std::pow(dt, 2) * particle.getForce() / (2 * particle.getMass());
+        particle.setPosition(x);
+    });
 }
 
-void calculateVelocity(double dt) {
-    for (auto &p : particles) {
-        Vec3D v = p.getVelocity() + dt * ((p.getForce() + p.getOldForce()) / (2 * p.getMass()));
-        p.setVelocity(v);
-    }
+void calculateVelocity(const double dt) {
+    particles.forEach([dt](Particle &particle) {
+        Vec3D v =
+            particle.getVelocity() + dt * ((particle.getForce() + particle.getOldForce()) / (2 * particle.getMass()));
+        particle.setVelocity(v);
+    });
 }
 
 void plotParticles(int iteration) {
