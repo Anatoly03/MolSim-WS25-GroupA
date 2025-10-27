@@ -7,9 +7,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Options
 option(ENABLE_VTK_OUTPUT "Enable VTK output support" ON)
 
-
-
-
 # define project name, version
 project(PSEMolDyn VERSION 0.0.1 LANGUAGES CXX)
 
