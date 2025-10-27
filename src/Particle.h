@@ -15,47 +15,65 @@
 class Particle {
    private:
     /**
-     * Position of the particle
+     * @brief Position of the particle
      */
     Vec3D position;
 
     /**
-     * Velocity of the particle
+     * @brief Velocity of the particle
      */
     Vec3D velocity;
 
     /**
-     * Force effective on this particle
+     * @brief Force effective on this particle
      */
     Vec3D force;
 
     /**
-     * Force which was effective on this particle
+     * @brief Force which was effective on this particle
      */
     Vec3D old_force;
 
     /**
-     * Mass of this particle
+     * @brief Mass of this particle
      */
     double mass;
 
     /**
-     * Type of the particle. Use it for whatever you want (e.g. to separate
+     * @brief Type of the particle.
+     * @note Use it for whatever you want (e.g. to separate
      * molecules belonging to different bodies, matters, and so on)
      */
     int type;
 
    public:
+    /**
+     * @brief Default constructor for Particle.
+     */
     explicit Particle(int type = 0);
 
+    /**
+     * @brief Copy constructor for Particle.
+     */
     Particle(const Particle &other);
 
-    Particle(
-        // for visualization, we need always 3 coordinates
-        // -> in case of 2d, we use only the first and the second
-        Vec3D pos_arg, Vec3D vel_arg, double mass_arg, int type = 0);
+    /**
+     * @brief Multi-argument constructor for Particle.
+     */
+    // for visualization, we need always 3 coordinates
+    // -> in case of 2d, we use only the first and the second
+    Particle(Vec3D pos_arg, Vec3D vel_arg, double mass_arg, int type = 0);
 
+    /**
+     * @brief Particle destructor.
+     */
     virtual ~Particle();
+
+    /**
+     * @brief Copy constructor for Particle.
+     * @note Deep copy.
+     */
+    Particle clone() const;
 
     const Vec3D &getPosition() const;
 
@@ -63,11 +81,11 @@ class Particle {
 
     const Vec3D &getForce() const;
 
-    void setPosition(Vec3D &position_);
+    void setPosition(const Vec3D &position_);
 
-    void setVelocity(Vec3D &velocity_);
+    void setVelocity(const Vec3D &velocity_);
 
-    void setForce(Vec3D &force_);
+    void setForce(const Vec3D &force_);
 
     void delayForce();
 

@@ -47,8 +47,8 @@ void plotParticles(int iteration);
 static void loadParticleContainer(std::list<Particle> &src, ParticleContainer &dst);
 
 /**
- * The program entry point is the Rahmenprogramm which after getting all variables
- * calls the molecular simulation methods.
+ * @brief The program entry point is the Rahmenprogramm which after getting all
+ * variables calls the molecular simulation methods.
  */
 int main(int argc, char *argsv[]) {
     const auto args = ProcessArgs(argc, argsv);

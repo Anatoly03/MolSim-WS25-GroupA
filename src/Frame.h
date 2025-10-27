@@ -11,7 +11,7 @@
 const char *const OPTSTRING = "ht:d:";
 
 /**
- * Definition of all long options.
+ * @brief Definition of all long options.
  */
 const option GETOPT_LONG[] = {{"time", required_argument, 0, 't'},
                               {"delta", required_argument, 0, 'd'},
@@ -19,7 +19,7 @@ const option GETOPT_LONG[] = {{"time", required_argument, 0, 't'},
                               {0, 0, 0, 0}};
 
 /**
- * Structure to hold all program arguments.
+ * @brief Structure to hold all program arguments.
  */
 struct Args {
     char *input_file;
@@ -33,7 +33,7 @@ struct Args {
 };
 
 /**
- * The program entry point is the Rahmenprogramm which after getting all variables
- * calls the molecular simulation methods.
+ * @details The program entry point is the Rahmenprogramm which after getting
+ * all variables calls the molecular simulation methods.
  */
 Args ProcessArgs(int argc, char *argv[]);

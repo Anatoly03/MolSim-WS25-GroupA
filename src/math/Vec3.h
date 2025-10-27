@@ -33,6 +33,7 @@ struct Vec3 {
     static_assert(std::is_arithmetic<T>::value, "Vec3 requires an arithmetic generic type");
 
     // attributes
+   public:
     T x;
     T y;
     T z;
@@ -45,7 +46,14 @@ struct Vec3 {
     // methods
 
     /**
+     * @brief Deep copy of a Vec3.
+     */
+    // the type conversion to double is to avoid issues when T is an integer type
+    inline constexpr Vec3 clone() const { return Vec3<T>(x, y, z); }
+
+    /**
      * @brief Vec3 dot product.
+     * @details Returns the scalar product of this vector with another vector.
      */
     // the type conversion to double is to avoid issues when T is an integer type
     inline constexpr double dot(const Vec3 &other) const {
@@ -184,22 +192,6 @@ struct Vec3 {
         y /= scalar;
         z /= scalar;
         return *this;
-    }
-
-    /**
-     * @brief Vec3 index-based member access.
-     */
-    inline constexpr T &operator[](size_t index) {
-        switch (index) {
-            case 0:
-                return x;
-            case 1:
-                return y;
-            case 2:
-                return z;
-            default:
-                throw std::out_of_range("Vec3 index out of range");
-        }
     }
 };
 

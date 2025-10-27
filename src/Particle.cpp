@@ -12,6 +12,10 @@
 #include "math/Vec3.h"
 #include "utils/ArrayUtils.h"
 
+/**
+ * The default constructor for Particle logs the creation
+ * of an initially forceless particle.
+ */
 Particle::Particle(int type_arg) {
     type = type_arg;
     std::cout << "Particle generated!" << std::endl;
@@ -19,6 +23,10 @@ Particle::Particle(int type_arg) {
     old_force = {0., 0., 0.};
 }
 
+/**
+ * The copy constructor for Particle deeply calls the
+ * copy constructor of Vec3 for all attributes.
+ */
 Particle::Particle(const Particle &other) {
     position = other.position;
     velocity = other.velocity;
@@ -48,11 +56,11 @@ const Vec3D &Particle::getVelocity() const { return velocity; }
 
 const Vec3D &Particle::getForce() const { return force; }
 
-void Particle::setPosition(Vec3D &position_) { this->position = position_; }
+void Particle::setPosition(const Vec3D &position_) { this->position = position_; }
 
-void Particle::setVelocity(Vec3D &velocity_) { this->velocity = velocity_; }
+void Particle::setVelocity(const Vec3D &velocity_) { this->velocity = velocity_; }
 
-void Particle::setForce(Vec3D &force_) { this->force = force_; }
+void Particle::setForce(const Vec3D &force_) { this->force = force_; }
 
 void Particle::delayForce() {
     this->old_force = this->force;
