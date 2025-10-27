@@ -1,9 +1,11 @@
 
 #include <iostream>
 #include <list>
+#include <cmath>
 
-#include "Frame.h"
 #include "FileReader.h"
+#include "Frame.h"
+#include "ParticleContainer.h"
 #include "utils/ArrayUtils.h"
 
 #ifdef ENABLE_VTK_OUTPUT
@@ -11,6 +13,11 @@
 #else
     #include "outputWriter/XYZWriter.h"
 #endif
+
+/**
+ * using ParticleContainer instead of std::list<Particle> particles
+ */
+static ParticleContainer particles;
 
 /**** forward declaration of the calculation functions ****/
 
@@ -34,8 +41,10 @@ void calculateVelocity(double dt);
  */
 void plotParticles(int iteration);
 
-// TODO: what data structure to pick?
-std::list<Particle> particles;
+/**
+ * copy the list from FileReader into ParticleConatiner
+ */
+static void loadParticleContainer(std::list<Particle>& src, ParticleContainer& dst);
 
 /**
  * The program entry point is the Rahmenprogramm which after getting all variables
@@ -71,25 +80,29 @@ int main(int argc, char *argsv[]) {
 }
 
 void calculateForce() {
-    std::list<Particle>::iterator iterator;
-    iterator = particles.begin();
+  // save old force and initialization
+  particles.forEachParticle([](Particle& particle) {
+    particle.delayForce();
+  });
 
-    for (auto &p1 : particles) {
-        Vec3D force(0);
+  // accumulate as pair
+  particles.forEachParticlePair([](Particle& a, Particle& b) {
+    Vec3D diffX = b.getPosition() - a.getPosition();
+    double distance = diffX.length();
+    if (distance == 0.0) return;
+    double mulMass = a.getMass() * b.getMass();
 
-        for (auto &p2 : particles) {
-            if (p1 == p2) continue;
+    Vec3D force = diffX * mulMass / pow(distance, 3);
 
-            Vec3D diffX = p2.getPosition() - p1.getPosition();
-            double distance = diffX.length();
-            double mulMass = p1.getMass() * p2.getMass();
+    auto forceA = a.getForce();
+    forceA += force;
+    a.setForce(forceA);
 
-            force += diffX * (mulMass / (std::pow(distance, 3)));
-        }
+    auto forceB = b.getForce();
+    forceB -= force;
+    b.setForce(forceB);
+  });
 
-        p1.delayForce();
-        p1.setForce(force);
-    }
 }
 
 void calculatePosition(double dt) {
@@ -108,7 +121,6 @@ void calculateVelocity(double dt) {
 
 void plotParticles(int iteration) {
     std::string out_name("MD_vtk");
-
 #ifdef ENABLE_VTK_OUTPUT
     outputWriter::VTKWriter writerVTK;
     writerVTK.plotParticles(particles, out_name, iteration);

@@ -5,23 +5,21 @@
  *      Author: eckhardw
  */
 
-#include "FileReader.h"
 
-#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <sstream>
-
+#include "FileReader.h"
+#include "ParticleContainer.h"
 #include "math/Vec3.h"
 
 FileReader::FileReader() = default;
-
 FileReader::~FileReader() = default;
 
-void FileReader::readFile(std::list<Particle> &particles, char *filename) {
-  Vec3D x;
-  Vec3D v;
-  double m;
+void FileReader::readFile(ParticleContainer& particles, char *filename) {
+  Vec3D position;
+  Vec3D velocity;
+  double mass;
   int num_particles = 0;
 
   std::ifstream input_file(filename);
@@ -45,19 +43,19 @@ void FileReader::readFile(std::list<Particle> &particles, char *filename) {
     for (int i = 0; i < num_particles; i++) {
       std::istringstream datastream(tmp_string);
 
-      datastream >> x.x;
-      datastream >> x.y;
-      datastream >> x.z;
-      datastream >> v.x;
-      datastream >> v.y;
-      datastream >> v.z;
+      datastream >> position.x;
+      datastream >> position.y;
+      datastream >> position.z;
+      datastream >> velocity.x;
+      datastream >> velocity.y;
+      datastream >> velocity.z;
 
       if (datastream.eof()) {
         std::cout << "Error reading file: eof reached unexpectedly reading from line " << i << std::endl;
         exit(-1);
       }
-      datastream >> m;
-      particles.emplace_back(x, v, m);
+      datastream >> mass;
+      particles.emplace_back(position, velocity, mass);
 
       getline(input_file, tmp_string);
       std::cout << "Read line: " << tmp_string << std::endl;
