@@ -2,8 +2,7 @@
 // Created by zhengying zhao on 24.10.25.
 //
 
-#ifndef PARTICLECONTAINER_H
-#define PARTICLECONTAINER_H
+#pragma once
 
 #include <vector>
 
@@ -15,67 +14,58 @@
  *
  */
 class ParticleContainer {
+   private:
+    /**
+     * Internal storage of particles.
+     */
+    std::vector<Particle> particles;
+
    public:
-    // std::vector<Particle> particles;
-    using container_t = std::vector<Particle>;
-    using value_type = Particle;
-    using size_type = container_t::size_type;
-    using iterator = container_t::iterator;
-    using const_iterator = container_t::const_iterator;
+    typedef std::vector<Particle>::size_type size_type;
+    typedef std::vector<Particle>::iterator iterator;
+    typedef std::vector<Particle>::const_iterator const_iterator;
 
     ParticleContainer() = default;
-    explicit ParticleContainer(size_type capacity) { particles_.reserve(capacity); }
+    ~ParticleContainer() = default;
 
-    iterator begin() { return particles_.begin(); }
-    iterator end() { return particles_.end(); }
-    const_iterator begin() const { return particles_.begin(); }
-    const_iterator end() const { return particles_.end(); }
+    explicit ParticleContainer(size_type capacity) { particles.reserve(capacity); }
 
-    void clear() { particles_.clear(); }
-    void reserve(size_type capacity) { particles_.reserve(capacity); }
+    iterator begin() { return particles.begin(); }
+    iterator end() { return particles.end(); }
+    const_iterator begin() const { return particles.begin(); }
+    const_iterator end() const { return particles.end(); }
 
-    size_type size() const { return particles_.size(); }
-    size_type capacity() const { return particles_.capacity(); }
+    void clear() { particles.clear(); }
+    void reserve(size_type capacity) { particles.reserve(capacity); }
+
+    size_type size() const { return particles.size(); }
+    size_type capacity() const { return particles.capacity(); }
 
     void emplace_back(const Vec3D position, const Vec3D velocity, double mass, int type = 0) {
-        particles_.emplace_back(position, velocity, mass, type);
+        particles.emplace_back(position, velocity, mass, type);
     }
 
-    void pushback(const Particle &particle) { particles_.push_back(particle); }
-    void pushback(Particle &&particle) { particles_.emplace_back(std::move(particle)); }
+    void pushback(const Particle &p) { particles.push_back(p); }
+    void pushback(Particle &&p) { particles.emplace_back(std::move(p)); }
 
     /**
-     * iteration for single particles
+     * @brief Iteration over single particles.
      */
-    template <typename P>
-    void forEachParticle(P &&p) {
-        for (auto &particle : particles_) {
-            p(particle);
+    void forEach(const std::function<void(Particle &)> &callback) {
+        for (size_t i = 0; i < particles.size(); i++) {
+            callback(particles[i]);
         }
     }
 
     /**
-     * iteration for particle pairs
+     * @brief Iteration over distinct particle pairs.
      */
-    template <typename P>
-    void forEachParticlePair(P &&p) {
-        for (size_t i = 0; i < particles_.size(); ++i) {
-            for (size_t j = i + 1; j < particles_.size(); ++j) {
-                p(particles_[i], particles_[j]);
+    void forEachPair(const std::function<void(Particle &, Particle &)> &callback) {
+        for (size_t i = 0; i < particles.size(); i++) {
+            for (size_t j = i + 1; j < particles.size(); j++) {
+                if (i == j) continue;
+                callback(particles[i], particles[j]);
             }
         }
     }
-    template <typename P>
-    void forEachParticlePair(P &&p) const {
-        for (size_t i = 0; i < particles_.size(); ++i) {
-            for (size_t j = i + 1; j < particles_.size(); ++j) {
-                p(particles_[i], particles_[j]);
-            }
-        }
-    }
-
-   private:
-    container_t particles_;
 };
-
-#endif  // PARTICLECONTAINER_H

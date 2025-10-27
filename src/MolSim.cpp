@@ -81,10 +81,10 @@ int main(int argc, char *argsv[]) {
 
 void calculateForce() {
     // save old force and initialization
-    particles.forEachParticle([](Particle &particle) { particle.delayForce(); });
+    particles.forEach([](Particle &particle) { particle.delayForce(); });
 
     // accumulate as pair
-    particles.forEachParticlePair([](Particle &a, Particle &b) {
+    particles.forEachPair([](Particle &a, Particle &b) {
         Vec3D diffX = b.getPosition() - a.getPosition();
         double distance = diffX.length();
         if (distance == 0.0) return;
