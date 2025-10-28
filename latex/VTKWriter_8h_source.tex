@@ -19,22 +19,23 @@
 \DoxyCodeLine{00015\ \textcolor{preprocessor}{\#include\ <string>}}
 \DoxyCodeLine{00016\ }
 \DoxyCodeLine{00017\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{Particle_8h}{Particle.h}}"{}}}
-\DoxyCodeLine{00018\ }
-\DoxyCodeLine{00019\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespaceoutputWriter}{outputWriter}}\ \{}
-\DoxyCodeLine{00020\ }
-\DoxyCodeLine{00025\ \textcolor{keyword}{class\ }VTKWriter\ \{}
-\DoxyCodeLine{00026\ \ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00027\ \ \ VTKWriter()\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00028\ \ \ \string~VTKWriter()\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00029\ }
-\DoxyCodeLine{00030\ \ \ \textcolor{comment}{//\ Delete\ copy\ constructor\ and\ assignment\ operator}}
-\DoxyCodeLine{00031\ \ \ VTKWriter(\textcolor{keyword}{const}\ VTKWriter\ \&)\ =\ \textcolor{keyword}{delete};}
-\DoxyCodeLine{00032\ \ \ VTKWriter\ \&operator=(\textcolor{keyword}{const}\ VTKWriter\ \&)\ =\ \textcolor{keyword}{delete};}
-\DoxyCodeLine{00033\ }
-\DoxyCodeLine{00040\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{MolSim_8cpp_af4d25832793b65abf538fab0474a8e51}{plotParticles}}(std::list<Particle>\ \mbox{\hyperlink{MolSim_8cpp_a6b352757b6951d85f71bd9cbc47cf619}{particles}},\ \textcolor{keyword}{const}\ std::string\ \&filename,\ \textcolor{keywordtype}{int}\ iteration);}
-\DoxyCodeLine{00041\ \};}
-\DoxyCodeLine{00042\ }
-\DoxyCodeLine{00043\ \}\ \ \textcolor{comment}{//\ namespace\ outputWriter}}
-\DoxyCodeLine{00044\ \textcolor{preprocessor}{\#endif}}
+\DoxyCodeLine{00018\ \textcolor{preprocessor}{\#include\ "{}../ParticleContainer.h"{}}}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \textcolor{keyword}{namespace\ }\mbox{\hyperlink{namespaceoutputWriter}{outputWriter}}\ \{}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00026\ \textcolor{keyword}{class\ }VTKWriter\ \{}
+\DoxyCodeLine{00027\ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00028\ \ \ VTKWriter()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00029\ \ \ \string~VTKWriter()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \textcolor{comment}{//\ Delete\ copy\ constructor\ and\ assignment\ operator}}
+\DoxyCodeLine{00032\ \ \ VTKWriter(\textcolor{keyword}{const}\ VTKWriter\ \&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00033\ \ \ VTKWriter\ \&operator=(\textcolor{keyword}{const}\ VTKWriter\ \&)\ =\ \textcolor{keyword}{delete};}
+\DoxyCodeLine{00034\ }
+\DoxyCodeLine{00041\ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{MolSim_8cpp_af4d25832793b65abf538fab0474a8e51}{plotParticles}}(\mbox{\hyperlink{classParticleContainer}{ParticleContainer}}\ \mbox{\hyperlink{MolSim_8cpp_a6b352757b6951d85f71bd9cbc47cf619}{particles}},\ \textcolor{keyword}{const}\ std::string\ \&filename,\ \textcolor{keywordtype}{int}\ iteration);}
+\DoxyCodeLine{00042\ \};}
+\DoxyCodeLine{00043\ }
+\DoxyCodeLine{00044\ \}\ \ \textcolor{comment}{//\ namespace\ outputWriter}}
+\DoxyCodeLine{00045\ \textcolor{preprocessor}{\#endif}}
 
 \end{DoxyCode}
