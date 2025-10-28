@@ -6,30 +6,29 @@
 \DoxyCodeLine{00005\ \textcolor{preprocessor}{\#pragma\ once}}
 \DoxyCodeLine{00006\ }
 \DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <getopt.h>}}
-\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <iostream>}}
-\DoxyCodeLine{00009\ }
-\DoxyCodeLine{00010\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}*\ \textcolor{keyword}{const}\ \mbox{\hyperlink{Frame_8h_a3b76e96927c8ecdbbf06c42b0ef86f67}{OPTSTRING}}\ =\ \textcolor{stringliteral}{"{}ho:t:d:"{}};}
-\DoxyCodeLine{00011\ }
-\DoxyCodeLine{00015\ \textcolor{keyword}{const}\ option\ \mbox{\hyperlink{Frame_8h_a7c8ce0dd18b299455070fa3b6b0740d8}{GETOPT\_LONG}}[]\ =\ \{}
-\DoxyCodeLine{00016\ \ \ \ \ \{\textcolor{stringliteral}{"{}output"{}},\ required\_argument,\ 0,\ \textcolor{charliteral}{'o'}\},}
-\DoxyCodeLine{00017\ \ \ \ \ \{\textcolor{stringliteral}{"{}time"{}},\ required\_argument,\ 0,\ \textcolor{charliteral}{'t'}\},}
-\DoxyCodeLine{00018\ \ \ \ \ \{\textcolor{stringliteral}{"{}delta"{}},\ required\_argument,\ 0,\ \textcolor{charliteral}{'d'}\},}
-\DoxyCodeLine{00019\ \ \ \ \ \{\textcolor{stringliteral}{"{}help"{}},\ no\_argument,\ 0,\ \textcolor{charliteral}{'h'}\},}
-\DoxyCodeLine{00020\ \ \ \ \ \{0,\ 0,\ 0,\ 0\}}
-\DoxyCodeLine{00021\ \};}
-\DoxyCodeLine{00022\ }
-\DoxyCodeLine{00026\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structArgs}{Args}}\ \{}
-\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{structArgs_a4fb31432e72869ecd12fd18190203a76}{input\_file}};}
-\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{char}*\ \mbox{\hyperlink{structArgs_a9aec702825814f0e0088b48c678adbc6}{output\_path}};}
-\DoxyCodeLine{00029\ }
-\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structArgs_a318d6dc3a1cea7d19d5f49a8e603fade}{start\_time}}\ =\ 0;}
-\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structArgs_a507d41556f89b27f3994ae7dee38e661}{end\_time}}\ =\ 1000;}
-\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structArgs_a9d9b84961749bca5852eb08982254659}{delta\_t}}\ =\ 0.014;}
-\DoxyCodeLine{00033\ }
-\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{structArgs_acf905c40b3a31742abf89c93e0df1caf}{Args}}()\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00035\ \ \ \ \ \mbox{\hyperlink{structArgs_ad1766b7fa459657779d35732b3380aa9}{\string~Args}}()\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00036\ \};}
-\DoxyCodeLine{00037\ }
-\DoxyCodeLine{00042\ \mbox{\hyperlink{structArgs}{Args}}\ \mbox{\hyperlink{Frame_8h_af9550a38054a02dc006ae41409e93454}{ProcessArgs}}(\textcolor{keywordtype}{int}\ argc,\ \textcolor{keywordtype}{char}\ *argv[]);}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ <iostream>}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{keyword}{const}\ \textcolor{keywordtype}{char}\ *\textcolor{keyword}{const}\ \mbox{\hyperlink{Frame_8h_a3b76e96927c8ecdbbf06c42b0ef86f67}{OPTSTRING}}\ =\ \textcolor{stringliteral}{"{}ho:t:d:"{}};}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{const}\ option\ \mbox{\hyperlink{Frame_8h_a7c8ce0dd18b299455070fa3b6b0740d8}{GETOPT\_LONG}}[]\ =\ \{\{\textcolor{stringliteral}{"{}output"{}},\ required\_argument,\ 0,\ \textcolor{charliteral}{'o'}\},}
+\DoxyCodeLine{00017\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}time"{}},\ required\_argument,\ 0,\ \textcolor{charliteral}{'t'}\},}
+\DoxyCodeLine{00018\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}delta"{}},\ required\_argument,\ 0,\ \textcolor{charliteral}{'d'}\},}
+\DoxyCodeLine{00019\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{\textcolor{stringliteral}{"{}help"{}},\ no\_argument,\ 0,\ \textcolor{charliteral}{'h'}\},}
+\DoxyCodeLine{00020\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \{0,\ 0,\ 0,\ 0\}\};}
+\DoxyCodeLine{00021\ }
+\DoxyCodeLine{00025\ \textcolor{keyword}{struct\ }\mbox{\hyperlink{structArgs}{Args}}\ \{}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{char}\ *\mbox{\hyperlink{structArgs_a4fb31432e72869ecd12fd18190203a76}{input\_file}};}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{char}\ *\mbox{\hyperlink{structArgs_a9aec702825814f0e0088b48c678adbc6}{output\_path}};}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structArgs_a318d6dc3a1cea7d19d5f49a8e603fade}{start\_time}}\ =\ 0;}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structArgs_a507d41556f89b27f3994ae7dee38e661}{end\_time}}\ =\ 1000;}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{double}\ \mbox{\hyperlink{structArgs_a9d9b84961749bca5852eb08982254659}{delta\_t}}\ =\ 0.014;}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \mbox{\hyperlink{structArgs_acf905c40b3a31742abf89c93e0df1caf}{Args}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00034\ \ \ \ \ \mbox{\hyperlink{structArgs_ad1766b7fa459657779d35732b3380aa9}{\string~Args}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00035\ \};}
+\DoxyCodeLine{00036\ }
+\DoxyCodeLine{00041\ \mbox{\hyperlink{structArgs}{Args}}\ \mbox{\hyperlink{Frame_8h_af9550a38054a02dc006ae41409e93454}{ProcessArgs}}(\textcolor{keywordtype}{int}\ argc,\ \textcolor{keywordtype}{char}\ *argv[]);}
 
 \end{DoxyCode}

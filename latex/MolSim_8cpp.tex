@@ -1,8 +1,8 @@
 \hypertarget{MolSim_8cpp}{}\doxysection{src/\+Mol\+Sim.cpp File Reference}
 \label{MolSim_8cpp}\index{src/MolSim.cpp@{src/MolSim.cpp}}
+{\ttfamily \#include $<$cmath$>$}\newline
 {\ttfamily \#include $<$iostream$>$}\newline
 {\ttfamily \#include $<$list$>$}\newline
-{\ttfamily \#include $<$cmath$>$}\newline
 {\ttfamily \#include \char`\"{}File\+Reader.\+h\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}Frame.\+h\char`\"{}}\newline
 {\ttfamily \#include \char`\"{}Particle\+Container.\+h\char`\"{}}\newline
@@ -19,10 +19,8 @@ void \mbox{\hyperlink{MolSim_8cpp_ac294d5b4fa93c4904effe7b3f991d62d}{calculate\+
 \item 
 void \mbox{\hyperlink{MolSim_8cpp_a9ef692d7dd1cbde4a29d99732bcbc7fb}{plot\+Particles}} (int iteration, const char $\ast$output\+\_\+path)
 \item 
-static void \mbox{\hyperlink{MolSim_8cpp_a8b4878eabdcf6ac8245cfa20154213c9}{load\+Particle\+Container}} (std\+::list$<$ \mbox{\hyperlink{classParticle}{Particle}} $>$ \&src, \mbox{\hyperlink{classParticleContainer}{Particle\+Container}} \&dst)
-\item 
 int \mbox{\hyperlink{MolSim_8cpp_a329c95e85f063f49b0daaed5c5b56335}{main}} (int argc, char $\ast$argsv\mbox{[}$\,$\mbox{]})
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em The program entry point is the Rahmenprogramm which after getting all variables calls the molecular simulation methods. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
@@ -49,19 +47,17 @@ calculate the position for all particles \mbox{\Hypertarget{MolSim_8cpp_ac294d5b
 \doxysubsubsection{\texorpdfstring{calculateVelocity()}{calculateVelocity()}}
 {\footnotesize\ttfamily void calculate\+Velocity (\begin{DoxyParamCaption}\item[{double}]{dt }\end{DoxyParamCaption})}
 
-calculate the position for all particles \mbox{\Hypertarget{MolSim_8cpp_a8b4878eabdcf6ac8245cfa20154213c9}\label{MolSim_8cpp_a8b4878eabdcf6ac8245cfa20154213c9}} 
-\index{MolSim.cpp@{MolSim.cpp}!loadParticleContainer@{loadParticleContainer}}
-\index{loadParticleContainer@{loadParticleContainer}!MolSim.cpp@{MolSim.cpp}}
-\doxysubsubsection{\texorpdfstring{loadParticleContainer()}{loadParticleContainer()}}
-{\footnotesize\ttfamily static void load\+Particle\+Container (\begin{DoxyParamCaption}\item[{std\+::list$<$ \mbox{\hyperlink{classParticle}{Particle}} $>$ \&}]{src,  }\item[{\mbox{\hyperlink{classParticleContainer}{Particle\+Container}} \&}]{dst }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
-
-copy the list from \mbox{\hyperlink{classFileReader}{File\+Reader}} into Particle\+Conatiner \mbox{\Hypertarget{MolSim_8cpp_a329c95e85f063f49b0daaed5c5b56335}\label{MolSim_8cpp_a329c95e85f063f49b0daaed5c5b56335}} 
+calculate the position for all particles \mbox{\Hypertarget{MolSim_8cpp_a329c95e85f063f49b0daaed5c5b56335}\label{MolSim_8cpp_a329c95e85f063f49b0daaed5c5b56335}} 
 \index{MolSim.cpp@{MolSim.cpp}!main@{main}}
 \index{main@{main}!MolSim.cpp@{MolSim.cpp}}
 \doxysubsubsection{\texorpdfstring{main()}{main()}}
 {\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$}]{argsv\mbox{[}$\,$\mbox{]} }\end{DoxyParamCaption})}
 
-The program entry point is the Rahmenprogramm which after getting all variables calls the molecular simulation methods. \mbox{\Hypertarget{MolSim_8cpp_a9ef692d7dd1cbde4a29d99732bcbc7fb}\label{MolSim_8cpp_a9ef692d7dd1cbde4a29d99732bcbc7fb}} 
+
+
+The program entry point is the Rahmenprogramm which after getting all variables calls the molecular simulation methods. 
+
+\mbox{\Hypertarget{MolSim_8cpp_a9ef692d7dd1cbde4a29d99732bcbc7fb}\label{MolSim_8cpp_a9ef692d7dd1cbde4a29d99732bcbc7fb}} 
 \index{MolSim.cpp@{MolSim.cpp}!plotParticles@{plotParticles}}
 \index{plotParticles@{plotParticles}!MolSim.cpp@{MolSim.cpp}}
 \doxysubsubsection{\texorpdfstring{plotParticles()}{plotParticles()}}

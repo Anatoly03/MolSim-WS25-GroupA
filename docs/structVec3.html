@@ -91,6 +91,9 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:af25b20ef0f5fb49cb3eda5cce9bc4810"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a878efffc26ead487ded582f9bf8509d7"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structVec3.html#a878efffc26ead487ded582f9bf8509d7">Vec3</a> (T x_, T y_, T z_)</td></tr>
 <tr class="separator:a878efffc26ead487ded582f9bf8509d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aea98e7cac6f688fac3edef9905224d8a"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="structVec3.html">Vec3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structVec3.html#aea98e7cac6f688fac3edef9905224d8a">clone</a> () const</td></tr>
+<tr class="memdesc:aea98e7cac6f688fac3edef9905224d8a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Deep copy of a <a class="el" href="structVec3.html" title="Represents a 3D vector.">Vec3</a>.  <br /></td></tr>
+<tr class="separator:aea98e7cac6f688fac3edef9905224d8a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a43693311520ab2a7d56c969fff158884"><td class="memItemLeft" align="right" valign="top">constexpr double&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structVec3.html#a43693311520ab2a7d56c969fff158884">dot</a> (const <a class="el" href="structVec3.html">Vec3</a> &amp;other) const</td></tr>
 <tr class="memdesc:a43693311520ab2a7d56c969fff158884"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structVec3.html" title="Represents a 3D vector.">Vec3</a> dot product.  <br /></td></tr>
 <tr class="separator:a43693311520ab2a7d56c969fff158884"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -142,9 +145,6 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a3acd2d9a2464088858076d5facd8d60b"><td class="memItemLeft" align="right" valign="top">constexpr <a class="el" href="structVec3.html">Vec3</a> &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structVec3.html#a3acd2d9a2464088858076d5facd8d60b">operator/=</a> (const T &amp;scalar)</td></tr>
 <tr class="memdesc:a3acd2d9a2464088858076d5facd8d60b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Binary division operator overload for <a class="el" href="structVec3.html" title="Represents a 3D vector.">Vec3</a> with a scalar.  <br /></td></tr>
 <tr class="separator:a3acd2d9a2464088858076d5facd8d60b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a06f9ab0ac7ee90c5936b9b6c0f710a81"><td class="memItemLeft" align="right" valign="top">constexpr T &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="structVec3.html#a06f9ab0ac7ee90c5936b9b6c0f710a81">operator[]</a> (size_t index)</td></tr>
-<tr class="memdesc:a06f9ab0ac7ee90c5936b9b6c0f710a81"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="structVec3.html" title="Represents a 3D vector.">Vec3</a> index-based member access.  <br /></td></tr>
-<tr class="separator:a06f9ab0ac7ee90c5936b9b6c0f710a81"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-attribs" name="pub-attribs"></a>
 Public Attributes</h2></td></tr>
@@ -296,7 +296,38 @@ template&lt;typename T  = double&gt; </div>
 </div><div class="memdoc">
 
 <p>Convert <a class="el" href="structVec3.html" title="Represents a 3D vector.">Vec3</a> to an array type. Useful for printing. </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example.html#a8">/home/runner/work/MolSim-WS25-GroupA/MolSim-WS25-GroupA/src/math/Vec3.h</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example.html#a9">/home/runner/work/MolSim-WS25-GroupA/MolSim-WS25-GroupA/src/math/Vec3.h</a>.</dd>
+</dl>
+
+</div>
+</div>
+<a id="aea98e7cac6f688fac3edef9905224d8a" name="aea98e7cac6f688fac3edef9905224d8a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea98e7cac6f688fac3edef9905224d8a">&#9670;&#160;</a></span>clone()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename T  = double&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr <a class="el" href="structVec3.html">Vec3</a> <a class="el" href="structVec3.html">Vec3</a>&lt; T &gt;::clone </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Deep copy of a <a class="el" href="structVec3.html" title="Represents a 3D vector.">Vec3</a>. </p>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example.html#a5">/home/runner/work/MolSim-WS25-GroupA/MolSim-WS25-GroupA/src/math/Vec3.h</a>.</dd>
 </dl>
 
 </div>
@@ -328,7 +359,7 @@ template&lt;typename T  = double&gt; </div>
 </div><div class="memdoc">
 
 <p><a class="el" href="structVec3.html" title="Represents a 3D vector.">Vec3</a> cross product. </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example.html#a6">/home/runner/work/MolSim-WS25-GroupA/MolSim-WS25-GroupA/src/math/Vec3.h</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example.html#a7">/home/runner/work/MolSim-WS25-GroupA/MolSim-WS25-GroupA/src/math/Vec3.h</a>.</dd>
 </dl>
 
 </div>
@@ -360,7 +391,8 @@ template&lt;typename T  = double&gt; </div>
 </div><div class="memdoc">
 
 <p><a class="el" href="structVec3.html" title="Represents a 3D vector.">Vec3</a> dot product. </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example.html#a5">/home/runner/work/MolSim-WS25-GroupA/MolSim-WS25-GroupA/src/math/Vec3.h</a>.</dd>
+<p>Returns the scalar product of this vector with another vector. </p>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example.html#a6">/home/runner/work/MolSim-WS25-GroupA/MolSim-WS25-GroupA/src/math/Vec3.h</a>.</dd>
 </dl>
 
 </div>
@@ -392,7 +424,7 @@ template&lt;typename T  = double&gt; </div>
 
 <p>Retrieve the length of the vector. </p>
 <dl class="section see"><dt>See also</dt><dd><a href="https://de.wikipedia.org/wiki/Euklidische_Norm">https://de.wikipedia.org/wiki/Euklidische_Norm</a> </dd></dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example.html#a7">/home/runner/work/MolSim-WS25-GroupA/MolSim-WS25-GroupA/src/math/Vec3.h</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example.html#a8">/home/runner/work/MolSim-WS25-GroupA/MolSim-WS25-GroupA/src/math/Vec3.h</a>.</dd>
 </dl>
 
 </div>
@@ -424,7 +456,7 @@ template&lt;typename T  = double&gt; </div>
 </div><div class="memdoc">
 
 <p><a class="el" href="structVec3.html" title="Represents a 3D vector.">Vec3</a> inequivalence. </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example.html#a14">/home/runner/work/MolSim-WS25-GroupA/MolSim-WS25-GroupA/src/math/Vec3.h</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example.html#a15">/home/runner/work/MolSim-WS25-GroupA/MolSim-WS25-GroupA/src/math/Vec3.h</a>.</dd>
 </dl>
 
 </div>
@@ -486,7 +518,7 @@ template&lt;typename T  = double&gt; </div>
 </div><div class="memdoc">
 
 <p>Binary multiplication operator overload for <a class="el" href="structVec3.html" title="Represents a 3D vector.">Vec3</a> with a scalar. </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example.html#a18">/home/runner/work/MolSim-WS25-GroupA/MolSim-WS25-GroupA/src/math/Vec3.h</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example.html#a19">/home/runner/work/MolSim-WS25-GroupA/MolSim-WS25-GroupA/src/math/Vec3.h</a>.</dd>
 </dl>
 
 </div>
@@ -517,7 +549,7 @@ template&lt;typename T  = double&gt; </div>
 </div><div class="memdoc">
 
 <p>Unary plus operator overload for <a class="el" href="structVec3.html" title="Represents a 3D vector.">Vec3</a>. </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example.html#a9">/home/runner/work/MolSim-WS25-GroupA/MolSim-WS25-GroupA/src/math/Vec3.h</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example.html#a10">/home/runner/work/MolSim-WS25-GroupA/MolSim-WS25-GroupA/src/math/Vec3.h</a>.</dd>
 </dl>
 
 </div>
@@ -579,7 +611,7 @@ template&lt;typename T  = double&gt; </div>
 </div><div class="memdoc">
 
 <p>Binary addition operator overload for <a class="el" href="structVec3.html" title="Represents a 3D vector.">Vec3</a>. </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example.html#a16">/home/runner/work/MolSim-WS25-GroupA/MolSim-WS25-GroupA/src/math/Vec3.h</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example.html#a17">/home/runner/work/MolSim-WS25-GroupA/MolSim-WS25-GroupA/src/math/Vec3.h</a>.</dd>
 </dl>
 
 </div>
@@ -610,7 +642,7 @@ template&lt;typename T  = double&gt; </div>
 </div><div class="memdoc">
 
 <p>Unary minus operator overload for <a class="el" href="structVec3.html" title="Represents a 3D vector.">Vec3</a>. </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example.html#a10">/home/runner/work/MolSim-WS25-GroupA/MolSim-WS25-GroupA/src/math/Vec3.h</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example.html#a11">/home/runner/work/MolSim-WS25-GroupA/MolSim-WS25-GroupA/src/math/Vec3.h</a>.</dd>
 </dl>
 
 </div>
@@ -672,7 +704,7 @@ template&lt;typename T  = double&gt; </div>
 </div><div class="memdoc">
 
 <p>Binary subtraction operator overload for <a class="el" href="structVec3.html" title="Represents a 3D vector.">Vec3</a>. </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example.html#a17">/home/runner/work/MolSim-WS25-GroupA/MolSim-WS25-GroupA/src/math/Vec3.h</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example.html#a18">/home/runner/work/MolSim-WS25-GroupA/MolSim-WS25-GroupA/src/math/Vec3.h</a>.</dd>
 </dl>
 
 </div>
@@ -704,7 +736,7 @@ template&lt;typename T  = double&gt; </div>
 </div><div class="memdoc">
 
 <p>Binary division operator overload for <a class="el" href="structVec3.html" title="Represents a 3D vector.">Vec3</a> with a scalar. </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example.html#a12">/home/runner/work/MolSim-WS25-GroupA/MolSim-WS25-GroupA/src/math/Vec3.h</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example.html#a13">/home/runner/work/MolSim-WS25-GroupA/MolSim-WS25-GroupA/src/math/Vec3.h</a>.</dd>
 </dl>
 
 </div>
@@ -736,7 +768,7 @@ template&lt;typename T  = double&gt; </div>
 </div><div class="memdoc">
 
 <p>Binary division operator overload for <a class="el" href="structVec3.html" title="Represents a 3D vector.">Vec3</a> with a scalar. </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example.html#a19">/home/runner/work/MolSim-WS25-GroupA/MolSim-WS25-GroupA/src/math/Vec3.h</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example.html#a20">/home/runner/work/MolSim-WS25-GroupA/MolSim-WS25-GroupA/src/math/Vec3.h</a>.</dd>
 </dl>
 
 </div>
@@ -768,7 +800,7 @@ template&lt;typename T  = double&gt; </div>
 </div><div class="memdoc">
 
 <p>Assignment operator overload for <a class="el" href="structVec3.html" title="Represents a 3D vector.">Vec3</a>. </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example.html#a15">/home/runner/work/MolSim-WS25-GroupA/MolSim-WS25-GroupA/src/math/Vec3.h</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example.html#a16">/home/runner/work/MolSim-WS25-GroupA/MolSim-WS25-GroupA/src/math/Vec3.h</a>.</dd>
 </dl>
 
 </div>
@@ -800,39 +832,7 @@ template&lt;typename T  = double&gt; </div>
 </div><div class="memdoc">
 
 <p><a class="el" href="structVec3.html" title="Represents a 3D vector.">Vec3</a> equivalence. </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example.html#a13">/home/runner/work/MolSim-WS25-GroupA/MolSim-WS25-GroupA/src/math/Vec3.h</a>.</dd>
-</dl>
-
-</div>
-</div>
-<a id="a06f9ab0ac7ee90c5936b9b6c0f710a81" name="a06f9ab0ac7ee90c5936b9b6c0f710a81"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a06f9ab0ac7ee90c5936b9b6c0f710a81">&#9670;&#160;</a></span>operator[]()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename T  = double&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">constexpr T &amp; <a class="el" href="structVec3.html">Vec3</a>&lt; T &gt;::operator[] </td>
-          <td>(</td>
-          <td class="paramtype">size_t&#160;</td>
-          <td class="paramname"><em>index</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">constexpr</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p><a class="el" href="structVec3.html" title="Represents a 3D vector.">Vec3</a> index-based member access. </p>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example.html#a20">/home/runner/work/MolSim-WS25-GroupA/MolSim-WS25-GroupA/src/math/Vec3.h</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example.html#a14">/home/runner/work/MolSim-WS25-GroupA/MolSim-WS25-GroupA/src/math/Vec3.h</a>.</dd>
 </dl>
 
 </div>
@@ -876,7 +876,7 @@ template&lt;typename T  = double&gt; </div>
 
 <p>Binary multiplication operator overload for a scalar with a <a class="el" href="structVec3.html" title="Represents a 3D vector.">Vec3</a>. </p>
 <dl class="section note"><dt>Note</dt><dd>This is a friend function as the scalar is on the left. </dd></dl>
-<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example.html#a11">/home/runner/work/MolSim-WS25-GroupA/MolSim-WS25-GroupA/src/math/Vec3.h</a>.</dd>
+<dl class="section examples"><dt>Examples</dt><dd><a class="el" href="_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example.html#a12">/home/runner/work/MolSim-WS25-GroupA/MolSim-WS25-GroupA/src/math/Vec3.h</a>.</dd>
 </dl>
 
 </div>

@@ -12,93 +12,75 @@ Refactoring,owning container for \mbox{\hyperlink{classParticle}{Particle}} with
 \doxysubsection*{Public Types}
 \begin{DoxyCompactItemize}
 \item 
-using \mbox{\hyperlink{classParticleContainer_aaf428dba851ef13f5871d8b60f6b48a0}{container\+\_\+t}} = std\+::vector$<$ \mbox{\hyperlink{classParticle}{Particle}} $>$
+typedef std\+::vector$<$ \mbox{\hyperlink{classParticle}{Particle}} $>$\+::size\+\_\+type \mbox{\hyperlink{classParticleContainer_aa194fa64666e7feb0e2e7e2d9e38dd71}{size\+\_\+type}}
 \item 
-using \mbox{\hyperlink{classParticleContainer_a704994bcca5da62feb91fb5e150f41eb}{value\+\_\+type}} = \mbox{\hyperlink{classParticle}{Particle}}
+typedef std\+::vector$<$ \mbox{\hyperlink{classParticle}{Particle}} $>$\+::iterator \mbox{\hyperlink{classParticleContainer_a395648cf4068ebdea9260a2830d5e149}{iterator}}
 \item 
-using \mbox{\hyperlink{classParticleContainer_af10d10a23e3aa32c1c527233e10468db}{size\+\_\+type}} = container\+\_\+t\+::size\+\_\+type
-\item 
-using \mbox{\hyperlink{classParticleContainer_a62ccca3b880339a03e75e86e388ff4e0}{iterator}} = container\+\_\+t\+::iterator
-\item 
-using \mbox{\hyperlink{classParticleContainer_af58ee14c05ed56fc4dec855ef1209885}{const\+\_\+iterator}} = container\+\_\+t\+::const\+\_\+iterator
+typedef std\+::vector$<$ \mbox{\hyperlink{classParticle}{Particle}} $>$\+::const\+\_\+iterator \mbox{\hyperlink{classParticleContainer_ad27f7c53393d4906caa3f6f9f7ea2b82}{const\+\_\+iterator}}
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{classParticleContainer_a02cf5506e0bc6d6376a6d33d10bf308d}{Particle\+Container}} ()=default
 \item 
-\mbox{\hyperlink{classParticleContainer_a1f3b2cfe1e66a4592981b60b02aea3f4}{Particle\+Container}} (\mbox{\hyperlink{classParticleContainer_af10d10a23e3aa32c1c527233e10468db}{size\+\_\+type}} \mbox{\hyperlink{classParticleContainer_a744c7992f608edfa5b7d1c7cfb55e4ad}{capacity}})
+\mbox{\hyperlink{classParticleContainer_aaff0467aec253a0239adc7abe1e33275}{$\sim$\+Particle\+Container}} ()=default
 \item 
-\mbox{\hyperlink{classParticleContainer_a62ccca3b880339a03e75e86e388ff4e0}{iterator}} \mbox{\hyperlink{classParticleContainer_a4d0542109501e6b5778fc9924aa96873}{begin}} ()
+\mbox{\hyperlink{classParticleContainer_a1f3b2cfe1e66a4592981b60b02aea3f4}{Particle\+Container}} (\mbox{\hyperlink{classParticleContainer_aa194fa64666e7feb0e2e7e2d9e38dd71}{size\+\_\+type}} \mbox{\hyperlink{classParticleContainer_a744c7992f608edfa5b7d1c7cfb55e4ad}{capacity}})
 \item 
-\mbox{\hyperlink{classParticleContainer_a62ccca3b880339a03e75e86e388ff4e0}{iterator}} \mbox{\hyperlink{classParticleContainer_a8b075fbd0e18acfe7e2636ca610d5882}{end}} ()
+\mbox{\hyperlink{classParticleContainer_a395648cf4068ebdea9260a2830d5e149}{iterator}} \mbox{\hyperlink{classParticleContainer_a4d0542109501e6b5778fc9924aa96873}{begin}} ()
 \item 
-\mbox{\hyperlink{classParticleContainer_af58ee14c05ed56fc4dec855ef1209885}{const\+\_\+iterator}} \mbox{\hyperlink{classParticleContainer_ab8b3a5983dc8af8eb2088623155f8cc6}{begin}} () const
+\mbox{\hyperlink{classParticleContainer_a395648cf4068ebdea9260a2830d5e149}{iterator}} \mbox{\hyperlink{classParticleContainer_a8b075fbd0e18acfe7e2636ca610d5882}{end}} ()
 \item 
-\mbox{\hyperlink{classParticleContainer_af58ee14c05ed56fc4dec855ef1209885}{const\+\_\+iterator}} \mbox{\hyperlink{classParticleContainer_a89ab2d5e488bfe4fb22b83a32010583f}{end}} () const
+\mbox{\hyperlink{classParticleContainer_ad27f7c53393d4906caa3f6f9f7ea2b82}{const\+\_\+iterator}} \mbox{\hyperlink{classParticleContainer_ab8b3a5983dc8af8eb2088623155f8cc6}{begin}} () const
+\item 
+\mbox{\hyperlink{classParticleContainer_ad27f7c53393d4906caa3f6f9f7ea2b82}{const\+\_\+iterator}} \mbox{\hyperlink{classParticleContainer_a89ab2d5e488bfe4fb22b83a32010583f}{end}} () const
 \item 
 void \mbox{\hyperlink{classParticleContainer_ae56518d8550675a26cdb1b6c894ab942}{clear}} ()
 \item 
-void \mbox{\hyperlink{classParticleContainer_ad57d3839f9359306538240e44cac99fb}{reserve}} (\mbox{\hyperlink{classParticleContainer_af10d10a23e3aa32c1c527233e10468db}{size\+\_\+type}} \mbox{\hyperlink{classParticleContainer_a744c7992f608edfa5b7d1c7cfb55e4ad}{capacity}})
+void \mbox{\hyperlink{classParticleContainer_ad57d3839f9359306538240e44cac99fb}{reserve}} (\mbox{\hyperlink{classParticleContainer_aa194fa64666e7feb0e2e7e2d9e38dd71}{size\+\_\+type}} \mbox{\hyperlink{classParticleContainer_a744c7992f608edfa5b7d1c7cfb55e4ad}{capacity}})
 \item 
-\mbox{\hyperlink{classParticleContainer_af10d10a23e3aa32c1c527233e10468db}{size\+\_\+type}} \mbox{\hyperlink{classParticleContainer_a0e6300ccea249cb7f51c39ef60586fed}{size}} () const
+\mbox{\hyperlink{classParticleContainer_aa194fa64666e7feb0e2e7e2d9e38dd71}{size\+\_\+type}} \mbox{\hyperlink{classParticleContainer_a0e6300ccea249cb7f51c39ef60586fed}{size}} () const
 \item 
-\mbox{\hyperlink{classParticleContainer_af10d10a23e3aa32c1c527233e10468db}{size\+\_\+type}} \mbox{\hyperlink{classParticleContainer_a744c7992f608edfa5b7d1c7cfb55e4ad}{capacity}} () const
+\mbox{\hyperlink{classParticleContainer_aa194fa64666e7feb0e2e7e2d9e38dd71}{size\+\_\+type}} \mbox{\hyperlink{classParticleContainer_a744c7992f608edfa5b7d1c7cfb55e4ad}{capacity}} () const
 \item 
 void \mbox{\hyperlink{classParticleContainer_a1cf7029e7af6140641846f3631a086ba}{emplace\+\_\+back}} (const \mbox{\hyperlink{structVec3D}{Vec3D}} position, const \mbox{\hyperlink{structVec3D}{Vec3D}} velocity, double mass, int type=0)
 \item 
-void \mbox{\hyperlink{classParticleContainer_a80ced6889b5a2698674037b8c5e8b295}{pushback}} (const \mbox{\hyperlink{classParticle}{Particle}} \&particle)
+void \mbox{\hyperlink{classParticleContainer_a50a807957852fd541e44c95b19ffd388}{pushback}} (const \mbox{\hyperlink{classParticle}{Particle}} \&p)
 \item 
-void \mbox{\hyperlink{classParticleContainer_abdcf9598ad97b375ce0d7defd1c93a68}{pushback}} (\mbox{\hyperlink{classParticle}{Particle}} \&\&particle)
+void \mbox{\hyperlink{classParticleContainer_a553038b23910a68055b4d6dc6a65ec9c}{pushback}} (\mbox{\hyperlink{classParticle}{Particle}} \&\&p)
 \item 
-{\footnotesize template$<$typename P $>$ }\\void \mbox{\hyperlink{classParticleContainer_a95cfe09ff678d0b8706d5623be52a9f4}{for\+Each\+Particle}} (P \&\&p)
-\item 
-{\footnotesize template$<$typename P $>$ }\\void \mbox{\hyperlink{classParticleContainer_a2dbb273eef2f35cc2bc115f283c30244}{for\+Each\+Particle\+Pair}} (P \&\&p)
-\item 
-{\footnotesize template$<$typename P $>$ }\\void \mbox{\hyperlink{classParticleContainer_ae28d31e8513354fce65f5778501673be}{for\+Each\+Particle\+Pair}} (P \&\&p) const
-\end{DoxyCompactItemize}
+void \mbox{\hyperlink{classParticleContainer_aea5712cffaf5c85696a23f155077a207}{for\+Each}} (const std\+::function$<$ void(\mbox{\hyperlink{classParticle}{Particle}} \&)$>$ \&callback)
+\begin{DoxyCompactList}\small\item\em Iteration over single particles. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classParticleContainer_a66096e8fdd2421c31baacbf7b520e8d0}{for\+Each\+Pair}} (const std\+::function$<$ void(\mbox{\hyperlink{classParticle}{Particle}} \&, \mbox{\hyperlink{classParticle}{Particle}} \&)$>$ \&callback)
+\begin{DoxyCompactList}\small\item\em Iteration over distinct particle pairs. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\hyperlink{classParticleContainer_aaf428dba851ef13f5871d8b60f6b48a0}{container\+\_\+t}} \mbox{\hyperlink{classParticleContainer_a88a44fa908d49fcb89c10e526515ea1a}{particles\+\_\+}}
+std\+::vector$<$ \mbox{\hyperlink{classParticle}{Particle}} $>$ \mbox{\hyperlink{classParticleContainer_a837d29fec29694cf90572fe943303776}{particles}}
 \end{DoxyCompactItemize}
 
 
 \doxysubsection{Detailed Description}
 Refactoring,owning container for \mbox{\hyperlink{classParticle}{Particle}} with simple iteration over particles and particle pairs. 
 
-
-
 \doxysubsection{Member Typedef Documentation}
-\mbox{\Hypertarget{classParticleContainer_af58ee14c05ed56fc4dec855ef1209885}\label{classParticleContainer_af58ee14c05ed56fc4dec855ef1209885}} 
+\mbox{\Hypertarget{classParticleContainer_ad27f7c53393d4906caa3f6f9f7ea2b82}\label{classParticleContainer_ad27f7c53393d4906caa3f6f9f7ea2b82}} 
 \index{ParticleContainer@{ParticleContainer}!const\_iterator@{const\_iterator}}
 \index{const\_iterator@{const\_iterator}!ParticleContainer@{ParticleContainer}}
 \doxysubsubsection{\texorpdfstring{const\_iterator}{const\_iterator}}
-{\footnotesize\ttfamily using \mbox{\hyperlink{classParticleContainer_af58ee14c05ed56fc4dec855ef1209885}{Particle\+Container\+::const\+\_\+iterator}} =  container\+\_\+t\+::const\+\_\+iterator}
+{\footnotesize\ttfamily typedef std\+::vector$<$\mbox{\hyperlink{classParticle}{Particle}}$>$\+::const\+\_\+iterator \mbox{\hyperlink{classParticleContainer_ad27f7c53393d4906caa3f6f9f7ea2b82}{Particle\+Container\+::const\+\_\+iterator}}}
 
-\mbox{\Hypertarget{classParticleContainer_aaf428dba851ef13f5871d8b60f6b48a0}\label{classParticleContainer_aaf428dba851ef13f5871d8b60f6b48a0}} 
-\index{ParticleContainer@{ParticleContainer}!container\_t@{container\_t}}
-\index{container\_t@{container\_t}!ParticleContainer@{ParticleContainer}}
-\doxysubsubsection{\texorpdfstring{container\_t}{container\_t}}
-{\footnotesize\ttfamily using \mbox{\hyperlink{classParticleContainer_aaf428dba851ef13f5871d8b60f6b48a0}{Particle\+Container\+::container\+\_\+t}} =  std\+::vector$<$\mbox{\hyperlink{classParticle}{Particle}}$>$}
-
-\mbox{\Hypertarget{classParticleContainer_a62ccca3b880339a03e75e86e388ff4e0}\label{classParticleContainer_a62ccca3b880339a03e75e86e388ff4e0}} 
+\mbox{\Hypertarget{classParticleContainer_a395648cf4068ebdea9260a2830d5e149}\label{classParticleContainer_a395648cf4068ebdea9260a2830d5e149}} 
 \index{ParticleContainer@{ParticleContainer}!iterator@{iterator}}
 \index{iterator@{iterator}!ParticleContainer@{ParticleContainer}}
 \doxysubsubsection{\texorpdfstring{iterator}{iterator}}
-{\footnotesize\ttfamily using \mbox{\hyperlink{classParticleContainer_a62ccca3b880339a03e75e86e388ff4e0}{Particle\+Container\+::iterator}} =  container\+\_\+t\+::iterator}
+{\footnotesize\ttfamily typedef std\+::vector$<$\mbox{\hyperlink{classParticle}{Particle}}$>$\+::iterator \mbox{\hyperlink{classParticleContainer_a395648cf4068ebdea9260a2830d5e149}{Particle\+Container\+::iterator}}}
 
-\mbox{\Hypertarget{classParticleContainer_af10d10a23e3aa32c1c527233e10468db}\label{classParticleContainer_af10d10a23e3aa32c1c527233e10468db}} 
+\mbox{\Hypertarget{classParticleContainer_aa194fa64666e7feb0e2e7e2d9e38dd71}\label{classParticleContainer_aa194fa64666e7feb0e2e7e2d9e38dd71}} 
 \index{ParticleContainer@{ParticleContainer}!size\_type@{size\_type}}
 \index{size\_type@{size\_type}!ParticleContainer@{ParticleContainer}}
 \doxysubsubsection{\texorpdfstring{size\_type}{size\_type}}
-{\footnotesize\ttfamily using \mbox{\hyperlink{classParticleContainer_af10d10a23e3aa32c1c527233e10468db}{Particle\+Container\+::size\+\_\+type}} =  container\+\_\+t\+::size\+\_\+type}
-
-\mbox{\Hypertarget{classParticleContainer_a704994bcca5da62feb91fb5e150f41eb}\label{classParticleContainer_a704994bcca5da62feb91fb5e150f41eb}} 
-\index{ParticleContainer@{ParticleContainer}!value\_type@{value\_type}}
-\index{value\_type@{value\_type}!ParticleContainer@{ParticleContainer}}
-\doxysubsubsection{\texorpdfstring{value\_type}{value\_type}}
-{\footnotesize\ttfamily using \mbox{\hyperlink{classParticleContainer_a704994bcca5da62feb91fb5e150f41eb}{Particle\+Container\+::value\+\_\+type}} =  \mbox{\hyperlink{classParticle}{Particle}}}
+{\footnotesize\ttfamily typedef std\+::vector$<$\mbox{\hyperlink{classParticle}{Particle}}$>$\+::size\+\_\+type \mbox{\hyperlink{classParticleContainer_aa194fa64666e7feb0e2e7e2d9e38dd71}{Particle\+Container\+::size\+\_\+type}}}
 
 
 
@@ -109,11 +91,17 @@ Refactoring,owning container for \mbox{\hyperlink{classParticle}{Particle}} with
 \doxysubsubsection{\texorpdfstring{ParticleContainer()}{ParticleContainer()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily Particle\+Container\+::\+Particle\+Container (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
 
+\mbox{\Hypertarget{classParticleContainer_aaff0467aec253a0239adc7abe1e33275}\label{classParticleContainer_aaff0467aec253a0239adc7abe1e33275}} 
+\index{ParticleContainer@{ParticleContainer}!````~ParticleContainer@{$\sim$ParticleContainer}}
+\index{````~ParticleContainer@{$\sim$ParticleContainer}!ParticleContainer@{ParticleContainer}}
+\doxysubsubsection{\texorpdfstring{$\sim$ParticleContainer()}{~ParticleContainer()}}
+{\footnotesize\ttfamily Particle\+Container\+::$\sim$\+Particle\+Container (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [default]}}
+
 \mbox{\Hypertarget{classParticleContainer_a1f3b2cfe1e66a4592981b60b02aea3f4}\label{classParticleContainer_a1f3b2cfe1e66a4592981b60b02aea3f4}} 
 \index{ParticleContainer@{ParticleContainer}!ParticleContainer@{ParticleContainer}}
 \index{ParticleContainer@{ParticleContainer}!ParticleContainer@{ParticleContainer}}
 \doxysubsubsection{\texorpdfstring{ParticleContainer()}{ParticleContainer()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily Particle\+Container\+::\+Particle\+Container (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classParticleContainer_af10d10a23e3aa32c1c527233e10468db}{size\+\_\+type}}}]{capacity }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
+{\footnotesize\ttfamily Particle\+Container\+::\+Particle\+Container (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classParticleContainer_aa194fa64666e7feb0e2e7e2d9e38dd71}{size\+\_\+type}}}]{capacity }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [explicit]}}
 
 
 
@@ -122,19 +110,19 @@ Refactoring,owning container for \mbox{\hyperlink{classParticle}{Particle}} with
 \index{ParticleContainer@{ParticleContainer}!begin@{begin}}
 \index{begin@{begin}!ParticleContainer@{ParticleContainer}}
 \doxysubsubsection{\texorpdfstring{begin()}{begin()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classParticleContainer_a62ccca3b880339a03e75e86e388ff4e0}{iterator}} Particle\+Container\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classParticleContainer_a395648cf4068ebdea9260a2830d5e149}{iterator}} Particle\+Container\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{classParticleContainer_ab8b3a5983dc8af8eb2088623155f8cc6}\label{classParticleContainer_ab8b3a5983dc8af8eb2088623155f8cc6}} 
 \index{ParticleContainer@{ParticleContainer}!begin@{begin}}
 \index{begin@{begin}!ParticleContainer@{ParticleContainer}}
 \doxysubsubsection{\texorpdfstring{begin()}{begin()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classParticleContainer_af58ee14c05ed56fc4dec855ef1209885}{const\+\_\+iterator}} Particle\+Container\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classParticleContainer_ad27f7c53393d4906caa3f6f9f7ea2b82}{const\+\_\+iterator}} Particle\+Container\+::begin (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{classParticleContainer_a744c7992f608edfa5b7d1c7cfb55e4ad}\label{classParticleContainer_a744c7992f608edfa5b7d1c7cfb55e4ad}} 
 \index{ParticleContainer@{ParticleContainer}!capacity@{capacity}}
 \index{capacity@{capacity}!ParticleContainer@{ParticleContainer}}
 \doxysubsubsection{\texorpdfstring{capacity()}{capacity()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classParticleContainer_af10d10a23e3aa32c1c527233e10468db}{size\+\_\+type}} Particle\+Container\+::capacity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classParticleContainer_aa194fa64666e7feb0e2e7e2d9e38dd71}{size\+\_\+type}} Particle\+Container\+::capacity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{classParticleContainer_ae56518d8550675a26cdb1b6c894ab942}\label{classParticleContainer_ae56518d8550675a26cdb1b6c894ab942}} 
 \index{ParticleContainer@{ParticleContainer}!clear@{clear}}
@@ -152,69 +140,68 @@ Refactoring,owning container for \mbox{\hyperlink{classParticle}{Particle}} with
 \index{ParticleContainer@{ParticleContainer}!end@{end}}
 \index{end@{end}!ParticleContainer@{ParticleContainer}}
 \doxysubsubsection{\texorpdfstring{end()}{end()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classParticleContainer_a62ccca3b880339a03e75e86e388ff4e0}{iterator}} Particle\+Container\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classParticleContainer_a395648cf4068ebdea9260a2830d5e149}{iterator}} Particle\+Container\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{classParticleContainer_a89ab2d5e488bfe4fb22b83a32010583f}\label{classParticleContainer_a89ab2d5e488bfe4fb22b83a32010583f}} 
 \index{ParticleContainer@{ParticleContainer}!end@{end}}
 \index{end@{end}!ParticleContainer@{ParticleContainer}}
 \doxysubsubsection{\texorpdfstring{end()}{end()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classParticleContainer_af58ee14c05ed56fc4dec855ef1209885}{const\+\_\+iterator}} Particle\+Container\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classParticleContainer_ad27f7c53393d4906caa3f6f9f7ea2b82}{const\+\_\+iterator}} Particle\+Container\+::end (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{classParticleContainer_a95cfe09ff678d0b8706d5623be52a9f4}\label{classParticleContainer_a95cfe09ff678d0b8706d5623be52a9f4}} 
-\index{ParticleContainer@{ParticleContainer}!forEachParticle@{forEachParticle}}
-\index{forEachParticle@{forEachParticle}!ParticleContainer@{ParticleContainer}}
-\doxysubsubsection{\texorpdfstring{forEachParticle()}{forEachParticle()}}
-{\footnotesize\ttfamily template$<$typename P $>$ \\
-void Particle\+Container\+::for\+Each\+Particle (\begin{DoxyParamCaption}\item[{P \&\&}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+\mbox{\Hypertarget{classParticleContainer_aea5712cffaf5c85696a23f155077a207}\label{classParticleContainer_aea5712cffaf5c85696a23f155077a207}} 
+\index{ParticleContainer@{ParticleContainer}!forEach@{forEach}}
+\index{forEach@{forEach}!ParticleContainer@{ParticleContainer}}
+\doxysubsubsection{\texorpdfstring{forEach()}{forEach()}}
+{\footnotesize\ttfamily void Particle\+Container\+::for\+Each (\begin{DoxyParamCaption}\item[{const std\+::function$<$ void(\mbox{\hyperlink{classParticle}{Particle}} \&)$>$ \&}]{callback }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
-iteration for single particles \mbox{\Hypertarget{classParticleContainer_a2dbb273eef2f35cc2bc115f283c30244}\label{classParticleContainer_a2dbb273eef2f35cc2bc115f283c30244}} 
-\index{ParticleContainer@{ParticleContainer}!forEachParticlePair@{forEachParticlePair}}
-\index{forEachParticlePair@{forEachParticlePair}!ParticleContainer@{ParticleContainer}}
-\doxysubsubsection{\texorpdfstring{forEachParticlePair()}{forEachParticlePair()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily template$<$typename P $>$ \\
-void Particle\+Container\+::for\+Each\+Particle\+Pair (\begin{DoxyParamCaption}\item[{P \&\&}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
-iteration for particle pairs \mbox{\Hypertarget{classParticleContainer_ae28d31e8513354fce65f5778501673be}\label{classParticleContainer_ae28d31e8513354fce65f5778501673be}} 
-\index{ParticleContainer@{ParticleContainer}!forEachParticlePair@{forEachParticlePair}}
-\index{forEachParticlePair@{forEachParticlePair}!ParticleContainer@{ParticleContainer}}
-\doxysubsubsection{\texorpdfstring{forEachParticlePair()}{forEachParticlePair()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily template$<$typename P $>$ \\
-void Particle\+Container\+::for\+Each\+Particle\+Pair (\begin{DoxyParamCaption}\item[{P \&\&}]{p }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{classParticleContainer_a80ced6889b5a2698674037b8c5e8b295}\label{classParticleContainer_a80ced6889b5a2698674037b8c5e8b295}} 
+Iteration over single particles. 
+
+\mbox{\Hypertarget{classParticleContainer_a66096e8fdd2421c31baacbf7b520e8d0}\label{classParticleContainer_a66096e8fdd2421c31baacbf7b520e8d0}} 
+\index{ParticleContainer@{ParticleContainer}!forEachPair@{forEachPair}}
+\index{forEachPair@{forEachPair}!ParticleContainer@{ParticleContainer}}
+\doxysubsubsection{\texorpdfstring{forEachPair()}{forEachPair()}}
+{\footnotesize\ttfamily void Particle\+Container\+::for\+Each\+Pair (\begin{DoxyParamCaption}\item[{const std\+::function$<$ void(\mbox{\hyperlink{classParticle}{Particle}} \&, \mbox{\hyperlink{classParticle}{Particle}} \&)$>$ \&}]{callback }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Iteration over distinct particle pairs. 
+
+\mbox{\Hypertarget{classParticleContainer_a50a807957852fd541e44c95b19ffd388}\label{classParticleContainer_a50a807957852fd541e44c95b19ffd388}} 
 \index{ParticleContainer@{ParticleContainer}!pushback@{pushback}}
 \index{pushback@{pushback}!ParticleContainer@{ParticleContainer}}
 \doxysubsubsection{\texorpdfstring{pushback()}{pushback()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
-{\footnotesize\ttfamily void Particle\+Container\+::pushback (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classParticle}{Particle}} \&}]{particle }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily void Particle\+Container\+::pushback (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classParticle}{Particle}} \&}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
-\mbox{\Hypertarget{classParticleContainer_abdcf9598ad97b375ce0d7defd1c93a68}\label{classParticleContainer_abdcf9598ad97b375ce0d7defd1c93a68}} 
+\mbox{\Hypertarget{classParticleContainer_a553038b23910a68055b4d6dc6a65ec9c}\label{classParticleContainer_a553038b23910a68055b4d6dc6a65ec9c}} 
 \index{ParticleContainer@{ParticleContainer}!pushback@{pushback}}
 \index{pushback@{pushback}!ParticleContainer@{ParticleContainer}}
 \doxysubsubsection{\texorpdfstring{pushback()}{pushback()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
-{\footnotesize\ttfamily void Particle\+Container\+::pushback (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classParticle}{Particle}} \&\&}]{particle }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily void Particle\+Container\+::pushback (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classParticle}{Particle}} \&\&}]{p }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{classParticleContainer_ad57d3839f9359306538240e44cac99fb}\label{classParticleContainer_ad57d3839f9359306538240e44cac99fb}} 
 \index{ParticleContainer@{ParticleContainer}!reserve@{reserve}}
 \index{reserve@{reserve}!ParticleContainer@{ParticleContainer}}
 \doxysubsubsection{\texorpdfstring{reserve()}{reserve()}}
-{\footnotesize\ttfamily void Particle\+Container\+::reserve (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classParticleContainer_af10d10a23e3aa32c1c527233e10468db}{size\+\_\+type}}}]{capacity }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily void Particle\+Container\+::reserve (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classParticleContainer_aa194fa64666e7feb0e2e7e2d9e38dd71}{size\+\_\+type}}}]{capacity }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
 
 \mbox{\Hypertarget{classParticleContainer_a0e6300ccea249cb7f51c39ef60586fed}\label{classParticleContainer_a0e6300ccea249cb7f51c39ef60586fed}} 
 \index{ParticleContainer@{ParticleContainer}!size@{size}}
 \index{size@{size}!ParticleContainer@{ParticleContainer}}
 \doxysubsubsection{\texorpdfstring{size()}{size()}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classParticleContainer_af10d10a23e3aa32c1c527233e10468db}{size\+\_\+type}} Particle\+Container\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classParticleContainer_aa194fa64666e7feb0e2e7e2d9e38dd71}{size\+\_\+type}} Particle\+Container\+::size (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
 
 
 
 \doxysubsection{Member Data Documentation}
-\mbox{\Hypertarget{classParticleContainer_a88a44fa908d49fcb89c10e526515ea1a}\label{classParticleContainer_a88a44fa908d49fcb89c10e526515ea1a}} 
-\index{ParticleContainer@{ParticleContainer}!particles\_@{particles\_}}
-\index{particles\_@{particles\_}!ParticleContainer@{ParticleContainer}}
-\doxysubsubsection{\texorpdfstring{particles\_}{particles\_}}
-{\footnotesize\ttfamily \mbox{\hyperlink{classParticleContainer_aaf428dba851ef13f5871d8b60f6b48a0}{container\+\_\+t}} Particle\+Container\+::particles\+\_\+\hspace{0.3cm}{\ttfamily [private]}}
+\mbox{\Hypertarget{classParticleContainer_a837d29fec29694cf90572fe943303776}\label{classParticleContainer_a837d29fec29694cf90572fe943303776}} 
+\index{ParticleContainer@{ParticleContainer}!particles@{particles}}
+\index{particles@{particles}!ParticleContainer@{ParticleContainer}}
+\doxysubsubsection{\texorpdfstring{particles}{particles}}
+{\footnotesize\ttfamily std\+::vector$<$\mbox{\hyperlink{classParticle}{Particle}}$>$ Particle\+Container\+::particles\hspace{0.3cm}{\ttfamily [private]}}
 
-
+Internal storage of particles. 
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 

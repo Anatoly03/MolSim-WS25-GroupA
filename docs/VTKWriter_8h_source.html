@@ -92,27 +92,27 @@ $(function() {
 <div class="line"><a id="l00014" name="l00014"></a><span class="lineno">   14</span><span class="preprocessor">#include &lt;list&gt;</span></div>
 <div class="line"><a id="l00015" name="l00015"></a><span class="lineno">   15</span><span class="preprocessor">#include &lt;string&gt;</span></div>
 <div class="line"><a id="l00016" name="l00016"></a><span class="lineno">   16</span> </div>
-<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &quot;<a class="code" href="Particle_8h.html">Particle.h</a>&quot;</span></div>
-<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &quot;../ParticleContainer.h&quot;</span></div>
+<div class="line"><a id="l00017" name="l00017"></a><span class="lineno">   17</span><span class="preprocessor">#include &quot;../ParticleContainer.h&quot;</span></div>
+<div class="line"><a id="l00018" name="l00018"></a><span class="lineno">   18</span><span class="preprocessor">#include &quot;<a class="code" href="Particle_8h.html">Particle.h</a>&quot;</span></div>
 <div class="line"><a id="l00019" name="l00019"></a><span class="lineno">   19</span> </div>
 <div class="line"><a id="l00020" name="l00020"></a><span class="lineno">   20</span><span class="keyword">namespace </span><a class="code hl_namespace" href="namespaceoutputWriter.html">outputWriter</a> {</div>
 <div class="line"><a id="l00021" name="l00021"></a><span class="lineno">   21</span> </div>
 <div class="line"><a id="l00026" name="l00026"></a><span class="lineno">   26</span><span class="keyword">class </span>VTKWriter {</div>
-<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span> <span class="keyword">public</span>:</div>
-<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>  VTKWriter() = <span class="keywordflow">default</span>;</div>
-<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>  ~VTKWriter() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00027" name="l00027"></a><span class="lineno">   27</span>   <span class="keyword">public</span>:</div>
+<div class="line"><a id="l00028" name="l00028"></a><span class="lineno">   28</span>    VTKWriter() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a id="l00029" name="l00029"></a><span class="lineno">   29</span>    ~VTKWriter() = <span class="keywordflow">default</span>;</div>
 <div class="line"><a id="l00030" name="l00030"></a><span class="lineno">   30</span> </div>
-<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>  <span class="comment">// Delete copy constructor and assignment operator</span></div>
-<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>  VTKWriter(<span class="keyword">const</span> VTKWriter &amp;) = <span class="keyword">delete</span>;</div>
-<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>  VTKWriter &amp;operator=(<span class="keyword">const</span> VTKWriter &amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00031" name="l00031"></a><span class="lineno">   31</span>    <span class="comment">// Delete copy constructor and assignment operator</span></div>
+<div class="line"><a id="l00032" name="l00032"></a><span class="lineno">   32</span>    VTKWriter(<span class="keyword">const</span> VTKWriter &amp;) = <span class="keyword">delete</span>;</div>
+<div class="line"><a id="l00033" name="l00033"></a><span class="lineno">   33</span>    VTKWriter &amp;operator=(<span class="keyword">const</span> VTKWriter &amp;) = <span class="keyword">delete</span>;</div>
 <div class="line"><a id="l00034" name="l00034"></a><span class="lineno">   34</span> </div>
-<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>  <span class="keywordtype">void</span> <a class="code hl_function" href="MolSim_8cpp.html#a9ef692d7dd1cbde4a29d99732bcbc7fb">plotParticles</a>(<a class="code hl_class" href="classParticleContainer.html">ParticleContainer</a> <a class="code hl_variable" href="MolSim_8cpp.html#a6b352757b6951d85f71bd9cbc47cf619">particles</a>, <span class="keyword">const</span> std::string &amp;filename, <span class="keywordtype">int</span> iteration);</div>
+<div class="line"><a id="l00041" name="l00041"></a><span class="lineno">   41</span>    <span class="keywordtype">void</span> <a class="code hl_function" href="MolSim_8cpp.html#a9ef692d7dd1cbde4a29d99732bcbc7fb">plotParticles</a>(<a class="code hl_class" href="classParticleContainer.html">ParticleContainer</a> <a class="code hl_variable" href="MolSim_8cpp.html#a6b352757b6951d85f71bd9cbc47cf619">particles</a>, <span class="keyword">const</span> std::string &amp;filename, <span class="keywordtype">int</span> iteration);</div>
 <div class="line"><a id="l00042" name="l00042"></a><span class="lineno">   42</span>};</div>
 <div class="line"><a id="l00043" name="l00043"></a><span class="lineno">   43</span> </div>
 <div class="line"><a id="l00044" name="l00044"></a><span class="lineno">   44</span>}  <span class="comment">// namespace outputWriter</span></div>
 <div class="line"><a id="l00045" name="l00045"></a><span class="lineno">   45</span><span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aMolSim_8cpp_html_a6b352757b6951d85f71bd9cbc47cf619"><div class="ttname"><a href="MolSim_8cpp.html#a6b352757b6951d85f71bd9cbc47cf619">particles</a></div><div class="ttdeci">static ParticleContainer particles</div><div class="ttdef"><b>Definition:</b> MolSim.cpp:20</div></div>
-<div class="ttc" id="aMolSim_8cpp_html_a9ef692d7dd1cbde4a29d99732bcbc7fb"><div class="ttname"><a href="MolSim_8cpp.html#a9ef692d7dd1cbde4a29d99732bcbc7fb">plotParticles</a></div><div class="ttdeci">void plotParticles(int iteration, const char *output_path)</div><div class="ttdef"><b>Definition:</b> MolSim.cpp:122</div></div>
+<div class="ttc" id="aMolSim_8cpp_html_a9ef692d7dd1cbde4a29d99732bcbc7fb"><div class="ttname"><a href="MolSim_8cpp.html#a9ef692d7dd1cbde4a29d99732bcbc7fb">plotParticles</a></div><div class="ttdeci">void plotParticles(int iteration, const char *output_path)</div><div class="ttdef"><b>Definition:</b> MolSim.cpp:113</div></div>
 <div class="ttc" id="aParticle_8h_html"><div class="ttname"><a href="Particle_8h.html">Particle.h</a></div></div>
 <div class="ttc" id="aclassParticleContainer_html"><div class="ttname"><a href="classParticleContainer.html">ParticleContainer</a></div><div class="ttdoc">Refactoring,owning container for Particle with simple iteration over particles and particle pairs.</div><div class="ttdef"><b>Definition:</b> ParticleContainer.h:16</div></div>
 <div class="ttc" id="anamespaceoutputWriter_html"><div class="ttname"><a href="namespaceoutputWriter.html">outputWriter</a></div><div class="ttdef"><b>Definition:</b> XYZWriter.cpp:16</div></div>
