@@ -22,4 +22,4 @@ if(ENABLE_DOXYGEN)
     )
 endif()
 
-add_custom_target(docs COMMAND doxygen Doxyfile)
+add_custom_target(doc_doxygen COMMAND doxygen Doxyfile)

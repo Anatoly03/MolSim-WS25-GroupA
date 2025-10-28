@@ -42,11 +42,6 @@ void calculateVelocity(double dt);
 void plotParticles(int iteration, const char *output_path);
 
 /**
- * copy the list from FileReader into ParticleConatiner
- */
-static void loadParticleContainer(std::list<Particle> &src, ParticleContainer &dst);
-
-/**
  * @brief The program entry point is the Rahmenprogramm which after getting all
  * variables calls the molecular simulation methods.
  */

@@ -62,7 +62,7 @@ void FileReader::readFile(ParticleContainer &particles, char *filename) {
             std::cout << "Read line: " << tmp_string << std::endl;
         }
     } else {
-        std::cout << "Error: could not open file " << filename << std::endl;
+        std::cout << "error: could not open file " << filename << std::endl;
         exit(-1);
     }
 }

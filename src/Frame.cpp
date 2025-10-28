@@ -38,7 +38,7 @@ void printHelp(const char *progname) {
  */
 [[noreturn]]
 void printUsage(const char *progname) {
-    fprintf(stderr, "Usage: %s [file]\n", progname);
+    fprintf(stderr, "Usage: %s -h\n", progname);
     exit(1);
 }
 
@@ -108,7 +108,7 @@ Args ProcessArgs(int argc, char *argv[]) {
         args.input_file = argv[optind];
         optind++;
     } else {
-        fprintf(stderr, "missing positional argument: input file");
+        fprintf(stderr, "error: missing positional argument: input file\n");
         printUsage(progname);
     }
 
@@ -117,7 +117,7 @@ Args ProcessArgs(int argc, char *argv[]) {
         args.output_path = const_cast<char *>("MD_vtk");
     } else {
         if (!createPath(args.output_path)) {
-            fprintf(stderr, "error creating output directory\n");
+            fprintf(stderr, "error: could not create output directory\n");
             printUsage(progname);
         }
     }
