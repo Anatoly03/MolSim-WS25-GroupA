@@ -1,5 +1,15 @@
 #include "Frame.h"
 
+#include <errno.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+
+// https://stackoverflow.com/a/42906151 mkdir needs wrapper on windows subsystems
+#ifdef _WIN32
+#include <direct.h>
+#define mkdir(path, mode) _mkdir(path)
+#endif
+
 /**
  * @brief Print help message and exit
  */
@@ -11,10 +21,14 @@ void printHelp(const char *progname) {
             "Input File Format:\n"
             "  The input file contains the initial configuration of the particles.\n\n"
             "Options:\n"
+            "  -o, --output <path>   output path, file name after last slash (default: ./MD_vtk, example: "
+            "path/to/output/vtk)\n"
             "  -t, --time <int>      total simulation time (default: 1000)\n"
             "  -d, --delta <float>   time step delta (default: 0.014)\n"
-            "  -h, --help            print this help message\n",
-            progname);
+            "  -h, --help            print this help message\n\n"
+            "Example:\n"
+            "  %s input.txt -o output/simulation -t 500 -d 0.01\n",
+            progname, progname);
     exit(1);
 }
 
@@ -26,6 +40,35 @@ void printHelp(const char *progname) {
 void printUsage(const char *progname) {
     fprintf(stderr, "Usage: %s [file]\n", progname);
     exit(1);
+}
+
+/**
+ * @brief Preprocess output option to create the folders if not
+ * existing and retrieve pattern.
+ * @return True if successful, false in case of an error.
+ * @details Recursive function creating all necessary folders. This
+ * should be run directly after the project arguments have been processed.
+ */
+bool createPath(const char *output_pattern, const char *directory_offset = "") {
+    std::string out_str(output_pattern);
+    size_t first_slash = out_str.find_first_of("/\\");
+
+    // the path has no folder anymore, it's the filename then
+    if (first_slash == std::string::npos) {
+        return true;
+    }
+
+    std::string folder(directory_offset + out_str.substr(0, first_slash + 1));
+
+    // create folder if not existing
+    if (mkdir(folder.c_str(), 0777) && errno != EEXIST) {
+        return false;
+    }
+
+    // recursive call for next folder
+    createPath(out_str.substr(first_slash + 1).c_str(), folder.c_str());
+
+    return true;
 }
 
 /**
@@ -48,6 +91,9 @@ Args ProcessArgs(int argc, char *argv[]) {
             case 'd':
                 args.delta_t = atof(optarg);
                 break;
+            case 'o':
+                args.output_path = const_cast<char *>(optarg);
+                break;
 
             case 'h':  // -h or --help
             case '?':  // unrecognized option
@@ -64,6 +110,16 @@ Args ProcessArgs(int argc, char *argv[]) {
     } else {
         fprintf(stderr, "missing positional argument: input file");
         printUsage(progname);
+    }
+
+    // preprocess output option if not provided
+    if (args.output_path == nullptr) {
+        args.output_path = const_cast<char *>("MD_vtk");
+    } else {
+        if (!createPath(args.output_path)) {
+            fprintf(stderr, "error creating output directory\n");
+            printUsage(progname);
+        }
     }
 
     return args;

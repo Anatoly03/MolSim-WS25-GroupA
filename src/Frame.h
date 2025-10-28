@@ -8,12 +8,13 @@
 
 #include <iostream>
 
-const char *const OPTSTRING = "ht:d:";
+const char *const OPTSTRING = "ho:t:d:";
 
 /**
  * @brief Definition of all long options.
  */
-const option GETOPT_LONG[] = {{"time", required_argument, 0, 't'},
+const option GETOPT_LONG[] = {{"output", required_argument, 0, 'o'},
+                              {"time", required_argument, 0, 't'},
                               {"delta", required_argument, 0, 'd'},
                               {"help", no_argument, 0, 'h'},
                               {0, 0, 0, 0}};
@@ -23,13 +24,14 @@ const option GETOPT_LONG[] = {{"time", required_argument, 0, 't'},
  */
 struct Args {
     char *input_file;
+    char *output_path;
 
     double start_time = 0;
     double end_time = 1000;
     double delta_t = 0.014;
 
-    // constructor with default values
-    Args() : input_file(NULL), start_time(0), end_time(1000), delta_t(0.014) {}
+    Args() = default;
+    ~Args() = default;
 };
 
 /**
