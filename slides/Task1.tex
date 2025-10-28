@@ -2,7 +2,7 @@
 \usepackage{babel}
 % \usepackage[german]{babel}
 
-\usepackage{tikz, transparent, colortbl, pgfplots}
+\usepackage{tikz, transparent, colortbl, listings, pgfplots}
 \usepackage[export]{adjustbox}
 \usepackage[skins,theorems]{tcolorbox}
  
@@ -10,6 +10,29 @@
 \setbeamercovered{transparent}
 \pgfplotsset{compat=1.18}
 \tcbset{highlight math style={enhanced,colframe=red,colback=white,arc=0pt,boxrule=1pt}}
+
+%
+% Cited from Ausarbeitung/aspdoc.cls
+%
+\lstset{
+    language=C++,
+    basicstyle=\upshape\footnotesize\ttfamily,
+    numbers=left,                   % where to put the line-numbers
+    numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+    numbersep=5pt,                  % how far the line-numbers are from the code
+    showstringspaces=false,
+    frame=single,                   % adds a frame around the code
+    rulecolor=\color{black},
+    tabsize=2,                      % sets default tabsize to 2 spaces
+    captionpos=b,                   % sets the caption-position to bottom
+    breaklines=true,                % sets automatic line breaking
+    breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+    title=\lstname,                 % show the filename of files included with \lstinputlisting;
+    keywordstyle=\color{blue},      % keyword style
+    commentstyle=\color{dkgreen},   % comment style
+    stringstyle=\color{mauve},      % string literal style
+    escapeinside={\%*}{*)},         % if you want to add LaTeX within your code
+}
 
 % Useful Read:
 % https://www.overleaf.com/learn/latex/Beamer
@@ -146,6 +169,42 @@
     Conclusion: \red{Results deviate for different $\Delta t$!}
 
     Follow-up question: \blue{How to choose an appropriate $\Delta t$?}
+\end{frame}
+
+\simpleframe\begin{frame}[fragile]{Code Refactoring done right}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{lstlisting}
+const std::array<double, 3>& x
+const std::array<double, 3>& v
+x = add_arrays(x, v);
+            \end{lstlisting}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{lstlisting}
+const Vec3D& position
+const Vec3D& velocity
+position += velocity;
+            \end{lstlisting}
+        \end{column}
+    \end{columns}
+
+    \vspace{-0.25cm}
+    We replaced \texttt{std::array<double, 3>} with a custom \texttt{Vec3} class that overloads operators for better readability.
+    \vspace{0.25cm}
+
+    \begin{lstlisting}
+struct Vec3 {
+    double x, y, z;
+
+    Vec3& operator+=(const Vec3& other) {
+        x += other.x;
+        y += other.y;
+        z += other.z;
+        return *this;
+    }
+};
+    \end{lstlisting}
 \end{frame}
 
 \headerframe\begin{frame}{That's it – for now, at least}
