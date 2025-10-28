@@ -7,9 +7,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 # Options
 option(ENABLE_VTK_OUTPUT "Enable VTK output support" ON)
 
-
-
-
 # define project name, version
 project(PSEMolDyn VERSION 0.0.1 LANGUAGES CXX)
 
@@ -43,7 +40,7 @@ target_include_directories(MolSim
 # depending on the compiler different flags are used
 target_compile_options(MolSim
         PRIVATE
-            $<$<CXX_COMPILER_ID:GNU>:-Wall>
+            $<$<CXX_COMPILER_ID:GNU>:-Wall -Wextra -Wpedantic -Werror>
             # disable some spam warnings for icpc...
             $<$<CXX_COMPILER_ID:Intel>:-w3 -wd383,981,1418,1572,2259>
 )

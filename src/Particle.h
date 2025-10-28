@@ -9,76 +9,135 @@
 
 #include <array>
 #include <string>
+
 #include "math/Vec3.h"
 
 class Particle {
- private:
-  /**
-   * Position of the particle
-   */
-  Vec3D position;
+   private:
+    /**
+     * @brief Position of the particle
+     */
+    Vec3D position;
 
-  /**
-   * Velocity of the particle
-   */
-  Vec3D velocity;
+    /**
+     * @brief Velocity of the particle
+     */
+    Vec3D velocity;
 
-  /**
-   * Force effective on this particle
-   */
-  Vec3D force;
+    /**
+     * @brief Force effective on this particle
+     */
+    Vec3D force;
 
-  /**
-   * Force which was effective on this particle
-   */
-  Vec3D old_force;
+    /**
+     * @brief Force which was effective on this particle
+     */
+    Vec3D old_force;
 
-  /**
-   * Mass of this particle
-   */
-  double mass;
+    /**
+     * @brief Mass of this particle
+     */
+    double mass;
 
-  /**
-   * Type of the particle. Use it for whatever you want (e.g. to separate
-   * molecules belonging to different bodies, matters, and so on)
-   */
-  int type;
+    /**
+     * @brief Type of the particle.
+     * @note Use it for whatever you want (e.g. to separate
+     * molecules belonging to different bodies, matters, and so on)
+     */
+    int type;
 
- public:
-  explicit Particle(int type = 0);
+   public:
+    /**
+     * @brief Default constructor for Particle.
+     */
+    explicit Particle(int type = 0);
 
-  Particle(const Particle &other);
+    /**
+     * @brief Copy constructor for Particle.
+     */
+    Particle(const Particle &other);
 
-  Particle(
-      // for visualization, we need always 3 coordinates
-      // -> in case of 2d, we use only the first and the second
-      Vec3D pos_arg, Vec3D vel_arg, double mass_arg, int type = 0);
+    /**
+     * @brief Multi-argument constructor for Particle.
+     */
+    // for visualization, we need always 3 coordinates
+    // -> in case of 2d, we use only the first and the second
+    Particle(Vec3D pos_arg, Vec3D vel_arg, double mass_arg, int type = 0);
 
-  virtual ~Particle();
+    /**
+     * @brief Particle destructor.
+     */
+    virtual ~Particle();
 
-  const Vec3D &getPosition() const;
+    /**
+     * @brief Copy constructor for Particle.
+     * @note Deep copy.
+     */
+    Particle clone() const;
 
-  const Vec3D &getVelocity() const;
+    /**
+     * @brief Get the position of this Particle.
+     */
+    const Vec3D &getPosition() const;
 
-  const Vec3D &getForce() const;
+    /**
+     * @brief Get the velocity of this Particle.
+     */
+    const Vec3D &getVelocity() const;
 
-  void setPosition(Vec3D &position_);
+    /**
+     * @brief Get the force effective on this Particle.
+     */
+    const Vec3D &getForce() const;
 
-  void setVelocity(Vec3D &velocity_);
+    /**
+     * @brief Set the position of this Particle.
+     */
+    void setPosition(const Vec3D &position_);
 
-  void setForce(Vec3D &force_);
+    /**
+     * @brief Set the velocity of this Particle.
+     */
+    void setVelocity(const Vec3D &velocity_);
 
-  void delayForce();
+    /**
+     * @brief Set the force effective on this Particle.
+     */
+    void setForce(const Vec3D &force_);
 
-  const Vec3D &getOldForce() const;
+    /**
+     * @brief Push force to old force and reset current force to zero.
+     */
+    void delayForce();
 
-  double getMass() const;
+    /**
+     * @brief Retrieve the old force of the Particle. It is the force
+     * delayed by one time step.
+     */
+    const Vec3D &getOldForce() const;
 
-  int getType() const;
+    /**
+     * @brief Retrieve the mass of the Particle.
+     */
+    double getMass() const;
 
-  bool operator==(Particle &other);
+    /**
+     * @brief Reserved.
+     */
+    int getType() const;
 
-  std::string toString() const;
+    /**
+     * @brief Equivalence operation for Particle.
+     */
+    bool operator==(const Particle &other) const {
+        return position == other.position && velocity == other.velocity && force == other.force && type == other.type &&
+               mass == other.mass && old_force == other.old_force;
+    }
+
+    /**
+     * @brief String representation of the Particle.
+     */
+    std::string toString() const;
 };
 
 std::ostream &operator<<(std::ostream &stream, Particle &p);

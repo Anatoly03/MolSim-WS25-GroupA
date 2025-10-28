@@ -9,9 +9,9 @@
 #include "ParticleContainer.h"
 
 class FileReader {
- public:
-  FileReader();
-  virtual ~FileReader();
+   public:
+    FileReader();
+    virtual ~FileReader();
 
-  void readFile(ParticleContainer& particles, char *filename);
+    void readFile(ParticleContainer &particles, char *filename);
 };

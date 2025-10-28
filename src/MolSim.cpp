@@ -1,7 +1,7 @@
 
+#include <cmath>
 #include <iostream>
 #include <list>
-#include <cmath>
 
 #include "FileReader.h"
 #include "Frame.h"
@@ -9,9 +9,9 @@
 #include "utils/ArrayUtils.h"
 
 #ifdef ENABLE_VTK_OUTPUT
-    #include "outputWriter/VTKWriter.h"
+#include "outputWriter/VTKWriter.h"
 #else
-    #include "outputWriter/XYZWriter.h"
+#include "outputWriter/XYZWriter.h"
 #endif
 
 /**
@@ -39,87 +39,78 @@ void calculateVelocity(double dt);
 /**
  * plot the particles to a xyz-file
  */
-void plotParticles(int iteration, const char* output_path);
+void plotParticles(int iteration, const char *output_path);
 
 /**
- * copy the list from FileReader into ParticleConatiner
- */
-static void loadParticleContainer(std::list<Particle>& src, ParticleContainer& dst);
-
-/**
- * The program entry point is the Rahmenprogramm which after getting all variables
- * calls the molecular simulation methods.
+ * @brief The program entry point is the Rahmenprogramm which after getting all
+ * variables calls the molecular simulation methods.
  */
 int main(int argc, char *argsv[]) {
-  const auto args = ProcessArgs(argc, argsv);
+    const auto args = ProcessArgs(argc, argsv);
 
-  FileReader fileReader;
-  fileReader.readFile(particles, args.input_file);
+    FileReader fileReader;
+    fileReader.readFile(particles, args.input_file);
 
-  double current_time = args.start_time;
+    double current_time = args.start_time;
 
-  int iteration = 0;
+    int iteration = 0;
 
-  // for this loop, we assume: current x, current f and current v are known
-  while (current_time < args.end_time) {
-    calculatePosition(args.delta_t);
-    calculateForce();
-    calculateVelocity(args.delta_t);
+    // for this loop, we assume: current x, current f and current v are known
+    while (current_time < args.end_time) {
+        calculatePosition(args.delta_t);
+        calculateForce();
+        calculateVelocity(args.delta_t);
 
-    iteration++;
-    if (iteration % 10 == 0) {
-      plotParticles(iteration, args.output_path);
+        iteration++;
+        if (iteration % 10 == 0) {
+            plotParticles(iteration, args.output_path);
+        }
+        std::cout << "Iteration " << iteration << " finished." << std::endl;
+
+        current_time += args.delta_t;
     }
-    std::cout << "Iteration " << iteration << " finished." << std::endl;
 
-    current_time += args.delta_t;
-  }
-
-  std::cout << "output written. Terminating..." << std::endl;
-  return 0;
+    std::cout << "output written. Terminating..." << std::endl;
+    return 0;
 }
 
 void calculateForce() {
-  // save old force and initialization
-  particles.forEachParticle([](Particle& particle) {
-    particle.delayForce();
-  });
+    particles.forEach([](Particle &particle) {
+        Vec3D force(0);
 
-  // accumulate as pair
-  particles.forEachParticlePair([](Particle& a, Particle& b) {
-    Vec3D diffX = b.getPosition() - a.getPosition();
-    double distance = diffX.length();
-    if (distance == 0.0) return;
-    double mulMass = a.getMass() * b.getMass();
+        particles.forEach([&particle, &force](const Particle &other) {
+            if (other == particle) return;
 
-    Vec3D force = diffX * mulMass / pow(distance, 3);
+            Vec3D diffX = other.getPosition() - particle.getPosition();
+            double distance = diffX.length();
+            double mulMass = particle.getMass() * other.getMass();
+            if (distance == 0.0) return;
 
-    auto forceA = a.getForce();
-    forceA += force;
-    a.setForce(forceA);
+            force += diffX * (mulMass / (std::pow(distance, 3)));
+        });
 
-    auto forceB = b.getForce();
-    forceB -= force;
-    b.setForce(forceB);
-  });
-
+        particle.delayForce();
+        particle.setForce(force);
+    });
 }
 
-void calculatePosition(double dt) {
-    for (auto &p : particles) {
-        Vec3D x = p.getPosition() + dt * p.getVelocity() + std::pow(dt, 2) * p.getForce() / (2 * p.getMass());
-        p.setPosition(x);
-    }
+void calculatePosition(const double dt) {
+    particles.forEach([dt](Particle &particle) {
+        Vec3D x = particle.getPosition() + dt * particle.getVelocity() +
+                  std::pow(dt, 2) * particle.getForce() / (2 * particle.getMass());
+        particle.setPosition(x);
+    });
 }
 
-void calculateVelocity(double dt) {
-    for (auto &p : particles) {
-        Vec3D v = p.getVelocity() + dt * ((p.getForce() + p.getOldForce()) / (2 * p.getMass()));
-        p.setVelocity(v);
-    }
+void calculateVelocity(const double dt) {
+    particles.forEach([dt](Particle &particle) {
+        Vec3D v =
+            particle.getVelocity() + dt * ((particle.getForce() + particle.getOldForce()) / (2 * particle.getMass()));
+        particle.setVelocity(v);
+    });
 }
 
-void plotParticles(int iteration, const char* output_path) {
+void plotParticles(int iteration, const char *output_path) {
     std::string out_name(output_path);
 #ifdef ENABLE_VTK_OUTPUT
     outputWriter::VTKWriter writerVTK;

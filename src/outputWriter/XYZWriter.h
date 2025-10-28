@@ -15,7 +15,7 @@
 namespace outputWriter {
 
 class XYZWriter {
-public:
+   public:
     XYZWriter();
 
     virtual ~XYZWriter();
@@ -23,4 +23,4 @@ public:
     void plotParticles(ParticleContainer particles, const std::string &filename, int iteration);
 };
 
-}
+}  // namespace outputWriter

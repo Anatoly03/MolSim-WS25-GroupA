@@ -1,8 +1,8 @@
 #include "Frame.h"
 
+#include <errno.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <errno.h>
 
 // https://stackoverflow.com/a/42906151 mkdir needs wrapper on windows subsystems
 #ifdef _WIN32
@@ -14,21 +14,21 @@
  * @brief Print help message and exit
  */
 [[noreturn]]
-void printHelp(const char * progname) {
+void printHelp(const char *progname) {
     fprintf(stderr,
-        "Usage:\n"
-        "  %s [input] [options]\n\n"
-        "Input File Format:\n"
-        "  The input file contains the initial configuration of the particles.\n\n"
-        "Options:\n"
-        "  -o, --output <path>   output path, file name after last slash (default: ./MD_vtk, example: path/to/output/vtk)\n"
-        "  -t, --time <int>      total simulation time (default: 1000)\n"
-        "  -d, --delta <float>   time step delta (default: 0.014)\n"
-        "  -h, --help            print this help message\n\n"
-        "Example:\n"
-        "  %s input.txt -o output/simulation -t 500 -d 0.01\n",
-        progname, progname
-    );
+            "Usage:\n"
+            "  %s [input] [options]\n\n"
+            "Input File Format:\n"
+            "  The input file contains the initial configuration of the particles.\n\n"
+            "Options:\n"
+            "  -o, --output <path>   output path, file name after last slash (default: ./MD_vtk, example: "
+            "path/to/output/vtk)\n"
+            "  -t, --time <int>      total simulation time (default: 1000)\n"
+            "  -d, --delta <float>   time step delta (default: 0.014)\n"
+            "  -h, --help            print this help message\n\n"
+            "Example:\n"
+            "  %s input.txt -o output/simulation -t 500 -d 0.01\n",
+            progname, progname);
     exit(1);
 }
 
@@ -37,11 +37,8 @@ void printHelp(const char * progname) {
  * used only when an error occurs in program frame.
  */
 [[noreturn]]
-void printUsage(const char * progname) {
-    fprintf(stderr,
-        "Usage: %s [file]\n",
-        progname
-    );
+void printUsage(const char *progname) {
+    fprintf(stderr, "Usage: %s -h\n", progname);
     exit(1);
 }
 
@@ -52,7 +49,7 @@ void printUsage(const char * progname) {
  * @details Recursive function creating all necessary folders. This
  * should be run directly after the project arguments have been processed.
  */
-bool createPath(const char* output_pattern, const char* directory_offset = "") {
+bool createPath(const char *output_pattern, const char *directory_offset = "") {
     std::string out_str(output_pattern);
     size_t first_slash = out_str.find_first_of("/\\");
 
@@ -83,27 +80,26 @@ bool createPath(const char* output_pattern, const char* directory_offset = "") {
 Args ProcessArgs(int argc, char *argv[]) {
     const char *progname = argv[0];
     Args args = Args();
-    
+
     int opt;
     // parse options first
     while ((opt = getopt_long(argc, argv, OPTSTRING, GETOPT_LONG, nullptr)) != -1) {
-        switch (opt)
-        {
-        case 't':
-            args.end_time = atof(optarg);
-            break;
-        case 'd':
-            args.delta_t = atof(optarg);
-            break;
-        case 'o':
-            args.output_path = const_cast<char*>(optarg);
-            break;
+        switch (opt) {
+            case 't':
+                args.end_time = atof(optarg);
+                break;
+            case 'd':
+                args.delta_t = atof(optarg);
+                break;
+            case 'o':
+                args.output_path = const_cast<char *>(optarg);
+                break;
 
-        case 'h': // -h or --help
-        case '?': // unrecognized option
-        default:
-            printHelp(progname);
-            break;
+            case 'h':  // -h or --help
+            case '?':  // unrecognized option
+            default:
+                printHelp(progname);
+                break;
         }
     }
 
@@ -112,16 +108,16 @@ Args ProcessArgs(int argc, char *argv[]) {
         args.input_file = argv[optind];
         optind++;
     } else {
-        fprintf(stderr, "missing positional argument: input file");
+        fprintf(stderr, "error: missing positional argument: input file\n");
         printUsage(progname);
     }
 
     // preprocess output option if not provided
     if (args.output_path == nullptr) {
-        args.output_path = const_cast<char*>("MD_vtk");
+        args.output_path = const_cast<char *>("MD_vtk");
     } else {
         if (!createPath(args.output_path)) {
-            fprintf(stderr, "error creating output directory\n");
+            fprintf(stderr, "error: could not create output directory\n");
             printUsage(progname);
         }
     }

@@ -1,5 +1,25 @@
-# make doc_doxygen optional if someone does not have / like doxygen
+option(ENABLE_DOXYGEN "Enable Doxygen documentation generation" OFF)
 
-# TODO: create CMake build option for the target.
+if(ENABLE_DOXYGEN)
+    message(STATUS "Doxygen output enabled")
+    find_package(Doxygen REQUIRED)
 
-# TODO: Add a custom target for building the documentation.
+    if(DOXYGEN_FOUND)
+        message (STATUS "Found Doxygen Version: ${DOXYGEN_VERSION}")
+    else ()
+        message(FATAL_ERROR "Doxygen not found")
+    endif ()
+
+    if(DOXYGEN_VERSION VERSION_GREATER_EQUAL 8.9)
+         include_directories(${DOXYGEN_INCLUDE_DIRS})
+    else()
+        include(${DOXYGEN_USE_FILE})
+    endif ()
+
+    target_link_libraries(MolSim
+            PRIVATE
+            ${DOXYGEN_LIBRARIES}
+    )
+endif()
+
+add_custom_target(doc_doxygen COMMAND doxygen Doxyfile)
