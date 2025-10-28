@@ -39,7 +39,7 @@ void calculateVelocity(double dt);
 /**
  * plot the particles to a xyz-file
  */
-void plotParticles(int iteration);
+void plotParticles(int iteration, const char* output_path);
 
 /**
  * copy the list from FileReader into ParticleConatiner
@@ -68,7 +68,7 @@ int main(int argc, char *argsv[]) {
 
     iteration++;
     if (iteration % 10 == 0) {
-      plotParticles(iteration);
+      plotParticles(iteration, args.output_path);
     }
     std::cout << "Iteration " << iteration << " finished." << std::endl;
 
@@ -119,8 +119,8 @@ void calculateVelocity(double dt) {
     }
 }
 
-void plotParticles(int iteration) {
-    std::string out_name("MD_vtk");
+void plotParticles(int iteration, const char* output_path) {
+    std::string out_name(output_path);
 #ifdef ENABLE_VTK_OUTPUT
     outputWriter::VTKWriter writerVTK;
     writerVTK.plotParticles(particles, out_name, iteration);
