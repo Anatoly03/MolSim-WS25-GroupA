@@ -31,7 +31,7 @@ void XYZWriter::plotParticles(ParticleContainer particles, const std::string &fi
          << std::endl;
 
     for (auto &p : particles) {
-        Vec3D pos = p.getPosition();
+        const Vec3D& pos = p.getPosition();
         file << "Ar ";
         file.setf(std::ios_base::showpoint);
         file << pos.x << " " << pos.y << " " << pos.z << " ";

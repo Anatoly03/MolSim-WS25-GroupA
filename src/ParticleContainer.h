@@ -5,6 +5,7 @@
 #pragma once
 
 #include <vector>
+#include <functional>
 
 #include "Particle.h"
 #include "math/Vec3.h"
@@ -41,8 +42,15 @@ class ParticleContainer {
     size_type size() const { return particles.size(); }
     size_type capacity() const { return particles.capacity(); }
 
-    void emplace_back(const Vec3D position, const Vec3D velocity, double mass, int type = 0) {
+    void emplace_back(const Vec3D &position, const Vec3D &velocity, double mass, int type = 0) {
+
         particles.emplace_back(position, velocity, mass, type);
+
+    }
+
+    void reserveSpace(int reserve = 0) {
+        particles.reserve(reserve);
+
     }
 
     void pushback(const Particle &p) { particles.push_back(p); }
