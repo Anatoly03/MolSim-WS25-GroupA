@@ -46,7 +46,11 @@ class ParticleContainer {
         particles.emplace_back(position, velocity, mass, type);
     }
 
-    void reserveSpace(int reserve = 0) { particles.reserve(reserve); }
+    /**
+     * @brief Reserve memory for particles.
+     * @param reserve Number of particles to reserve space for.
+     */
+    void reserve(int reserve = 0) { particles.reserve(reserve); }
 
     void pushback(const Particle &p) { particles.push_back(p); }
     void pushback(Particle &&p) { particles.emplace_back(std::move(p)); }
