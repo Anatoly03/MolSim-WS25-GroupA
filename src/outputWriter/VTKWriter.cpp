@@ -23,7 +23,7 @@
 
 namespace outputWriter {
 
-void VTKWriter::plotParticles(ParticleContainer particles, const std::string &filename, int iteration) {
+void VTKWriter::plotParticles(ParticleContainer &particles, const std::string &filename, int iteration) {
     // Initialize points
     auto points = vtkSmartPointer<vtkPoints>::New();
 
@@ -44,7 +44,7 @@ void VTKWriter::plotParticles(ParticleContainer particles, const std::string &fi
     typeArray->SetName("type");
     typeArray->SetNumberOfComponents(1);
 
-    for (auto &p : particles) {
+    for (const auto &p : particles) {
         points->InsertNextPoint(p.getPosition().asArray().data());
         massArray->InsertNextValue(static_cast<float>(p.getMass()));
         velocityArray->InsertNextTuple(p.getVelocity().asArray().data());
@@ -53,6 +53,7 @@ void VTKWriter::plotParticles(ParticleContainer particles, const std::string &fi
     }
 
     // Set up the grid
+
     auto grid = vtkSmartPointer<vtkUnstructuredGrid>::New();
     grid->SetPoints(points);
 

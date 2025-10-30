@@ -19,7 +19,7 @@ XYZWriter::XYZWriter() = default;
 
 XYZWriter::~XYZWriter() = default;
 
-void XYZWriter::plotParticles(ParticleContainer particles, const std::string &filename, int iteration) {
+void XYZWriter::plotParticles(ParticleContainer &particles, const std::string &filename, int iteration) {
     std::ofstream file;
     std::stringstream strstr;
     strstr << filename << "_" << std::setfill('0') << std::setw(4) << iteration << ".xyz";
@@ -30,8 +30,8 @@ void XYZWriter::plotParticles(ParticleContainer particles, const std::string &fi
             "file format doku."
          << std::endl;
 
-    for (auto &p : particles) {
-        Vec3D pos = p.getPosition();
+    for (const auto &p : particles) {
+        const Vec3D &pos = p.getPosition();
         file << "Ar ";
         file.setf(std::ios_base::showpoint);
         file << pos.x << " " << pos.y << " " << pos.z << " ";

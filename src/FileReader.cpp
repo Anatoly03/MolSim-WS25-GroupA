@@ -40,6 +40,7 @@ void FileReader::readFile(ParticleContainer &particles, char *filename) {
         std::cout << "Reading " << num_particles << "." << std::endl;
         getline(input_file, tmp_string);
         std::cout << "Read line: " << tmp_string << std::endl;
+        particles.reserve(num_particles);
 
         for (int i = 0; i < num_particles; i++) {
             std::istringstream datastream(tmp_string);
@@ -56,7 +57,8 @@ void FileReader::readFile(ParticleContainer &particles, char *filename) {
                 exit(-1);
             }
             datastream >> mass;
-            particles.emplace_back(position, velocity, mass);
+
+            particles.emplace_back(position, (velocity), mass);
 
             getline(input_file, tmp_string);
             std::cout << "Read line: " << tmp_string << std::endl;

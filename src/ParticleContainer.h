@@ -30,38 +30,100 @@ class ParticleContainer {
 
     explicit ParticleContainer(size_type capacity) { particles.reserve(capacity); }
 
+    /**
+     * @brief Begin non-const iterator for ParticleContainer.
+     * @note Allows range-based for loops.
+     * @example
+     * ```c++
+     * ParticleContainer container;
+     * 
+     * for (auto &particle : container) {
+     *     std::cout << particle.toString() << std::endl;
+     * }
+     * ```
+     */
     iterator begin() { return particles.begin(); }
+
+    /**
+     * @brief End non-const iterator for ParticleContainer.
+     * @note Allows range-based for loops.
+     */
     iterator end() { return particles.end(); }
+
+    /**
+     * @brief Begin const iterator for ParticleContainer.
+     * @note Allows range-based for loops over constant elements.
+     * @example
+     * ```c++
+     * ParticleContainer container;
+     * 
+     * for (const auto &particle : container) {
+     *     std::cout << particle.toString() << std::endl;
+     * }
+     * ```
+     */
     const_iterator begin() const { return particles.begin(); }
+
+    /**
+     * @brief End const iterator for ParticleContainer.
+     * @note Allows range-based for loops.
+     */
     const_iterator end() const { return particles.end(); }
 
+    /**
+     * @brief Clear all particles from the container.
+     */
     void clear() { particles.clear(); }
-    void reserve(size_type capacity) { particles.reserve(capacity); }
 
+    /**
+     * @brief Get the number of particles in the container.
+     */
     size_type size() const { return particles.size(); }
+
+    /**
+     * @brief Get the capacity of the undderlying vector in the container.
+     */
     size_type capacity() const { return particles.capacity(); }
 
-    void emplace_back(const Vec3D position, const Vec3D velocity, double mass, int type = 0) {
+    /**
+     * @brief Add a new Particle to the container.
+     */
+    void emplace_back(const Vec3D &position, const Vec3D &velocity, double mass, int type = 0) {
         particles.emplace_back(position, velocity, mass, type);
     }
 
-    void pushback(const Particle &p) { particles.push_back(p); }
-    void pushback(Particle &&p) { particles.emplace_back(std::move(p)); }
+    /**
+     * @brief Add a new Particle to the container.
+     */
+    void emplace_back(const Particle &particle) {
+        particles.emplace_back(particle);
+    }
+
+    /**
+     * @brief Reserve memory for particles.
+     * @param reserve Number of particles to reserve space for.
+     */
+    void reserve(size_type reserve = 0) { particles.reserve(reserve); }
 
     /**
      * @brief Iteration over single particles.
+     * @param callback Function to be called for each particle.
+     * @example
+     * ```c++
+     * ParticleContainer container;
+     * 
+     * container.forEach([](Particle &particle) {
+     *     std::cout << particle.toString() << std::endl;
+     * });
+     * ```
      */
-    void forEach(const std::function<void(Particle &)> &callback) {
-        for (size_t i = 0; i < particles.size(); i++) {
-            callback(particles[i]);
-        }
-    }
+    void forEach(const std::function<void(Particle &)> &callback);
 
     // /**
     //  * @brief Reduction of an accumulator value, processing over all single particles.
     //  */
     // template<typename Acc>
-    // void reduce(const std::function<Acc(Particle &, Acc)> &callback, Acc acc) {
+    // void reduce(const std::function<Acc(Particle &, Acc)> &callback, Acc acc = default) {
     //     for (size_t i = 0; i < particles.size(); i++) {
     //         acc = callback(particles[i], acc);
     //     }
@@ -69,13 +131,15 @@ class ParticleContainer {
 
     /**
      * @brief Iteration over distinct particle pairs.
+     * @param callback Function to be called for each particle pair.
+     * @example
+     * ```c++
+     * ParticleContainer container;
+     * 
+     * container.forEachPair([](Particle &particle1, Particle &particle2) {
+     *     std::cout << particle1.toString() << " interacts with " << particle2.toString() << std::endl;
+     * });
+     * ```
      */
-    void forEachPair(const std::function<void(Particle &, Particle &)> &callback) {
-        for (size_t i = 0; i < particles.size(); i++) {
-            for (size_t j = i + 1; j < particles.size(); j++) {
-                if (i == j) continue;
-                callback(particles[i], particles[j]);
-            }
-        }
-    }
+    void forEachPair(const std::function<void(Particle &, Particle &)> &callback);
 };
