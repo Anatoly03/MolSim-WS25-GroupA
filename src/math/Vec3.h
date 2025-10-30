@@ -72,7 +72,6 @@ struct Vec3 {
      * @brief Retrieve the length of the vector.
      * @see https://de.wikipedia.org/wiki/Euklidische_Norm
      */
-    // TODO differentiate by 1-norm, 2-norm, and the other norm that exists
     inline constexpr double length() const { return std::sqrt(dot(*this)); }
 
     /**

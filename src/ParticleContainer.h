@@ -107,12 +107,17 @@ class ParticleContainer {
 
     /**
      * @brief Iteration over single particles.
+     * @param callback Function to be called for each particle.
+     * @example
+     * ```c++
+     * ParticleContainer container;
+     * 
+     * container.forEach([](Particle &particle) {
+     *     std::cout << particle.toString() << std::endl;
+     * });
+     * ```
      */
-    void forEach(const std::function<void(Particle &)> &callback) {
-        for (size_t i = 0; i < particles.size(); i++) {
-            callback(particles[i]);
-        }
-    }
+    void forEach(const std::function<void(Particle &)> &callback);
 
     // /**
     //  * @brief Reduction of an accumulator value, processing over all single particles.
@@ -126,13 +131,15 @@ class ParticleContainer {
 
     /**
      * @brief Iteration over distinct particle pairs.
+     * @param callback Function to be called for each particle pair.
+     * @example
+     * ```c++
+     * ParticleContainer container;
+     * 
+     * container.forEachPair([](Particle &particle1, Particle &particle2) {
+     *     std::cout << particle1.toString() << " interacts with " << particle2.toString() << std::endl;
+     * });
+     * ```
      */
-    void forEachPair(const std::function<void(Particle &, Particle &)> &callback) {
-        for (size_t i = 0; i < particles.size(); i++) {
-            for (size_t j = i + 1; j < particles.size(); j++) {
-                if (i == j) continue;
-                callback(particles[i], particles[j]);
-            }
-        }
-    }
+    void forEachPair(const std::function<void(Particle &, Particle &)> &callback);
 };
