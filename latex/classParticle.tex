@@ -1,0 +1,317 @@
+\hypertarget{classParticle}{}\doxysection{Particle Class Reference}
+\label{classParticle}\index{Particle@{Particle}}
+
+
+{\ttfamily \#include $<$Particle.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{classParticle_a866812d3dfb9c539e5e24593e596a8c9}{Particle}} (int \mbox{\hyperlink{classParticle_a2b73dd42bcd56ba2e7ffeb0a5515a866}{type}}=0)
+\begin{DoxyCompactList}\small\item\em Default constructor for \mbox{\hyperlink{classParticle}{Particle}}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classParticle_a24b04cb7c6f7ea4242d25c410f44ae56}{Particle}} (const \mbox{\hyperlink{classParticle}{Particle}} \&other)
+\begin{DoxyCompactList}\small\item\em Copy constructor for \mbox{\hyperlink{classParticle}{Particle}}. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classParticle_a31fca0fb8902e936942354e406063e14}{Particle}} (\mbox{\hyperlink{structVec3D}{Vec3D}} pos\+\_\+arg, \mbox{\hyperlink{structVec3D}{Vec3D}} vel\+\_\+arg, double mass\+\_\+arg, int \mbox{\hyperlink{classParticle_a2b73dd42bcd56ba2e7ffeb0a5515a866}{type}}=0)
+\begin{DoxyCompactList}\small\item\em Multi-\/argument constructor for \mbox{\hyperlink{classParticle}{Particle}}. \end{DoxyCompactList}\item 
+virtual \mbox{\hyperlink{classParticle_ad030d0fe7b88cf81744b127c99244ff4}{$\sim$\+Particle}} ()
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classParticle}{Particle}} destructor. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{classParticle}{Particle}} \mbox{\hyperlink{classParticle_a7882c22bd25d99eeeb8781f667e2ebdc}{clone}} () const
+\begin{DoxyCompactList}\small\item\em Copy constructor for \mbox{\hyperlink{classParticle}{Particle}}. \end{DoxyCompactList}\item 
+const \mbox{\hyperlink{structVec3D}{Vec3D}} \& \mbox{\hyperlink{classParticle_abebd557d43067b18a69584d166507477}{get\+Position}} () const
+\begin{DoxyCompactList}\small\item\em Get the position of this \mbox{\hyperlink{classParticle}{Particle}}. \end{DoxyCompactList}\item 
+const \mbox{\hyperlink{structVec3D}{Vec3D}} \& \mbox{\hyperlink{classParticle_a200bcb363bb5dd0953359d0d822204cb}{get\+Velocity}} () const
+\begin{DoxyCompactList}\small\item\em Get the velocity of this \mbox{\hyperlink{classParticle}{Particle}}. \end{DoxyCompactList}\item 
+const \mbox{\hyperlink{structVec3D}{Vec3D}} \& \mbox{\hyperlink{classParticle_ab6921bdcd5b7d61944b7477d30fb8296}{get\+Force}} () const
+\begin{DoxyCompactList}\small\item\em Get the force effective on this \mbox{\hyperlink{classParticle}{Particle}}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classParticle_a85dd133ca494f9ea386668648bab62ec}{set\+Position}} (const \mbox{\hyperlink{structVec3D}{Vec3D}} \&position\+\_\+)
+\begin{DoxyCompactList}\small\item\em Set the position of this \mbox{\hyperlink{classParticle}{Particle}}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classParticle_a4a15d437d8f709b9d7fced58d51d6d4e}{set\+Velocity}} (const \mbox{\hyperlink{structVec3D}{Vec3D}} \&velocity\+\_\+)
+\begin{DoxyCompactList}\small\item\em Set the velocity of this \mbox{\hyperlink{classParticle}{Particle}}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classParticle_ad76606aa160f2eb0678f4b69403d98de}{set\+Force}} (const \mbox{\hyperlink{structVec3D}{Vec3D}} \&force\+\_\+)
+\begin{DoxyCompactList}\small\item\em Set the force effective on this \mbox{\hyperlink{classParticle}{Particle}}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{classParticle_a8cd1d82f4bb4fab2bfedb7459c4a025c}{delay\+Force}} ()
+\begin{DoxyCompactList}\small\item\em Push force to old force and reset current force to zero. \end{DoxyCompactList}\item 
+const \mbox{\hyperlink{structVec3D}{Vec3D}} \& \mbox{\hyperlink{classParticle_a7eebbbd2af4ac99aef2dc1a66e2e8dc2}{get\+Old\+Force}} () const
+\begin{DoxyCompactList}\small\item\em Retrieve the old force of the \mbox{\hyperlink{classParticle}{Particle}}. It is the force delayed by one time step. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classParticle_ad08e7b1d0cc7cb17bd0602caa4a22bc6}{get\+Mass}} () const
+\begin{DoxyCompactList}\small\item\em Retrieve the mass of the \mbox{\hyperlink{classParticle}{Particle}}. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classParticle_a806c077af237adf8b34dd0661cf92e5f}{get\+Type}} () const
+\begin{DoxyCompactList}\small\item\em Reserved. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{classParticle_a124c38681fb8e7b09a623af3eb060f6a}{operator==}} (const \mbox{\hyperlink{classParticle}{Particle}} \&other) const
+\begin{DoxyCompactList}\small\item\em Equivalence operation for \mbox{\hyperlink{classParticle}{Particle}}. \end{DoxyCompactList}\item 
+std\+::string \mbox{\hyperlink{classParticle_a41f3a8baf5d8b29ec806681d63ab2f81}{to\+String}} () const
+\begin{DoxyCompactList}\small\item\em String representation of the \mbox{\hyperlink{classParticle}{Particle}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structVec3D}{Vec3D}} \mbox{\hyperlink{classParticle_a124fbe7889663b3f36266ff7d01b8c40}{position}}
+\begin{DoxyCompactList}\small\item\em Position of the particle. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structVec3D}{Vec3D}} \mbox{\hyperlink{classParticle_afa8e4a92006ccdfab63b5a3001e45e82}{velocity}}
+\begin{DoxyCompactList}\small\item\em Velocity of the particle. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structVec3D}{Vec3D}} \mbox{\hyperlink{classParticle_a205483108a976170fe608414728e3435}{force}}
+\begin{DoxyCompactList}\small\item\em Force effective on this particle. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{structVec3D}{Vec3D}} \mbox{\hyperlink{classParticle_ac93fc331a1d3e0cd6867559963f3a210}{old\+\_\+force}}
+\begin{DoxyCompactList}\small\item\em Force which was effective on this particle. \end{DoxyCompactList}\item 
+double \mbox{\hyperlink{classParticle_ae6d46dc24a6666d526f211151fecca5f}{mass}}
+\begin{DoxyCompactList}\small\item\em Mass of this particle. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{classParticle_a2b73dd42bcd56ba2e7ffeb0a5515a866}{type}}
+\begin{DoxyCompactList}\small\item\em Type of the particle. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2ParticleContainer_8h-example}{/home/runner/work/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/src/\+Particle\+Container.\+h}}.\end{Desc}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classParticle_a866812d3dfb9c539e5e24593e596a8c9}\label{classParticle_a866812d3dfb9c539e5e24593e596a8c9}} 
+\index{Particle@{Particle}!Particle@{Particle}}
+\index{Particle@{Particle}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{Particle()}{Particle()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily Particle\+::\+Particle (\begin{DoxyParamCaption}\item[{int}]{type\+\_\+arg = {\ttfamily 0} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [explicit]}}
+
+
+
+Default constructor for \mbox{\hyperlink{classParticle}{Particle}}. 
+
+The default constructor for \mbox{\hyperlink{classParticle}{Particle}} logs the creation of an initially forceless particle. \mbox{\Hypertarget{classParticle_a24b04cb7c6f7ea4242d25c410f44ae56}\label{classParticle_a24b04cb7c6f7ea4242d25c410f44ae56}} 
+\index{Particle@{Particle}!Particle@{Particle}}
+\index{Particle@{Particle}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{Particle()}{Particle()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily Particle\+::\+Particle (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classParticle}{Particle}} \&}]{other }\end{DoxyParamCaption})}
+
+
+
+Copy constructor for \mbox{\hyperlink{classParticle}{Particle}}. 
+
+The copy constructor for \mbox{\hyperlink{classParticle}{Particle}} deeply calls the copy constructor of \mbox{\hyperlink{structVec3}{Vec3}} for all attributes. \mbox{\Hypertarget{classParticle_a31fca0fb8902e936942354e406063e14}\label{classParticle_a31fca0fb8902e936942354e406063e14}} 
+\index{Particle@{Particle}!Particle@{Particle}}
+\index{Particle@{Particle}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{Particle()}{Particle()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily Particle\+::\+Particle (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structVec3D}{Vec3D}}}]{pos\+\_\+arg,  }\item[{\mbox{\hyperlink{structVec3D}{Vec3D}}}]{vel\+\_\+arg,  }\item[{double}]{mass\+\_\+arg,  }\item[{int}]{type\+\_\+arg = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+
+
+Multi-\/argument constructor for \mbox{\hyperlink{classParticle}{Particle}}. 
+
+The component-\/wise constructor for \mbox{\hyperlink{classParticle}{Particle}} creates a new particle from atomic attributes. \mbox{\Hypertarget{classParticle_ad030d0fe7b88cf81744b127c99244ff4}\label{classParticle_ad030d0fe7b88cf81744b127c99244ff4}} 
+\index{Particle@{Particle}!````~Particle@{$\sim$Particle}}
+\index{````~Particle@{$\sim$Particle}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{$\sim$Particle()}{~Particle()}}
+{\footnotesize\ttfamily Particle\+::$\sim$\+Particle (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+\mbox{\hyperlink{classParticle}{Particle}} destructor. 
+
+\mbox{\hyperlink{classParticle}{Particle}} destructor. 
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classParticle_a7882c22bd25d99eeeb8781f667e2ebdc}\label{classParticle_a7882c22bd25d99eeeb8781f667e2ebdc}} 
+\index{Particle@{Particle}!clone@{clone}}
+\index{clone@{clone}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{clone()}{clone()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classParticle}{Particle}} Particle\+::clone (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Copy constructor for \mbox{\hyperlink{classParticle}{Particle}}. 
+
+\begin{DoxyNote}{Note}
+Deep copy. 
+\end{DoxyNote}
+\mbox{\Hypertarget{classParticle_a8cd1d82f4bb4fab2bfedb7459c4a025c}\label{classParticle_a8cd1d82f4bb4fab2bfedb7459c4a025c}} 
+\index{Particle@{Particle}!delayForce@{delayForce}}
+\index{delayForce@{delayForce}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{delayForce()}{delayForce()}}
+{\footnotesize\ttfamily void Particle\+::delay\+Force (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+Push force to old force and reset current force to zero. 
+
+Move force to old force and reset current force to zero. This delays force value by one tick. \mbox{\Hypertarget{classParticle_ab6921bdcd5b7d61944b7477d30fb8296}\label{classParticle_ab6921bdcd5b7d61944b7477d30fb8296}} 
+\index{Particle@{Particle}!getForce@{getForce}}
+\index{getForce@{getForce}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{getForce()}{getForce()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{structVec3D}{Vec3D}} \& Particle\+::get\+Force (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the force effective on this \mbox{\hyperlink{classParticle}{Particle}}. 
+
+\mbox{\Hypertarget{classParticle_ad08e7b1d0cc7cb17bd0602caa4a22bc6}\label{classParticle_ad08e7b1d0cc7cb17bd0602caa4a22bc6}} 
+\index{Particle@{Particle}!getMass@{getMass}}
+\index{getMass@{getMass}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{getMass()}{getMass()}}
+{\footnotesize\ttfamily double Particle\+::get\+Mass (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Retrieve the mass of the \mbox{\hyperlink{classParticle}{Particle}}. 
+
+Get the mass of this \mbox{\hyperlink{classParticle}{Particle}}. \mbox{\Hypertarget{classParticle_a7eebbbd2af4ac99aef2dc1a66e2e8dc2}\label{classParticle_a7eebbbd2af4ac99aef2dc1a66e2e8dc2}} 
+\index{Particle@{Particle}!getOldForce@{getOldForce}}
+\index{getOldForce@{getOldForce}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{getOldForce()}{getOldForce()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{structVec3D}{Vec3D}} \& Particle\+::get\+Old\+Force (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Retrieve the old force of the \mbox{\hyperlink{classParticle}{Particle}}. It is the force delayed by one time step. 
+
+Get the delayed force effective on this \mbox{\hyperlink{classParticle}{Particle}} in the previous tick. \mbox{\Hypertarget{classParticle_abebd557d43067b18a69584d166507477}\label{classParticle_abebd557d43067b18a69584d166507477}} 
+\index{Particle@{Particle}!getPosition@{getPosition}}
+\index{getPosition@{getPosition}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{getPosition()}{getPosition()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{structVec3D}{Vec3D}} \& Particle\+::get\+Position (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the position of this \mbox{\hyperlink{classParticle}{Particle}}. 
+
+\mbox{\Hypertarget{classParticle_a806c077af237adf8b34dd0661cf92e5f}\label{classParticle_a806c077af237adf8b34dd0661cf92e5f}} 
+\index{Particle@{Particle}!getType@{getType}}
+\index{getType@{getType}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{getType()}{getType()}}
+{\footnotesize\ttfamily int Particle\+::get\+Type (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Reserved. 
+
+\begin{DoxyRefDesc}{Deprecated}
+\item[\mbox{\hyperlink{deprecated__deprecated000001}{Deprecated}}]\end{DoxyRefDesc}
+\mbox{\Hypertarget{classParticle_a200bcb363bb5dd0953359d0d822204cb}\label{classParticle_a200bcb363bb5dd0953359d0d822204cb}} 
+\index{Particle@{Particle}!getVelocity@{getVelocity}}
+\index{getVelocity@{getVelocity}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{getVelocity()}{getVelocity()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{structVec3D}{Vec3D}} \& Particle\+::get\+Velocity (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+Get the velocity of this \mbox{\hyperlink{classParticle}{Particle}}. 
+
+\mbox{\Hypertarget{classParticle_a124c38681fb8e7b09a623af3eb060f6a}\label{classParticle_a124c38681fb8e7b09a623af3eb060f6a}} 
+\index{Particle@{Particle}!operator==@{operator==}}
+\index{operator==@{operator==}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily bool Particle\+::operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{classParticle}{Particle}} \&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+Equivalence operation for \mbox{\hyperlink{classParticle}{Particle}}. 
+
+\mbox{\Hypertarget{classParticle_ad76606aa160f2eb0678f4b69403d98de}\label{classParticle_ad76606aa160f2eb0678f4b69403d98de}} 
+\index{Particle@{Particle}!setForce@{setForce}}
+\index{setForce@{setForce}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{setForce()}{setForce()}}
+{\footnotesize\ttfamily void Particle\+::set\+Force (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structVec3D}{Vec3D}} \&}]{force\+\_\+ }\end{DoxyParamCaption})}
+
+
+
+Set the force effective on this \mbox{\hyperlink{classParticle}{Particle}}. 
+
+\mbox{\Hypertarget{classParticle_a85dd133ca494f9ea386668648bab62ec}\label{classParticle_a85dd133ca494f9ea386668648bab62ec}} 
+\index{Particle@{Particle}!setPosition@{setPosition}}
+\index{setPosition@{setPosition}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{setPosition()}{setPosition()}}
+{\footnotesize\ttfamily void Particle\+::set\+Position (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structVec3D}{Vec3D}} \&}]{position\+\_\+ }\end{DoxyParamCaption})}
+
+
+
+Set the position of this \mbox{\hyperlink{classParticle}{Particle}}. 
+
+\mbox{\Hypertarget{classParticle_a4a15d437d8f709b9d7fced58d51d6d4e}\label{classParticle_a4a15d437d8f709b9d7fced58d51d6d4e}} 
+\index{Particle@{Particle}!setVelocity@{setVelocity}}
+\index{setVelocity@{setVelocity}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{setVelocity()}{setVelocity()}}
+{\footnotesize\ttfamily void Particle\+::set\+Velocity (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structVec3D}{Vec3D}} \&}]{velocity\+\_\+ }\end{DoxyParamCaption})}
+
+
+
+Set the velocity of this \mbox{\hyperlink{classParticle}{Particle}}. 
+
+\mbox{\Hypertarget{classParticle_a41f3a8baf5d8b29ec806681d63ab2f81}\label{classParticle_a41f3a8baf5d8b29ec806681d63ab2f81}} 
+\index{Particle@{Particle}!toString@{toString}}
+\index{toString@{toString}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{toString()}{toString()}}
+{\footnotesize\ttfamily std\+::string Particle\+::to\+String (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const}
+
+
+
+String representation of the \mbox{\hyperlink{classParticle}{Particle}}. 
+
+Convert \mbox{\hyperlink{classParticle}{Particle}} to a string representation. 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classParticle_a205483108a976170fe608414728e3435}\label{classParticle_a205483108a976170fe608414728e3435}} 
+\index{Particle@{Particle}!force@{force}}
+\index{force@{force}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{force}{force}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structVec3D}{Vec3D}} Particle\+::force\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Force effective on this particle. 
+
+\mbox{\Hypertarget{classParticle_ae6d46dc24a6666d526f211151fecca5f}\label{classParticle_ae6d46dc24a6666d526f211151fecca5f}} 
+\index{Particle@{Particle}!mass@{mass}}
+\index{mass@{mass}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{mass}{mass}}
+{\footnotesize\ttfamily double Particle\+::mass\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Mass of this particle. 
+
+\mbox{\Hypertarget{classParticle_ac93fc331a1d3e0cd6867559963f3a210}\label{classParticle_ac93fc331a1d3e0cd6867559963f3a210}} 
+\index{Particle@{Particle}!old\_force@{old\_force}}
+\index{old\_force@{old\_force}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{old\_force}{old\_force}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structVec3D}{Vec3D}} Particle\+::old\+\_\+force\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Force which was effective on this particle. 
+
+\mbox{\Hypertarget{classParticle_a124fbe7889663b3f36266ff7d01b8c40}\label{classParticle_a124fbe7889663b3f36266ff7d01b8c40}} 
+\index{Particle@{Particle}!position@{position}}
+\index{position@{position}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{position}{position}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structVec3D}{Vec3D}} Particle\+::position\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Position of the particle. 
+
+\mbox{\Hypertarget{classParticle_a2b73dd42bcd56ba2e7ffeb0a5515a866}\label{classParticle_a2b73dd42bcd56ba2e7ffeb0a5515a866}} 
+\index{Particle@{Particle}!type@{type}}
+\index{type@{type}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{type}{type}}
+{\footnotesize\ttfamily int Particle\+::type\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Type of the particle. 
+
+\begin{DoxyNote}{Note}
+Use it for whatever you want (e.\+g. to separate molecules belonging to different bodies, matters, and so on) 
+\end{DoxyNote}
+\mbox{\Hypertarget{classParticle_afa8e4a92006ccdfab63b5a3001e45e82}\label{classParticle_afa8e4a92006ccdfab63b5a3001e45e82}} 
+\index{Particle@{Particle}!velocity@{velocity}}
+\index{velocity@{velocity}!Particle@{Particle}}
+\doxysubsubsection{\texorpdfstring{velocity}{velocity}}
+{\footnotesize\ttfamily \mbox{\hyperlink{structVec3D}{Vec3D}} Particle\+::velocity\hspace{0.3cm}{\ttfamily [private]}}
+
+
+
+Velocity of the particle. 
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+src/\mbox{\hyperlink{Particle_8h}{Particle.\+h}}\item 
+src/\mbox{\hyperlink{Particle_8cpp}{Particle.\+cpp}}\end{DoxyCompactItemize}

@@ -1,0 +1,69 @@
+\hypertarget{ParticleContainer_8h_source}{}\doxysection{Particle\+Container.\+h}
+\label{ParticleContainer_8h_source}\index{src/ParticleContainer.h@{src/ParticleContainer.h}}
+\mbox{\hyperlink{ParticleContainer_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{//}}
+\DoxyCodeLine{00002\ \textcolor{comment}{//\ Created\ by\ zhengying\ zhao\ on\ 24.10.25.}}
+\DoxyCodeLine{00003\ \textcolor{comment}{//}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{Particle_8h}{Particle.h}}"{}}}
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{Vec3_8h}{math/Vec3.h}}"{}}}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00016\ \textcolor{keyword}{class\ }\mbox{\hyperlink{classParticleContainer}{ParticleContainer}}\ \{}
+\DoxyCodeLine{00017\ \ \ \ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00021\ \ \ \ \ std::vector<Particle>\ \mbox{\hyperlink{classParticleContainer_a837d29fec29694cf90572fe943303776}{particles}};}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keyword}{typedef}\ std::vector<Particle>::size\_type\ \mbox{\hyperlink{classParticleContainer_aa194fa64666e7feb0e2e7e2d9e38dd71}{size\_type}};}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keyword}{typedef}\ std::vector<Particle>::iterator\ \mbox{\hyperlink{classParticleContainer_a395648cf4068ebdea9260a2830d5e149}{iterator}};}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{typedef}\ std::vector<Particle>::const\_iterator\ \mbox{\hyperlink{classParticleContainer_ad27f7c53393d4906caa3f6f9f7ea2b82}{const\_iterator}};}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \mbox{\hyperlink{classParticleContainer_a02cf5506e0bc6d6376a6d33d10bf308d}{ParticleContainer}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00029\ \ \ \ \ \mbox{\hyperlink{classParticleContainer_aaff0467aec253a0239adc7abe1e33275}{\string~ParticleContainer}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00030\ }
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keyword}{explicit}\ \mbox{\hyperlink{classParticleContainer_a1f3b2cfe1e66a4592981b60b02aea3f4}{ParticleContainer}}(\mbox{\hyperlink{classParticleContainer_aa194fa64666e7feb0e2e7e2d9e38dd71}{size\_type}}\ \mbox{\hyperlink{classParticleContainer_a744c7992f608edfa5b7d1c7cfb55e4ad}{capacity}})\ \{\ \mbox{\hyperlink{classParticleContainer_a837d29fec29694cf90572fe943303776}{particles}}.reserve(\mbox{\hyperlink{classParticleContainer_a744c7992f608edfa5b7d1c7cfb55e4ad}{capacity}});\ \}}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00045\ \ \ \ \ \mbox{\hyperlink{classParticleContainer_a395648cf4068ebdea9260a2830d5e149}{iterator}}\ \mbox{\hyperlink{classParticleContainer_a4d0542109501e6b5778fc9924aa96873}{begin}}()\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classParticleContainer_a837d29fec29694cf90572fe943303776}{particles}}.begin();\ \}}
+\DoxyCodeLine{00046\ }
+\DoxyCodeLine{00051\ \ \ \ \ \mbox{\hyperlink{classParticleContainer_a395648cf4068ebdea9260a2830d5e149}{iterator}}\ \mbox{\hyperlink{classParticleContainer_a8b075fbd0e18acfe7e2636ca610d5882}{end}}()\ \{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classParticleContainer_a837d29fec29694cf90572fe943303776}{particles}}.end();\ \}}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00065\ \ \ \ \ \mbox{\hyperlink{classParticleContainer_ad27f7c53393d4906caa3f6f9f7ea2b82}{const\_iterator}}\ \mbox{\hyperlink{classParticleContainer_ab8b3a5983dc8af8eb2088623155f8cc6}{begin}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classParticleContainer_a837d29fec29694cf90572fe943303776}{particles}}.begin();\ \}}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00071\ \ \ \ \ \mbox{\hyperlink{classParticleContainer_ad27f7c53393d4906caa3f6f9f7ea2b82}{const\_iterator}}\ \mbox{\hyperlink{classParticleContainer_a89ab2d5e488bfe4fb22b83a32010583f}{end}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classParticleContainer_a837d29fec29694cf90572fe943303776}{particles}}.end();\ \}}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00076\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classParticleContainer_ae56518d8550675a26cdb1b6c894ab942}{clear}}()\ \{\ \mbox{\hyperlink{classParticleContainer_a837d29fec29694cf90572fe943303776}{particles}}.clear();\ \}}
+\DoxyCodeLine{00077\ }
+\DoxyCodeLine{00081\ \ \ \ \ \mbox{\hyperlink{classParticleContainer_aa194fa64666e7feb0e2e7e2d9e38dd71}{size\_type}}\ \mbox{\hyperlink{classParticleContainer_a0e6300ccea249cb7f51c39ef60586fed}{size}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classParticleContainer_a837d29fec29694cf90572fe943303776}{particles}}.size();\ \}}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00086\ \ \ \ \ \mbox{\hyperlink{classParticleContainer_aa194fa64666e7feb0e2e7e2d9e38dd71}{size\_type}}\ \mbox{\hyperlink{classParticleContainer_a744c7992f608edfa5b7d1c7cfb55e4ad}{capacity}}()\textcolor{keyword}{\ const\ }\{\ \textcolor{keywordflow}{return}\ \mbox{\hyperlink{classParticleContainer_a837d29fec29694cf90572fe943303776}{particles}}.capacity();\ \}}
+\DoxyCodeLine{00087\ }
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classParticleContainer_abd72d8c44da5002bfce2ddb55cc3c2ec}{emplace\_back}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{structVec3D}{Vec3D}}\ \&position,\ \textcolor{keyword}{const}\ \mbox{\hyperlink{structVec3D}{Vec3D}}\ \&velocity,\ \textcolor{keywordtype}{double}\ mass,\ \textcolor{keywordtype}{int}\ type\ =\ 0)\ \{}
+\DoxyCodeLine{00092\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classParticleContainer_a837d29fec29694cf90572fe943303776}{particles}}.emplace\_back(position,\ velocity,\ mass,\ type);}
+\DoxyCodeLine{00093\ \ \ \ \ \}}
+\DoxyCodeLine{00094\ }
+\DoxyCodeLine{00098\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classParticleContainer_ac5c095a2d8bd947bd672605c04ed8fbc}{emplace\_back}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{classParticle}{Particle}}\ \&particle)\ \{}
+\DoxyCodeLine{00099\ \ \ \ \ \ \ \ \ \mbox{\hyperlink{classParticleContainer_a837d29fec29694cf90572fe943303776}{particles}}.emplace\_back(particle);}
+\DoxyCodeLine{00100\ \ \ \ \ \}}
+\DoxyCodeLine{00101\ }
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classParticleContainer_a8be54afd1da81aee04a953cec876ee21}{reserve}}(\mbox{\hyperlink{classParticleContainer_aa194fa64666e7feb0e2e7e2d9e38dd71}{size\_type}}\ \mbox{\hyperlink{classParticleContainer_a8be54afd1da81aee04a953cec876ee21}{reserve}}\ =\ 0)\ \{\ \mbox{\hyperlink{classParticleContainer_a837d29fec29694cf90572fe943303776}{particles}}.reserve(\mbox{\hyperlink{classParticleContainer_a8be54afd1da81aee04a953cec876ee21}{reserve}});\ \}}
+\DoxyCodeLine{00107\ }
+\DoxyCodeLine{00120\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classParticleContainer_aea5712cffaf5c85696a23f155077a207}{forEach}}(\textcolor{keyword}{const}\ std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classParticle}{Particle}}\ \&)>\ \&callback);}
+\DoxyCodeLine{00121\ }
+\DoxyCodeLine{00122\ \ \ \ \ \textcolor{comment}{//\ /**}}
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{comment}{//\ \ *\ @brief\ Reduction\ of\ an\ accumulator\ value,\ processing\ over\ all\ single\ particles.}}
+\DoxyCodeLine{00124\ \ \ \ \ \textcolor{comment}{//\ \ */}}
+\DoxyCodeLine{00125\ \ \ \ \ \textcolor{comment}{//\ template<typename\ Acc>}}
+\DoxyCodeLine{00126\ \ \ \ \ \textcolor{comment}{//\ void\ reduce(const\ std::function<Acc(Particle\ \&,\ Acc)>\ \&callback,\ Acc\ acc\ =\ default)\ \{}}
+\DoxyCodeLine{00127\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ for\ (size\_t\ i\ =\ 0;\ i\ <\ particles.size();\ i++)\ \{}}
+\DoxyCodeLine{00128\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \ \ \ \ acc\ =\ callback(particles[i],\ acc);}}
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{comment}{//\ \ \ \ \ \}}}
+\DoxyCodeLine{00130\ \ \ \ \ \textcolor{comment}{//\ \}}}
+\DoxyCodeLine{00131\ }
+\DoxyCodeLine{00144\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{classParticleContainer_a66096e8fdd2421c31baacbf7b520e8d0}{forEachPair}}(\textcolor{keyword}{const}\ std::function<\textcolor{keywordtype}{void}(\mbox{\hyperlink{classParticle}{Particle}}\ \&,\ \mbox{\hyperlink{classParticle}{Particle}}\ \&)>\ \&callback);}
+\DoxyCodeLine{00145\ \};}
+
+\end{DoxyCode}

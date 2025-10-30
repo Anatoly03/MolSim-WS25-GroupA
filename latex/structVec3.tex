@@ -1,0 +1,417 @@
+\hypertarget{structVec3}{}\doxysection{Vec3\texorpdfstring{$<$}{<} T \texorpdfstring{$>$}{>} Struct Template Reference}
+\label{structVec3}\index{Vec3$<$ T $>$@{Vec3$<$ T $>$}}
+
+
+Represents a 3D vector.  
+
+
+
+
+{\ttfamily \#include $<$Vec3.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{structVec3_a7c150f37ecfa78ced8b83bd95908cc33}{Vec3}} ()
+\item 
+\mbox{\hyperlink{structVec3_af25b20ef0f5fb49cb3eda5cce9bc4810}{Vec3}} (T e)
+\item 
+\mbox{\hyperlink{structVec3_a878efffc26ead487ded582f9bf8509d7}{Vec3}} (T x\+\_\+, T y\+\_\+, T z\+\_\+)
+\item 
+constexpr \mbox{\hyperlink{structVec3}{Vec3}} \mbox{\hyperlink{structVec3_aea98e7cac6f688fac3edef9905224d8a}{clone}} () const
+\begin{DoxyCompactList}\small\item\em Deep copy of a \mbox{\hyperlink{structVec3}{Vec3}}. \end{DoxyCompactList}\item 
+constexpr double \mbox{\hyperlink{structVec3_a43693311520ab2a7d56c969fff158884}{dot}} (const \mbox{\hyperlink{structVec3}{Vec3}} \&other) const
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{structVec3}{Vec3}} dot product. \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{structVec3}{Vec3}} \mbox{\hyperlink{structVec3_a1f1102ce8abdefab1e58d6a835c9f23f}{cross}} (const \mbox{\hyperlink{structVec3}{Vec3}} \&other) const
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{structVec3}{Vec3}} cross product. \end{DoxyCompactList}\item 
+constexpr double \mbox{\hyperlink{structVec3_a146e00100a49a36b6c7ec58f4b3d34f6}{length}} () const
+\begin{DoxyCompactList}\small\item\em Retrieve the length of the vector. \end{DoxyCompactList}\item 
+constexpr std\+::array$<$ T, 3 $>$ \mbox{\hyperlink{structVec3_ad53305ce68c69252fcda488413ccff7d}{as\+Array}} () const
+\begin{DoxyCompactList}\small\item\em Convert \mbox{\hyperlink{structVec3}{Vec3}} to an array type. Useful for printing. \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{structVec3}{Vec3}} \mbox{\hyperlink{structVec3_aac3b5e1c0903b721d85cb2d790eca2ea}{operator+}} () const
+\begin{DoxyCompactList}\small\item\em Unary plus operator overload for \mbox{\hyperlink{structVec3}{Vec3}}. \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{structVec3}{Vec3}} \mbox{\hyperlink{structVec3_ad3302e65b5cbb3803c12f62144f9c265}{operator-\/}} () const
+\begin{DoxyCompactList}\small\item\em Unary minus operator overload for \mbox{\hyperlink{structVec3}{Vec3}}. \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{structVec3}{Vec3}} \mbox{\hyperlink{structVec3_ae65ea69359bef6d13c11ce73594a7ab7}{operator+}} (const \mbox{\hyperlink{structVec3}{Vec3}} \&other) const
+\begin{DoxyCompactList}\small\item\em Binary addition operator overload for \mbox{\hyperlink{structVec3}{Vec3}}. \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{structVec3}{Vec3}} \mbox{\hyperlink{structVec3_a3d1409f691f86b0a6def966dcc3e5ae8}{operator-\/}} (const \mbox{\hyperlink{structVec3}{Vec3}} \&other) const
+\begin{DoxyCompactList}\small\item\em Binary subtraction operator overload for \mbox{\hyperlink{structVec3}{Vec3}}. \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{structVec3}{Vec3}} \mbox{\hyperlink{structVec3_aef5f143bbb46d49f2e973c41b398a8e4}{operator$\ast$}} (const T \&scalar) const
+\begin{DoxyCompactList}\small\item\em Binary multiplication operator overload for \mbox{\hyperlink{structVec3}{Vec3}} with a scalar. \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{structVec3}{Vec3}} \mbox{\hyperlink{structVec3_a6b34f96cf81612b05e1d4d64ee09bbd7}{operator/}} (const T \&scalar) const
+\begin{DoxyCompactList}\small\item\em Binary division operator overload for \mbox{\hyperlink{structVec3}{Vec3}} with a scalar. \end{DoxyCompactList}\item 
+constexpr bool \mbox{\hyperlink{structVec3_a363944e806ab7659a0dee64f23154ebc}{operator==}} (const \mbox{\hyperlink{structVec3}{Vec3}} \&other) const
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{structVec3}{Vec3}} equivalence. \end{DoxyCompactList}\item 
+constexpr bool \mbox{\hyperlink{structVec3_a29b0273d4597c445fc9653e1328d44f4}{operator!=}} (const \mbox{\hyperlink{structVec3}{Vec3}} \&other) const
+\begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{structVec3}{Vec3}} inequivalence. \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{structVec3}{Vec3}} \& \mbox{\hyperlink{structVec3_ae9eab0713e6aab5dddd839d159607e01}{operator=}} (const \mbox{\hyperlink{structVec3}{Vec3}} \&other)
+\begin{DoxyCompactList}\small\item\em Assignment operator overload for \mbox{\hyperlink{structVec3}{Vec3}}. \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{structVec3}{Vec3}} \& \mbox{\hyperlink{structVec3_a83de7a007a55a8e91ebb6304479c8929}{operator+=}} (const \mbox{\hyperlink{structVec3}{Vec3}} \&other)
+\begin{DoxyCompactList}\small\item\em Binary addition operator overload for \mbox{\hyperlink{structVec3}{Vec3}}. \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{structVec3}{Vec3}} \& \mbox{\hyperlink{structVec3_ac161c4e56a1d5cd3e2ddfcc8b2ba778f}{operator-\/=}} (const \mbox{\hyperlink{structVec3}{Vec3}} \&other)
+\begin{DoxyCompactList}\small\item\em Binary subtraction operator overload for \mbox{\hyperlink{structVec3}{Vec3}}. \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{structVec3}{Vec3}} \& \mbox{\hyperlink{structVec3_aa1641cdda7f77b45a7ff7e2d00a7c8b7}{operator$\ast$=}} (const T \&scalar)
+\begin{DoxyCompactList}\small\item\em Binary multiplication operator overload for \mbox{\hyperlink{structVec3}{Vec3}} with a scalar. \end{DoxyCompactList}\item 
+constexpr \mbox{\hyperlink{structVec3}{Vec3}} \& \mbox{\hyperlink{structVec3_a3acd2d9a2464088858076d5facd8d60b}{operator/=}} (const T \&scalar)
+\begin{DoxyCompactList}\small\item\em Binary division operator overload for \mbox{\hyperlink{structVec3}{Vec3}} with a scalar. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+T \mbox{\hyperlink{structVec3_aeba95c52e15a5a7476550c1798210db2}{x}}
+\item 
+T \mbox{\hyperlink{structVec3_a76f06eaf078504ac1d09c910ddb24696}{y}}
+\item 
+T \mbox{\hyperlink{structVec3_a0f694311f956380952aee054cbabb8b6}{z}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Friends}
+\begin{DoxyCompactItemize}
+\item 
+constexpr friend \mbox{\hyperlink{structVec3}{Vec3}} \mbox{\hyperlink{structVec3_a187b22d670faecb6bfe27132b0f1fca3}{operator$\ast$}} (const T \&scalar, const \mbox{\hyperlink{structVec3}{Vec3}} \&other)
+\begin{DoxyCompactList}\small\item\em Binary multiplication operator overload for a scalar with a \mbox{\hyperlink{structVec3}{Vec3}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\subsubsection*{template$<$typename T = double$>$\newline
+struct Vec3$<$ T $>$}
+Represents a 3D vector. 
+
+\begin{DoxyNote}{Note}
+Use \mbox{\hyperlink{structVec3D}{Vec3D}} as a typedef for \mbox{\hyperlink{structVec3}{Vec3$<$double$>$}}. 
+\end{DoxyNote}
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example}{/home/runner/work/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/src/math/\+Vec3.\+h}}.\end{Desc}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{structVec3_a7c150f37ecfa78ced8b83bd95908cc33}\label{structVec3_a7c150f37ecfa78ced8b83bd95908cc33}} 
+\index{Vec3$<$ T $>$@{Vec3$<$ T $>$}!Vec3@{Vec3}}
+\index{Vec3@{Vec3}!Vec3$<$ T $>$@{Vec3$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{Vec3()}{Vec3()}\hspace{0.1cm}{\footnotesize\ttfamily [1/3]}}
+{\footnotesize\ttfamily template$<$typename T  = double$>$ \\
+\mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$\mbox{\hyperlink{structVec3}{\+::\+Vec3}} (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example}{/home/runner/work/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/src/math/\+Vec3.\+h}}.\end{Desc}
+\mbox{\Hypertarget{structVec3_af25b20ef0f5fb49cb3eda5cce9bc4810}\label{structVec3_af25b20ef0f5fb49cb3eda5cce9bc4810}} 
+\index{Vec3$<$ T $>$@{Vec3$<$ T $>$}!Vec3@{Vec3}}
+\index{Vec3@{Vec3}!Vec3$<$ T $>$@{Vec3$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{Vec3()}{Vec3()}\hspace{0.1cm}{\footnotesize\ttfamily [2/3]}}
+{\footnotesize\ttfamily template$<$typename T  = double$>$ \\
+\mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$\mbox{\hyperlink{structVec3}{\+::\+Vec3}} (\begin{DoxyParamCaption}\item[{T}]{e }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{structVec3_a878efffc26ead487ded582f9bf8509d7}\label{structVec3_a878efffc26ead487ded582f9bf8509d7}} 
+\index{Vec3$<$ T $>$@{Vec3$<$ T $>$}!Vec3@{Vec3}}
+\index{Vec3@{Vec3}!Vec3$<$ T $>$@{Vec3$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{Vec3()}{Vec3()}\hspace{0.1cm}{\footnotesize\ttfamily [3/3]}}
+{\footnotesize\ttfamily template$<$typename T  = double$>$ \\
+\mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$\mbox{\hyperlink{structVec3}{\+::\+Vec3}} (\begin{DoxyParamCaption}\item[{T}]{x\+\_\+,  }\item[{T}]{y\+\_\+,  }\item[{T}]{z\+\_\+ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{structVec3_ad53305ce68c69252fcda488413ccff7d}\label{structVec3_ad53305ce68c69252fcda488413ccff7d}} 
+\index{Vec3$<$ T $>$@{Vec3$<$ T $>$}!asArray@{asArray}}
+\index{asArray@{asArray}!Vec3$<$ T $>$@{Vec3$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{asArray()}{asArray()}}
+{\footnotesize\ttfamily template$<$typename T  = double$>$ \\
+constexpr std\+::array$<$ T, 3 $>$ \mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$\+::as\+Array (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+Convert \mbox{\hyperlink{structVec3}{Vec3}} to an array type. Useful for printing. 
+
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example}{/home/runner/work/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/src/math/\+Vec3.\+h}}.\end{Desc}
+\mbox{\Hypertarget{structVec3_aea98e7cac6f688fac3edef9905224d8a}\label{structVec3_aea98e7cac6f688fac3edef9905224d8a}} 
+\index{Vec3$<$ T $>$@{Vec3$<$ T $>$}!clone@{clone}}
+\index{clone@{clone}!Vec3$<$ T $>$@{Vec3$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{clone()}{clone()}}
+{\footnotesize\ttfamily template$<$typename T  = double$>$ \\
+constexpr \mbox{\hyperlink{structVec3}{Vec3}} \mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$\+::clone (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+Deep copy of a \mbox{\hyperlink{structVec3}{Vec3}}. 
+
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example}{/home/runner/work/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/src/math/\+Vec3.\+h}}.\end{Desc}
+\mbox{\Hypertarget{structVec3_a1f1102ce8abdefab1e58d6a835c9f23f}\label{structVec3_a1f1102ce8abdefab1e58d6a835c9f23f}} 
+\index{Vec3$<$ T $>$@{Vec3$<$ T $>$}!cross@{cross}}
+\index{cross@{cross}!Vec3$<$ T $>$@{Vec3$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{cross()}{cross()}}
+{\footnotesize\ttfamily template$<$typename T  = double$>$ \\
+constexpr \mbox{\hyperlink{structVec3}{Vec3}} \mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$\+::cross (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$ \&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+\mbox{\hyperlink{structVec3}{Vec3}} cross product. 
+
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example}{/home/runner/work/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/src/math/\+Vec3.\+h}}.\end{Desc}
+\mbox{\Hypertarget{structVec3_a43693311520ab2a7d56c969fff158884}\label{structVec3_a43693311520ab2a7d56c969fff158884}} 
+\index{Vec3$<$ T $>$@{Vec3$<$ T $>$}!dot@{dot}}
+\index{dot@{dot}!Vec3$<$ T $>$@{Vec3$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{dot()}{dot()}}
+{\footnotesize\ttfamily template$<$typename T  = double$>$ \\
+constexpr double \mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$\+::dot (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$ \&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+\mbox{\hyperlink{structVec3}{Vec3}} dot product. 
+
+Returns the scalar product of this vector with another vector. \begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example}{/home/runner/work/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/src/math/\+Vec3.\+h}}.\end{Desc}
+\mbox{\Hypertarget{structVec3_a146e00100a49a36b6c7ec58f4b3d34f6}\label{structVec3_a146e00100a49a36b6c7ec58f4b3d34f6}} 
+\index{Vec3$<$ T $>$@{Vec3$<$ T $>$}!length@{length}}
+\index{length@{length}!Vec3$<$ T $>$@{Vec3$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{length()}{length()}}
+{\footnotesize\ttfamily template$<$typename T  = double$>$ \\
+constexpr double \mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$\+::length (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+Retrieve the length of the vector. 
+
+\begin{DoxySeeAlso}{See also}
+\href{https://de.wikipedia.org/wiki/Euklidische_Norm}{\texttt{ https\+://de.\+wikipedia.\+org/wiki/\+Euklidische\+\_\+\+Norm}} 
+\end{DoxySeeAlso}
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example}{/home/runner/work/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/src/math/\+Vec3.\+h}}.\end{Desc}
+\mbox{\Hypertarget{structVec3_a29b0273d4597c445fc9653e1328d44f4}\label{structVec3_a29b0273d4597c445fc9653e1328d44f4}} 
+\index{Vec3$<$ T $>$@{Vec3$<$ T $>$}!operator"!=@{operator"!=}}
+\index{operator"!=@{operator"!=}!Vec3$<$ T $>$@{Vec3$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator"!=()}{operator!=()}}
+{\footnotesize\ttfamily template$<$typename T  = double$>$ \\
+constexpr bool \mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$\+::operator!= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$ \&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+\mbox{\hyperlink{structVec3}{Vec3}} inequivalence. 
+
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example}{/home/runner/work/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/src/math/\+Vec3.\+h}}.\end{Desc}
+\mbox{\Hypertarget{structVec3_aef5f143bbb46d49f2e973c41b398a8e4}\label{structVec3_aef5f143bbb46d49f2e973c41b398a8e4}} 
+\index{Vec3$<$ T $>$@{Vec3$<$ T $>$}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!Vec3$<$ T $>$@{Vec3$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$()}{operator*()}}
+{\footnotesize\ttfamily template$<$typename T  = double$>$ \\
+constexpr \mbox{\hyperlink{structVec3}{Vec3}} \mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$\+::operator$\ast$ (\begin{DoxyParamCaption}\item[{const T \&}]{scalar }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+Binary multiplication operator overload for \mbox{\hyperlink{structVec3}{Vec3}} with a scalar. 
+
+\mbox{\Hypertarget{structVec3_aa1641cdda7f77b45a7ff7e2d00a7c8b7}\label{structVec3_aa1641cdda7f77b45a7ff7e2d00a7c8b7}} 
+\index{Vec3$<$ T $>$@{Vec3$<$ T $>$}!operator$\ast$=@{operator$\ast$=}}
+\index{operator$\ast$=@{operator$\ast$=}!Vec3$<$ T $>$@{Vec3$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$=()}{operator*=()}}
+{\footnotesize\ttfamily template$<$typename T  = double$>$ \\
+constexpr \mbox{\hyperlink{structVec3}{Vec3}} \& \mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$\+::operator$\ast$= (\begin{DoxyParamCaption}\item[{const T \&}]{scalar }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+Binary multiplication operator overload for \mbox{\hyperlink{structVec3}{Vec3}} with a scalar. 
+
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example}{/home/runner/work/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/src/math/\+Vec3.\+h}}.\end{Desc}
+\mbox{\Hypertarget{structVec3_aac3b5e1c0903b721d85cb2d790eca2ea}\label{structVec3_aac3b5e1c0903b721d85cb2d790eca2ea}} 
+\index{Vec3$<$ T $>$@{Vec3$<$ T $>$}!operator+@{operator+}}
+\index{operator+@{operator+}!Vec3$<$ T $>$@{Vec3$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator+()}{operator+()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T  = double$>$ \\
+constexpr \mbox{\hyperlink{structVec3}{Vec3}} \mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$\+::operator+ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+Unary plus operator overload for \mbox{\hyperlink{structVec3}{Vec3}}. 
+
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example}{/home/runner/work/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/src/math/\+Vec3.\+h}}.\end{Desc}
+\mbox{\Hypertarget{structVec3_ae65ea69359bef6d13c11ce73594a7ab7}\label{structVec3_ae65ea69359bef6d13c11ce73594a7ab7}} 
+\index{Vec3$<$ T $>$@{Vec3$<$ T $>$}!operator+@{operator+}}
+\index{operator+@{operator+}!Vec3$<$ T $>$@{Vec3$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator+()}{operator+()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T  = double$>$ \\
+constexpr \mbox{\hyperlink{structVec3}{Vec3}} \mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$\+::operator+ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$ \&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+Binary addition operator overload for \mbox{\hyperlink{structVec3}{Vec3}}. 
+
+\mbox{\Hypertarget{structVec3_a83de7a007a55a8e91ebb6304479c8929}\label{structVec3_a83de7a007a55a8e91ebb6304479c8929}} 
+\index{Vec3$<$ T $>$@{Vec3$<$ T $>$}!operator+=@{operator+=}}
+\index{operator+=@{operator+=}!Vec3$<$ T $>$@{Vec3$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator+=()}{operator+=()}}
+{\footnotesize\ttfamily template$<$typename T  = double$>$ \\
+constexpr \mbox{\hyperlink{structVec3}{Vec3}} \& \mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$\+::operator+= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+Binary addition operator overload for \mbox{\hyperlink{structVec3}{Vec3}}. 
+
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example}{/home/runner/work/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/src/math/\+Vec3.\+h}}.\end{Desc}
+\mbox{\Hypertarget{structVec3_ad3302e65b5cbb3803c12f62144f9c265}\label{structVec3_ad3302e65b5cbb3803c12f62144f9c265}} 
+\index{Vec3$<$ T $>$@{Vec3$<$ T $>$}!operator-\/@{operator-\/}}
+\index{operator-\/@{operator-\/}!Vec3$<$ T $>$@{Vec3$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator-\/()}{operator-()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily template$<$typename T  = double$>$ \\
+constexpr \mbox{\hyperlink{structVec3}{Vec3}} \mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$\+::operator-\/ (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+Unary minus operator overload for \mbox{\hyperlink{structVec3}{Vec3}}. 
+
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example}{/home/runner/work/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/src/math/\+Vec3.\+h}}.\end{Desc}
+\mbox{\Hypertarget{structVec3_a3d1409f691f86b0a6def966dcc3e5ae8}\label{structVec3_a3d1409f691f86b0a6def966dcc3e5ae8}} 
+\index{Vec3$<$ T $>$@{Vec3$<$ T $>$}!operator-\/@{operator-\/}}
+\index{operator-\/@{operator-\/}!Vec3$<$ T $>$@{Vec3$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator-\/()}{operator-()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily template$<$typename T  = double$>$ \\
+constexpr \mbox{\hyperlink{structVec3}{Vec3}} \mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$\+::operator-\/ (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$ \&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+Binary subtraction operator overload for \mbox{\hyperlink{structVec3}{Vec3}}. 
+
+\mbox{\Hypertarget{structVec3_ac161c4e56a1d5cd3e2ddfcc8b2ba778f}\label{structVec3_ac161c4e56a1d5cd3e2ddfcc8b2ba778f}} 
+\index{Vec3$<$ T $>$@{Vec3$<$ T $>$}!operator-\/=@{operator-\/=}}
+\index{operator-\/=@{operator-\/=}!Vec3$<$ T $>$@{Vec3$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator-\/=()}{operator-=()}}
+{\footnotesize\ttfamily template$<$typename T  = double$>$ \\
+constexpr \mbox{\hyperlink{structVec3}{Vec3}} \& \mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$\+::operator-\/= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+Binary subtraction operator overload for \mbox{\hyperlink{structVec3}{Vec3}}. 
+
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example}{/home/runner/work/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/src/math/\+Vec3.\+h}}.\end{Desc}
+\mbox{\Hypertarget{structVec3_a6b34f96cf81612b05e1d4d64ee09bbd7}\label{structVec3_a6b34f96cf81612b05e1d4d64ee09bbd7}} 
+\index{Vec3$<$ T $>$@{Vec3$<$ T $>$}!operator/@{operator/}}
+\index{operator/@{operator/}!Vec3$<$ T $>$@{Vec3$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator/()}{operator/()}}
+{\footnotesize\ttfamily template$<$typename T  = double$>$ \\
+constexpr \mbox{\hyperlink{structVec3}{Vec3}} \mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$\+::operator/ (\begin{DoxyParamCaption}\item[{const T \&}]{scalar }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+Binary division operator overload for \mbox{\hyperlink{structVec3}{Vec3}} with a scalar. 
+
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example}{/home/runner/work/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/src/math/\+Vec3.\+h}}.\end{Desc}
+\mbox{\Hypertarget{structVec3_a3acd2d9a2464088858076d5facd8d60b}\label{structVec3_a3acd2d9a2464088858076d5facd8d60b}} 
+\index{Vec3$<$ T $>$@{Vec3$<$ T $>$}!operator/=@{operator/=}}
+\index{operator/=@{operator/=}!Vec3$<$ T $>$@{Vec3$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator/=()}{operator/=()}}
+{\footnotesize\ttfamily template$<$typename T  = double$>$ \\
+constexpr \mbox{\hyperlink{structVec3}{Vec3}} \& \mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$\+::operator/= (\begin{DoxyParamCaption}\item[{const T \&}]{scalar }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+Binary division operator overload for \mbox{\hyperlink{structVec3}{Vec3}} with a scalar. 
+
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example}{/home/runner/work/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/src/math/\+Vec3.\+h}}.\end{Desc}
+\mbox{\Hypertarget{structVec3_ae9eab0713e6aab5dddd839d159607e01}\label{structVec3_ae9eab0713e6aab5dddd839d159607e01}} 
+\index{Vec3$<$ T $>$@{Vec3$<$ T $>$}!operator=@{operator=}}
+\index{operator=@{operator=}!Vec3$<$ T $>$@{Vec3$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator=()}{operator=()}}
+{\footnotesize\ttfamily template$<$typename T  = double$>$ \\
+constexpr \mbox{\hyperlink{structVec3}{Vec3}} \& \mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$\+::operator= (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+Assignment operator overload for \mbox{\hyperlink{structVec3}{Vec3}}. 
+
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example}{/home/runner/work/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/src/math/\+Vec3.\+h}}.\end{Desc}
+\mbox{\Hypertarget{structVec3_a363944e806ab7659a0dee64f23154ebc}\label{structVec3_a363944e806ab7659a0dee64f23154ebc}} 
+\index{Vec3$<$ T $>$@{Vec3$<$ T $>$}!operator==@{operator==}}
+\index{operator==@{operator==}!Vec3$<$ T $>$@{Vec3$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator==()}{operator==()}}
+{\footnotesize\ttfamily template$<$typename T  = double$>$ \\
+constexpr bool \mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$\+::operator== (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$ \&}]{other }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [constexpr]}}
+
+
+
+\mbox{\hyperlink{structVec3}{Vec3}} equivalence. 
+
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example}{/home/runner/work/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/src/math/\+Vec3.\+h}}.\end{Desc}
+
+
+\doxysubsection{Friends And Related Function Documentation}
+\mbox{\Hypertarget{structVec3_a187b22d670faecb6bfe27132b0f1fca3}\label{structVec3_a187b22d670faecb6bfe27132b0f1fca3}} 
+\index{Vec3$<$ T $>$@{Vec3$<$ T $>$}!operator$\ast$@{operator$\ast$}}
+\index{operator$\ast$@{operator$\ast$}!Vec3$<$ T $>$@{Vec3$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{operator$\ast$}{operator*}}
+{\footnotesize\ttfamily template$<$typename T  = double$>$ \\
+constexpr friend \mbox{\hyperlink{structVec3}{Vec3}} operator$\ast$ (\begin{DoxyParamCaption}\item[{const T \&}]{scalar,  }\item[{const \mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$ \&}]{other }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [friend]}}
+
+
+
+Binary multiplication operator overload for a scalar with a \mbox{\hyperlink{structVec3}{Vec3}}. 
+
+\begin{DoxyNote}{Note}
+This is a friend function as the scalar is on the left. 
+\end{DoxyNote}
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example}{/home/runner/work/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/src/math/\+Vec3.\+h}}.\end{Desc}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{structVec3_aeba95c52e15a5a7476550c1798210db2}\label{structVec3_aeba95c52e15a5a7476550c1798210db2}} 
+\index{Vec3$<$ T $>$@{Vec3$<$ T $>$}!x@{x}}
+\index{x@{x}!Vec3$<$ T $>$@{Vec3$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{x}{x}}
+{\footnotesize\ttfamily template$<$typename T  = double$>$ \\
+T \mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$\+::x}
+
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example}{/home/runner/work/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/src/math/\+Vec3.\+h}}.\end{Desc}
+\mbox{\Hypertarget{structVec3_a76f06eaf078504ac1d09c910ddb24696}\label{structVec3_a76f06eaf078504ac1d09c910ddb24696}} 
+\index{Vec3$<$ T $>$@{Vec3$<$ T $>$}!y@{y}}
+\index{y@{y}!Vec3$<$ T $>$@{Vec3$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{y}{y}}
+{\footnotesize\ttfamily template$<$typename T  = double$>$ \\
+T \mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$\+::y}
+
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example}{/home/runner/work/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/src/math/\+Vec3.\+h}}.\end{Desc}
+\mbox{\Hypertarget{structVec3_a0f694311f956380952aee054cbabb8b6}\label{structVec3_a0f694311f956380952aee054cbabb8b6}} 
+\index{Vec3$<$ T $>$@{Vec3$<$ T $>$}!z@{z}}
+\index{z@{z}!Vec3$<$ T $>$@{Vec3$<$ T $>$}}
+\doxysubsubsection{\texorpdfstring{z}{z}}
+{\footnotesize\ttfamily template$<$typename T  = double$>$ \\
+T \mbox{\hyperlink{structVec3}{Vec3}}$<$ T $>$\+::z}
+
+\begin{Desc}
+\item[Examples]\par
+\mbox{\hyperlink{_2home_2runner_2work_2MolSim-WS25-GroupA_2MolSim-WS25-GroupA_2src_2math_2Vec3_8h-example}{/home/runner/work/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/\+Mol\+Sim-\/\+WS25-\/\+Group\+A/src/math/\+Vec3.\+h}}.\end{Desc}
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+src/math/\mbox{\hyperlink{Vec3_8h}{Vec3.\+h}}\end{DoxyCompactItemize}
