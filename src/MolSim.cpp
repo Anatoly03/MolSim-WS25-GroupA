@@ -63,7 +63,6 @@ int main(int argc, char *argsv[]) {
 
         iteration++;
         if (iteration % 10 == 0) {
-
             plotParticles(iteration, args.output_path);
         }
         std::cout << "Iteration " << iteration << " finished." << std::endl;
