@@ -55,6 +55,9 @@ int main(int argc, char *argsv[]) {
 
     int iteration = 0;
 
+    // initial plot
+    plotParticles(iteration, args.output_path);
+
     // for this loop, we assume: current x, current f and current v are known
     while (current_time < args.end_time) {
         calculatePosition(args.delta_t);
