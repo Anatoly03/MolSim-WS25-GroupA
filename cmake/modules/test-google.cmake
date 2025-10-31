@@ -23,8 +23,9 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-add_executable(MolSimTest ${MY_TEST_SRC} ${MY_SRC})
-target_link_libraries(MolSimTest PRIVATE GTest::gtest_main)
+find_package(GTest REQUIRED)
+add_executable(MolSimTest ${MY_TEST_SRC} ${MY_SRC} PRIVATE ${GTEST_INCLUDE_DIRS})
+target_link_libraries(MolSimTest PRIVATE GTest::gtest_main ${GTEST_BOTH_LIBRARIES})
 
 include(GoogleTest)
 gtest_discover_tests(MolSimTest)
