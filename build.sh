@@ -1,10 +1,11 @@
 #!/usr/bin/env bash
 
 # Build CMake
-cmake . -DENABLE_VTK_OUTPUT=OFF
+mkdir build
+cmake . -B build -DENABLE_VTK_OUTPUT=OFF -Wno-dev
 
 # Build project
-make -j 4 
+cmake --build build -- -j 4
 
 # Run help command to verify build
-./MolSim -h
+./build/MolSim -h
