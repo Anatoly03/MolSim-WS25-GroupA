@@ -122,8 +122,8 @@ class ParticleContainer {
     //  */
     // template<typename Acc>
     // void reduce(const std::function<Acc(Particle &, Acc)> &callback, Acc acc = default) {
-    //     for (size_t i = 0; i < particles.size(); i++) {
-    //         acc = callback(particles[i], acc);
+    //     for (auto particle : particles) {
+    //         acc = callback(particle, acc);
     //     }
     // }
 

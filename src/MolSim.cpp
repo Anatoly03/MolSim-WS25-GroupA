@@ -100,17 +100,17 @@ void calculateForce() {
 
 void calculatePosition(const double delta) {
     particles.forEach([delta](Particle &particle) {
-        Vec3D x = particle.getPosition() + delta * particle.getVelocity() +
+        Vec3D new_position = particle.getPosition() + delta * particle.getVelocity() +
                   std::pow(delta, 2) * particle.getForce() / (2 * particle.getMass());
-        particle.setPosition(x);
+        particle.setPosition(new_position);
     });
 }
 
 void calculateVelocity(const double delta) {
     particles.forEach([delta](Particle &particle) {
-        Vec3D v = particle.getVelocity() +
+        Vec3D new_velocity = particle.getVelocity() +
                   delta * ((particle.getForce() + particle.getOldForce()) / (2 * particle.getMass()));
-        particle.setVelocity(v);
+        particle.setVelocity(new_velocity);
     });
 }
 
