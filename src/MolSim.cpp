@@ -2,6 +2,7 @@
 #include <cmath>
 #include <iostream>
 #include <list>
+#include <string>
 
 #include "FileReader.h"
 #include "Frame.h"
@@ -68,12 +69,12 @@ int main(int argc, char *argsv[]) {
         if (iteration % 10 == 0) {
             plotParticles(iteration, args.output_path);
         }
-        std::cout << "Iteration " << iteration << " finished." << std::endl;
+        std::cout << "Iteration " << iteration << " finished.\n";
 
         current_time += args.delta_t;
     }
 
-    std::cout << "output written. Terminating..." << std::endl;
+    std::cout << "output written. Terminating...\n";
     return 0;
 }
 
@@ -97,24 +98,24 @@ void calculateForce() {
     });
 }
 
-void calculatePosition(const double dt) {
-    particles.forEach([dt](Particle &particle) {
-        Vec3D x = particle.getPosition() + dt * particle.getVelocity() +
-                  std::pow(dt, 2) * particle.getForce() / (2 * particle.getMass());
-        particle.setPosition(x);
+void calculatePosition(const double delta) {
+    particles.forEach([delta](Particle &particle) {
+        Vec3D new_position = particle.getPosition() + delta * particle.getVelocity() +
+                  std::pow(delta, 2) * particle.getForce() / (2 * particle.getMass());
+        particle.setPosition(new_position);
     });
 }
 
-void calculateVelocity(const double dt) {
-    particles.forEach([dt](Particle &particle) {
-        Vec3D v =
-            particle.getVelocity() + dt * ((particle.getForce() + particle.getOldForce()) / (2 * particle.getMass()));
-        particle.setVelocity(v);
+void calculateVelocity(const double delta) {
+    particles.forEach([delta](Particle &particle) {
+        Vec3D new_velocity = particle.getVelocity() +
+                  delta * ((particle.getForce() + particle.getOldForce()) / (2 * particle.getMass()));
+        particle.setVelocity(new_velocity);
     });
 }
 
 void plotParticles(int iteration, const char *output_path) {
-    std::string out_name(output_path);
+    const std::string out_name(output_path);
 #ifdef ENABLE_VTK_OUTPUT
     outputWriter::VTKWriter writerVTK;
     writerVTK.plotParticles(particles, out_name, iteration);
