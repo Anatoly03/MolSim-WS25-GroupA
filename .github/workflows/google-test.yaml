@@ -1,0 +1,18 @@
+# Code Testing Build using Google Test Framework.
+# 
+# https://github.com/marketplace/actions/setup-googletest
+
+name: Google Test CI
+on:
+    pull_request:
+        types: [synchronize]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: Bacondish2023/setup-googletest@v1.0.1
+        with:
+          tag: v1.14.0
