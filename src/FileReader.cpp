@@ -29,18 +29,18 @@ void FileReader::readFile(ParticleContainer &particles, char *filename) {
 
     if (input_file.is_open()) {
         getline(input_file, tmp_string);
-        spdlog::debug("Read line: {}", tmp_string);
+        spdlog::debug("read: {}", tmp_string);
 
         while (tmp_string.empty() or tmp_string[0] == '#') {
             getline(input_file, tmp_string);
-            spdlog::debug("Read line: {}", tmp_string);
+            spdlog::debug("read: {}", tmp_string);
         }
 
         std::istringstream numstream(tmp_string);
         numstream >> num_particles;
-        spdlog::info("Reading {}.", num_particles);
+        spdlog::debug("read: {}", num_particles);
         getline(input_file, tmp_string);
-        spdlog::debug("Read line: {}", tmp_string);
+        spdlog::debug("read: {}", tmp_string);
         particles.reserve(num_particles);
 
         for (int i = 0; i < num_particles; i++) {
@@ -54,18 +54,18 @@ void FileReader::readFile(ParticleContainer &particles, char *filename) {
             datastream >> velocity.z;
 
             if (datastream.eof()) {
-                spdlog::error("error: read file: eof reached unexpectedly reading from line {}", i);
+                spdlog::error("read file: eof reached unexpectedly reading from line {}", i);
                 exit(-1);
             }
             datastream >> mass;
-            
+
             particles.emplace_back(position, (velocity), mass);
 
             getline(input_file, tmp_string);
-            spdlog::debug("read line: {}", tmp_string);
+            spdlog::debug("read: {}", tmp_string);
         }
     } else {
-        spdlog::error("error: could not open file {}", filename);
+        spdlog::error("could not open file {}", filename);
         exit(-1);
     }
 }

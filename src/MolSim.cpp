@@ -6,8 +6,8 @@
 #include "FileReader.h"
 #include "Frame.h"
 #include "ParticleContainer.h"
-#include "utils/ArrayUtils.h"
 #include "spdlog/spdlog.h"
+#include "utils/ArrayUtils.h"
 
 #ifdef ENABLE_VTK_OUTPUT
 #include "outputWriter/VTKWriter.h"
@@ -74,7 +74,7 @@ int main(int argc, char *argsv[]) {
         current_time += args.delta_t;
     }
 
-    spdlog::info("output written. Terminating...");
+    spdlog::info("Output written. Terminating...");
     return 0;
 }
 
