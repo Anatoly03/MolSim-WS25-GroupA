@@ -57,7 +57,10 @@ Particle::Particle(Vec3D pos_arg, Vec3D vel_arg, double mass_arg, int type_arg) 
 /**
  * Particle destructor.
  */
-Particle::~Particle() { spdlog::info("Particle destructed!"); }
+Particle::~Particle() {
+    // TODO resolve segfault
+    // spdlog::info("Particle destructed!");
+}
 
 /**
  * @brief Get the position of this Particle.
