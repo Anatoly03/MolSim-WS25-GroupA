@@ -4,6 +4,8 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
+#include "spdlog/spdlog.h"
+
 // https://stackoverflow.com/a/42906151 mkdir needs wrapper on windows subsystems
 #ifdef _WIN32
 #include <direct.h>
@@ -11,11 +13,13 @@
 #endif
 
 /**
- * @brief Print help message and exit
+ * @brief Print help message and exit.
+ * @note DO NOT USE SPDLOG HERE. This is part of the program frame and
+ * should be printed conventionally using fprintf.
  */
 [[noreturn]]
 void printHelp(const char *progname) {
-    fprintf(stderr,
+    fprintf(stdout,
             "Usage:\n"
             "  %s [input] [options]\n\n"
             "Input File Format:\n"
@@ -25,6 +29,7 @@ void printHelp(const char *progname) {
             "path/to/output/vtk)\n"
             "  -t, --time <int>      total simulation time (default: 1000)\n"
             "  -d, --delta <float>   time step delta (default: 0.014)\n"
+            "  -L <level>            log level (hierarchy: trace, debug, info, warn, err, critical)\n"
             "  -h, --help            print this help message\n\n"
             "Example:\n"
             "  %s input.txt -o output/simulation -t 500 -d 0.01\n",
@@ -35,10 +40,15 @@ void printHelp(const char *progname) {
 /**
  * @brief Print usage message and exit. A short version of print help
  * used only when an error occurs in program frame.
+ * @note DO NOT USE SPDLOG HERE. This is part of the program frame and
+ * should be printed conventionally using fprintf.
  */
 [[noreturn]]
 void printUsage(const char *progname) {
-    fprintf(stderr, "Usage: %s -h\n", progname);
+    fprintf(stderr,
+            "Usage: %s [input] [options]\n"
+            "Help:  %s -h\n",
+            progname, progname);
     exit(1);
 }
 
@@ -79,7 +89,9 @@ bool createPath(const char *output_pattern, const char *directory_offset = "") {
  */
 Args ProcessArgs(int argc, char *argv[]) {
     const char *progname = argv[0];
+
     Args args = Args();
+    int log_level = 0;
 
     int opt;
     // parse options first
@@ -93,6 +105,19 @@ Args ProcessArgs(int argc, char *argv[]) {
                 break;
             case 'o':
                 args.output_path = const_cast<char *>(optarg);
+                break;
+            case 'L':
+                log_level = atoi(optarg);
+
+                // if log level is in valid range, set it directly in spdlog
+                if (log_level >= 0 && log_level <= 5) {
+                    spdlog::set_level(static_cast<spdlog::level::level_enum>(log_level));
+                    break;
+                }
+
+                // TODO non-numeric log level name options like `-L warn` and `-L err` (see spdlog source code)
+                // spdlog::level::from_str(&log_level_code);
+                // spdlog::set_level(level);
                 break;
 
             case 'h':  // -h or --help
@@ -108,7 +133,7 @@ Args ProcessArgs(int argc, char *argv[]) {
         args.input_file = argv[optind];
         optind++;
     } else {
-        fprintf(stderr, "error: missing positional argument: input file\n");
+        spdlog::error("missing positional argument: input file");
         printUsage(progname);
     }
 
@@ -117,7 +142,7 @@ Args ProcessArgs(int argc, char *argv[]) {
         args.output_path = const_cast<char *>("MD_vtk");
     } else {
         if (!createPath(args.output_path)) {
-            fprintf(stderr, "error: could not create output directory\n");
+            spdlog::error("could not create path: {}", args.output_path);
             printUsage(progname);
         }
     }
