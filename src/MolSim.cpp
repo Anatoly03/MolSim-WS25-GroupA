@@ -7,6 +7,7 @@
 #include "Frame.h"
 #include "ParticleContainer.h"
 #include "utils/ArrayUtils.h"
+#include "spdlog/spdlog.h"
 
 #ifdef ENABLE_VTK_OUTPUT
 #include "outputWriter/VTKWriter.h"
@@ -68,12 +69,12 @@ int main(int argc, char *argsv[]) {
         if (iteration % 10 == 0) {
             plotParticles(iteration, args.output_path);
         }
-        std::cout << "Iteration " << iteration << " finished." << std::endl;
+        spdlog::info("Iteration {} finished.", iteration);
 
         current_time += args.delta_t;
     }
 
-    std::cout << "output written. Terminating..." << std::endl;
+    spdlog::info("output written. Terminating...");
     return 0;
 }
 

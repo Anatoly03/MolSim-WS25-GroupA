@@ -1,4 +1,5 @@
 #include "Frame.h"
+#include "spdlog/spdlog.h"
 
 #include <errno.h>
 #include <sys/stat.h>
@@ -15,9 +16,9 @@
  */
 [[noreturn]]
 void printHelp(const char *progname) {
-    fprintf(stderr,
+    spdlog::debug(
             "Usage:\n"
-            "  %s [input] [options]\n\n"
+            "  {} [input] [options]\n\n"
             "Input File Format:\n"
             "  The input file contains the initial configuration of the particles.\n\n"
             "Options:\n"
@@ -25,9 +26,10 @@ void printHelp(const char *progname) {
             "path/to/output/vtk)\n"
             "  -t, --time <int>      total simulation time (default: 1000)\n"
             "  -d, --delta <float>   time step delta (default: 0.014)\n"
+            "  -L<level>             log level (default: 1, integer between 0 and 5)\n"
             "  -h, --help            print this help message\n\n"
             "Example:\n"
-            "  %s input.txt -o output/simulation -t 500 -d 0.01\n",
+            "  {} input.txt -o output/simulation -t 500 -d 0.01\n",
             progname, progname);
     exit(1);
 }
@@ -38,7 +40,7 @@ void printHelp(const char *progname) {
  */
 [[noreturn]]
 void printUsage(const char *progname) {
-    fprintf(stderr, "Usage: %s -h\n", progname);
+    spdlog::debug("Usage: {} -h\n", progname);
     exit(1);
 }
 
@@ -108,7 +110,7 @@ Args ProcessArgs(int argc, char *argv[]) {
         args.input_file = argv[optind];
         optind++;
     } else {
-        fprintf(stderr, "error: missing positional argument: input file\n");
+        spdlog::error("error: missing positional argument: input file");
         printUsage(progname);
     }
 
@@ -117,7 +119,7 @@ Args ProcessArgs(int argc, char *argv[]) {
         args.output_path = const_cast<char *>("MD_vtk");
     } else {
         if (!createPath(args.output_path)) {
-            fprintf(stderr, "error: could not create output directory\n");
+            spdlog::error("error: could not create path: {}", args.output_path);
             printUsage(progname);
         }
     }
