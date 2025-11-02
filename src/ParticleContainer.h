@@ -5,6 +5,7 @@
 #pragma once
 
 #include <vector>
+#include <functional>
 
 #include "Particle.h"
 #include "math/Vec3.h"
