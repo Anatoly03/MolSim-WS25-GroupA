@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-const char *const OPTSTRING = "ho:t:d:";
+const char *const OPTSTRING = "ho:t:d:L:";
 
 /**
  * @brief Definition of all long options.
