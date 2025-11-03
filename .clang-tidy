@@ -9,14 +9,14 @@
 # Same as '--checks'. Additionally, the list of
 # globs can be specified as a list instead of a
 # string.
-Checks: '*,-llvmlibc-restrict-system-libc-headers,-llvmlibc-callee-namespace'
+Checks: '*,google-*,cppcoreguidelines-*,-llvmlibc-restrict-system-libc-headers,-llvmlibc-callee-namespace'
 
 # List of user defined checks based on
 # Clang-Query syntax.
 # CustomChecks;
 
 # Same as '--exclude-header-filter'.
-ExcludeHeaderFilterRegex: '.*spdlog.*'
+ExcludeHeaderFilterRegex: 'spdlog/spdlog.h'
 
 # Same as '--extra-arg'.
 # ExtraArgs:

@@ -5,7 +5,7 @@ if [ -d "build" ]; then rm -rf build; fi
 mkdir build
 
 # Build CMake
-cmake -S . -B build -DENABLE_VTK_OUTPUT=OFF -Wno-dev
+cmake -S . -B build -DENABLE_VTK_OUTPUT=OFF -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -Wno-dev
 
 # Build project
 make -C build -j4
