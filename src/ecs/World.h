@@ -17,6 +17,10 @@ struct World {
     std::unordered_map<unsigned int, void *> resources;
 
    public:
+    //
+    // ENTITY MANAGEMENT
+    //
+
     /**
      * @brief Creates a new entity and returns its identifier.
      * @return The unique identifier of the newly created entity.
@@ -39,6 +43,10 @@ struct World {
         // TODO implement entity count
         return 0;
     }
+
+    //
+    // ENTITY-COMPONENT RELATION MANAGEMENT
+    //
 
     /**
      * @brief Adds a component to an entity.
@@ -74,6 +82,10 @@ struct World {
         // TODO implement remove component
     }
 
+    //
+    // RESOURCE MANAGEMENT
+    //
+
     /**
      * @brief Adds a public resource.
      */
@@ -96,5 +108,37 @@ struct World {
         }
 
         return static_cast<Resource *>(resources[type_hash]);
+    }
+
+    //
+    // GLOBAL ITERATION
+    //
+
+    /**
+     * @return Entity Id of the first matching entity.
+     */
+    Entity begin() {
+        return 0;
+    }
+
+    /**
+     * @return Entity Id of the last matching entity.
+     */
+    Entity end() {
+        return 0;
+    }
+
+    /**
+     * @return Entity Id of the first matching entity.
+     */
+    Entity begin() const {
+        return 0;
+    }
+
+    /**
+     * @return Entity Id of the last matching entity.
+     */
+    Entity end() const {
+        return 0;
     }
 };
