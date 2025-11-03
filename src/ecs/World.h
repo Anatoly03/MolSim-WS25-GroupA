@@ -133,36 +133,32 @@ struct World {
     }
 
     //
-    // GLOBAL ITERATION
+    // GLOBAL ENTITY ITERATION
     //
 
     /**
-     * @return Entity Id of the first matching entity. Yields
-     * 0 if no entities exist.
+     * @brief Iterator.
      */
     iter begin() {
         return entities.begin();
     }
 
     /**
-     * @return Entity Id of the last matching entity. Yields
-     * 0 if no entities exist.
+     * @brief Iterator.
      */
     iter end() {
         return entities.end();
     }
 
     /**
-     * @return Entity Id of the first matching entity. Yields
-     * 0 if no entities exist.
+     * @brief Const iterator.
      */
     const_iter begin() const {
         return entities.begin();
     }
 
     /**
-     * @return Entity Id of the last matching entity. Yields
-     * 0 if no entities exist.
+     * @brief Const iterator.
      */
     const_iter end() const {
         return entities.end();

@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <set>
 #include <typeinfo>
 
 #include "Entity.h"
@@ -13,41 +14,41 @@
 template <typename... Components>
 struct Query {
    private:
-    const World& world;
+    const World &world;
 
    public:
+    /**
+     * @brief Iterator class for Query.
+     * @details https://en.cppreference.com/w/cpp/iterator/iterator.html
+     */
+    class iter : public std::iterator<std::input_iterator_tag, Entity> {
+       public:
+        // TODO implement
+        // explicit iter(long ??) ??
+    };
+
+    //
+    // QUERY INSTANTIATION
+    //
+
     Query() = delete;
 
     /**
      * @brief Default constructor taking a world reference.
      */
-    Query(const World& world) : world(world) {}
+    Query(const World &world) : world(world) {}
+
+    //
+    // QUERY ITERATION
+    //
 
     /**
-     * @return Entity Id of the first matching entity.
+     * @brief Iterator.
      */
-    Entity begin() {
-        return 0;
-    }
+    iter begin() { return entities.begin(); }
 
     /**
-     * @return Entity Id of the last matching entity.
+     * @brief Iterator.
      */
-    Entity end() {
-        return 0;
-    }
-
-    /**
-     * @return Entity Id of the first matching entity.
-     */
-    Entity begin() const {
-        return 0;
-    }
-
-    /**
-     * @return Entity Id of the last matching entity.
-     */
-    Entity end() const {
-        return 0;
-    }
+    iter end() { return entities.end(); }
 };
