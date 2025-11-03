@@ -1,0 +1,62 @@
+# Copied from clang-tidy help message
+# https://clang.llvm.org/extra/clang-tidy/
+
+# List of key-value pairs defining check-specific
+# options. Example:
+# CheckOptions:
+#     some-check.SomeOption: 'some value'
+
+# Same as '--checks'. Additionally, the list of
+# globs can be specified as a list instead of a
+# string.
+Checks: '*,-llvmlibc-restrict-system-libc-headers,-llvmlibc-callee-namespace'
+
+# List of user defined checks based on
+# Clang-Query syntax.
+# CustomChecks;
+
+# Same as '--exclude-header-filter'.
+ExcludeHeaderFilterRegex: '.*spdlog.*'
+
+# Same as '--extra-arg'.
+# ExtraArgs:
+
+# Same as '--extra-arg-before'.
+# ExtraArgsBefore:
+
+# Same as '--format-style'.
+# FormatStyle:
+
+# File extensions to consider to determine if a
+# given diagnostic is located in a header file.
+# HeaderFileExtensions:
+
+# Same as '--header-filter'.
+HeaderFilterRegex: '.*'
+
+# File extensions to consider to determine if a
+# given diagnostic is located in an implementation
+# file.
+# ImplementationFileExtensions:
+
+# If this option is true in a config file, the
+# configuration file in the parent directory
+# (if any exists) will be taken and the current
+# config file will be applied on top of the
+# parent one.
+# InheritParentConfig:
+
+# Same as '--system-headers'.
+# SystemHeaders:
+
+# Same as '--use-color'.
+UseColor: true
+
+# Specifies the name or e-mail of the user
+# running clang-tidy. This option is used, for
+# example, to place the correct user name in
+# TODO() comments in the relevant check.
+# User:
+
+# Same as '--warnings-as-errors'.
+# WarningsAsErrors:

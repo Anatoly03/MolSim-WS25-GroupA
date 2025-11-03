@@ -14,7 +14,7 @@ project(PSEMolDyn VERSION 0.0.1 LANGUAGES CXX)
 set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug;Release;RelWithDebInfo;MinSizeRel")
 
 # set clang-tidy as static analyzer if found
-set(CMAKE_CXX_CLANG_TIDY "clang-tidy;-checks=*,-llvmlibc-restrict-system-libc-headers,-llvmlibc-callee-namespace")
+set(CMAKE_CXX_CLANG_TIDY "clang-tidy;--fix;--format-style=file")
 
 # set Release as the default build type if it is not yet set.
 if(NOT CMAKE_BUILD_TYPE)
@@ -23,16 +23,14 @@ if(NOT CMAKE_BUILD_TYPE)
 endif(NOT CMAKE_BUILD_TYPE)
 
 # collect all cpp files
+# header don't need to be included but this might be necessary for some IDEs
 file(GLOB_RECURSE MY_SRC
     "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
-    # header don't need to be included but this might be necessary for some IDEs
     "${CMAKE_CURRENT_SOURCE_DIR}/src/*.h"
 )
 
 # create make target
-add_executable(MolSim ${MY_SRC}
-        src/ParticleContainer.cpp
-        src/ParticleContainer.h)
+add_executable(MolSim ${MY_SRC})
 
 target_include_directories(MolSim
         PRIVATE
