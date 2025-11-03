@@ -2,13 +2,21 @@
 #pragma once
 
 #include <typeinfo>
-#include <unordered_set>
+#include <set>
+#include <vector>
 
 #include "Entity.h"
 
 struct World {
    private:
     Entity next_id = 1;
+
+    /**
+     * @brief Set of all active entity IDs.
+     */
+    std::set<Entity> entities;
+
+    // TODO entity-components mapping
 
     /**
      * @brief Resource allocation. Maps type hash to resource pointer.
@@ -25,14 +33,26 @@ struct World {
      * @brief Creates a new entity and returns its identifier.
      * @return The unique identifier of the newly created entity.
      */
-    Entity createEntity() { return next_id++; }
+    Entity createEntity() {
+        Entity eid = next_id++;
+        entities.insert(eid);
+        return eid;
+    }
+
+    /**
+     * @brief Yields if the entity id exists or is removed.
+     * @returns True if the entity exists, false otherwise.
+     */
+    bool existsEntity(Entity entity) {
+        return entities.find(entity) != entities.end();
+    }
 
     /**
      * @brief Destroys an entity given its identifier.
      * @param entity The unique identifier of the entity to destroy.
      */
     void destroyEntity(Entity entity) {
-        // TODO implement destructor
+        entities.erase(entity);
     }
 
     /**
@@ -40,8 +60,7 @@ struct World {
      * @return The number of entities in the world.
      */
     unsigned int entityCount() {
-        // TODO implement entity count
-        return 0;
+        return entities.size();
     }
 
     //
