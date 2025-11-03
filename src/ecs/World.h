@@ -1,8 +1,8 @@
 
 #pragma once
 
-#include <typeinfo>
 #include <set>
+#include <typeinfo>
 #include <vector>
 
 #include "Entity.h"
@@ -35,6 +35,12 @@ struct World {
     /**
      * @brief Creates a new entity and returns its identifier.
      * @return The unique identifier of the newly created entity.
+     * @example
+     * ```c++
+     * World world();
+     * Entity e1 = world.createEntity();    // e1 == 1
+     * Entity e2 = world.createEntity();    // e2 == 2
+     * ```
      */
     Entity createEntity() {
         Entity eid = next_id++;
@@ -45,26 +51,43 @@ struct World {
     /**
      * @brief Yields if the entity id exists or is removed.
      * @returns True if the entity exists, false otherwise.
+     * @example
+     * ```c++
+     * World world();
+     * world.createEntity();                // eidd == 1
+     * world.existsEntity(1);               // exists == true
+     * world.existsEntity(2);               // exists == false
+     * ```
      */
-    bool existsEntity(Entity entity) {
-        return entities.find(entity) != entities.end();
-    }
+    bool existsEntity(Entity entity) { return entities.find(entity) != entities.end(); }
 
     /**
      * @brief Destroys an entity given its identifier.
      * @param entity The unique identifier of the entity to destroy.
+     * @example
+     * ```c++
+     * World world();
+     * Entity eid = world.createEntity();   // eid == 1
+     * world.existsEntity(eid);             // exists == true
+     * world.destroyEntity(eid);
+     * world.existsEntity(eid);             // exists == false
+     * ```
      */
-    void destroyEntity(Entity entity) {
-        entities.erase(entity);
-    }
+    void destroyEntity(Entity entity) { entities.erase(entity); }
 
     /**
      * @brief Amount of entities in the world.
      * @return The number of entities in the world.
+     * @example
+     * ```c++
+     * World world();
+     * world.createEntity();
+     * world.entityCount();                 // count == 1
+     * world.createEntity();
+     * world.entityCount();                 // count == 2
+     * ```
      */
-    unsigned int entityCount() {
-        return entities.size();
-    }
+    unsigned int entityCount() { return entities.size(); }
 
     //
     // ENTITY-COMPONENT RELATION MANAGEMENT
@@ -75,6 +98,17 @@ struct World {
      * @details Adds a component of the specified type to the given
      * entity, overriding the previous component of the same type. If
      * overridden, returns the previous component, otherwise returns nullptr.
+     * @example
+     * ```c++
+     * World world();
+     *
+     * Entity eid = world.createEntity();
+     * Position pos(0.0, 1.0, 0.0);
+     * Velocity vel(0.1, 0.0, 0.0);
+     *
+     * world.addComponent<Position>(eid, pos);
+     * world.addComponent<Velocity>(eid, vel);
+     * ```
      */
     template <typename Component>
     Component *addComponent(Entity entity, Component component) {
@@ -86,6 +120,19 @@ struct World {
     /**
      * @brief Gets a component from an entity.
      * @details Uses generic template to get component of the specified type.
+     * @example
+     * ```c++
+     * World world();
+     *
+     * Entity eid = world.createEntity();
+     * Position pos(0.0, 1.0, 0.0);
+     * Velocity vel(0.1, 0.0, 0.0);
+     *
+     * world.addComponent<Position>(eid, Position(0.0, 1.0, 0.0));
+     * world.addComponent<Velocity>(eid, Velocity(0.1, 0.0, 0.0));
+     *
+     * ASSERT(world.getComponent<Position>(eid).y == 1.0);
+     * ```
      */
     template <typename Component>
     Component *getComponent(Entity entity) {
@@ -96,6 +143,19 @@ struct World {
 
     /**
      * @brief Removes a component from an entity.
+     * @example
+     * ```c++
+     * World world();
+     *
+     * Entity eid = world.createEntity();
+     * Position pos(0.0, 1.0, 0.0);
+     * Velocity vel(0.1, 0.0, 0.0);
+     *
+     * world.addComponent<Position>(eid, Position(0.0, 1.0, 0.0));
+     * world.addComponent<Velocity>(eid, Velocity(0.1, 0.0, 0.0));
+     * world.removeComponent<Position>(eid);
+     * world.removeComponent<Velocity>(eid);
+     * ```
      */
     template <typename Component>
     void removeComponent(Entity entity, Component component) {
@@ -110,6 +170,22 @@ struct World {
 
     /**
      * @brief Adds a public resource.
+     * @example
+     * ```c++
+     * World world();
+     *
+     * struct TimeResource {
+     *    public:
+     *     double elapsedTime;
+     *     double delta;
+     *
+     *     TimeResource(double dt) : elapsedTime(0), delta(dt) {}
+     * }
+     *
+     * TimeResource time_res(0.01);
+     *
+     * world.addResource<TimeResource>(time_res);
+     * ```
      */
     template <typename Resource>
     Resource *addResource(Resource component) {
@@ -120,6 +196,23 @@ struct World {
 
     /**
      * @brief Gets a public resource or nullptr if not existing.
+     * @example
+     * ```c++
+     * World world();
+     *
+     * struct TimeResource {
+     *    public:
+     *     double elapsedTime;
+     *     double delta;
+     *
+     *     TimeResource(double dt) : elapsedTime(0), delta(dt) {}
+     * }
+     *
+     * TimeResource time_res(0.01);
+     *
+     * world.addResource<TimeResource>(time_res);
+     *
+     * TimeResource res = world.getResource<TimeResource>();
      */
     template <typename Resource>
     Resource *getResource() {
@@ -139,28 +232,20 @@ struct World {
     /**
      * @brief Iterator.
      */
-    iter begin() {
-        return entities.begin();
-    }
+    iter begin() { return entities.begin(); }
 
     /**
      * @brief Iterator.
      */
-    iter end() {
-        return entities.end();
-    }
+    iter end() { return entities.end(); }
 
     /**
      * @brief Const iterator.
      */
-    const_iter begin() const {
-        return entities.begin();
-    }
+    const_iter begin() const { return entities.begin(); }
 
     /**
      * @brief Const iterator.
      */
-    const_iter end() const {
-        return entities.end();
-    }
+    const_iter end() const { return entities.end(); }
 };
