@@ -16,3 +16,5 @@ jobs:
         uses: actions/checkout@v4.2.2
       - name: Build Project
         uses: threeal/cmake-action@v2.1.0
+        with:
+          args: -DENABLE_VTK_OUTPUT=OFF
