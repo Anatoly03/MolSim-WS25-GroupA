@@ -19,7 +19,7 @@
  */
 Particle::Particle(int type_arg) {
     type = type_arg;
-    spdlog::info("Particle generated (empty)!");
+    spdlog::debug("Particle generated (empty)!");
     force = {0., 0., 0.};
     old_force = {0., 0., 0.};
 }
@@ -36,7 +36,7 @@ Particle::Particle(const Particle &other) {
     mass = other.mass;
     type = other.type;
 
-    spdlog::info("Particle generated (by copy)!");
+    spdlog::debug("Particle generated (by copy)!");
 }
 
 /**
@@ -51,14 +51,14 @@ Particle::Particle(Vec3D pos_arg, Vec3D vel_arg, double mass_arg, int type_arg) 
     force = {0., 0., 0.};
     old_force = {0., 0., 0.};
 
-    spdlog::info("Particle generated!");
+    spdlog::debug("Particle generated!");
 }
 
 /**
  * Particle destructor.
  */
 Particle::~Particle() {
-    spdlog::info("Particle destructed!");
+    spdlog::debug("Particle destructed!");
 }
 
 /**
