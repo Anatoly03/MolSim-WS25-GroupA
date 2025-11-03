@@ -134,28 +134,43 @@ struct World {
     //
 
     /**
-     * @return Entity Id of the first matching entity.
+     * @return Entity Id of the first matching entity. Yields
+     * 0 if no entities exist.
      */
     Entity begin() {
-        return 0;
+        if (entities.empty()) {
+            return 0;
+        }
+
+        return *entities.begin();
     }
 
     /**
-     * @return Entity Id of the last matching entity.
+     * @return Entity Id of the last matching entity. Yields
+     * 0 if no entities exist.
      */
     Entity end() {
-        return 0;
+        if (entities.empty()) {
+            return 0;
+        }
+        return *(entities.end() - 1);
     }
 
     /**
-     * @return Entity Id of the first matching entity.
+     * @return Entity Id of the first matching entity. Yields
+     * 0 if no entities exist.
      */
     Entity begin() const {
-        return 0;
+        if (entities.empty()) {
+            return 0;
+        }
+
+        return *entities.begin();
     }
 
     /**
-     * @return Entity Id of the last matching entity.
+     * @return Entity Id of the last matching entity. Yields
+     * 0 if no entities exist.
      */
     Entity end() const {
         return 0;
