@@ -8,6 +8,7 @@
 
 #include "Particle.h"
 #include "math/Vec3.h"
+#include "spdlog/spdlog.h"
 
 /**
  * @class ParticleContainer
@@ -26,7 +27,13 @@ class ParticleContainer {
     typedef std::vector<Particle>::const_iterator const_iterator;
 
     ParticleContainer() = default;
-    ~ParticleContainer() = default;
+
+    /**
+     * @brief ParticleContainer destructor.
+     */
+    ~ParticleContainer() {
+        particles.clear();
+    };
 
     explicit ParticleContainer(size_type capacity) { particles.reserve(capacity); }
 

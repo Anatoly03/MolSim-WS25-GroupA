@@ -15,32 +15,27 @@
 #include "outputWriter/XYZWriter.h"
 #endif
 
-/**
- * using ParticleContainer instead of std::list<Particle> particles
- */
-static ParticleContainer particles;
-
 /**** forward declaration of the calculation functions ****/
 
 /**
  * calculate the force for all particles
  */
-void calculateForce();
+void calculateForce(ParticleContainer& particles);
 
 /**
  * calculate the position for all particles
  */
-void calculatePosition(double dt);
+void calculatePosition(ParticleContainer& particles, double dt);
 
 /**
  * calculate the position for all particles
  */
-void calculateVelocity(double dt);
+void calculateVelocity(ParticleContainer& particles, double dt);
 
 /**
  * plot the particles to a xyz-file
  */
-void plotParticles(int iteration, const char *output_path);
+void plotParticles(ParticleContainer& particles, int iteration, const char *output_path);
 
 /**
  * @brief The program entry point is the Rahmenprogramm which after getting all
@@ -49,25 +44,25 @@ void plotParticles(int iteration, const char *output_path);
 int main(int argc, char *argsv[]) {
     const auto args = ProcessArgs(argc, argsv);
 
+    ParticleContainer particles;
     FileReader fileReader;
     fileReader.readFile(particles, args.input_file);
-
+    
     double current_time = args.start_time;
-
     int iteration = 0;
 
     // initial plot
-    plotParticles(iteration, args.output_path);
+    plotParticles(particles, iteration, args.output_path);
 
     // for this loop, we assume: current x, current f and current v are known
     while (current_time < args.end_time) {
-        calculatePosition(args.delta_t);
-        calculateForce();
-        calculateVelocity(args.delta_t);
+        calculatePosition(particles, args.delta_t);
+        calculateForce(particles);
+        calculateVelocity(particles, args.delta_t);
 
         iteration++;
         if (iteration % 10 == 0) {
-            plotParticles(iteration, args.output_path);
+            plotParticles(particles, iteration, args.output_path);
         }
         spdlog::info("Iteration {} finished.", iteration);
 
@@ -78,8 +73,8 @@ int main(int argc, char *argsv[]) {
     return 0;
 }
 
-void calculateForce() {
-    particles.forEach([](Particle &particle) {
+void calculateForce(ParticleContainer& particles) {
+    particles.forEach([&particles](Particle &particle) {
         Vec3D force(0);
 
         particles.forEach([&particle, &force](const Particle &other) {
@@ -98,7 +93,7 @@ void calculateForce() {
     });
 }
 
-void calculatePosition(const double dt) {
+void calculatePosition(ParticleContainer& particles, const double dt) {
     particles.forEach([dt](Particle &particle) {
         Vec3D x = particle.getPosition() + dt * particle.getVelocity() +
                   std::pow(dt, 2) * particle.getForce() / (2 * particle.getMass());
@@ -106,7 +101,7 @@ void calculatePosition(const double dt) {
     });
 }
 
-void calculateVelocity(const double dt) {
+void calculateVelocity(ParticleContainer& particles, const double dt) {
     particles.forEach([dt](Particle &particle) {
         Vec3D v =
             particle.getVelocity() + dt * ((particle.getForce() + particle.getOldForce()) / (2 * particle.getMass()));
@@ -114,7 +109,7 @@ void calculateVelocity(const double dt) {
     });
 }
 
-void plotParticles(int iteration, const char *output_path) {
+void plotParticles(ParticleContainer& particles, int iteration, const char *output_path) {
     std::string out_name(output_path);
 #ifdef ENABLE_VTK_OUTPUT
     outputWriter::VTKWriter writerVTK;
