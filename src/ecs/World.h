@@ -226,6 +226,47 @@ struct World {
     }
 
     //
+    // SYSTEM MANAGEMENT
+    //
+
+    /**
+     * @brief Calls a system function for all entities having the required components.
+     * @example
+     * ```c++
+     * World world();
+     *
+     * Entity eid1 = world.createEntity();
+     * Entity eid2 = world.createEntity();
+     * 
+     * Position pos(0.0, 1.0, 0.0);
+     * Velocity vel(0.1, 0.0, 0.0);
+     *
+     * world.addComponent<Position>(eid1, Position(0.0, 1.0, 0.0));
+     * world.addComponent<Velocity>(eid1, Velocity(0.1, 0.0, 0.0));
+     * 
+     * void updatePosition(Position &pos, Velocity &vel) {
+     *     *pos += *vel;
+     * }
+     * 
+     * world.invoke<Position, Velocity>(updatePosition);
+     * ```
+     */
+    // https://stackoverflow.com/questions/14441410/function-signature-as-template-parameter
+    // https://stackoverflow.com/questions/7230621/how-can-i-iterate-over-a-packed-variadic-template-argument-list
+    // https://en.cppreference.com/w/cpp/language/fold.html
+    template <typename... Components>
+    void invoke(void (*callback)(Components&...)) {
+        // TODO refactor
+
+        for (Entity entity : entities) {
+            // Iterate over every entity, get all components and call the system.
+            callback(
+                (*getComponent<Components>(entity))...
+            );
+        }
+    }
+
+    //
     // GLOBAL ENTITY ITERATION
     //
 
