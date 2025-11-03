@@ -42,13 +42,13 @@ struct Query {
     // QUERY ITERATION
     //
 
-    /**
-     * @brief Iterator.
-     */
-    iter begin() { return entities.begin(); }
+    // /**
+    //  * @brief Iterator.
+    //  */
+    // iter begin() { return entities.begin(); }
 
-    /**
-     * @brief Iterator.
-     */
-    iter end() { return entities.end(); }
+    // /**
+    //  * @brief Iterator.
+    //  */
+    // iter end() { return entities.end(); }
 };
