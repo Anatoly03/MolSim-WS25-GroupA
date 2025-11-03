@@ -25,7 +25,7 @@ ExcludeHeaderFilterRegex: '.*spdlog.*'
 # ExtraArgsBefore:
 
 # Same as '--format-style'.
-# FormatStyle:
+FormatStyle: file
 
 # File extensions to consider to determine if a
 # given diagnostic is located in a header file.
