@@ -31,9 +31,7 @@ class ParticleContainer {
     /**
      * @brief ParticleContainer destructor.
      */
-    ~ParticleContainer() {
-        particles.clear();
-    };
+    ~ParticleContainer() = default;
 
     explicit ParticleContainer(size_type capacity) { particles.reserve(capacity); }
 
