@@ -2,11 +2,19 @@
 #pragma once
 
 #include <typeinfo>
+#include <unordered_set>
+
 #include "Entity.h"
 
 struct World {
    private:
     Entity next_id = 1;
+
+    /**
+     * @brief Resource allocation. Maps type hash to resource pointer.
+     * Assumes the default constructor exists.
+     */
+    std::unordered_map<unsigned int, void *> resources;
 
    public:
     /**
@@ -64,5 +72,29 @@ struct World {
         size_t type_hash = typeid(Component).hash_code();
 
         // TODO implement remove component
+    }
+
+    /**
+     * @brief Adds a public resource.
+     */
+    template <typename Resource>
+    Resource *addResource(Resource component) {
+        size_t type_hash = typeid(Resource).hash_code();
+
+        resources[type_hash] = component;
+    }
+
+    /**
+     * @brief Gets a public resource or nullptr if not existing.
+     */
+    template <typename Resource>
+    Resource *getResource() {
+        size_t type_hash = typeid(Resource).hash_code();
+
+        if (resources[type_hash] == nullptr) {
+            return nullptr;
+        }
+
+        return static_cast<Resource *>(resources[type_hash]);
     }
 };
