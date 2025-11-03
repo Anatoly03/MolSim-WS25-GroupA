@@ -3,13 +3,17 @@
 
 cmake_minimum_required(VERSION 3.14)
 
+# GoogleTest requires at least C++17
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 # collect all test files
 # header don't need to be included but this might be necessary for some IDEs
 file(GLOB_RECURSE MY_TEST_SRC
         "${PROJECT_SOURCE_DIR}/test/*.cc"
+        "${PROJECT_SOURCE_DIR}/test/*.cpp"
         "${PROJECT_SOURCE_DIR}/test/*.h"
 )
-
 
 include(FetchContent)
 
@@ -20,27 +24,12 @@ FetchContent_Declare(
 
 # windows: prevent overriding the parent project's compiler/linker settings
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+
 FetchContent_MakeAvailable(googletest)
 
 enable_testing()
-
-#find_package(GTest REQUIRED)
-
-#add_executable(MolSimTest ${MY_TEST_SRC} ${MY_SRC} PRIVATE ${GTEST_INCLUDE_DIRS})
 add_executable(MolSimTest ${MY_TEST_SRC})
-target_link_libraries(MolSimTest PRIVATE GTest::gtest_main)
-target_include_directories(MolSimTest PRIVATE ${GTEST_INCLUDE_DIRS})
-#target_link_libraries(MolSimTest PRIVATE GTest::gtest_main ${GTEST_BOTH_LIBRARIES})
-
-include(GoogleTest)
-gtest_discover_tests(MolSimTest)
+target_link_libraries(MolSimTest GTest::gtest_main)
 
 # https://stackoverflow.com/a/736838
 add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} ${CMAKE_CURRENT_SOURCE_DIR})
-
-
-
-
-
-
-

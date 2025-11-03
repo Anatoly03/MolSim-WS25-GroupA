@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 
-# Build CMake
+# Remove previous build directory if it exists
+if [ -d "build" ]; then rm -rf build; fi
 mkdir build
-cmake . -B build -DENABLE_VTK_OUTPUT=OFF -Wno-dev
+
+# Build CMake
+cmake -S . -B build -DENABLE_VTK_OUTPUT=OFF -DCMAKE_CXX_STANDARD=17 -DCMAKE_CXX_STANDARD_REQUIRED=ON -Wno-dev
 
 # Build project
 cmake --build build -- -j 4
 
 # Run help command to verify build
-./build/MolSim -h
+./build/MolSim
