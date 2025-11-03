@@ -29,7 +29,7 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 add_executable(MolSimTest ${MY_TEST_SRC})
-target_link_libraries(MolSimTest GTest::gtest_main)
+target_link_libraries(MolSimTest gtest gtest_main)
 
 # https://stackoverflow.com/a/736838
 add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} ${CMAKE_CURRENT_SOURCE_DIR})

@@ -1,0 +1,18 @@
+# Build the project using CMake.
+# https://github.com/marketplace/actions/cmake-action
+
+name: CMake Build CI
+
+on:
+  pull_request:
+    types: [synchronize]
+
+jobs:
+  build-project:
+    name: Build Project
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v4.2.2
+      - name: Build Project
+        uses: threeal/cmake-action@v2.1.0
