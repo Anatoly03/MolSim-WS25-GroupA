@@ -1,9 +1,9 @@
 // code cited from https://google.github.io/googletest/quickstart-cmake.html
 
 #include <gtest/gtest.h>
-#include "../src/Particle.cpp"
-#include "../src/ParticleContainer.h"
 
+#include "../src/Particle.h"
+#include "../src/ParticleContainer.h"
 #include "../src/math/Vec3.h"
 
 

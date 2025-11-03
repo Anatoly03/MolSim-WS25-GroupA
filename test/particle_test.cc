@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "../src/Particle.cpp"
+#include "../src/Particle.h"
 #include "../src/ParticleContainer.h"
 #include "../src/math/Vec3.h"
 
