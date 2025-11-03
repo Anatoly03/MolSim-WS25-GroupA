@@ -8,7 +8,7 @@ mkdir build
 cmake -S . -B build -DENABLE_VTK_OUTPUT=OFF -DCMAKE_CXX_STANDARD=17 -DCMAKE_CXX_STANDARD_REQUIRED=ON -Wno-dev
 
 # Build project
-cmake --build build -- -j 4
+make -C build -j4
 
 # Run help command to verify build
-./build/MolSim
+./build/MolSim -h short
