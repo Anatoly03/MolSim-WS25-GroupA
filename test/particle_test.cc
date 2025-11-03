@@ -8,7 +8,7 @@
  * @brief Simple particle container test to check emplace_back
  * and iterator functionality.
  */
-TEST(ParticleContainerTest) {
+TEST(ParticleContainerTest, BasicAssertions) {
     ParticleContainer particles;
 
     Particle p1(Vec3D(1.0), Vec3D(4.0), 7, 0);
