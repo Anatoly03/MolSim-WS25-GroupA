@@ -11,7 +11,7 @@
 #endif
 
 /**
- * @brief Print help message and exit
+ * @brief Print full help message and exit.
  */
 [[noreturn]]
 void printHelp(const char *progname) {
@@ -25,7 +25,8 @@ void printHelp(const char *progname) {
             "path/to/output/vtk)\n"
             "  -t, --time <int>      total simulation time (default: 1000)\n"
             "  -d, --delta <float>   time step delta (default: 0.014)\n"
-            "  -h, --help            print this help message\n\n"
+            "  -h, --help            print this help message\n"
+            "  --help short          print compact help message\n\n"
             "Example:\n"
             "  %s input.txt -o output/simulation -t 500 -d 0.01\n",
             progname, progname);
@@ -38,7 +39,7 @@ void printHelp(const char *progname) {
  */
 [[noreturn]]
 void printUsage(const char *progname) {
-    fprintf(stderr, "Usage: %s -h\n", progname);
+    fprintf(stderr, "Usage: %s --help\n", progname);
     exit(1);
 }
 
@@ -85,17 +86,24 @@ Args ProcessArgs(int argc, char *argv[]) {
     // parse options first
     while ((opt = getopt_long(argc, argv, OPTSTRING, GETOPT_LONG, nullptr)) != -1) {
         switch (opt) {
-            case 't':
+            case 't': // -t or --time
                 args.end_time = atof(optarg);
                 break;
-            case 'd':
+            case 'd': // -d or --delta
                 args.delta_t = atof(optarg);
                 break;
-            case 'o':
+            case 'o': // -o or --output
                 args.output_path = const_cast<char *>(optarg);
                 break;
 
-            case 'h':  // -h or --help
+            case 'h': // -h or --help
+                if (optarg != nullptr && strcmp(optarg, "short") == 0) {
+                    printUsage(progname);
+                }
+
+                printHelp(progname);
+                break;
+
             case '?':  // unrecognized option
             default:
                 printHelp(progname);
