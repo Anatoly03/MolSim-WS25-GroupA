@@ -248,14 +248,14 @@ struct World {
      *     *pos += *vel;
      * }
      * 
-     * world.invoke<Position, Velocity>(updatePosition);
+     * world.forEach<Position, Velocity>(updatePosition);
      * ```
      */
     // https://stackoverflow.com/questions/14441410/function-signature-as-template-parameter
     // https://stackoverflow.com/questions/7230621/how-can-i-iterate-over-a-packed-variadic-template-argument-list
     // https://en.cppreference.com/w/cpp/language/fold.html
     template <typename... Components>
-    void invoke(void (*callback)(Components&...)) {
+    void forEach(void (*callback)(Components&...)) {
         // TODO refactor
 
         for (Entity entity : entities) {
@@ -265,6 +265,8 @@ struct World {
             );
         }
     }
+
+    // TODO forEachParallel implementation
 
     //
     // GLOBAL ENTITY ITERATION
