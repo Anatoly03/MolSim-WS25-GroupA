@@ -30,7 +30,7 @@ void FileReader::readFile(ParticleContainer &particles, char *filename) {
     if (input_file.is_open()) {
         getline(input_file, tmp_string);
         spdlog::debug("read: {}", tmp_string);
-      
+
         while (tmp_string.empty() or tmp_string[0] == '#') {
             getline(input_file, tmp_string);
             spdlog::debug("read: {}", tmp_string);

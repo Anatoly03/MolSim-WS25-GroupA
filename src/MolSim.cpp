@@ -21,22 +21,22 @@
 /**
  * calculate the force for all particles
  */
-void calculateForce(ParticleContainer& particles);
+void calculateForce(ParticleContainer &particles);
 
 /**
  * calculate the position for all particles
  */
-void calculatePosition(ParticleContainer& particles, double delta);
+void calculatePosition(ParticleContainer &particles, double delta);
 
 /**
  * calculate the position for all particles
  */
-void calculateVelocity(ParticleContainer& particles, double delta);
+void calculateVelocity(ParticleContainer &particles, double delta);
 
 /**
  * plot the particles to a xyz-file
  */
-void plotParticles(ParticleContainer& particles, int iteration, const char *output_path);
+void plotParticles(ParticleContainer &particles, int iteration, const char *output_path);
 
 /**
  * @brief The program entry point is the Rahmenprogramm which after getting all
@@ -48,7 +48,7 @@ int main(int argc, char *argsv[]) {
     ParticleContainer particles;
     FileReader fileReader;
     fileReader.readFile(particles, args.input_file);
-    
+
     double current_time = args.start_time;
     int iteration = 0;
 
@@ -74,7 +74,7 @@ int main(int argc, char *argsv[]) {
     return 0;
 }
 
-void calculateForce(ParticleContainer& particles) {
+void calculateForce(ParticleContainer &particles) {
     particles.forEach([&particles](Particle &particle) {
         Vec3D force(0);
 
@@ -94,23 +94,23 @@ void calculateForce(ParticleContainer& particles) {
     });
 }
 
-void calculatePosition(ParticleContainer& particles, const double delta) {
+void calculatePosition(ParticleContainer &particles, const double delta) {
     particles.forEach([delta](Particle &particle) {
         Vec3D new_position = particle.getPosition() + delta * particle.getVelocity() +
-                  std::pow(delta, 2) * particle.getForce() / (2 * particle.getMass());
+                             std::pow(delta, 2) * particle.getForce() / (2 * particle.getMass());
         particle.setPosition(new_position);
     });
 }
 
-void calculateVelocity(ParticleContainer& particles, const double delta) {
+void calculateVelocity(ParticleContainer &particles, const double delta) {
     particles.forEach([delta](Particle &particle) {
-        Vec3D new_velocity =
-            particle.getVelocity() + delta * ((particle.getForce() + particle.getOldForce()) / (2 * particle.getMass()));
+        Vec3D new_velocity = particle.getVelocity() +
+                             delta * ((particle.getForce() + particle.getOldForce()) / (2 * particle.getMass()));
         particle.setVelocity(new_velocity);
     });
 }
 
-void plotParticles(ParticleContainer& particles, int iteration, const char *output_path) {
+void plotParticles(ParticleContainer &particles, int iteration, const char *output_path) {
     const std::string out_name(output_path);
 
 #ifdef ENABLE_VTK_OUTPUT
