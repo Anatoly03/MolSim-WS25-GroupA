@@ -3,6 +3,7 @@
 #include <errno.h>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <string.h>
 
 // https://stackoverflow.com/a/42906151 mkdir needs wrapper on windows subsystems
 #ifdef _WIN32
