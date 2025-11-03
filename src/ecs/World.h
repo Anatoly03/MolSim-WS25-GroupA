@@ -25,6 +25,9 @@ struct World {
     std::unordered_map<unsigned int, void *> resources;
 
    public:
+    using iter = std::set<Entity>::iterator;
+    using const_iter = std::set<Entity>::const_iterator;
+
     //
     // ENTITY MANAGEMENT
     //
@@ -137,42 +140,31 @@ struct World {
      * @return Entity Id of the first matching entity. Yields
      * 0 if no entities exist.
      */
-    Entity begin() {
-        if (entities.empty()) {
-            return 0;
-        }
-
-        return *entities.begin();
+    iter begin() {
+        return entities.begin();
     }
 
     /**
      * @return Entity Id of the last matching entity. Yields
      * 0 if no entities exist.
      */
-    Entity end() {
-        if (entities.empty()) {
-            return 0;
-        }
-        return *(entities.end() - 1);
+    iter end() {
+        return entities.end();
     }
 
     /**
      * @return Entity Id of the first matching entity. Yields
      * 0 if no entities exist.
      */
-    Entity begin() const {
-        if (entities.empty()) {
-            return 0;
-        }
-
-        return *entities.begin();
+    const_iter begin() const {
+        return entities.begin();
     }
 
     /**
      * @return Entity Id of the last matching entity. Yields
      * 0 if no entities exist.
      */
-    Entity end() const {
-        return 0;
+    const_iter end() const {
+        return entities.end();
     }
 };
