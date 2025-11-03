@@ -8,8 +8,6 @@
 
 #include "Particle.h"
 #include "math/Vec3.h"
-#include "spdlog/spdlog.h"
-
 /**
  * @class ParticleContainer
  * @brief Refactoring,owning container for Particle with simple iteration over particles and particle pairs
