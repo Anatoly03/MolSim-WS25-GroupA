@@ -8,7 +8,6 @@
 
 #include "Particle.h"
 #include "math/Vec3.h"
-
 /**
  * @class ParticleContainer
  * @brief Refactoring,owning container for Particle with simple iteration over particles and particle pairs
@@ -26,6 +25,10 @@ class ParticleContainer {
     typedef std::vector<Particle>::const_iterator const_iterator;
 
     ParticleContainer() = default;
+
+    /**
+     * @brief ParticleContainer destructor.
+     */
     ~ParticleContainer() = default;
 
     explicit ParticleContainer(size_type capacity) { particles.reserve(capacity); }
