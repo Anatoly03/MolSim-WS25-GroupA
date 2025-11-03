@@ -74,8 +74,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle"><div class="title">MolSim.cpp File Reference</div></div>
 </div><!--header-->
 <div class="contents">
@@ -85,31 +84,27 @@ $(function() {
 <code>#include &quot;<a class="el" href="FileReader_8h_source.html">FileReader.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="Frame_8h_source.html">Frame.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="ParticleContainer_8h_source.html">ParticleContainer.h</a>&quot;</code><br />
+<code>#include &quot;spdlog/spdlog.h&quot;</code><br />
 <code>#include &quot;<a class="el" href="ArrayUtils_8h_source.html">utils/ArrayUtils.h</a>&quot;</code><br />
 <code>#include &quot;<a class="el" href="XYZWriter_8h_source.html">outputWriter/XYZWriter.h</a>&quot;</code><br />
 </div><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="func-members" name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a3dae9439e84b4df9a0ba56ed4d37e3cd"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="MolSim_8cpp.html#a3dae9439e84b4df9a0ba56ed4d37e3cd">calculateForce</a> ()</td></tr>
-<tr class="separator:a3dae9439e84b4df9a0ba56ed4d37e3cd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8294b722025297d3b1dbdaf789ffd1c5"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="MolSim_8cpp.html#a8294b722025297d3b1dbdaf789ffd1c5">calculatePosition</a> (double dt)</td></tr>
-<tr class="separator:a8294b722025297d3b1dbdaf789ffd1c5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac294d5b4fa93c4904effe7b3f991d62d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="MolSim_8cpp.html#ac294d5b4fa93c4904effe7b3f991d62d">calculateVelocity</a> (double dt)</td></tr>
-<tr class="separator:ac294d5b4fa93c4904effe7b3f991d62d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9ef692d7dd1cbde4a29d99732bcbc7fb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="MolSim_8cpp.html#a9ef692d7dd1cbde4a29d99732bcbc7fb">plotParticles</a> (int iteration, const char *output_path)</td></tr>
-<tr class="separator:a9ef692d7dd1cbde4a29d99732bcbc7fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b53d6d6812485d7f3349cbad08047c2"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="MolSim_8cpp.html#a9b53d6d6812485d7f3349cbad08047c2">calculateForce</a> (<a class="el" href="classParticleContainer.html">ParticleContainer</a> &amp;particles)</td></tr>
+<tr class="separator:a9b53d6d6812485d7f3349cbad08047c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e1aa114b193f723cc481c0276d4a345"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="MolSim_8cpp.html#a7e1aa114b193f723cc481c0276d4a345">calculatePosition</a> (<a class="el" href="classParticleContainer.html">ParticleContainer</a> &amp;particles, double dt)</td></tr>
+<tr class="separator:a7e1aa114b193f723cc481c0276d4a345"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a28eb6f9bdbf6945147e8c86e54dc4626"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="MolSim_8cpp.html#a28eb6f9bdbf6945147e8c86e54dc4626">calculateVelocity</a> (<a class="el" href="classParticleContainer.html">ParticleContainer</a> &amp;particles, double dt)</td></tr>
+<tr class="separator:a28eb6f9bdbf6945147e8c86e54dc4626"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1a9011073cbc1a4f66306406c675d2c8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="MolSim_8cpp.html#a1a9011073cbc1a4f66306406c675d2c8">plotParticles</a> (<a class="el" href="classParticleContainer.html">ParticleContainer</a> &amp;particles, int iteration, const char *output_path)</td></tr>
+<tr class="separator:a1a9011073cbc1a4f66306406c675d2c8"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a329c95e85f063f49b0daaed5c5b56335"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="MolSim_8cpp.html#a329c95e85f063f49b0daaed5c5b56335">main</a> (int argc, char *argsv[])</td></tr>
 <tr class="memdesc:a329c95e85f063f49b0daaed5c5b56335"><td class="mdescLeft">&#160;</td><td class="mdescRight">The program entry point is the Rahmenprogramm which after getting all variables calls the molecular simulation methods.  <br /></td></tr>
 <tr class="separator:a329c95e85f063f49b0daaed5c5b56335"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="var-members" name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a6b352757b6951d85f71bd9cbc47cf619"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classParticleContainer.html">ParticleContainer</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="MolSim_8cpp.html#a6b352757b6951d85f71bd9cbc47cf619">particles</a></td></tr>
-<tr class="separator:a6b352757b6951d85f71bd9cbc47cf619"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Function Documentation</h2>
-<a id="a3dae9439e84b4df9a0ba56ed4d37e3cd" name="a3dae9439e84b4df9a0ba56ed4d37e3cd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3dae9439e84b4df9a0ba56ed4d37e3cd">&#9670;&#160;</a></span>calculateForce()</h2>
+<a id="a9b53d6d6812485d7f3349cbad08047c2" name="a9b53d6d6812485d7f3349cbad08047c2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9b53d6d6812485d7f3349cbad08047c2">&#9670;&#160;</a></span>calculateForce()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -117,7 +112,8 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">void calculateForce </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype"><a class="el" href="classParticleContainer.html">ParticleContainer</a> &amp;&#160;</td>
+          <td class="paramname"><em>particles</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -126,8 +122,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a8294b722025297d3b1dbdaf789ffd1c5" name="a8294b722025297d3b1dbdaf789ffd1c5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8294b722025297d3b1dbdaf789ffd1c5">&#9670;&#160;</a></span>calculatePosition()</h2>
+<a id="a7e1aa114b193f723cc481c0276d4a345" name="a7e1aa114b193f723cc481c0276d4a345"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e1aa114b193f723cc481c0276d4a345">&#9670;&#160;</a></span>calculatePosition()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -135,9 +131,19 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">void calculatePosition </td>
           <td>(</td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>dt</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="classParticleContainer.html">ParticleContainer</a> &amp;&#160;</td>
+          <td class="paramname"><em>particles</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>dt</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -145,8 +151,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="ac294d5b4fa93c4904effe7b3f991d62d" name="ac294d5b4fa93c4904effe7b3f991d62d"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac294d5b4fa93c4904effe7b3f991d62d">&#9670;&#160;</a></span>calculateVelocity()</h2>
+<a id="a28eb6f9bdbf6945147e8c86e54dc4626" name="a28eb6f9bdbf6945147e8c86e54dc4626"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a28eb6f9bdbf6945147e8c86e54dc4626">&#9670;&#160;</a></span>calculateVelocity()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -154,9 +160,19 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">void calculateVelocity </td>
           <td>(</td>
-          <td class="paramtype">double&#160;</td>
-          <td class="paramname"><em>dt</em></td><td>)</td>
+          <td class="paramtype"><a class="el" href="classParticleContainer.html">ParticleContainer</a> &amp;&#160;</td>
+          <td class="paramname"><em>particles</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">double&#160;</td>
+          <td class="paramname"><em>dt</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
 </div><div class="memdoc">
@@ -194,8 +210,8 @@ Variables</h2></td></tr>
 
 </div>
 </div>
-<a id="a9ef692d7dd1cbde4a29d99732bcbc7fb" name="a9ef692d7dd1cbde4a29d99732bcbc7fb"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a9ef692d7dd1cbde4a29d99732bcbc7fb">&#9670;&#160;</a></span>plotParticles()</h2>
+<a id="a1a9011073cbc1a4f66306406c675d2c8" name="a1a9011073cbc1a4f66306406c675d2c8"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1a9011073cbc1a4f66306406c675d2c8">&#9670;&#160;</a></span>plotParticles()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -203,6 +219,12 @@ Variables</h2></td></tr>
         <tr>
           <td class="memname">void plotParticles </td>
           <td>(</td>
+          <td class="paramtype"><a class="el" href="classParticleContainer.html">ParticleContainer</a> &amp;&#160;</td>
+          <td class="paramname"><em>particles</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
           <td class="paramtype">int&#160;</td>
           <td class="paramname"><em>iteration</em>, </td>
         </tr>
@@ -220,30 +242,6 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>plot the particles to a xyz-file </p>
-
-</div>
-</div>
-<h2 class="groupheader">Variable Documentation</h2>
-<a id="a6b352757b6951d85f71bd9cbc47cf619" name="a6b352757b6951d85f71bd9cbc47cf619"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a6b352757b6951d85f71bd9cbc47cf619">&#9670;&#160;</a></span>particles</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname"><a class="el" href="classParticleContainer.html">ParticleContainer</a> particles</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<p>using <a class="el" href="classParticleContainer.html" title="Refactoring,owning container for Particle with simple iteration over particles and particle pairs.">ParticleContainer</a> instead of std::list&lt;Particle&gt; particles </p>
 
 </div>
 </div>
