@@ -49,9 +49,9 @@ int main(int argc, char *argsv[]) {
     fileReader.readFile(particles, args.input_file);
 
 #ifdef ENABLE_VTK_OUTPUT
-    Writer writer = (Writer&)outputWriter::VTKWriter(particles);
+    Writer writer = outputWriter::VTKWriter(particles);
 #else
-    Writer writer = (Writer&)outputWriter::XYZWriter(particles);
+    Writer writer = outputWriter::XYZWriter(particles);
 #endif
 
     double current_time = args.start_time;

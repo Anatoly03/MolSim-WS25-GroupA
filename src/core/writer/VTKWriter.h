@@ -57,6 +57,9 @@ class VTKWriter : public Writer {
         return ".vtu";
     }
 
+    // TODO refactor: use writeMagicHeader
+    // TODO refactor: use plotSingleParticle
+
    public:
     /**
      * @brief Plot particles to file, returns stream.
