@@ -1,4 +1,6 @@
 
+#pragma once
+
 #include <fstream>
 #include <iomanip>
 #include <sstream>
@@ -13,16 +15,30 @@ class Writer {
    protected:
     ParticleContainer &particles;
 
-   public:
+   private:
     /**
      * @note Default constructor without providing particle container is private.
      */
     Writer() = delete;
 
+   public:
+    /**
+     * @note Default constructor removed. The = operator however is explicitly
+     * provided.
+     */
+    Writer &operator=(const Writer &other) {
+        if (this == &other) {
+            return *this;
+        }
+
+        this->particles = other.particles;
+        return *this;
+    }
+
     /**
      * @brief Default constructor
      */
-    Writer(ParticleContainer &p): particles(p) {}
+    Writer(ParticleContainer &p) : particles(p) {}
 
     /**
      * @brief Destructor.
@@ -33,9 +49,7 @@ class Writer {
     /**
      * @brief Standard file extension for this writer.
      */
-    virtual const char* getExtension() const {
-        return ".out";
-    }
+    virtual const char *getExtension() const { return ".out"; }
 
     /**
      * @brief Get file name for iteration.
