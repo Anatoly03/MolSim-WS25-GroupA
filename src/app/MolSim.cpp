@@ -51,6 +51,12 @@ int main(int argc, char *argsv[]) {
     FileReader fileReader;
     fileReader.readFile(particles, args.input_file);
 
+#ifdef ENABLE_VTK_OUTPUT
+    Writer writer = (Writer&)outputWriter::VTKWriter(particles);
+#else
+    Writer writer = (Writer&)outputWriter::XYZWriter(particles);
+#endif
+
     double current_time = args.start_time;
 
     int iteration = 0;
@@ -115,11 +121,12 @@ void calculateVelocity(const double dt) {
 
 void plotParticles(int iteration, const char *output_path) {
     std::string out_name(output_path);
+    
 #ifdef ENABLE_VTK_OUTPUT
-    outputWriter::VTKWriter writerVTK;
-    writerVTK.plotParticles(particles, out_name, iteration);
+    Writer writer = (Writer&)outputWriter::VTKWriter(particles);
 #else
-    outputWriter::XYZWriter writer;
-    writer.plotParticles(particles, out_name, iteration);
+    Writer writer = (Writer&)outputWriter::XYZWriter(particles);
 #endif
+    
+    writer.plot(out_name, iteration);
 }
