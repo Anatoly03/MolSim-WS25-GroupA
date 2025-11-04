@@ -3,10 +3,10 @@
 #include <iostream>
 #include <list>
 
-#include "Frame.h"
 #include "../core/FileReader.h"
 #include "../core/ParticleContainer.h"
 #include "../core/Simulation.h"
+#include "Frame.h"
 
 #ifdef ENABLE_VTK_OUTPUT
 #include "../core/writer/VTKWriter.h"
@@ -29,9 +29,9 @@ int main(int argc, char *argsv[]) {
     fileReader.readFile(particles, args.input_file);
 
 #ifdef ENABLE_VTK_OUTPUT
-    Writer writer = outputWriter::VTKWriter(particles);
+    outputWriter::VTKWriter writer(particles);
 #else
-    Writer writer = outputWriter::XYZWriter(particles);
+    outputWriter::XYZWriter writer(particles);
 #endif
     simulation.setWriter(writer);
 

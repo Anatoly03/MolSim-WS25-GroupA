@@ -8,20 +8,19 @@
 #pragma once
 #ifdef ENABLE_VTK_OUTPUT
 
-#include <vtkSmartPointer.h>
-#include <vtkUnstructuredGrid.h>
 #include <vtkCellArray.h>
 #include <vtkDoubleArray.h>
 #include <vtkFloatArray.h>
 #include <vtkIntArray.h>
 #include <vtkPointData.h>
+#include <vtkSmartPointer.h>
+#include <vtkUnstructuredGrid.h>
 #include <vtkXMLUnstructuredGridWriter.h>
 
 #include <array>
 #include <iomanip>
-#include <sstream>
-
 #include <list>
+#include <sstream>
 #include <string>
 
 #include "../ParticleContainer.h"
@@ -43,7 +42,7 @@ class VTKWriter : public Writer {
     /**
      * @brief Default constructor
      */
-    XYZWriter(ParticleContainer &p): Writer(p) {}
+    XYZWriter(ParticleContainer &p) : Writer(p) {}
 
     // Delete copy constructor and assignment operator
     VTKWriter(const VTKWriter &) = delete;
@@ -53,9 +52,7 @@ class VTKWriter : public Writer {
      * @brief File Extension is VTK based. (VTU)
      * @override
      */
-    const char* getExtension() const override {
-        return ".vtu";
-    }
+    virtual const char *getExtension() const override { return ".vtu"; }
 
     // TODO refactor: use writeMagicHeader
     // TODO refactor: use plotSingleParticle
@@ -64,7 +61,7 @@ class VTKWriter : public Writer {
     /**
      * @brief Plot particles to file, returns stream.
      */
-    void plot(const std::string &filename, int iteration) {
+    virtual void plot(const std::string &filename, int iteration) const override {
         // Initialize points
         auto points = vtkSmartPointer<vtkPoints>::New();
 
@@ -118,5 +115,5 @@ class VTKWriter : public Writer {
     }
 };
 
-}
+}  // namespace outputWriter
 #endif

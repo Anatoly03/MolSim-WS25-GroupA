@@ -44,7 +44,7 @@ target_compile_options(MolSim
 )
 
 # create clean target to remove data bloat
-add_custom_target(clean-vtk COMMAND rm -rf *.xyz *.vtu)
+add_custom_target(clean-vtk COMMAND rm -rf *.xyz *.vtu *.out)
 
 # add additional modules
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/modules)

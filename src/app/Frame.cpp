@@ -1,9 +1,9 @@
 #include "Frame.h"
 
 #include <errno.h>
+#include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <string.h>
 
 #include "spdlog/spdlog.h"
 
@@ -96,13 +96,13 @@ Args ProcessArgs(int argc, char *argv[]) {
     // parse options first
     while ((opt = getopt_long(argc, argv, OPTSTRING, GETOPT_LONG, nullptr)) != -1) {
         switch (opt) {
-            case 't': // -t or --time
+            case 't':  // -t or --time
                 args.end_time = atof(optarg);
                 break;
-            case 'd': // -d or --delta
+            case 'd':  // -d or --delta
                 args.delta_t = atof(optarg);
                 break;
-            case 'o': // -o or --output
+            case 'o':  // -o or --output
                 args.output_path = const_cast<char *>(optarg);
                 break;
             case 'L':
@@ -119,7 +119,7 @@ Args ProcessArgs(int argc, char *argv[]) {
                 // spdlog::set_level(level);
                 break;
 
-            case 'h': // -h or --help
+            case 'h':  // -h or --help
                 if (optarg != nullptr && strcmp(optarg, "short") == 0) {
                     printUsage(progname);
                 }

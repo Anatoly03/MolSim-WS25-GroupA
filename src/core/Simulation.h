@@ -4,8 +4,8 @@
 #include "../app/Frame.h"
 #include "FileReader.h"
 #include "ParticleContainer.h"
-#include "writer/Writer.h"
 #include "utils/ArrayUtils.h"
+#include "writer/Writer.h"
 
 class Simulation {
    private:
@@ -28,9 +28,7 @@ class Simulation {
     /**
      * @brief Builder method to set up a writer.
      */
-    void setWriter(Writer &w) {
-        writer = w;
-    }
+    void setWriter(Writer &w) { writer = w; }
 
     /**
      * @brief Destructor

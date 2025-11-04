@@ -1,11 +1,12 @@
 
+#include "Simulation.h"
+
 #include "../app/Frame.h"
 #include "FileReader.h"
 #include "ParticleContainer.h"
-#include "writer/Writer.h"
-#include "utils/ArrayUtils.h"
-#include "Simulation.h"
 #include "spdlog/spdlog.h"
+#include "utils/ArrayUtils.h"
+#include "writer/Writer.h"
 
 /**
  * @brief calculate the position for all particles
@@ -62,7 +63,7 @@ void Simulation::calculateForce() {
 void Simulation::run() {
     double current_time = arguments.start_time;
     int iteration = 0;
-    
+
     plotParticles(iteration);
 
     // for this loop, we assume: current x, current f and current v are known

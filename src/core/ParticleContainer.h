@@ -4,8 +4,8 @@
 
 #pragma once
 
-#include <vector>
 #include <functional>
+#include <vector>
 
 #include "Particle.h"
 #include "math/Vec3.h"
