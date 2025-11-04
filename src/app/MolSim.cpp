@@ -9,9 +9,9 @@
 #include "../core/utils/ArrayUtils.h"
 
 #ifdef ENABLE_VTK_OUTPUT
-#include "../core/outputWriter/VTKWriter.h"
+#include "../core/writer/VTKWriter.h"
 #else
-#include "../core/outputWriter/XYZWriter.h"
+#include "../core/writer/XYZWriter.h"
 #endif
 
 /**
