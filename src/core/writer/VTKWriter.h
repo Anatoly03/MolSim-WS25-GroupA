@@ -23,14 +23,29 @@ namespace outputWriter {
  * This class implements the functionality to generate vtk output from
  * particles using the official VTK library.
  */
-class VTKWriter {
+class VTKWriter : public Writer {
    public:
-    VTKWriter() = default;
-    ~VTKWriter() = default;
+    /**
+     * @note Default constructor without providing particle container is private.
+     */
+    XYZWriter() = delete;
+
+    /**
+     * @brief Default constructor
+     */
+    XYZWriter(ParticleContainer &p): Writer(p) {}
 
     // Delete copy constructor and assignment operator
     VTKWriter(const VTKWriter &) = delete;
     VTKWriter &operator=(const VTKWriter &) = delete;
+
+    /**
+     * @brief File Extension is VTK based. (VTU)
+     * @override
+     */
+    const char* getExtension() const override {
+        return ".vtu";
+    }
 
     /**
      * Write VTK output of particles.
@@ -41,5 +56,5 @@ class VTKWriter {
     void plotParticles(ParticleContainer &particles, const std::string &filename, int iteration);
 };
 
-}  // namespace outputWriter
+}
 #endif
