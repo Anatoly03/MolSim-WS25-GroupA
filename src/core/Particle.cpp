@@ -5,10 +5,9 @@
  *      Author: eckhardw
  */
 
-#include "Particle.h"
-
 #include <iostream>
 
+#include "Particle.h"
 #include "math/Vec3.h"
 #include "utils/ArrayUtils.h"
 

@@ -3,15 +3,15 @@
 #include <iostream>
 #include <list>
 
-#include "FileReader.h"
 #include "Frame.h"
-#include "ParticleContainer.h"
-#include "utils/ArrayUtils.h"
+#include "../core/FileReader.h"
+#include "../core/ParticleContainer.h"
+#include "../core/utils/ArrayUtils.h"
 
 #ifdef ENABLE_VTK_OUTPUT
-#include "outputWriter/VTKWriter.h"
+#include "../core/outputWriter/VTKWriter.h"
 #else
-#include "outputWriter/XYZWriter.h"
+#include "../core/outputWriter/XYZWriter.h"
 #endif
 
 /**

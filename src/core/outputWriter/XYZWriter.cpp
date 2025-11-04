@@ -5,11 +5,10 @@
  *      Author: eckhardw
  */
 
-#include "./XYZWriter.h"
-
 #include <iomanip>
 #include <sstream>
 
+#include "XYZWriter.h"
 #include "../ParticleContainer.h"
 #include "../math/Vec3.h"
 

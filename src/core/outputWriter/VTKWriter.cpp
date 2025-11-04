@@ -6,8 +6,6 @@
  */
 #ifdef ENABLE_VTK_OUTPUT
 
-#include "VTKWriter.h"
-
 #include <vtkCellArray.h>
 #include <vtkDoubleArray.h>
 #include <vtkFloatArray.h>
@@ -19,6 +17,7 @@
 #include <iomanip>
 #include <sstream>
 
+#include "VTKWriter.h"
 #include "../ParticleContainer.h"
 
 namespace outputWriter {
