@@ -35,7 +35,7 @@ void calculateVelocity(ParticleContainer& particles, double dt);
 /**
  * plot the particles to a xyz-file
  */
-void plotParticles(ParticleContainer& particles, int iteration, const char *output_path);
+void plotParticles(Writer& writer, int iteration, const char *output_path);
 
 /**
  * @brief The program entry point is the Rahmenprogramm which after getting all
@@ -58,7 +58,7 @@ int main(int argc, char *argsv[]) {
     int iteration = 0;
 
     // initial plot
-    plotParticles(particles, iteration, args.output_path);
+    plotParticles(writer, iteration, args.output_path);
 
     // for this loop, we assume: current x, current f and current v are known
     while (current_time < args.end_time) {
@@ -68,7 +68,7 @@ int main(int argc, char *argsv[]) {
 
         iteration++;
         if (iteration % 10 == 0) {
-            plotParticles(particles, iteration, args.output_path);
+            plotParticles(writer, iteration, args.output_path);
         }
         spdlog::info("Iteration {} finished.", iteration);
 
@@ -115,14 +115,7 @@ void calculateVelocity(ParticleContainer& particles, const double dt) {
     });
 }
 
-void plotParticles(ParticleContainer& particles, int iteration, const char *output_path) {
+void plotParticles(Writer& writer, int iteration, const char *output_path) {
     std::string out_name(output_path);
-    
-#ifdef ENABLE_VTK_OUTPUT
-    Writer writer = (Writer&)outputWriter::VTKWriter(particles);
-#else
-    Writer writer = (Writer&)outputWriter::XYZWriter(particles);
-#endif
-    
     writer.plot(out_name, iteration);
 }
