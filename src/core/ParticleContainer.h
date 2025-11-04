@@ -9,7 +9,6 @@
 
 #include "Particle.h"
 #include "math/Vec3.h"
-
 /**
  * @class ParticleContainer
  * @brief Refactoring,owning container for Particle with simple iteration over particles and particle pairs
@@ -27,6 +26,10 @@ class ParticleContainer {
     typedef std::vector<Particle>::const_iterator const_iterator;
 
     ParticleContainer() = default;
+
+    /**
+     * @brief ParticleContainer destructor.
+     */
     ~ParticleContainer() = default;
 
     explicit ParticleContainer(size_type capacity) { particles.reserve(capacity); }
@@ -37,7 +40,7 @@ class ParticleContainer {
      * @example
      * ```c++
      * ParticleContainer container;
-     * 
+     *
      * for (auto &particle : container) {
      *     std::cout << particle.toString() << std::endl;
      * }
@@ -57,7 +60,7 @@ class ParticleContainer {
      * @example
      * ```c++
      * ParticleContainer container;
-     * 
+     *
      * for (const auto &particle : container) {
      *     std::cout << particle.toString() << std::endl;
      * }
@@ -96,9 +99,7 @@ class ParticleContainer {
     /**
      * @brief Add a new Particle to the container.
      */
-    void emplace_back(const Particle &particle) {
-        particles.emplace_back(particle);
-    }
+    void emplace_back(const Particle &particle) { particles.emplace_back(particle); }
 
     /**
      * @brief Reserve memory for particles.
@@ -112,7 +113,7 @@ class ParticleContainer {
      * @example
      * ```c++
      * ParticleContainer container;
-     * 
+     *
      * container.forEach([](Particle &particle) {
      *     std::cout << particle.toString() << std::endl;
      * });
@@ -136,7 +137,7 @@ class ParticleContainer {
      * @example
      * ```c++
      * ParticleContainer container;
-     * 
+     *
      * container.forEachPair([](Particle &particle1, Particle &particle2) {
      *     std::cout << particle1.toString() << " interacts with " << particle2.toString() << std::endl;
      * });

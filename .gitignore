@@ -57,7 +57,9 @@ CMakeCache.txt
 Makefile
 
 # Google Tests
-_deps
 Testing
 CTestTestfile.cmake
 *_include.cmake
+
+# C++ Dependencies
+_deps

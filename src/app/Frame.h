@@ -7,7 +7,7 @@
 #include <getopt.h>
 #include <iostream>
 
-const char *const OPTSTRING = "h:o:t:d:";
+const char *const OPTSTRING = "h:o:t:d:L:";
 
 /**
  * @brief Definition of all long options.

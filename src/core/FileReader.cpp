@@ -12,6 +12,7 @@
 #include "FileReader.h"
 #include "ParticleContainer.h"
 #include "math/Vec3.h"
+#include "spdlog/spdlog.h"
 
 FileReader::FileReader() = default;
 FileReader::~FileReader() = default;
@@ -27,18 +28,18 @@ void FileReader::readFile(ParticleContainer &particles, char *filename) {
 
     if (input_file.is_open()) {
         getline(input_file, tmp_string);
-        std::cout << "Read line: " << tmp_string << std::endl;
+        spdlog::debug("read: {}", tmp_string);
 
         while (tmp_string.empty() or tmp_string[0] == '#') {
             getline(input_file, tmp_string);
-            std::cout << "Read line: " << tmp_string << std::endl;
+            spdlog::debug("read: {}", tmp_string);
         }
 
         std::istringstream numstream(tmp_string);
         numstream >> num_particles;
-        std::cout << "Reading " << num_particles << "." << std::endl;
+        spdlog::debug("read: {}", num_particles);
         getline(input_file, tmp_string);
-        std::cout << "Read line: " << tmp_string << std::endl;
+        spdlog::debug("read: {}", tmp_string);
         particles.reserve(num_particles);
 
         for (int i = 0; i < num_particles; i++) {
@@ -52,7 +53,7 @@ void FileReader::readFile(ParticleContainer &particles, char *filename) {
             datastream >> velocity.z;
 
             if (datastream.eof()) {
-                std::cout << "Error reading file: eof reached unexpectedly reading from line " << i << std::endl;
+                spdlog::error("read file: eof reached unexpectedly reading from line {}", i);
                 exit(-1);
             }
             datastream >> mass;
@@ -60,10 +61,10 @@ void FileReader::readFile(ParticleContainer &particles, char *filename) {
             particles.emplace_back(position, (velocity), mass);
 
             getline(input_file, tmp_string);
-            std::cout << "Read line: " << tmp_string << std::endl;
+            spdlog::debug("read: {}", tmp_string);
         }
     } else {
-        std::cout << "error: could not open file " << filename << std::endl;
+        spdlog::error("could not open file {}", filename);
         exit(-1);
     }
 }
