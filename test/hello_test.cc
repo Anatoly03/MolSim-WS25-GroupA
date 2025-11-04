@@ -2,9 +2,9 @@
 
 #include <gtest/gtest.h>
 
-#include "../src/Particle.h"
-#include "../src/ParticleContainer.h"
-#include "../src/math/Vec3.h"
+#include "../src/core/Particle.h"
+#include "../src/core/ParticleContainer.h"
+#include "../src/core/math/Vec3.h"
 
 
 // Demonstrate some basic assertions.
