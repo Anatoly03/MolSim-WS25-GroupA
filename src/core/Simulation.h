@@ -9,9 +9,11 @@
 
 class Simulation {
    private:
-    Writer writer;
-    Args arguments;
     ParticleContainer particles;
+    Args arguments;
+    Writer writer;
+
+
 
    public:
     /**
