@@ -1,5 +1,6 @@
 # GoogleTest Quickstart
 # https://google.github.io/googletest/quickstart-cmake.html
+# https://cmake.org/cmake/help/book/mastering-cmake/chapter/Testing%20With%20CMake%20and%20CTest.html
 
 cmake_minimum_required(VERSION 3.14)
 
@@ -31,6 +32,4 @@ FetchContent_MakeAvailable(googletest)
 enable_testing()
 add_executable(MolSimTest ${MY_TEST_SRC})
 target_link_libraries(MolSimTest gtest gtest_main)
-
-# https://stackoverflow.com/a/736838
-add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND} ${CMAKE_CURRENT_SOURCE_DIR})
+add_test(NAME MolSimTest COMMAND MolSimTest)
