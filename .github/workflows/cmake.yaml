@@ -18,3 +18,5 @@ jobs:
         uses: threeal/cmake-action@v2.1.0
         with:
           args: -DENABLE_VTK_OUTPUT=OFF
+      - name: Run Tests
+        uses: threeal/ctest-action@v1.1.0
