@@ -4,14 +4,15 @@
 #include "../app/Frame.h"
 #include "FileReader.h"
 #include "ParticleContainer.h"
-#include "spdlog/spdlog.h"
 #include "utils/ArrayUtils.h"
 #include "writer/Writer.h"
 
+#include "spdlog/spdlog.h"
+
 class Simulation {
    private:
-    ParticleContainer particles;
-    Args arguments;
+    const Args arguments;
+    ParticleContainer& particles;
     std::unique_ptr<Writer> writer;
 
    public:
@@ -25,12 +26,12 @@ class Simulation {
      * @note Default constructor without providing particle container is private.
      */
     Simulation() = delete;
-    // Simulation() : particles(), arguments(), writer(particles) {}
+    // Simulation() : arguments(), particles(), writer(particles) {}
 
     /**
      * @brief Default constructor
      */
-    Simulation(const ParticleContainer &p, const Args &args) : particles(p), arguments(args), writer(nullptr) {}
+    Simulation(ParticleContainer &p, const Args &args) : arguments(args), particles(p), writer(nullptr) {}
 
     /**
      * @brief Builder method to set up a writer.

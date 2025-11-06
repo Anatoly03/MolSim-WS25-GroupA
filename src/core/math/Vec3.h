@@ -9,6 +9,8 @@
 #include <iostream>
 #include <type_traits>
 
+#include "spdlog/spdlog.h"
+
 /**
  * @struct Vec3
  * @brief Represents a 3D vector.
@@ -200,3 +202,15 @@ struct Vec3 {
  */
 // https://www.geeksforgeeks.org/cpp/typedef-in-cpp/
 typedef Vec3<double> Vec3D;
+
+/**
+ * @brief fmt formatter specialization for Vec3D (for spdlog support)
+ */
+template<>
+struct fmt::formatter<Vec3D> : fmt::formatter<std::string>
+{
+    auto format(Vec3D vec, format_context &ctx) const -> decltype(ctx.out())
+    {
+        return fmt::format_to(ctx.out(), "({}, {}, {})", vec.x, vec.y, vec.z);
+    }
+};
