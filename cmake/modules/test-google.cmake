@@ -4,10 +4,6 @@
 
 cmake_minimum_required(VERSION 3.14)
 
-# GoogleTest requires at least C++17
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 # collect all test files
 # header don't need to be included but this might be necessary for some IDEs
 file(GLOB_RECURSE MY_TEST_SRC

@@ -1,11 +1,12 @@
 cmake_minimum_required(VERSION 3.10)
 
-# Enable C++17. You may raise the standard if you want
+# GoogleTest requires at least C++17
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Options
 option(ENABLE_VTK_OUTPUT "Enable VTK output support" ON)
+option(CMAKE_EXPORT_COMPILE_COMMANDS "Enable compile commands export" ON)
 
 # define project name, version
 project(PSEMolDyn VERSION 0.0.1 LANGUAGES CXX)

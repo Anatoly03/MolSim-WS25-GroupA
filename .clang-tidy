@@ -9,17 +9,17 @@
 # Same as '--checks'. Additionally, the list of
 # globs can be specified as a list instead of a
 # string.
-Checks: '*,google-*,cppcoreguidelines-*,-llvmlibc-restrict-system-libc-headers,-llvmlibc-callee-namespace'
+Checks: 'google-*,cppcoreguidelines-*,-llvmlibc-restrict-system-libc-headers,-llvmlibc-callee-namespace'
 
 # List of user defined checks based on
 # Clang-Query syntax.
 # CustomChecks;
 
 # Same as '--exclude-header-filter'.
-ExcludeHeaderFilterRegex: 'spdlog/spdlog.h'
+ExcludeHeaderFilterRegex: '.*(spdlog|_deps).*'
 
 # Same as '--extra-arg'.
-# ExtraArgs:
+ExtraArgs: -ferror-limit=1
 
 # Same as '--extra-arg-before'.
 # ExtraArgsBefore:
@@ -32,7 +32,7 @@ FormatStyle: file
 # HeaderFileExtensions:
 
 # Same as '--header-filter'.
-HeaderFilterRegex: '.*'
+HeaderFilterRegex: '(\.).*\.h|.*/core/.*'
 
 # File extensions to consider to determine if a
 # given diagnostic is located in an implementation

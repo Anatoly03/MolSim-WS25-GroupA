@@ -5,11 +5,11 @@ if(CLANG_TIDY)
     message(STATUS "Found clang-tidy: ${CLANG_TIDY}")
 
     # set clang-tidy as static analyzer if found
-    set(CMAKE_CXX_CLANG_TIDY "${CLANG_TIDY} src/app/MolSim.cpp -p build")
+    set(CMAKE_CXX_CLANG_TIDY ${CLANG_TIDY} -p build ${CMAKE_CURRENT_SOURCE_DIR}/src/app/MolSim.cpp --quiet)
 
     # Create tidy target
     add_custom_target(tidy
-            COMMAND ${CMAKE_CXX_CLANG_TIDY} --fix
+            COMMAND ${CLANG_TIDY} src/app/MolSim.cpp -p build --fix
             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
             COMMENT "Running clang-tidy (static analysis)"
     )

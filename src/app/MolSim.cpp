@@ -1,8 +1,4 @@
 
-#include <cmath>
-#include <iostream>
-#include <list>
-
 #include "../core/FileReader.h"
 #include "../core/ParticleContainer.h"
 #include "../core/Simulation.h"

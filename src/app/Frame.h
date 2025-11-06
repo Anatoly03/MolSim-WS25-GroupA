@@ -5,7 +5,6 @@
 #pragma once
 
 #include <getopt.h>
-
 #include <iostream>
 
 const char *const OPTSTRING = "h:o:t:d:L:";
