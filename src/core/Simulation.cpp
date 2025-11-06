@@ -1,12 +1,12 @@
 
-#include "Simulation.h"
-
 #include "../app/Frame.h"
 #include "FileReader.h"
-#include "ParticleContainer.h"
-#include "spdlog/spdlog.h"
 #include "utils/ArrayUtils.h"
+#include "ParticleContainer.h"
 #include "writer/Writer.h"
+#include "Simulation.h"
+
+#include "spdlog/spdlog.h"
 
 /**
  * @brief calculate the position for all particles
@@ -55,31 +55,4 @@ void Simulation::calculateForce() {
         particle.delayForce();
         particle.setForce(force);
     });
-}
-
-/**
- * @brief Run the simulation.
- */
-void Simulation::run() {
-    double current_time = arguments.start_time;
-    int iteration = 0;
-
-    plotParticles(iteration);
-
-    // for this loop, we assume: current x, current f and current v are known
-    while (current_time < arguments.end_time) {
-        calculatePosition();
-        calculateForce();
-        calculateVelocity();
-
-        iteration++;
-        if (iteration % 10 == 0) {
-            plotParticles(iteration);
-        }
-        spdlog::info("Iteration {} finished.", iteration);
-
-        current_time += arguments.delta_t;
-    }
-
-    spdlog::info("Output written. Terminating...");
 }

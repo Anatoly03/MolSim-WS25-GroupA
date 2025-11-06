@@ -25,13 +25,21 @@ class ParticleContainer {
     typedef std::vector<Particle>::iterator iterator;
     typedef std::vector<Particle>::const_iterator const_iterator;
 
+    /**
+     * @brief Default constructor for ParticleContainer.
+     */
     ParticleContainer() = default;
+
+    explicit ParticleContainer(const ParticleContainer &other) : particles(other.particles) {}
 
     /**
      * @brief ParticleContainer destructor.
      */
     ~ParticleContainer() = default;
 
+    /**
+     * @brief ParticleContainer constructor with initial capacity.
+     */
     explicit ParticleContainer(size_type capacity) { particles.reserve(capacity); }
 
     /**
