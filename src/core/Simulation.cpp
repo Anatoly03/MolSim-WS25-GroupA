@@ -1,6 +1,5 @@
 
 #include "../app/Frame.h"
-#include "FileReader.h"
 #include "utils/ArrayUtils.h"
 #include "ParticleContainer.h"
 #include "writer/Writer.h"

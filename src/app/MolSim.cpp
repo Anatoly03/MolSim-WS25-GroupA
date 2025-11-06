@@ -1,6 +1,6 @@
 #include <time.h>
 
-#include "../core/FileReader.h"
+#include "../core/reader/FileReader.h"
 #include "../core/ParticleContainer.h"
 #include "../core/Simulation.h"
 #include "Frame.h"
@@ -21,8 +21,8 @@ int main(int argc, char *argsv[]) {
     ParticleContainer particles;
 
     // set up file IO
-    FileReader fileReader;
-    fileReader.readFile(particles, args.input_file);
+    std::unique_ptr<FileReader> fileReader = FileReader::getReaderForFile(args.input_file);
+    fileReader->readFile(particles, args.input_file);
 
     // set up simulation
     if (!args.benchmark_enabled) {

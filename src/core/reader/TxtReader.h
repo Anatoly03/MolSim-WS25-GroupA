@@ -1,45 +1,56 @@
-/*
- * FileReader.cpp
- *
- *  Created on: 23.02.2010
- *      Author: eckhardw
- */
 
-#include "FileReader.h"
+#pragma once
 
 #include <fstream>
-#include <iostream>
+#include <iomanip>
 #include <sstream>
 
-#include "ParticleContainer.h"
-#include "math/Vec3.h"
+#include "../ParticleContainer.h"
+#include "../math/Vec3.h"
+#include "FileReader.h"
+
 #include "spdlog/spdlog.h"
 
-FileReader::FileReader() = default;
-FileReader::~FileReader() = default;
+/**
+ * @brief Base class for all input readers. This is the entry point for a reader
+ * that can read file type and yield a reader subtype, that can read particles.
+ */
+class TxtReader : public FileReader {
+   public:
+    /**
+     * @note Default constructor without providing particle container is private.
+     */
+    TxtReader() = default;
 
-void FileReader::readFile(ParticleContainer &particles, char *filename) {
-    Vec3D position;
-    Vec3D velocity;
-    double mass;
-    int num_particles = 0;
+    /**
+     * @brief Destructor.
+     */
+    ~TxtReader() = default;
 
-    std::ifstream input_file(filename);
-    std::string tmp_string;
+    /**
+     * @brief Read custom 'text' file format into particle container.
+     */
+    virtual void readFile(ParticleContainer& particles, const char *filename)  override {
+        std::ifstream file = getFile(filename);
+        std::string tmp_string;
+        
+        Vec3D position;
+        Vec3D velocity;
+        double mass;
+        int num_particles = 0;
 
-    if (input_file.is_open()) {
-        getline(input_file, tmp_string);
+        getline(file, tmp_string);
         spdlog::debug("read: {}", tmp_string);
 
         while (tmp_string.empty() or tmp_string[0] == '#') {
-            getline(input_file, tmp_string);
+            getline(file, tmp_string);
             spdlog::debug("read: {}", tmp_string);
         }
 
         std::istringstream numstream(tmp_string);
         numstream >> num_particles;
         spdlog::debug("read: {}", num_particles);
-        getline(input_file, tmp_string);
+        getline(file, tmp_string);
         spdlog::debug("read: {}", tmp_string);
         particles.reserve(num_particles);
 
@@ -61,11 +72,9 @@ void FileReader::readFile(ParticleContainer &particles, char *filename) {
 
             particles.emplace_back(position, (velocity), mass);
 
-            getline(input_file, tmp_string);
+            getline(file, tmp_string);
             spdlog::debug("read: {}", tmp_string);
         }
-    } else {
-        spdlog::error("could not open file {}", filename);
-        exit(-1);
+
     }
-}
+};
