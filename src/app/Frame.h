@@ -8,7 +8,7 @@
 
 #include <iostream>
 
-const char *const OPTSTRING = "ho:t:d:L:";
+const char *const OPTSTRING = "h:o:t:d:L:";
 
 /**
  * @brief Definition of all long options.
@@ -16,7 +16,7 @@ const char *const OPTSTRING = "ho:t:d:L:";
 const option GETOPT_LONG[] = {{"output", required_argument, 0, 'o'},
                               {"time", required_argument, 0, 't'},
                               {"delta", required_argument, 0, 'd'},
-                              {"help", no_argument, 0, 'h'},
+                              {"help", optional_argument, 0, 'h'},
                               {0, 0, 0, 0}};
 
 /**
