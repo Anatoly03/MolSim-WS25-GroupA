@@ -16,10 +16,10 @@ Checks: 'google-*,cppcoreguidelines-*,-llvmlibc-restrict-system-libc-headers,-ll
 # CustomChecks;
 
 # Same as '--exclude-header-filter'.
-ExcludeHeaderFilterRegex: '.*(spdlog|_deps).*'
+ExcludeHeaderFilterRegex: '.*(spdlog).*'
 
 # Same as '--extra-arg'.
-ExtraArgs: -ferror-limit=1
+# ExtraArgs: 
 
 # Same as '--extra-arg-before'.
 # ExtraArgsBefore:
