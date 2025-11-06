@@ -30,9 +30,9 @@ class FileReader {
     FileReader() = default;
 
     /**
-     * @brief Destructor.
+     * @brief Virtual destructor.
      */
-    ~FileReader() = default;
+    virtual ~FileReader() = default;
 
     /**
      * @brief Get an input file stream for a specific file. Asserts
@@ -54,10 +54,7 @@ class FileReader {
      * @brief Read particle information from a file into particle container
      * attribute.
      */
-    // NOLINTNEXTLINE(unused-parameter)
-    virtual void readFile(ParticleContainer& particles, const char *filename) {
-        throw std::runtime_error("unimplemented: FileReader::readFile");
-    }
+    virtual void readFile(ParticleContainer& particles, const char *filename) = 0;
 
     /**
      * @brief Get a reader-based instance for a specific file.
