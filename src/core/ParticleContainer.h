@@ -25,13 +25,24 @@ class ParticleContainer {
     typedef std::vector<Particle>::iterator iterator;
     typedef std::vector<Particle>::const_iterator const_iterator;
 
+    /**
+     * @brief Default constructor for ParticleContainer.
+     */
     ParticleContainer() = default;
+
+    /**
+     * @brief Copy constructor for ParticleContainer.
+     */
+    explicit ParticleContainer(const ParticleContainer &other) : particles(other.particles) {}
 
     /**
      * @brief ParticleContainer destructor.
      */
     ~ParticleContainer() = default;
 
+    /**
+     * @brief ParticleContainer constructor with initial capacity.
+     */
     explicit ParticleContainer(size_type capacity) { particles.reserve(capacity); }
 
     /**
@@ -138,10 +149,10 @@ class ParticleContainer {
      * ```c++
      * ParticleContainer container;
      *
-     * container.forEachPair([](Particle &particle1, Particle &particle2) {
+     * container.forEachDistinctPair([](Particle &particle1, Particle &particle2) {
      *     std::cout << particle1.toString() << " interacts with " << particle2.toString() << std::endl;
      * });
      * ```
      */
-    void forEachPair(const std::function<void(Particle &, Particle &)> &callback);
+    void forEachDistinctPair(const std::function<void(Particle &, Particle &)> &callback);
 };

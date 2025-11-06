@@ -1,7 +1,4 @@
-
-#include <cmath>
-#include <iostream>
-#include <list>
+#include <time.h>
 
 #include "../core/FileReader.h"
 #include "../core/ParticleContainer.h"
@@ -22,21 +19,52 @@ int main(int argc, char *argsv[]) {
     const auto args = ProcessArgs(argc, argsv);
 
     ParticleContainer particles;
-    Simulation simulation(particles, args);
 
     // set up file IO
     FileReader fileReader;
     fileReader.readFile(particles, args.input_file);
 
-#ifdef ENABLE_VTK_OUTPUT
-    outputWriter::VTKWriter writer(particles);
-#else
-    outputWriter::XYZWriter writer(particles);
-#endif
-    simulation.setWriter(writer);
+    // set up simulation
+    if (!args.benchmark_enabled) {
+        Simulation simulation(particles, args);
 
-    // everything ready - run the simulation
-    simulation.run();
+#ifdef ENABLE_VTK_OUTPUT
+        outputWriter::VTKWriter writer(particles);
+        simulation.setWriter(std::make_unique<outputWriter::VTKWriter>(particles));
+#else
+        outputWriter::XYZWriter writer(particles);
+        simulation.setWriter(std::make_unique<outputWriter::XYZWriter>(particles));
+#endif
+
+        // everything ready - run the simulation
+        simulation.run();
+        return 0;
+    }
+
+    // set up benchmarking
+    const int bits = args.benchmark_iterations;
+    
+    timespec starttime;
+    timespec end;
+    double total_duration = 0.0;
+
+    for (int i = 0; i < bits; i++) {
+        ParticleContainer copy(particles);
+        Simulation simulation(copy, args);
+
+        clock_gettime(CLOCK_MONOTONIC, &starttime);
+
+        simulation.run();
+
+        clock_gettime(CLOCK_MONOTONIC, &end);
+
+        double duration = (double)(end.tv_sec - starttime.tv_sec) + ((double)(end.tv_nsec - starttime.tv_nsec) * 1e-9);
+        total_duration += duration;
+        std::cout << "Benchmark Iteration " << i << ": " << duration << "s" << std::endl;
+    }
+
+    double avg_duration = total_duration / bits;
+    std::cout << "Average Duration over " << bits << " iterations, over " << particles.size() << " particles: " << avg_duration << "s" << std::endl;
 
     return 0;
 }

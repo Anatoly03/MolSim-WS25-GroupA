@@ -90,6 +90,11 @@ void Particle::setVelocity(const Vec3D &velocity_) { this->velocity = velocity_;
 void Particle::setForce(const Vec3D &force_) { this->force = force_; }
 
 /**
+ * @brief Add to the force on this Particle.
+ */
+void Particle::addForce(const Vec3D &force_) { this->force += force_; }
+
+/**
  * Move force to old force and reset current force to zero. This
  * delays force value by one tick.
  */
