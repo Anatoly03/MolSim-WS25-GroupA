@@ -30,10 +30,11 @@ int main(int argc, char *argsv[]) {
 
 #ifdef ENABLE_VTK_OUTPUT
         outputWriter::VTKWriter writer(particles);
+        simulation.setWriter(std::make_unique<outputWriter::VTKWriter>(particles));
 #else
         outputWriter::XYZWriter writer(particles);
+        simulation.setWriter(std::make_unique<outputWriter::XYZWriter>(particles));
 #endif
-        simulation.setWriter(writer);
 
         // everything ready - run the simulation
         simulation.run();

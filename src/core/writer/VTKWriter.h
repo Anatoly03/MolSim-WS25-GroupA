@@ -57,7 +57,6 @@ class VTKWriter : public Writer {
     // TODO refactor: use writeMagicHeader
     // TODO refactor: use plotSingleParticle
 
-   public:
     /**
      * @brief Plot particles to file, returns stream.
      */

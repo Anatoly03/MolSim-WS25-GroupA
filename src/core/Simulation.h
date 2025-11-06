@@ -4,16 +4,15 @@
 #include "../app/Frame.h"
 #include "FileReader.h"
 #include "ParticleContainer.h"
+#include "spdlog/spdlog.h"
 #include "utils/ArrayUtils.h"
 #include "writer/Writer.h"
-
-#include "spdlog/spdlog.h"
 
 class Simulation {
    private:
     ParticleContainer particles;
     Args arguments;
-    Writer writer;
+    std::unique_ptr<Writer> writer;
 
    public:
     /**
@@ -31,12 +30,15 @@ class Simulation {
     /**
      * @brief Default constructor
      */
-    Simulation(const ParticleContainer &p, const Args &args) : particles(p), arguments(args), writer(particles) {}
+    Simulation(const ParticleContainer &p, const Args &args) : particles(p), arguments(args), writer(nullptr) {}
 
     /**
      * @brief Builder method to set up a writer.
      */
-    void setWriter(Writer &w) { writer = w; }
+    void setWriter(std::unique_ptr<Writer> w) {
+        spdlog::debug("writer set to `{}` format", w->getExtension());
+        writer = std::move(w);
+    }
 
     /**
      * @brief Destructor
@@ -55,6 +57,11 @@ class Simulation {
     void calculateVelocity();
 
     /**
+     * @brief delay the force for all particles
+     */
+    void delayForce();
+
+    /**
      * @brief calculate the force for all particles
      */
     void calculateForce();
@@ -64,9 +71,10 @@ class Simulation {
      */
     void plotParticles(int iteration) {
         if (arguments.benchmark_enabled) return;
+        if (writer == nullptr) return;
 
         std::string out_name(arguments.output_path);
-        writer.plot(out_name, iteration);
+        writer->plot(out_name, iteration);
     }
 
    public:

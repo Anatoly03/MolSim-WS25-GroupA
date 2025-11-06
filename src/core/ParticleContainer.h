@@ -30,6 +30,9 @@ class ParticleContainer {
      */
     ParticleContainer() = default;
 
+    /**
+     * @brief Copy constructor for ParticleContainer.
+     */
     explicit ParticleContainer(const ParticleContainer &other) : particles(other.particles) {}
 
     /**
