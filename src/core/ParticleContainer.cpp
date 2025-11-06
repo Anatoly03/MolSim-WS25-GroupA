@@ -1,4 +1,3 @@
-
 #include "ParticleContainer.h"
 
 #include <functional>
