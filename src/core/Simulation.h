@@ -85,6 +85,7 @@ class Simulation {
      */
     void tick() {
         calculatePosition();
+        delayForce();
         calculateForce();
         calculateVelocity();
 

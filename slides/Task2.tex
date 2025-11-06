@@ -86,7 +86,7 @@
     \maketitle
 \end{frame}
 
-\simpleframe\begin{frame}[fragile]{Benchmarking: Our Algorithm Is Bad}
+\simpleframe\begin{frame}[fragile]{Benchmarking: Our Algorithm is Bad}
 
     \begin{columns}
         \begin{column}{0.5\textwidth}
@@ -143,6 +143,42 @@ Average Duration over 5 iterations, over 58 particles: 16.543s
     \vspace{1.5em}
 
     \alert{Unacceptable runtime!} Right now we can not afford to simulate hundreds or thousands of particles.
+\end{frame}
+
+\simpleframe\begin{frame}[fragile]{Benchmarking: Better, But still pretty Bad}
+
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \texttt{eingabe-sonne.txt}
+            \begin{lstlisting}
+Benchmark Iteration 0: 0.058703s
+Benchmark Iteration 1: 0.053112s
+Benchmark Iteration 2: 0.050419s
+Benchmark Iteration 3: 0.048694s
+Benchmark Iteration 4: 0.048469s
+Average Duration over 5 iterations, over 4 particles: 0.0518794s
+            \end{lstlisting}
+            \vspace{-1.5em}
+            4 particles in $\sim$ 0.05s \gray{previously: 0.10s}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \texttt{shaw.txt}
+            \begin{lstlisting}
+Benchmark Iteration 0: 9.58458s
+Benchmark Iteration 1: 7.43857s
+Benchmark Iteration 2: 7.69406s
+Benchmark Iteration 3: 7.52219s
+Benchmark Iteration 4: 7.37951s
+Average Duration over 5 iterations, over 58 particles: 7.92378s
+            \end{lstlisting}
+            \vspace{-1.5em}
+            58 particles in 8s \gray{previously: 17s}
+        \end{column}
+    \end{columns}
+
+    \vspace{1.5em}
+
+    Iteration over distinct pairs \blue{(applying Newtons' 3rd law) doubles performance}, but the problem lies in the algorithm.
 \end{frame}
 
 \headerframe\begin{frame}{That's it – for now, at least}{Shaw! We thank you for your attention!}

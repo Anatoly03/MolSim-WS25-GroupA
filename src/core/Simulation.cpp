@@ -35,24 +35,36 @@ void Simulation::calculateVelocity() {
 }
 
 /**
- * @brief calculate the force for all particles
+ * @brief delay the force for all particles
+ */
+void Simulation::delayForce() {
+    particles.forEach([](Particle &particle) {
+        particle.delayForce();
+    });
+}
+
+/**
+ * @brief calculate the force for all particles, asserts 
+ * @note naive O(n^2) implementation
+ * @todo replace with efficient algorithm
  */
 void Simulation::calculateForce() {
-    particles.forEach([this](Particle &particle) {
-        Vec3D force(0);
+    // TODO if in debug mode, assert that all forces are zero
+    // #if TODO
+    // particles.forEach([](Particle &particle) {
+    //     assert(particle.getForce().length() == 0 && "Forces must be zero before force calculation.");
+    // });
+    // #endif
 
-        particles.forEach([&particle, &force](const Particle &other) {
-            if (other == particle) return;
+    particles.forEachDistinctPair([this](Particle &particle, Particle &other) {
+        Vec3D diffX = other.getPosition() - particle.getPosition();
+        double distance = diffX.length();
+        double mulMass = particle.getMass() * other.getMass();
+        if (distance == 0.0) return;
 
-            Vec3D diffX = other.getPosition() - particle.getPosition();
-            double distance = diffX.length();
-            double mulMass = particle.getMass() * other.getMass();
-            if (distance == 0.0) return;
+        Vec3D force = diffX * (mulMass / (std::pow(distance, 3)));
 
-            force += diffX * (mulMass / (std::pow(distance, 3)));
-        });
-
-        particle.delayForce();
-        particle.setForce(force);
+        particle.addForce(force);
+        other.addForce(-force);
     });
 }
