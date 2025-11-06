@@ -27,18 +27,19 @@ class Writer {
      */
     explicit Writer(ParticleContainer &p) : particles(p) {}
 
-    /**
-     * @note Default constructor removed. The = operator however is explicitly
-     * provided.
-     */
-    Writer &operator=(const Writer &other) {
-        if (this == &other) {
-            return *this;
-        }
+    // /**
+    //  * @note Default constructor removed. The = operator however is explicitly
+    //  * provided.
+    //  */
+    // Writer &operator=(const Writer &other) = default;
+    // Writer &operator=(const Writer &other) {
+    //     if (this == &other) {
+    //         return *this;
+    //     }
 
-        this->particles = other.particles;
-        return *this;
-    }
+    //     this->particles = other.particles;
+    //     return *this;
+    // }
 
     /**
      * @brief Destructor.
