@@ -30,7 +30,6 @@ class XYZWriter : public Writer {
     /**
      * @brief Statically write before all particles.
      */
-   protected:
     virtual const std::string writeMagicHeader() const override {
         std::stringstream strstr;
 

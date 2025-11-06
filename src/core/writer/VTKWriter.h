@@ -37,12 +37,12 @@ class VTKWriter : public Writer {
     /**
      * @note Default constructor without providing particle container is private.
      */
-    XYZWriter() = delete;
+    VTKWriter() = delete;
 
     /**
      * @brief Default constructor
      */
-    XYZWriter(ParticleContainer &p) : Writer(p) {}
+    VTKWriter(ParticleContainer &p) : Writer(p) {}
 
     // Delete copy constructor and assignment operator
     VTKWriter(const VTKWriter &) = delete;
@@ -57,7 +57,6 @@ class VTKWriter : public Writer {
     // TODO refactor: use writeMagicHeader
     // TODO refactor: use plotSingleParticle
 
-   public:
     /**
      * @brief Plot particles to file, returns stream.
      */

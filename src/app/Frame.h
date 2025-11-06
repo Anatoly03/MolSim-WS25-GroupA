@@ -7,7 +7,7 @@
 #include <getopt.h>
 #include <iostream>
 
-const char *const OPTSTRING = "h:o:t:d:L:";
+const char *const OPTSTRING = "h:o:t:d:L:B:";
 
 /**
  * @brief Definition of all long options.
@@ -28,6 +28,9 @@ struct Args {
     double start_time = 0;
     double end_time = 1000;
     double delta_t = 0.014;
+
+    bool benchmark_enabled = false;
+    int benchmark_iterations = 0;
 
     Args() = default;
     ~Args() = default;

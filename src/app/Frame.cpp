@@ -31,6 +31,7 @@ void printHelp(const char *progname) {
             "  -t, --time <int>      total simulation time (default: 1000)\n"
             "  -d, --delta <float>   time step delta (default: 0.014)\n"
             "  -L <level>            log level (hierarchy: trace, debug, info, warn, err, critical)\n"
+            "  -B <amount>           benchmark parameter, if specified will re-run simulation and output benchmark results\n"
             "  -h, --help            print this help message\n"
             "  --help short          print compact help message\n\n"
             "Example:\n"
@@ -90,7 +91,11 @@ Args ProcessArgs(int argc, char *argv[]) {
     const char *progname = argv[0];
 
     Args args = Args();
-    int log_level = 0;
+    
+    // log level argument
+    bool log_level_set = false;
+    char* log_level_str = 0;
+    int log_level_code = 0;
 
     int opt;
     // parse options first
@@ -106,17 +111,23 @@ Args ProcessArgs(int argc, char *argv[]) {
                 args.output_path = const_cast<char *>(optarg);
                 break;
             case 'L':
-                log_level = atoi(optarg);
+                log_level_set = true;
+                log_level_str = optarg;
+                log_level_code = atoi(log_level_str);
 
                 // if log level is in valid range, set it directly in spdlog
-                if (log_level >= 0 && log_level <= 5) {
-                    spdlog::set_level(static_cast<spdlog::level::level_enum>(log_level));
+                if (log_level_code >= 0 && log_level_code <= 5) {
+                    spdlog::set_level(static_cast<spdlog::level::level_enum>(log_level_code));
                     break;
                 }
 
                 // TODO non-numeric log level name options like `-L warn` and `-L err` (see spdlog source code)
                 // spdlog::level::from_str(&log_level_code);
                 // spdlog::set_level(level);
+                break;
+            case 'B':
+                args.benchmark_enabled = true;
+                args.benchmark_iterations = atoi(optarg);
                 break;
 
             case 'h':  // -h or --help
@@ -151,6 +162,19 @@ Args ProcessArgs(int argc, char *argv[]) {
             spdlog::error("could not create path: {}", args.output_path);
             printUsage(progname);
         }
+    }
+
+    // SUCCESS !
+    // NO MORE FURTHER ERRORS
+
+    // disable all further logging in benchmark mode
+    if (args.benchmark_enabled) {
+        if (log_level_set) {
+            spdlog::warn("benchmark mode enabled: ignoring option '-L {}'", log_level_str);
+        }
+
+        spdlog::info("benchmark: running {} iterations...", args.benchmark_iterations);
+        spdlog::set_level(spdlog::level::err);
     }
 
     return args;

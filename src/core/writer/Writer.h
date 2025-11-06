@@ -23,34 +23,35 @@ class Writer {
 
    public:
     /**
-     * @note Default constructor removed. The = operator however is explicitly
-     * provided.
-     */
-    Writer &operator=(const Writer &other) {
-        if (this == &other) {
-            return *this;
-        }
-
-        this->particles = other.particles;
-        return *this;
-    }
-
-    /**
      * @brief Default constructor
      */
-    Writer(ParticleContainer &p) : particles(p) {}
+    explicit Writer(ParticleContainer &p) : particles(p) {}
+
+    // /**
+    //  * @note Default constructor removed. The = operator however is explicitly
+    //  * provided.
+    //  */
+    // Writer &operator=(const Writer &other) = default;
+    // Writer &operator=(const Writer &other) {
+    //     if (this == &other) {
+    //         return *this;
+    //     }
+
+    //     this->particles = other.particles;
+    //     return *this;
+    // }
 
     /**
      * @brief Destructor.
      */
     ~Writer() = default;
 
-   protected:
     /**
      * @brief Standard file extension for this writer.
      */
     virtual const char *getExtension() const { return ".out"; }
 
+   protected:
     /**
      * @brief Get file name for iteration.
      */

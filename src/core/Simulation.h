@@ -7,30 +7,39 @@
 #include "utils/ArrayUtils.h"
 #include "writer/Writer.h"
 
+#include "spdlog/spdlog.h"
+
 class Simulation {
    private:
-    ParticleContainer particles;
-    Args arguments;
-    Writer writer;
+    const Args arguments;
+    ParticleContainer& particles;
+    std::unique_ptr<Writer> writer;
 
-
+   public:
+    /**
+     * @brief Current simulation iteration.
+     */
+    int iteration = 0;
 
    public:
     /**
      * @note Default constructor without providing particle container is private.
      */
     Simulation() = delete;
-    // Simulation() : particles(), arguments(), writer(particles) {}
+    // Simulation() : arguments(), particles(), writer(particles) {}
 
     /**
      * @brief Default constructor
      */
-    Simulation(const ParticleContainer &p, const Args &args) : particles(p), arguments(args), writer(particles) {}
+    Simulation(ParticleContainer &p, const Args &args) : arguments(args), particles(p), writer(nullptr) {}
 
     /**
      * @brief Builder method to set up a writer.
      */
-    void setWriter(Writer &w) { writer = w; }
+    void setWriter(std::unique_ptr<Writer> w) {
+        spdlog::debug("writer set to `{}` format", w->getExtension());
+        writer = std::move(w);
+    }
 
     /**
      * @brief Destructor
@@ -49,6 +58,11 @@ class Simulation {
     void calculateVelocity();
 
     /**
+     * @brief delay the force for all particles
+     */
+    void delayForce();
+
+    /**
      * @brief calculate the force for all particles
      */
     void calculateForce();
@@ -57,15 +71,48 @@ class Simulation {
      * @brief Plot the particles of a particular iteration to a file.
      */
     void plotParticles(int iteration) {
+        if (arguments.benchmark_enabled) return;
+        if (writer == nullptr) return;
+
         std::string out_name(arguments.output_path);
-        writer.plot(out_name, iteration);
+        writer->plot(out_name, iteration);
     }
 
    public:
     /**
-     * @brief Run the simulation for a given time with specified time step.
-     * @param end_time Total simulation time.
-     * @param delta_t Time step delta.
+     * @brief Advance the simulation by one time step.
+     * @note This performs position, force, and velocity calculations.
+     * No prints are performed and this method is benchmark viable.
      */
-    void run();
+    void tick() {
+        calculatePosition();
+        delayForce();
+        calculateForce();
+        calculateVelocity();
+
+        iteration++;
+    }
+
+    /**
+     * @brief Run the simulation for a given time with specified time step.
+     */
+    void run() {
+        const double start = arguments.start_time;
+        const double end = arguments.end_time;
+        const double delta_t = arguments.delta_t;
+
+        plotParticles(iteration);
+
+        for (double t = start; t < end; t += delta_t) {
+            tick();
+
+            if (iteration % 10 == 0) {
+                plotParticles(iteration);
+            }
+
+            spdlog::debug("Iteration {} finished.", iteration);
+        }
+
+        spdlog::info("Output written. Terminating...");
+    }
 };
