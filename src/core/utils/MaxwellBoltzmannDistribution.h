@@ -29,7 +29,7 @@ Vec3D maxwellBoltzmannDistributedVelocity(double averageVelocity, size_t dimensi
     std::normal_distribution<double> normalDistribution{0, 1};
     Vec3D randomVelocity(0);
     for (size_t i = 0; i < dimensions; ++i) {
-        randomVelocity[i] = averageVelocity * normalDistribution(randomEngine);
+        randomVelocity.asArray()[i] = averageVelocity * normalDistribution(randomEngine);
     }
     return randomVelocity;
 }

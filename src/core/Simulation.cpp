@@ -4,6 +4,7 @@
 #include "ParticleContainer.h"
 #include "writer/Writer.h"
 #include "Simulation.h"
+#include "utils//MaxwellBoltzmannDistribution.h"
 
 #include "spdlog/spdlog.h"
 
@@ -66,4 +67,26 @@ void Simulation::calculateForce() {
         particle.addForce(force);
         other.addForce(-force);
     });
+
+
+
+}
+ParticleContainer particleGenerator(Vec3<double> firstCorrdinate ,int N_1,int N_2, int N_3, int h,int mass,Vec3<double> initialVelocity){
+
+    ParticleContainer container;
+    container.reserve(N_1*N_2*N_3);
+    for (int i = 0; i < N_1; ++i) {
+        for (int j = 0; j <N_2; ++j) {
+            for (int k = 0; k < N_3; ++k) {
+                Vec3D position = firstCorrdinate + Vec3D(i * h, j * h, k * h);
+                //what should be the average?
+                Vec3D randomVelo=maxwellBoltzmannDistributedVelocity(1.0, 3);
+                Vec3D velocity = initialVelocity + randomVelo;
+                container.emplace_back(position,velocity,mass);
+            }
+
+        }
+
+    }
+
 }
