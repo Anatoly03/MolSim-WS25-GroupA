@@ -31,7 +31,7 @@ class TxtReader : public FileReader {
      * @brief Read custom 'text' file format into particle container.
      */
     virtual void readFile(ParticleContainer& particles, const char *filename)  override {
-        std::ifstream file = getFile(filename);
+        claimFile(filename);
         std::string tmp_string;
         
         Vec3D position;
@@ -39,18 +39,19 @@ class TxtReader : public FileReader {
         double mass;
         int num_particles = 0;
 
-        getline(file, tmp_string);
+        readLine(tmp_string);
         spdlog::debug("read: {}", tmp_string);
 
         while (tmp_string.empty() or tmp_string[0] == '#') {
-            getline(file, tmp_string);
+            readLine(tmp_string);
             spdlog::debug("read: {}", tmp_string);
         }
 
         std::istringstream numstream(tmp_string);
         numstream >> num_particles;
         spdlog::debug("read: {}", num_particles);
-        getline(file, tmp_string);
+
+        readLine(tmp_string);
         spdlog::debug("read: {}", tmp_string);
         particles.reserve(num_particles);
 
@@ -72,7 +73,7 @@ class TxtReader : public FileReader {
 
             particles.emplace_back(position, (velocity), mass);
 
-            getline(file, tmp_string);
+            readLine(tmp_string);
             spdlog::debug("read: {}", tmp_string);
         }
 

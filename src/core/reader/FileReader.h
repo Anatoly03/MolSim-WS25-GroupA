@@ -17,7 +17,8 @@ class FileReader {
    private:
     // TODO read state
 
-//    protected:
+   protected:
+    std::unique_ptr<std::ifstream> input_file;
 //     /**
 //      * @brief 
 //      */
@@ -27,7 +28,7 @@ class FileReader {
     /**
      * @note Default constructor without providing particle container is private.
      */
-    FileReader() = default;
+    FileReader(): input_file(nullptr) {}
 
     /**
      * @brief Virtual destructor.
@@ -38,23 +39,49 @@ class FileReader {
      * @brief Get an input file stream for a specific file. Asserts
      * that the file could be opened and read out with `getline`.
      */
-    virtual std::ifstream getFile(const char* filename) const {
-        std::ifstream input_file(filename);
+    virtual void claimFile(const char* filename) {
+        input_file = std::make_unique<std::ifstream>(filename);
 
         // check if file could be opened
-        if (!input_file.is_open()) {
+        if (!input_file->is_open()) {
             spdlog::error("could not open file {}", filename);
             exit(-1);
         }
 
-        return input_file;
+        // success!
     }
 
     /**
      * @brief Read particle information from a file into particle container
      * attribute.
      */
-    virtual void readFile(ParticleContainer& particles, const char *filename) = 0;
+    virtual void readLine(std::string& line) const {
+        getline(*input_file, line);
+    }
+
+    /**
+     * @brief Read magic header. Per default file formats have no magic
+     * header, so this always returns true.
+     */
+    virtual bool readMagicHeader() const override {
+        return true;
+    }
+
+    /**
+     * @brief Read particle information from a file into particle container
+     * attribute.
+     */
+    virtual void readFile(ParticleContainer& particles, const char *filename) {
+        claimFile(filename);
+
+        // read magic header
+        if (!readMagicHeader()) {
+            spdlog::error("file {} has invalid magic header", filename);
+            exit(-1);
+        }
+
+        // TODO abstraction
+    };
 
     /**
      * @brief Get a reader-based instance for a specific file.
