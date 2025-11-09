@@ -91,9 +91,7 @@ ParticleContainer particleGenerator(Vec3<double> firstCorrdinate ,int N_1,int N_
 
 }
 
-Vec3D LennardJonesPotential(Particle p1, Particle p2){
-    int sigma=1;
-    int epsilon=1;
+Vec3D LennardJonesPotential(Particle p1, Particle p2, sigma=1, epsilon=1) {
     int distance=0;
     Vec3D position_diff=p1.getPosition()-p2.getPosition();
     for (int i = 0; i < position_diff.length(); ++i) {
