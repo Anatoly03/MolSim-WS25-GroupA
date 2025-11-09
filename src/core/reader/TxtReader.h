@@ -8,7 +8,6 @@
 #include "../ParticleContainer.h"
 #include "../math/Vec3.h"
 #include "FileReader.h"
-
 #include "spdlog/spdlog.h"
 
 /**
@@ -30,10 +29,10 @@ class TxtReader : public FileReader {
     /**
      * @brief Read custom 'text' file format into particle container.
      */
-    virtual void readFile(ParticleContainer& particles, const char *filename)  override {
+    virtual void readFile(ParticleContainer &particles, const char *filename) override {
         claimFile(filename);
         std::string tmp_string;
-        
+
         Vec3D position;
         Vec3D velocity;
         double mass;
@@ -76,6 +75,5 @@ class TxtReader : public FileReader {
             readLine(tmp_string);
             spdlog::debug("read: {}", tmp_string);
         }
-
     }
 };

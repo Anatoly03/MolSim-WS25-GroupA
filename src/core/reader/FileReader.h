@@ -6,7 +6,6 @@
 #include <sstream>
 
 #include "../ParticleContainer.h"
-
 #include "spdlog/spdlog.h"
 
 /**
@@ -19,16 +18,16 @@ class FileReader {
 
    protected:
     std::unique_ptr<std::ifstream> input_file;
-//     /**
-//      * @brief 
-//      */
-//     ParticleContainer particles;
+    //     /**
+    //      * @brief
+    //      */
+    //     ParticleContainer particles;
 
    public:
     /**
      * @note Default constructor without providing particle container is private.
      */
-    FileReader(): input_file(nullptr) {}
+    FileReader() : input_file(nullptr) {}
 
     /**
      * @brief Virtual destructor.
@@ -39,7 +38,7 @@ class FileReader {
      * @brief Get an input file stream for a specific file. Asserts
      * that the file could be opened and read out with `getline`.
      */
-    virtual void claimFile(const char* filename) {
+    virtual void claimFile(const char *filename) {
         input_file = std::make_unique<std::ifstream>(filename);
 
         // check if file could be opened
@@ -55,23 +54,19 @@ class FileReader {
      * @brief Read particle information from a file into particle container
      * attribute.
      */
-    virtual void readLine(std::string& line) const {
-        getline(*input_file, line);
-    }
+    virtual void readLine(std::string &line) const { getline(*input_file, line); }
 
     /**
      * @brief Read magic header. Per default file formats have no magic
      * header, so this always returns true.
      */
-    virtual bool readMagicHeader() const override {
-        return true;
-    }
+    virtual bool readMagicHeader() const override { return true; }
 
     /**
      * @brief Read particle information from a file into particle container
      * attribute.
      */
-    virtual void readFile(ParticleContainer& particles, const char *filename) {
+    virtual void readFile(ParticleContainer &particles, const char *filename) {
         claimFile(filename);
 
         // read magic header

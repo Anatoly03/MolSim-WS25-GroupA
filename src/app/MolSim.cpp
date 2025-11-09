@@ -1,8 +1,8 @@
 #include <time.h>
 
-#include "../core/reader/FileReader.h"
 #include "../core/ParticleContainer.h"
 #include "../core/Simulation.h"
+#include "../core/reader/FileReader.h"
 #include "Frame.h"
 
 #ifdef ENABLE_VTK_OUTPUT
@@ -43,7 +43,7 @@ int main(int argc, char *argsv[]) {
 
     // set up benchmarking
     const int bits = args.benchmark_iterations;
-    
+
     timespec starttime;
     timespec end;
     double total_duration = 0.0;
@@ -64,7 +64,8 @@ int main(int argc, char *argsv[]) {
     }
 
     double avg_duration = total_duration / bits;
-    std::cout << "Average Duration over " << bits << " iterations, over " << particles.size() << " particles: " << avg_duration << "s" << std::endl;
+    std::cout << "Average Duration over " << bits << " iterations, over " << particles.size()
+              << " particles: " << avg_duration << "s" << std::endl;
 
     return 0;
 }

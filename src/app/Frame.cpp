@@ -31,7 +31,8 @@ void printHelp(const char *progname) {
             "  -t, --time <int>      total simulation time (default: 1000)\n"
             "  -d, --delta <float>   time step delta (default: 0.014)\n"
             "  -L <level>            log level (hierarchy: trace, debug, info, warn, err, critical)\n"
-            "  -B <amount>           benchmark parameter, if specified will re-run simulation and output benchmark results\n"
+            "  -B <amount>           benchmark parameter, if specified will re-run simulation and output benchmark "
+            "results\n"
             "  -h, --help            print this help message\n"
             "  --help short          print compact help message\n\n"
             "Example:\n"
@@ -91,10 +92,10 @@ Args ProcessArgs(int argc, char *argv[]) {
     const char *progname = argv[0];
 
     Args args = Args();
-    
+
     // log level argument
     bool log_level_set = false;
-    char* log_level_str = 0;
+    char *log_level_str = 0;
     int log_level_code = 0;
 
     int opt;
