@@ -66,6 +66,7 @@ class FileReader {
      * @brief Read particle information from a file into particle container
      * attribute.
      */
+    // NOLINTNEXTLINE(unused-parameter)
     virtual void readFile(ParticleContainer &particles, const char *filename) {
         claimFile(filename);
 
