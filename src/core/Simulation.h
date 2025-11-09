@@ -113,6 +113,9 @@ class Simulation {
 
         spdlog::info("Output written. Terminating...");
     }
-    ParticleContainer particleGenerator(Vec3<double> firstCorrdinate, int N_1, int N_2, int N_3, int h, int mass,
-                                        Vec3<double> initialVelocity)
+
+    // TODO move this elsewhere
+
+    void particleGenerator(Vec3<double> firstCoordinate, int N_1, int N_2, int N_3, int h, int mass,
+                                    Vec3<double> initialVelocity);
 };
