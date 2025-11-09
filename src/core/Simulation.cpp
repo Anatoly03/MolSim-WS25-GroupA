@@ -66,6 +66,9 @@ void Simulation::calculateForce() {
         other.addForce(-force);
     });
 }
+
+// TODO move this elsewhere
+
 ParticleContainer particleGenerator(Vec3<double> firstCorrdinate, int N_1, int N_2, int N_3, int h, int mass,
                                     Vec3<double> initialVelocity) {
     ParticleContainer container;
@@ -83,12 +86,14 @@ ParticleContainer particleGenerator(Vec3<double> firstCorrdinate, int N_1, int N
     }
 }
 
-Vec3D LennardJonesPotential(Particle p1, Particle p2, sigma = 1, epsilon = 1) {
+Vec3D LennardJonesPotential(Particle p1, Particle p2, int sigma = 1, int epsilon = 1) {
     int distance = 0;
+
     Vec3D position_diff = p1.getPosition() - p2.getPosition();
     for (int i = 0; i < position_diff.length(); ++i) {
         distance = distance + std::pow(position_diff.asArray()[i], 2);
     }
+
     double tmp = sigma / distance;
     return ((24 * epsilon) / distance) *
            ((std::pow(tmp, 6) - 2 * std::pow(tmp, 12)) * (p1.getPosition() - p2.getPosition()));

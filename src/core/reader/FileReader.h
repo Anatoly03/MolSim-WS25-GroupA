@@ -60,7 +60,7 @@ class FileReader {
      * @brief Read magic header. Per default file formats have no magic
      * header, so this always returns true.
      */
-    virtual bool readMagicHeader() const override { return true; }
+    virtual bool readMagicHeader() const { return true; }
 
     /**
      * @brief Read particle information from a file into particle container
