@@ -106,6 +106,11 @@ class Particle {
     void setForce(const Vec3D &force_);
 
     /**
+     * @brief Add to the force on this Particle.
+     */
+    void addForce(const Vec3D &force_delta);
+
+    /**
      * @brief Push force to old force and reset current force to zero.
      */
     void delayForce();
