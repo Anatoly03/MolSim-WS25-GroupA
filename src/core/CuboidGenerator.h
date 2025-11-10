@@ -30,4 +30,5 @@ struct Cuboid {
  *                        Physically, this corresponds to sqrt(k_B * T / m), but here it is used as a fixed parameter controlling the random velocity magnitude(e.g., 0.1).
  */
 void addCuboid(ParticleContainer &particles, const Cuboid &cuboid, double brownian_sigma);
+void addCuboid2D(ParticleContainer &particles, const Cuboid &cuboid, double brownian_sigma);
 

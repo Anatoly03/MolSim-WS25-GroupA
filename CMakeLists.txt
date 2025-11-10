@@ -27,7 +27,9 @@ file(GLOB_RECURSE MY_SRC
 )
 
 # create make target
-add_executable(MolSim ${MY_SRC})
+add_executable(MolSim ${MY_SRC}
+        src/core/CuboidGenerator.h
+        src/core/CuboidGenerator.cpp)
 
 target_include_directories(MolSim
         PRIVATE

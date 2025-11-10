@@ -77,5 +77,3 @@ void Simulation::calculateForce() {
         p_j.addForce(-F_ij);
     });
 }
-
-}
