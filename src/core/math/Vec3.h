@@ -161,6 +161,13 @@ struct Vec3 {
     /**
      * @brief Assignment operator overload for Vec3.
      */
+    constexpr Vec3(const Vec3 &other) = default;
+    constexpr Vec3 &operator=(const Vec3 &other) = default;
+
+/*
+ * Somehow here causes CI error,
+ * maybe there are other better solutions to fix the bug.
+ *
     inline constexpr Vec3 &operator=(const Vec3 &other) {
         // guard self assignment
         if (this == &other) return *this;
@@ -170,6 +177,7 @@ struct Vec3 {
         z = other.z;
         return *this;
     }
+*/
 
     /**
      * @brief Binary addition operator overload for Vec3.
