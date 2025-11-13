@@ -4,7 +4,6 @@
 #include "../app/Frame.h"
 #include "ParticleContainer.h"
 #include "spdlog/spdlog.h"
-#include "utils//MaxwellBoltzmannDistribution.h"
 #include "utils/ArrayUtils.h"
 #include "writer/Writer.h"
 
