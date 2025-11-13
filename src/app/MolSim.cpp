@@ -90,12 +90,11 @@ int main(int argc, char *argsv[]) {
 
         double duration = (double)(end.tv_sec - starttime.tv_sec) + ((double)(end.tv_nsec - starttime.tv_nsec) * 1e-9);
         total_duration += duration;
-
-        spdlog::info("Benchmark iteration {}: {} s", i, duration);
+        spdlog::info("Benchmark iteration {} finished in {:.4f}s", i, duration);
     }
 
     double avg_duration = total_duration / bits;
-    spdlog::info("Average duration over {} iterations, over {} particles: {} s", bits, particles.size(), avg_duration);
-
+    spdlog::info("Average duration over {} iterations and {} particles: {:.4f}s",
+                 bits, particles.size(), avg_duration);
     return 0;
 }
