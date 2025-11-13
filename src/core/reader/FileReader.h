@@ -77,6 +77,7 @@ class FileReader {
         }
 
         // TODO abstraction
+        (void) particles;
     };
 
     /**
