@@ -46,6 +46,22 @@ struct Vec3 {
     Vec3(T x_, T y_, T z_) : x(x_), y(y_), z(z_) {}
 
     // methods
+    /**
+     * @brief Compatible with any place where v[i] notation is used (e.g., MaxwellBoltzmannDistribution.h).
+     */
+    T& operator[](std::size_t i) {
+        if (i == 0) return x;
+        if (i == 1) return y;
+        if (i == 2) return z;
+        throw std::out_of_range("Vec3 index out of range");
+    }
+
+    const T& operator[](std::size_t i) const {
+        if (i == 0) return x;
+        if (i == 1) return y;
+        if (i == 2) return z;
+        throw std::out_of_range("Vec3 index out of range");
+    }
 
     /**
      * @brief Deep copy of a Vec3.
@@ -145,6 +161,13 @@ struct Vec3 {
     /**
      * @brief Assignment operator overload for Vec3.
      */
+    constexpr Vec3(const Vec3 &other) = default;
+    constexpr Vec3 &operator=(const Vec3 &other) = default;
+
+/*
+ * Somehow here causes CI error,
+ * maybe there are other better solutions to fix the bug.
+ *
     inline constexpr Vec3 &operator=(const Vec3 &other) {
         // guard self assignment
         if (this == &other) return *this;
@@ -154,6 +177,7 @@ struct Vec3 {
         z = other.z;
         return *this;
     }
+*/
 
     /**
      * @brief Binary addition operator overload for Vec3.
