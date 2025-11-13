@@ -29,7 +29,7 @@ Vec3D maxwellBoltzmannDistributedVelocity(double averageVelocity) {
     // the velocity change is maxwell boltzmann distributed
     std::normal_distribution<double> normalDistribution{0, 1};
 
-    Vec3D randomVelocity(0) = averageVelocity * normalDistribution(randomEngine);
+    Vec3D randomVelocity = averageVelocity * normalDistribution(randomEngine);
 
     return randomVelocity;
 }
