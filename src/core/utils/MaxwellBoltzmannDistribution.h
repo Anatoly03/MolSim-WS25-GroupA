@@ -19,8 +19,9 @@
  * @param dimensions Number of dimensions for which the velocity vector shall be generated. Set this to 2 or 3.
  * @return Array containing the generated velocity vector.
  */
-Vec3D maxwellBoltzmannDistributedVelocity(double averageVelocity) {
-// Vec3D maxwellBoltzmannDistributedVelocity(double averageVelocity, size_t dimensions) {
+Vec3D maxwellBoltzmannDistributedVelocity(double averageVelocity, size_t dimensions) {
+    static_assert(dimensions == 2 || dimensions == 3, "Only 2D and 3D Maxwell-Boltzmann distributions are supported.");
+
     // we use a constant seed for repeatability.
     // random engine needs static lifetime otherwise it would be recreated for every call.
     static std::default_random_engine randomEngine(42);
@@ -29,7 +30,17 @@ Vec3D maxwellBoltzmannDistributedVelocity(double averageVelocity) {
     // the velocity change is maxwell boltzmann distributed
     std::normal_distribution<double> normalDistribution{0, 1};
 
-    Vec3D randomVelocity = averageVelocity * normalDistribution(randomEngine);
+    Vec3D randomVelocity(0);
+    
+    randomVelocity.x = averageVelocity * normalDistribution(randomEngine);
+    randomVelocity.y = averageVelocity * normalDistribution(randomEngine);
+
+    // If 3D, set z component as well
+    if (dimensions > 2) {
+        randomVelocity.z = averageVelocity * normalDistribution(randomEngine);
+    } else {
+        randomVelocity.z = 0.0;
+    }
 
     return randomVelocity;
 }
