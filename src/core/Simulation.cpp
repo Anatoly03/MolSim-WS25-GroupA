@@ -4,7 +4,7 @@
 #include "../app/Frame.h"
 #include "ParticleContainer.h"
 #include "spdlog/spdlog.h"
-#include "utils//MaxwellBoltzmannDistribution.h"
+#include "utils/MaxwellBoltzmannDistribution.h"
 #include "utils/ArrayUtils.h"
 #include "writer/Writer.h"
 
@@ -78,7 +78,7 @@ void Simulation::particleGenerator(Vec3<double> firstCoordinate, int N_1, int N_
             for (int k = 0; k < N_3; ++k) {
                 Vec3D position = firstCoordinate + Vec3D(i * h, j * h, k * h);
                 // TODO what should be the average?
-                Vec3D randomVelo = maxwellBoltzmannDistributedVelocity(1.0, 3);
+                Vec3D randomVelo = maxwellBoltzmannDistributedVelocity(1.0);
                 Vec3D velocity = initialVelocity + randomVelo;
 
                 particles.emplace_back(position, velocity, mass);
