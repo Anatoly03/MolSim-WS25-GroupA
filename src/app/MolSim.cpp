@@ -60,12 +60,11 @@ int main(int argc, char *argsv[]) {
 
         double duration = (double)(end.tv_sec - starttime.tv_sec) + ((double)(end.tv_nsec - starttime.tv_nsec) * 1e-9);
         total_duration += duration;
-        std::cout << "Benchmark Iteration " << i << ": " << duration << "s" << std::endl;
+        spdlog::info("Benchmark iteration {} finished in {:.4f}s", i, duration);
     }
 
     double avg_duration = total_duration / bits;
-    std::cout << "Average Duration over " << bits << " iterations, over " << particles.size()
-              << " particles: " << avg_duration << "s" << std::endl;
-
+    spdlog::info("Average duration over {} iterations and {} particles: {:.4f}s",
+                 bits, particles.size(), avg_duration);
     return 0;
 }
