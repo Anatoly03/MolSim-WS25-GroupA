@@ -41,25 +41,34 @@ void Simulation::delayForce() {
 }
 
 /**
- * @brief calculate the force for all particles, asserts
+ * @brief Calculates the force for all particles, using Lennard-Jones forces.
+ *
+ * This function implements a pairwise force computation using the Lennard-Jones
+ * potential, which are applied symmetrically to both particles in the pair,
+ * following Newton’s third law.
+ *
  * @note naive O(n^2) implementation
- * @todo replace with efficient algorithm
  */
+// TODO replace with efficient algorithm
 void Simulation::calculateForce() {
-    // TODO if in debug mode, assert that all forces are zero
-    // #if TODO
-    // particles.forEach([](Particle &particle) {
-    //     assert(particle.getForce().length() == 0 && "Forces must be zero before force calculation.");
-    // });
-    // #endif
+    // Lennard-Jones Parameters (hard code for now)
+    const double epsilon = 5.0;
+    const double sigma   = 1.0;
 
-    particles.forEachDistinctPair([this](Particle &particle, Particle &other) {
-        Vec3D diffX = other.getPosition() - particle.getPosition();
-        double distance = diffX.length();
-        double mulMass = particle.getMass() * other.getMass();
-        if (distance == 0.0) return;
+    particles.forEachDistinctPair([&](Particle &particle, Particle &other) {
+        Vec3D r = particle.getPosition() - other.getPosition();
+        double distance = r.length();
 
-        Vec3D force = diffX * (mulMass / (std::pow(distance, 3)));
+        if (distance == 0.0) {
+            return;
+        }
+
+        // rf. formula (3)
+        double inv_r2 = 1.0 / std::pow(distance, 2);
+        double sigma_r2 = sigma * inv_r2;
+        double scalar = -24.0 * epsilon * std::pow(inv_r2, 2) *
+                        (std::pow(sigma_r2, 6) - 2.0 * std::pow(sigma_r2, 12) );
+        Vec3D force = scalar * r;
 
         particle.addForce(force);
         other.addForce(-force);

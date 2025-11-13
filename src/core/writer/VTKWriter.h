@@ -24,7 +24,7 @@
 #include <string>
 
 #include "../ParticleContainer.h"
-#include "Particle.h"
+#include "../Particle.h"
 
 namespace outputWriter {
 
