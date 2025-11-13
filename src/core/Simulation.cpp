@@ -67,35 +67,5 @@ void Simulation::calculateForce() {
     });
 }
 
-// TODO move this elsewhere
 
-void Simulation::particleGenerator(Vec3<double> firstCoordinate, int N_1, int N_2, int N_3, int h, int mass,
-                                    Vec3<double> initialVelocity) {
-    particles.reserve(N_1 * N_2 * N_3);
 
-    for (int i = 0; i < N_1; ++i) {
-        for (int j = 0; j < N_2; ++j) {
-            for (int k = 0; k < N_3; ++k) {
-                Vec3D position = firstCoordinate + Vec3D(i * h, j * h, k * h);
-                // TODO what should be the average?
-                Vec3D randomVelo = maxwellBoltzmannDistributedVelocity(1.0, 3);
-                Vec3D velocity = initialVelocity + randomVelo;
-
-                particles.emplace_back(position, velocity, mass);
-            }
-        }
-    }
-}
-
-Vec3D LennardJonesPotential(Particle p1, Particle p2, int sigma = 1, int epsilon = 1) {
-    int distance = 0;
-
-    Vec3D position_diff = p1.getPosition() - p2.getPosition();
-    for (int i = 0; i < position_diff.length(); ++i) {
-        distance = distance + std::pow(position_diff.asArray()[i], 2);
-    }
-
-    double tmp = sigma / distance;
-    return ((24 * epsilon) / distance) *
-           ((std::pow(tmp, 6) - 2 * std::pow(tmp, 12)) * (p1.getPosition() - p2.getPosition()));
-}
