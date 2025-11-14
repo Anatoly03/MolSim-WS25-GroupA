@@ -1,4 +1,3 @@
-
 #include "ParticleContainer.h"
 
 /**
@@ -14,7 +13,7 @@ void ParticleContainer::forEach(const std::function<void(Particle &)> &callback)
  * Iteration over distinct particle pairs using a callback function.
  * Index-based particle comparison ensures a pair has distinct particles.
  */
-void ParticleContainer::forEachPair(const std::function<void(Particle &, Particle &)> &callback) {
+void ParticleContainer::forEachDistinctPair(const std::function<void(Particle &, Particle &)> &callback) {
     for (size_t i = 0; i < particles.size(); i++) {
         for (size_t j = i + 1; j < particles.size(); j++) {
             if (i == j) continue;

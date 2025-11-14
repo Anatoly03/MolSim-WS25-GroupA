@@ -20,16 +20,14 @@ if(NOT CMAKE_BUILD_TYPE)
 endif(NOT CMAKE_BUILD_TYPE)
 
 # collect all cpp files
+# header don't need to be included but this might be necessary for some IDEs
 file(GLOB_RECURSE MY_SRC
     "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
-    # header don't need to be included but this might be necessary for some IDEs
     "${CMAKE_CURRENT_SOURCE_DIR}/src/*.h"
 )
 
 # create make target
-add_executable(MolSim ${MY_SRC}
-        src/ParticleContainer.cpp
-        src/ParticleContainer.h)
+add_executable(MolSim ${MY_SRC})
 
 target_include_directories(MolSim
         PRIVATE
@@ -46,7 +44,7 @@ target_compile_options(MolSim
 )
 
 # create clean target to remove data bloat
-add_custom_target(clean-vtk COMMAND rm -rf *.xyz *.vtu)
+add_custom_target(clean-vtk COMMAND rm -rf *.xyz *.vtu *.out)
 
 # add additional modules
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/modules)
@@ -59,3 +57,5 @@ endif()
 include(vtk)
 include(clang-format)
 include(doxygen)
+include(test-google)
+include(add-spdlog)
