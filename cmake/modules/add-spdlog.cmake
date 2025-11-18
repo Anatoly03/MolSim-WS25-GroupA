@@ -10,4 +10,5 @@ set(SPDLOG_HEADER_ONLY ON)
 FetchContent_MakeAvailable(spdlog)
 
 target_link_libraries(MolSim PUBLIC spdlog::spdlog)
+target_link_libraries(MolSimLib PUBLIC spdlog::spdlog)
 target_link_libraries(MolSimTest spdlog::spdlog)

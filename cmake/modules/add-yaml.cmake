@@ -9,5 +9,5 @@ FetchContent_Declare(yaml-cpp
     GIT_TAG 0.8.0)
 FetchContent_MakeAvailable(yaml-cpp)
 
-target_link_libraries(MolSim PUBLIC yaml-cpp::yaml-cpp)
+target_link_libraries(MolSimLib PUBLIC yaml-cpp::yaml-cpp)
 target_link_libraries(MolSimTest yaml-cpp::yaml-cpp)
