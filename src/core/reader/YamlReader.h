@@ -30,6 +30,25 @@ class YamlReader : public FileReader {
     ~YamlReader() = default;
 
     /**
+     * @brief Get particle from YAML::Node
+     */
+    Particle readNode(const YAML::Node &node) const {
+        Vec3D position = Vec3D(
+            node["position"][0].as<double>(),
+            node["position"][1].as<double>(),
+            node["position"][2].as<double>());
+
+        Vec3D velocity = Vec3D(
+            node["velocity"][0].as<double>(),
+            node["velocity"][1].as<double>(),
+            node["velocity"][2].as<double>());
+
+        double mass = node["mass"].as<double>();
+
+        return Particle(position, velocity, mass, 0);
+    }
+
+    /**
      * @brief Read custom 'text' file format into particle container.
      */
     virtual void readFile(ParticleContainer &particles, const char *filename) override {
@@ -80,9 +99,17 @@ class YamlReader : public FileReader {
             exit(-1);
         }
 
-        YAML::Node particlesNode = config["particles"];
+        // read out particles
+        YAML::Node node = config["particles"];
 
-        // TODO extract YAML data
-        (void) particles;
+        if (node.IsSequence()) {
+            for (YAML::const_iterator it=node.begin();it!=node.end();++it) {
+                particles.emplace_back(readNode(*it));
+            }
+        } else if (node.IsMap()) {
+            for(YAML::const_iterator it=node.begin();it!=node.end();++it) {
+                particles.emplace_back(readNode(it->second));
+            }
+        }
     }
 };
