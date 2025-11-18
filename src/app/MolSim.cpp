@@ -1,8 +1,9 @@
 
+#include "Frame.h"
 #include "../core/FileReader.h"
 #include "../core/ParticleContainer.h"
 #include "../core/Simulation.h"
-#include "Frame.h"
+#include "../core/reader/FileReader.h"
 #include "../core/CuboidGenerator.h"
 #include "spdlog/spdlog.h"
 
@@ -49,8 +50,8 @@ int main(int argc, char *argsv[]) {
         addCuboid2D(particles, c2, brownian_sigma);
 
     } else {
-        FileReader fileReader;
-        fileReader.readFile(particles, args.input_file);
+        std::unique_ptr<FileReader> fileReader = FileReader::getReaderForFile(args.input_file);
+        fileReader->readFile(particles, args.input_file);
     }
 
 
