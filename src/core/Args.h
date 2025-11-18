@@ -1,4 +1,6 @@
 
+#pragma once
+
 /**
  * @brief Structure to hold all program arguments.
  */
