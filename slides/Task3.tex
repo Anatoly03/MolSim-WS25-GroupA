@@ -86,7 +86,7 @@
     \maketitle
 \end{frame}
 
-\simpleframe\begin{frame}{Wrapping up code debt: `App \& Core' Pattern}
+\simpleframe\begin{frame}{Wrapping up tech debt from Assignment 1: `App \& Core' Pattern}
     \centering
     \begin{tikzpicture}[node distance=1cm and 1cm, minimum height=1cm, minimum width=3cm]
         \node[draw, rectangle] (bin) {MolSim (bin)};
@@ -106,10 +106,44 @@
         \draw[->, thick] (lib) -- (other) node[midway, above] {};
     \end{tikzpicture}
 
+    \vspace{0.5cm}
     \begin{itemize}
         \item \blue{App `MolSim'} is executable that contains \blue{only interface-level logic}: argument parsing, simulation setup, etc.
         \item \blue{Core `MolSimLib'} is a library that contains \blue{the implementation}: particle simulations, etc.
     \end{itemize}
+\end{frame}
+
+\simpleframe\begin{frame}[fragile]{Wrapping up tech debt from Assignment 2: Caching Github CI builds}
+
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            Without Caching\footnotemark:
+
+            \begin{itemize}
+                \item \blue{2m 16s} Full Workflow Build
+                \item \blue{2m 8s} CMake Build Step
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            With Caching\footnotemark:
+
+            \begin{itemize}
+                \item \blue{43s} Full Workflow Build
+                \item \blue{28s} CMake Build Step
+                \item \blue{3s} Cache Retrieve
+            \end{itemize}
+        \end{column}
+    \end{columns}
+
+    \vspace{0.5cm}
+    \begin{itemize}
+        \item \blue{4x} performance speed up of CMake build!
+    \end{itemize}
+
+    % \footnotetext[1]{\href{https://github.com/Anatoly03/MolSim-WS25-GroupA/actions/runs/19469598810/job/55712979585}{Link to CI Run #72}}
+    % \footnotetext[2]{\href{https://github.com/Anatoly03/MolSim-WS25-GroupA/actions/runs/19470075154/job/55714616480}{Link to CI Run #73}}
+    \footnotetext[1]{CI Run \#72}
+    \footnotetext[2]{CI Run \#73}
 \end{frame}
 
 \headerframe\begin{frame}{That's it – for now, at least}{Shaw! We thank you for your attention!}
