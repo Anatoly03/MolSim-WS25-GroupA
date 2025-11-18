@@ -1,0 +1,25 @@
+name: Halley's comet simulation
+
+config:
+  delta_time: 0.14
+  total_time: 100
+  output: Sonne
+  output_interval: 25
+
+particles:
+  sun:
+    position: [0.0, 0.0, 0.0]
+    velocity: [0.0, 0.0, 0.0]
+    mass: 1.0
+  earth:
+    position: [0.0, 5.36, 0.0]
+    velocity: [-0.425, 0.0, 0.0]
+    mass: 9.55e-4
+  jupiter:
+    position: [0.0, 1.0, 0.0]
+    velocity: [-1.0, 0.0, 0.0]
+    mass: 3.0e-6
+  comet:
+    position: [34.75, 0.0, 0.0]
+    velocity: [0.0, 0.0296, 0.0]
+    mass: 1.0e-14

@@ -1,4 +1,5 @@
 #include "Frame.h"
+#include "../core/Args.h"
 
 #include <errno.h>
 #include <string.h>
@@ -23,8 +24,23 @@ void printHelp(const char *progname) {
     fprintf(stdout,
             "Usage:\n"
             "  %s [input] [options]\n\n"
-            "Input File Format:\n"
-            "  The input file contains the initial configuration of the particles.\n\n"
+            
+            "Allowed Input File Formats:\n\n"
+            "  === Text File: .txt, .text ===\n"
+            "    Deprecated. Use YAML format instead.\n"
+            "  === YAML File: .yaml, .yml ===\n"
+            "    Recommended file format for input configuration.\n\n"
+            "    name: string (simulation name)\n"
+            "    config:\n"
+            "      delta_time: float (time step delta)\n"
+            "      total_time: float (total simulation time)\n"
+            "      output: string (output file path, default: ./MD_vtk)\n"
+            "      output_interval: int (output interval in number of steps)\n"
+            "    particles: (map of named particles or list of particles)\n"
+            "      position: vec3 (particle initial position)\n"
+            "      velocity: vec3 (particle initial velocity)\n"
+            "      mass: float (particle mass)\n\n"
+
             "Options:\n"
             "  -o, --output <path>   output path, file name after last slash (default: ./MD_vtk, example: "
             "path/to/output/vtk)\n"
@@ -34,6 +50,7 @@ void printHelp(const char *progname) {
             "  -B <amount>           benchmark parameter, if specified will re-run simulation and output benchmark results\n"
             "  -h, --help            print this help message\n"
             "  --help short          print compact help message\n\n"
+
             "Example:\n"
             "  %s input.txt -o output/simulation -t 500 -d 0.01\n",
             progname, progname);
@@ -103,12 +120,15 @@ Args ProcessArgs(int argc, char *argv[]) {
         switch (opt) {
             case 't':  // -t or --time
                 args.end_time = atof(optarg);
+                args.end_time_cli = true;
                 break;
             case 'd':  // -d or --delta
                 args.delta_t = atof(optarg);
+                args.delta_t_cli = true;
                 break;
             case 'o':  // -o or --output
-                args.output_path = const_cast<char *>(optarg);
+                args.output_path = std::string(optarg);
+                args.output_file_cli = true;
                 break;
             case 'L':
                 log_level_set = true;
@@ -155,10 +175,10 @@ Args ProcessArgs(int argc, char *argv[]) {
     }
 
     // preprocess output option if not provided
-    if (args.output_path == nullptr) {
-        args.output_path = const_cast<char *>("MD_vtk");
+    if (args.output_path.empty()) {
+        args.output_path = "MD_vtk";
     } else {
-        if (!createPath(args.output_path)) {
+        if (!createPath(args.output_path.c_str())) {
             spdlog::error("could not create path: {}", args.output_path);
             printUsage(progname);
         }

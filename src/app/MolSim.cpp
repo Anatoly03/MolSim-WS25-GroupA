@@ -1,9 +1,11 @@
-#include <time.h>
 
-#include "../core/FileReader.h"
+#include <string.h>
+
+#include "Frame.h"
 #include "../core/ParticleContainer.h"
 #include "../core/Simulation.h"
-#include "Frame.h"
+#include "../core/reader/FileReader.h"
+#include "spdlog/spdlog.h"
 
 #ifdef ENABLE_VTK_OUTPUT
 #include "../core/writer/VTKWriter.h"
@@ -16,13 +18,16 @@
  * variables calls the molecular simulation methods.
  */
 int main(int argc, char *argsv[]) {
-    const auto args = ProcessArgs(argc, argsv);
+    auto args = ProcessArgs(argc, argsv);
 
     ParticleContainer particles;
 
-    // set up file IO
-    FileReader fileReader;
-    fileReader.readFile(particles, args.input_file);
+    // If the input file name is "task4", run the simulation of 2D collision of two cuboids
+    // Otherwise, use the regular file input.
+    std::string input_name = args.input_file ? std::string(args.input_file) : "";
+
+    // load particles from file
+    auto reader = FileReader::writeParticles(particles, args);
 
     // set up simulation
     if (!args.benchmark_enabled) {
@@ -60,11 +65,11 @@ int main(int argc, char *argsv[]) {
 
         double duration = (double)(end.tv_sec - starttime.tv_sec) + ((double)(end.tv_nsec - starttime.tv_nsec) * 1e-9);
         total_duration += duration;
-        std::cout << "Benchmark Iteration " << i << ": " << duration << "s" << std::endl;
+        spdlog::info("Benchmark iteration {} finished in {:.4f}s", i, duration);
     }
 
     double avg_duration = total_duration / bits;
-    std::cout << "Average Duration over " << bits << " iterations, over " << particles.size() << " particles: " << avg_duration << "s" << std::endl;
-
+    spdlog::info("Average duration over {} iterations and {} particles: {:.4f}s",
+                 bits, particles.size(), avg_duration);
     return 0;
 }

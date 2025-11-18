@@ -14,9 +14,24 @@ jobs:
     steps:
       - name: Checkout Project
         uses: actions/checkout@v4.2.2
+
+      - name: Cache CMake dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            build/_deps
+          key: ${{ runner.os }}-cmake-${{ hashFiles('**/CMakeLists.txt','cmake/**') }}
+          restore-keys: ${{ runner.os }}-cmake-
+
+      - name: Set CMake Policy Version Minimum
+        run: echo "export CMAKE_POLICY_VERSION_MINIMUM=3.5" >> $GITHUB_ENV
+
       - name: Build Project
         uses: threeal/cmake-action@v2.1.0
         with:
-          args: -DENABLE_VTK_OUTPUT=OFF
+          options: |
+            ENABLE_VTK_OUTPUT=OFF
+            CMAKE_CXX_FLAGS="-fsanitize=address"
+
       - name: Run Tests
         uses: threeal/ctest-action@v1.1.0
