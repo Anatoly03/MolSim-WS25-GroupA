@@ -55,7 +55,6 @@ if(ENABLE_VTK_OUTPUT)
 endif()
 
 include(vtk)
-include(clang-format)
 include(doxygen)
 include(test-google)
 include(add-fmt)
