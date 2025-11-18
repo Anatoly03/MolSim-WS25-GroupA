@@ -4,6 +4,7 @@
 #pragma once
 
 #include "../ParticleContainer.h"
+#include "../CuboidGenerator.h"
 #include "../math/Vec3.h"
 #include "FileReader.h"
 
@@ -33,8 +34,44 @@ class YamlReader : public FileReader {
     /**
      * @brief Get particle from YAML::Node
      */
-    // TODO Specification of the cuboids.
+    void readCuboidNode(ParticleContainer &particles, const YAML::Node &node) const {
+        auto amount = node["n"].as<Vec3<int>>();
+        Vec3D position = node["position"].as<Vec3<double>>();
+        Vec3D velocity = node["velocity"].as<Vec3<double>>();
+        double mass = node["mass"].as<double>();
+        double sigma = node["sigma"].as<double>();
+        double brownian_sigma = node["brownian_sigma"].as<double>();
+        
+        double h;
+        if (node["sigma"]) {
+            h = std::pow(2.0, 1.0 / 6.0) * sigma;
+        } else {
+            h = node["h"].as<double>();
+        };
+
+        Cuboid cuboid;
+
+        cuboid.position = position;
+        cuboid.n1 = amount.x;
+        cuboid.n2 = amount.y;
+        cuboid.n3 = amount.z;
+        cuboid.h = h;
+        cuboid.mass = mass;
+        cuboid.initial_velocity = velocity;
+
+        addCuboid2D(particles, cuboid, brownian_sigma);
+    }
+
+    /**
+     * @brief Get particle from YAML::Node
+     */
     void readNode(ParticleContainer &particles, const YAML::Node &node) const {
+        auto node_type = node["type"].as<std::string>();
+
+        if (node_type == "cuboid") {
+            return readCuboidNode(particles, node);
+        }
+
         Vec3D position = node["position"].as<Vec3<double>>();
         Vec3D velocity = node["velocity"].as<Vec3<double>>();
         double mass = node["mass"].as<double>();

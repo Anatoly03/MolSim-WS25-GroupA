@@ -5,7 +5,6 @@
 #include "../core/ParticleContainer.h"
 #include "../core/Simulation.h"
 #include "../core/reader/FileReader.h"
-#include "../core/CuboidGenerator.h"
 #include "spdlog/spdlog.h"
 
 #ifdef ENABLE_VTK_OUTPUT

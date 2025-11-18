@@ -5,33 +5,21 @@ config:
   total_time: 100
   output_interval: 20
 
-# TODO implement 'task4' from past assignment
-
-# const double sigma = 1.0;
-# const double h     = std::pow(2.0, 1.0 / 6.0) * sigma;
-# const double mass  = 1.0;
-# const double brownian_sigma = 0.1;
-
-# Cuboid c1;
-# c1.position         = Vec3D{0.0, 0.0, 0.0};
-# c1.n1 = 40; c1.n2 = 8; c1.n3 = 1;
-# c1.h                = h;
-# c1.mass             = mass;
-# c1.initial_velocity = Vec3D{0.0, 0.0, 0.0};
-
-# Cuboid c2;
-# c2.position         = Vec3D{15.0, 15.0, 0.0};
-# c2.n1 = 8; c2.n2 = 8; c2.n3 = 1;
-# c2.h                = h;
-# c2.mass             = mass;
-# c2.initial_velocity = Vec3D{0.0, -10.0, 0.0};
-
-# addCuboid2D(particles, c1, brownian_sigma);
-# addCuboid2D(particles, c2, brownian_sigma);
-
 particles:
   cuboid1:
-    TODO
+    type: cuboid
+    n: [40, 8, 1]
+    position: [0.0, 0.0, 0.0]
+    velocity: [0.0, 0.0, 0.0]
+    mass: 1.0
+    sigma: 1.0
+    brownian_sigma: 0.1
   cuboid2:
-    TODO
+    type: cuboid
+    n: [8, 8, 1]
+    position: [15.0, 15.0, 0.0]
+    velocity: [0.0, -10.0, 0.0]
+    mass: 1.0
+    sigma: 1.0
+    brownian_sigma: 0.1
     
