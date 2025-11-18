@@ -34,7 +34,7 @@ class YamlReader : public FileReader {
      * @brief Get particle from YAML::Node
      */
     // TODO Specification of the cuboids.
-    Particle readNode(const YAML::Node &node) const {
+    void readNode(ParticleContainer &particles, const YAML::Node &node) const {
         Vec3D position = Vec3D(
             node["position"][0].as<double>(),
             node["position"][1].as<double>(),
@@ -47,7 +47,7 @@ class YamlReader : public FileReader {
 
         double mass = node["mass"].as<double>();
 
-        return Particle(position, velocity, mass, 0);
+        particles.emplace_back(position, velocity, mass, 0);
     }
 
     /**
@@ -117,11 +117,11 @@ class YamlReader : public FileReader {
 
         if (node.IsSequence()) {
             for (YAML::const_iterator it=node.begin();it!=node.end();++it) {
-                particles.emplace_back(readNode(*it));
+                readNode(particles, *it);
             }
         } else if (node.IsMap()) {
             for(YAML::const_iterator it=node.begin();it!=node.end();++it) {
-                particles.emplace_back(readNode(it->second));
+                readNode(particles, it->second);
             }
         }
     }

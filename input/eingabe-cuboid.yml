@@ -29,7 +29,6 @@ config:
 # addCuboid2D(particles, c1, brownian_sigma);
 # addCuboid2D(particles, c2, brownian_sigma);
 
-
 particles:
   cuboid1:
     TODO
