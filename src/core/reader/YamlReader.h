@@ -74,6 +74,12 @@ class YamlReader : public FileReader {
             args.output_interval = interval;
         }
 
+        // parse particles
+        if (!config["particles"]) {
+            spdlog::error("yaml file {} has no 'particles' entry", filename);
+            exit(-1);
+        }
+
         // TODO extract YAML data
         (void) particles;
     }
