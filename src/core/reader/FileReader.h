@@ -33,7 +33,7 @@ class FileReader {
     /**
      * @note Default constructor without providing particle container is private.
      */
-    FileReader() : input_file(nullptr), args(nullptr) {}
+    FileReader() : args(nullptr), input_file(nullptr) {}
 
     /**
      * @brief Virtual destructor.
