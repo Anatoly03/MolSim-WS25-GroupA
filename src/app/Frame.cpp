@@ -1,4 +1,5 @@
 #include "Frame.h"
+#include "../core/Args.h"
 
 #include <errno.h>
 #include <string.h>
