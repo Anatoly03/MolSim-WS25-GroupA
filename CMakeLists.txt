@@ -34,9 +34,21 @@ target_include_directories(MolSim
             ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
 
+target_include_directories(MolSimLib
+        PRIVATE
+            ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+
 # activate all compiler warnings. Clean up your code :P
 # depending on the compiler different flags are used
 target_compile_options(MolSim
+        PRIVATE
+            $<$<CXX_COMPILER_ID:GNU>:-Wall -Wextra -Wpedantic -Werror>
+            # disable some spam warnings for icpc...
+            $<$<CXX_COMPILER_ID:Intel>:-w3 -wd383,981,1418,1572,2259>
+)
+
+target_compile_options(MolSimLib
         PRIVATE
             $<$<CXX_COMPILER_ID:GNU>:-Wall -Wextra -Wpedantic -Werror>
             # disable some spam warnings for icpc...
