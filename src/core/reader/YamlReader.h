@@ -39,5 +39,6 @@ class YamlReader : public FileReader {
         spdlog::debug("contnents: {}", config);
 
         // TODO extract YAML data
+        (void) particles;
     }
 };
