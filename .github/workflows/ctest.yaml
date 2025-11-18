@@ -1,0 +1,17 @@
+# Test the project using CTest.
+
+name: CMake Test CI
+
+on:
+  workflow_run:
+    workflows: [CMake Build CI]
+    types:
+      - completed
+
+jobs:
+  run-tests:
+    name: Run Tests
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Run Tests
+        uses: threeal/ctest-action@v1.1.0

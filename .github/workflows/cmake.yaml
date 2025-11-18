@@ -32,6 +32,3 @@ jobs:
           options: |
             ENABLE_VTK_OUTPUT=OFF
             CMAKE_CXX_FLAGS="-fsanitize=address"
-
-      - name: Run Tests
-        uses: threeal/ctest-action@v1.1.0
