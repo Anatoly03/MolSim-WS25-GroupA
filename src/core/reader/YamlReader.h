@@ -51,7 +51,7 @@ class YamlReader : public FileReader {
             double delta_time = config["config"]["delta_time"].as<double>();
 
             if (args.delta_t_cli) {
-                spdlog::warn("delta_time in {} overridden by CLI argument. ({} -> {})", filename, delta_time, args.delta_t);
+                spdlog::warn("delta_time in {} overridden by CLI argument: {} -> {}", filename, delta_time, args.delta_t);
             } else {
                 args.delta_t = delta_time;
             }
@@ -62,7 +62,7 @@ class YamlReader : public FileReader {
             double duration = config["config"]["total_time"].as<double>();
 
             if (args.delta_t_cli) {
-                spdlog::warn("total_time in {} overridden by CLI argument. ({} -> {})", filename, duration, args.end_time);
+                spdlog::warn("total_time in {} overridden by CLI argument: {} -> {}", filename, duration, args.end_time);
             } else {
                 args.end_time = duration;
             }
@@ -79,6 +79,8 @@ class YamlReader : public FileReader {
             spdlog::error("yaml file {} has no 'particles' entry", filename);
             exit(-1);
         }
+
+        YAML::Node particlesNode = config["particles"];
 
         // TODO extract YAML data
         (void) particles;

@@ -24,8 +24,22 @@ void printHelp(const char *progname) {
     fprintf(stdout,
             "Usage:\n"
             "  %s [input] [options]\n\n"
-            "Input File Format:\n"
-            "  The input file contains the initial configuration of the particles.\n\n"
+            
+            "Allowed Input File Formats:\n\n"
+            "  === Text File: .txt, .text ===\n"
+            "    Deprecated. Use YAML format instead.\n"
+            "  === YAML File: .yaml, .yml ===\n"
+            "    Recommended file format for input configuration.\n\n"
+            "    name: string (simulation name)\n"
+            "    config:\n"
+            "      delta_time: float (time step delta)\n"
+            "      total_time: float (total simulation time)\n"
+            "      output_interval: int (output interval in number of steps)\n"
+            "    particles: (map of named particles or list of particles)\n"
+            "      position: vec3 (particle initial position)\n"
+            "      velocity: vec3 (particle initial velocity)\n"
+            "      mass: float (particle mass)\n\n"
+
             "Options:\n"
             "  -o, --output <path>   output path, file name after last slash (default: ./MD_vtk, example: "
             "path/to/output/vtk)\n"
@@ -35,6 +49,7 @@ void printHelp(const char *progname) {
             "  -B <amount>           benchmark parameter, if specified will re-run simulation and output benchmark results\n"
             "  -h, --help            print this help message\n"
             "  --help short          print compact help message\n\n"
+
             "Example:\n"
             "  %s input.txt -o output/simulation -t 500 -d 0.01\n",
             progname, progname);
