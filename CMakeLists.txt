@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.10..4)
 
 # Enable C++17. You may raise the standard if you want
 set(CMAKE_CXX_STANDARD 17)
@@ -58,5 +58,6 @@ include(vtk)
 include(clang-format)
 include(doxygen)
 include(test-google)
+# include(add-fmt)
 include(add-spdlog)
 include(add-yaml)

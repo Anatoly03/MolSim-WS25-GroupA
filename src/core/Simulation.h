@@ -2,7 +2,6 @@
 #pragma once
 
 #include "../app/Frame.h"
-#include "FileReader.h"
 #include "ParticleContainer.h"
 #include "utils/ArrayUtils.h"
 #include "writer/Writer.h"

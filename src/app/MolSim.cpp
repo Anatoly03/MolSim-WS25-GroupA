@@ -1,6 +1,5 @@
 
 #include "Frame.h"
-#include "../core/FileReader.h"
 #include "../core/ParticleContainer.h"
 #include "../core/Simulation.h"
 #include "../core/reader/FileReader.h"
