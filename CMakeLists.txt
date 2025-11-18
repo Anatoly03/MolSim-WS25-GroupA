@@ -21,13 +21,13 @@ endif(NOT CMAKE_BUILD_TYPE)
 
 # collect all cpp files
 # header don't need to be included but this might be necessary for some IDEs
-file(GLOB_RECURSE MY_SRC
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.h"
-)
+file(GLOB_RECURSE APP_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/app/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/src/app/*.h")
+file(GLOB_RECURSE CORE_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/core/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/src/core/*.h")
 
-# create make target
-add_executable(MolSim ${MY_SRC})
+# create make targets: app executable and core library
+add_library(MolSimLib ${CORE_SRC})
+add_executable(MolSim ${APP_SRC})
+target_link_libraries(MolSim PRIVATE MolSimLib)
 
 target_include_directories(MolSim
         PRIVATE
