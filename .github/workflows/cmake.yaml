@@ -24,7 +24,7 @@ jobs:
           restore-keys: ${{ runner.os }}-cmake-
 
       - name: Set CMake Policy Version Minimum
-        run: echo "CMAKE_POLICY_VERSION_MINIMUM=3.5" >> $GITHUB_ENV
+        run: echo "export CMAKE_POLICY_VERSION_MINIMUM=3.5" >> $GITHUB_ENV
 
       - name: Build Project
         uses: threeal/cmake-action@v2.1.0
