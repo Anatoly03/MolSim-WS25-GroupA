@@ -34,6 +34,26 @@
     escapeinside={\%*}{*)},         % if you want to add LaTeX within your code
 }
 
+% \lstset{
+%     language=YAML,
+%     basicstyle=\upshape\footnotesize\ttfamily,
+%     numbers=left,
+%     numberstyle=\tiny\color{gray},
+%     numbersep=5pt,
+%     showstringspaces=false,
+%     frame=single,
+%     rulecolor=\color{black},
+%     tabsize=2,
+%     captionpos=b,
+%     breaklines=true,
+%     breakatwhitespace=false,
+%     title=\lstname,
+%     keywordstyle=\color{blue},
+%     commentstyle=\color{dkgreen},
+%     stringstyle=\color{mauve},
+%     escapeinside={\%*}{*)},
+% }
+
 % Useful Read:
 % https://www.overleaf.com/learn/latex/Beamer
 
@@ -144,6 +164,47 @@
     % \footnotetext[2]{\href{https://github.com/Anatoly03/MolSim-WS25-GroupA/actions/runs/19470075154/job/55714616480}{Link to CI Run #73}}
     \footnotetext[1]{CI Run \#72}
     \footnotetext[2]{CI Run \#73}
+\end{frame}
+
+\simpleframe\begin{frame}[fragile]{Adding YAML Support}
+
+    \begin{lstlisting}
+name: Simple Setup
+
+config:
+  delta_time: 0.14
+  total_time: 100
+  output: OutputFile
+  output_interval: 20
+
+particles:
+  - position: [0.0, 0.0, 0.0]
+    velocity: [0.01, 0.0, 0.0]
+    mass: 1.0
+\end{lstlisting}
+
+    \blue{Extensible} and \blue{human-readable} configuration format!
+\end{frame}
+
+\simpleframe\begin{frame}[fragile]{Adding YAML Support}
+
+    \begin{lstlisting}
+name: Cuboid and Sun
+
+particles:
+  cuboid:
+    type: cuboid
+    n: [40, 8, 1]
+    position: [0.0, 0.0, 0.0]
+    velocity: [0.0, 0.0, 0.0]
+    mass: 1.0
+    sigma: 1.0
+    brownian_sigma: 0.1
+  sun:
+    position: [19.0, 16.0, 0.0]
+    velocity: [0.0, -10.0, 0.0]
+    mass: 1.0
+\end{lstlisting}
 \end{frame}
 
 \headerframe\begin{frame}{That's it – for now, at least}{Shaw! We thank you for your attention!}
