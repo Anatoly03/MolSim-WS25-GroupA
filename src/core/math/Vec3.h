@@ -10,6 +10,7 @@
 #include <type_traits>
 
 #include "spdlog/spdlog.h"
+#include "yaml-cpp/yaml.h"
 
 /**
  * @struct Vec3
@@ -238,3 +239,40 @@ struct fmt::formatter<Vec3D> : fmt::formatter<std::string>
         return fmt::format_to(ctx.out(), "({}, {}, {})", vec.x, vec.y, vec.z);
     }
 };
+
+/**
+ * Implements the YAML::convert<Vec3<T>> type which can be used to reduce
+ * repetitive expressions in deserialization.
+ */
+namespace YAML {
+template <typename T>
+struct convert<Vec3<T>> {
+    /**
+     * @brief YAML conversion for Vec3.
+     */
+    static Node encode(const Vec3<T> &rhs) {
+        Node node;
+
+        node.push_back(rhs.x);
+        node.push_back(rhs.y);
+        node.push_back(rhs.z);
+
+        return node;
+    }
+
+    /**
+     * @brief Read Vector3 from YAML::Node
+     */
+    static bool decode(const Node &node, Vec3<T> &rhs) {
+        if (!node.IsSequence() || node.size() != 3) {
+            return false;
+        }
+
+        rhs.x = node[0].as<T>();
+        rhs.y = node[1].as<T>();
+        rhs.z = node[2].as<T>();
+
+        return true;
+    }
+};
+} // namespace YAML

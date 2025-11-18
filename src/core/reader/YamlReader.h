@@ -35,16 +35,8 @@ class YamlReader : public FileReader {
      */
     // TODO Specification of the cuboids.
     void readNode(ParticleContainer &particles, const YAML::Node &node) const {
-        Vec3D position = Vec3D(
-            node["position"][0].as<double>(),
-            node["position"][1].as<double>(),
-            node["position"][2].as<double>());
-
-        Vec3D velocity = Vec3D(
-            node["velocity"][0].as<double>(),
-            node["velocity"][1].as<double>(),
-            node["velocity"][2].as<double>());
-
+        Vec3D position = node["position"].as<Vec3<double>>();
+        Vec3D velocity = node["velocity"].as<Vec3<double>>();
         double mass = node["mass"].as<double>();
 
         particles.emplace_back(position, velocity, mass, 0);
