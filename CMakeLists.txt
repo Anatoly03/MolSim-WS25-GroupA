@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.10..4)
 
 # Enable C++17. You may raise the standard if you want
 set(CMAKE_CXX_STANDARD 17)
@@ -21,15 +21,20 @@ endif(NOT CMAKE_BUILD_TYPE)
 
 # collect all cpp files
 # header don't need to be included but this might be necessary for some IDEs
-file(GLOB_RECURSE MY_SRC
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp"
-    "${CMAKE_CURRENT_SOURCE_DIR}/src/*.h"
-)
+file(GLOB_RECURSE APP_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/app/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/src/app/*.h")
+file(GLOB_RECURSE CORE_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/core/*.cpp" "${CMAKE_CURRENT_SOURCE_DIR}/src/core/*.h")
 
-# create make target
-add_executable(MolSim ${MY_SRC})
+# create make targets: app executable and core library
+add_library(MolSimLib ${CORE_SRC})
+add_executable(MolSim ${APP_SRC})
+target_link_libraries(MolSim PRIVATE MolSimLib)
 
 target_include_directories(MolSim
+        PRIVATE
+            ${CMAKE_CURRENT_SOURCE_DIR}/src
+)
+
+target_include_directories(MolSimLib
         PRIVATE
             ${CMAKE_CURRENT_SOURCE_DIR}/src
 )
@@ -37,6 +42,13 @@ target_include_directories(MolSim
 # activate all compiler warnings. Clean up your code :P
 # depending on the compiler different flags are used
 target_compile_options(MolSim
+        PRIVATE
+            $<$<CXX_COMPILER_ID:GNU>:-Wall -Wextra -Wpedantic -Werror>
+            # disable some spam warnings for icpc...
+            $<$<CXX_COMPILER_ID:Intel>:-w3 -wd383,981,1418,1572,2259>
+)
+
+target_compile_options(MolSimLib
         PRIVATE
             $<$<CXX_COMPILER_ID:GNU>:-Wall -Wextra -Wpedantic -Werror>
             # disable some spam warnings for icpc...
@@ -55,7 +67,8 @@ if(ENABLE_VTK_OUTPUT)
 endif()
 
 include(vtk)
-include(clang-format)
 include(doxygen)
 include(test-google)
+include(add-fmt)
 include(add-spdlog)
+include(add-yaml)

@@ -21,7 +21,7 @@ include(FetchContent)
 FetchContent_Declare(
     googletest
     GIT_REPOSITORY    https://github.com/google/googletest.git
-    GIT_TAG           main
+    GIT_TAG           v1.17.0
 )
 
 # windows: prevent overriding the parent project's compiler/linker settings
@@ -31,5 +31,5 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 add_executable(MolSimTest ${MY_TEST_SRC})
-target_link_libraries(MolSimTest gtest gtest_main)
+target_link_libraries(MolSimTest gtest gtest_main MolSimLib)
 add_test(NAME MolSimTest COMMAND MolSimTest)

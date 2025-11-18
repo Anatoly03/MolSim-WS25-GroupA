@@ -1,8 +1,7 @@
 
 #pragma once
 
-#include "../app/Frame.h"
-#include "FileReader.h"
+#include "Args.h"
 #include "ParticleContainer.h"
 #include "utils/ArrayUtils.h"
 #include "writer/Writer.h"
@@ -74,8 +73,7 @@ class Simulation {
         if (arguments.benchmark_enabled) return;
         if (writer == nullptr) return;
 
-        std::string out_name(arguments.output_path);
-        writer->plot(out_name, iteration);
+        writer->plot(arguments.output_path, iteration);
     }
 
    public:
@@ -106,7 +104,7 @@ class Simulation {
         for (double t = start; t < end; t += delta_t) {
             tick();
 
-            if (iteration % 10 == 0) {
+            if (iteration % arguments.output_interval == 0) {
                 plotParticles(iteration);
             }
 
