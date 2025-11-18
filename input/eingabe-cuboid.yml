@@ -1,0 +1,15 @@
+name: Cuboid Generator
+
+config:
+  delta_time: 0.14
+  total_time: 100
+  output_interval: 20
+
+# TODO implement 'task4' from past assignment
+
+particles:
+  cuboid1:
+    TODO
+  cuboid2:
+    TODO
+    
