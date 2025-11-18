@@ -105,7 +105,7 @@ class Simulation {
         for (double t = start; t < end; t += delta_t) {
             tick();
 
-            if (iteration % 10 == 0) {
+            if (iteration % arguments.output_interval == 0) {
                 plotParticles(iteration);
             }
 

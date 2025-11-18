@@ -35,6 +35,7 @@ class YamlReader : public FileReader {
     virtual void readFile(ParticleContainer &particles, const char *filename) override {
         YAML::Node config;
 
+        // load yaml file
         try {
             config = YAML::LoadFile(filename);
         } catch (const YAML::BadFile &e) {
@@ -45,9 +46,33 @@ class YamlReader : public FileReader {
             exit(-1);
         }
 
-        YAML::Emitter out;
-        out << config;
-        spdlog::debug("yaml file decoded: {}", out.c_str());
+        // parse args/ simulation constants: delta time
+        if (config["config"]["delta_time"]) {
+            double delta_time = config["config"]["delta_time"].as<double>();
+
+            if (args.delta_t_cli) {
+                spdlog::warn("delta_time in {} overridden by CLI argument. ({} -> {})", filename, delta_time, args.delta_t);
+            } else {
+                args.delta_t = delta_time;
+            }
+        }
+
+        // parse args/ simulation constants: duration
+        if (config["config"]["delta_time"]) {
+            double duration = config["config"]["total_time"].as<double>();
+
+            if (args.delta_t_cli) {
+                spdlog::warn("total_time in {} overridden by CLI argument. ({} -> {})", filename, duration, args.end_time);
+            } else {
+                args.end_time = duration;
+            }
+        }
+
+        // parse args/ simulation constants: output interval
+        if (config["config"]["output_interval"]) {
+            int interval = config["config"]["output_interval"].as<int>();
+            args.output_interval = interval;
+        }
 
         // TODO extract YAML data
         (void) particles;

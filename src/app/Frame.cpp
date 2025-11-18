@@ -104,9 +104,11 @@ Args ProcessArgs(int argc, char *argv[]) {
         switch (opt) {
             case 't':  // -t or --time
                 args.end_time = atof(optarg);
+                args.end_time_cli = true;
                 break;
             case 'd':  // -d or --delta
                 args.delta_t = atof(optarg);
+                args.delta_t_cli = true;
                 break;
             case 'o':  // -o or --output
                 args.output_path = const_cast<char *>(optarg);

@@ -16,27 +16,42 @@ struct Args {
     char *output_path;
 
     /**
-     * @brief Simulation start time. Constant.
+     * @brief Simulation start time. Constant. Reserved for future use.
      */
     double start_time = 0;
 
     /**
-     * @brief Simulation duration. Provided by CLI.
+     * @brief Simulation duration. Provided by CLI or input files.
      */
     double end_time = 1000;
 
     /**
-     * @brief Time step size. Provided by CLI.
+     * @brief True if the end time was overriden by CLI argument.
+     */
+    bool end_time_cli = false;
+
+    /**
+     * @brief Time step size. Provided by CLI or input files.
      */
     double delta_t = 0.014;
 
     /**
-     * @brief Benchmark flag.
+     * @brief True if the delta time was overriden by CLI argument.
+     */
+    bool delta_t_cli = false;
+
+    /**
+     * @brief Time step size. Provided by input files.
+     */
+    int output_interval = 10;
+
+    /**
+     * @brief Benchmark flag. Set by CLI.
      */
     bool benchmark_enabled = false;
 
     /**
-     * @brief Number of iterations for benchmarking.
+     * @brief Number of iterations for benchmarking. Set by CLI.
      */
     int benchmark_iterations = 0;
 
