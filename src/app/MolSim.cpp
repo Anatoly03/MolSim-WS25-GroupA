@@ -49,8 +49,7 @@ int main(int argc, char *argsv[]) {
         addCuboid2D(particles, c2, brownian_sigma);
 
     } else {
-        std::unique_ptr<FileReader> fileReader = FileReader::getReaderForFile(args.input_file);
-        fileReader->readFile(particles, args.input_file);
+        (void) FileReader::writeParticles(particles, args);
     }
 
 

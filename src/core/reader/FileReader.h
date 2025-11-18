@@ -6,6 +6,7 @@
 #include <sstream>
 
 #include "../ParticleContainer.h"
+#include "../Args.h"
 #include "spdlog/spdlog.h"
 
 /**
@@ -13,10 +14,15 @@
  * that can read file type and yield a reader subtype, that can read particles.
  */
 class FileReader {
-   private:
-    // TODO read state
-
    protected:
+    /**
+     * CLI input arguments, can be overriden by various file formats.
+     */
+    Args args;
+
+    /**
+     * @brief Input file stream.
+     */
     std::unique_ptr<std::ifstream> input_file;
     //     /**
     //      * @brief
@@ -84,4 +90,14 @@ class FileReader {
      * @brief Get a reader-based instance for a specific file.
      */
     static std::unique_ptr<FileReader> getReaderForFile(const std::string &fileName);
+
+    /**
+     * @brief Read file and 
+     */
+    static std::unique_ptr<FileReader> writeParticles(ParticleContainer &particles, const Args &args) {
+        std::unique_ptr<FileReader> fileReader = FileReader::getReaderForFile(args.input_file);
+        fileReader->args = args;
+        fileReader->readFile(particles, args.input_file);
+        return fileReader;
+    }
 };
