@@ -6,6 +6,7 @@
 #include <sstream>
 
 #include "TxtReader.h"
+#include "YamlReader.h"
 #include "spdlog/spdlog.h"
 
 /**
@@ -13,9 +14,8 @@
  * extension.
  *
  * - `txt` files are handled by `TxTReader`.
- * - `yaml` files are unimplemented
+ * - `yaml` files are handled by `YamlReader`.
  */
-// TODO yaml
 std::unique_ptr<FileReader> FileReader::getReaderForFile(const std::string &fileName) {
     size_t extension_start = fileName.find_last_of('.');
 
@@ -26,15 +26,19 @@ std::unique_ptr<FileReader> FileReader::getReaderForFile(const std::string &file
         spdlog::error("no file extension detected in file `{}`, assume 'txt'", fileName);
         extension = "txt";
     } else {
-        extension = fileName.substr(extension_start + 1);
+        extension = fileName.substr(extension_start + 1).to_lower();
     }
 
     // return appropriate reader instance based on detected file format
     // `txt` yields TxtReader
-    if (extension == "txt") {
+    if (extension == "text" || extension == "txt") {
         return std::make_unique<TxtReader>();
-     }
+    }
 
+    // `yaml` yields YamlReader
+    if (extension == "yaml" || extension == "yml") {
+        return std::make_unique<YamlReader>();
+    }
 
 
     spdlog::error("no reader available for file extension `{}`, assume 'txt'", extension);
