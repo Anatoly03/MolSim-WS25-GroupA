@@ -33,7 +33,17 @@ class YamlReader : public FileReader {
      * @brief Read custom 'text' file format into particle container.
      */
     virtual void readFile(ParticleContainer &particles, const char *filename) override {
-        YAML::Node config = YAML::LoadFile(filename);
+        YAML::Node config;
+
+        try {
+            config = YAML::LoadFile(filename);
+        } catch (const YAML::BadFile &e) {
+            spdlog::error("could not open yaml file {}: {}", filename, e.what());
+            exit(-1);
+        } catch (const YAML::ParserException &e) {
+            spdlog::error("could not parse yaml file {}: {}", filename, e.what());
+            exit(-1);
+        }
 
         spdlog::debug("yaml file decoded");
         spdlog::debug("contnents: {}", config);
