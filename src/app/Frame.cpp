@@ -34,6 +34,7 @@ void printHelp(const char *progname) {
             "    config:\n"
             "      delta_time: float (time step delta)\n"
             "      total_time: float (total simulation time)\n"
+            "      output: string (output file path, default: ./MD_vtk)\n"
             "      output_interval: int (output interval in number of steps)\n"
             "    particles: (map of named particles or list of particles)\n"
             "      position: vec3 (particle initial position)\n"
@@ -126,7 +127,8 @@ Args ProcessArgs(int argc, char *argv[]) {
                 args.delta_t_cli = true;
                 break;
             case 'o':  // -o or --output
-                args.output_path = const_cast<char *>(optarg);
+                args.output_path = std::string(optarg);
+                args.output_file_cli = true;
                 break;
             case 'L':
                 log_level_set = true;
@@ -173,10 +175,10 @@ Args ProcessArgs(int argc, char *argv[]) {
     }
 
     // preprocess output option if not provided
-    if (args.output_path == nullptr) {
-        args.output_path = const_cast<char *>("MD_vtk");
+    if (args.output_path.empty()) {
+        args.output_path = "MD_vtk";
     } else {
-        if (!createPath(args.output_path)) {
+        if (!createPath(args.output_path.c_str())) {
             spdlog::error("could not create path: {}", args.output_path);
             printUsage(progname);
         }

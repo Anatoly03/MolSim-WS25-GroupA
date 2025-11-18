@@ -3,13 +3,14 @@
 
 #pragma once
 
+#include "../ParticleContainer.h"
+#include "../math/Vec3.h"
+#include "FileReader.h"
+
 #include <fstream>
 #include <iomanip>
 #include <sstream>
 
-#include "../ParticleContainer.h"
-#include "../math/Vec3.h"
-#include "FileReader.h"
 #include "spdlog/spdlog.h"
 #include "yaml-cpp/yaml.h"
 
@@ -32,6 +33,7 @@ class YamlReader : public FileReader {
     /**
      * @brief Get particle from YAML::Node
      */
+    // TODO Specification of the cuboids.
     Particle readNode(const YAML::Node &node) const {
         Vec3D position = Vec3D(
             node["position"][0].as<double>(),
@@ -51,17 +53,17 @@ class YamlReader : public FileReader {
     /**
      * @brief Read custom 'text' file format into particle container.
      */
-    virtual void readFile(ParticleContainer &particles, const char *filename) override {
+    virtual void readFile(ParticleContainer &particles, Args &args) override {
         YAML::Node config;
 
         // load yaml file
         try {
-            config = YAML::LoadFile(filename);
+            config = YAML::LoadFile(args.input_file);
         } catch (const YAML::BadFile &e) {
-            spdlog::error("could not open yaml file {}: {}", filename, e.what());
+            spdlog::error("could not open yaml file {}: {}", args.input_file, e.what());
             exit(-1);
         } catch (const YAML::ParserException &e) {
-            spdlog::error("could not parse yaml file {}: {}", filename, e.what());
+            spdlog::error("could not parse yaml file {}: {}", args.input_file, e.what());
             exit(-1);
         }
 
@@ -70,7 +72,7 @@ class YamlReader : public FileReader {
             double delta_time = config["config"]["delta_time"].as<double>();
 
             if (args.delta_t_cli) {
-                spdlog::warn("delta_time in {} overridden by CLI argument: {} -> {}", filename, delta_time, args.delta_t);
+                spdlog::warn("delta_time in {} overridden by CLI argument: {} -> {}", args.input_file, delta_time, args.delta_t);
             } else {
                 args.delta_t = delta_time;
             }
@@ -81,9 +83,20 @@ class YamlReader : public FileReader {
             double duration = config["config"]["total_time"].as<double>();
 
             if (args.delta_t_cli) {
-                spdlog::warn("total_time in {} overridden by CLI argument: {} -> {}", filename, duration, args.end_time);
+                spdlog::warn("total_time in {} overridden by CLI argument: {} -> {}", args.input_file, duration, args.end_time);
             } else {
                 args.end_time = duration;
+            }
+        }
+
+        // parse args/ simulation constants: duration
+        if (config["config"]["output"]) {
+            std::string output_path = config["config"]["output"].as<std::string>();
+
+            if (args.output_file_cli) {
+                spdlog::warn("output path in {} overridden by CLI argument: `{}` -> `{}`", args.input_file, output_path, args.output_path);
+            } else {
+                args.output_path = output_path;
             }
         }
 
@@ -95,7 +108,7 @@ class YamlReader : public FileReader {
 
         // parse particles
         if (!config["particles"]) {
-            spdlog::error("yaml file {} has no 'particles' entry", filename);
+            spdlog::error("yaml file {} has no 'particles' entry", args.input_file);
             exit(-1);
         }
 

@@ -29,8 +29,8 @@ class TxtReader : public FileReader {
     /**
      * @brief Read custom 'text' file format into particle container.
      */
-    virtual void readFile(ParticleContainer &particles, const char *filename) override {
-        claimFile(filename);
+    virtual void readFile(ParticleContainer &particles, Args &args) override {
+        claimFile(args.input_file);
         std::string tmp_string;
 
         Vec3D position;

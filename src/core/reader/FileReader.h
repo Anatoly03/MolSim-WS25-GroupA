@@ -18,7 +18,7 @@ class FileReader {
     /**
      * CLI input arguments, can be overriden by various file formats.
      */
-    Args args;
+    Args *args;
 
     /**
      * @brief Input file stream.
@@ -33,7 +33,7 @@ class FileReader {
     /**
      * @note Default constructor without providing particle container is private.
      */
-    FileReader() : input_file(nullptr) {}
+    FileReader() : input_file(nullptr), args(nullptr) {}
 
     /**
      * @brief Virtual destructor.
@@ -73,12 +73,12 @@ class FileReader {
      * attribute.
      */
     // NOLINTNEXTLINE(unused-parameter)
-    virtual void readFile(ParticleContainer &particles, const char *filename) {
-        claimFile(filename);
+    virtual void readFile(ParticleContainer &particles, Args &args) {
+        claimFile(args.input_file);
 
         // read magic header
         if (!readMagicHeader()) {
-            spdlog::error("file {} has invalid magic header", filename);
+            spdlog::error("file {} has invalid magic header", args.input_file);
             exit(-1);
         }
 
@@ -94,10 +94,9 @@ class FileReader {
     /**
      * @brief Read file and 
      */
-    static std::unique_ptr<FileReader> writeParticles(ParticleContainer &particles, const Args &args) {
+    static std::unique_ptr<FileReader> writeParticles(ParticleContainer &particles, Args &args) {
         std::unique_ptr<FileReader> fileReader = FileReader::getReaderForFile(args.input_file);
-        fileReader->args = args;
-        fileReader->readFile(particles, args.input_file);
+        fileReader->readFile(particles, args);
         return fileReader;
     }
 };

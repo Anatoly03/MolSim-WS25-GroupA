@@ -1,6 +1,8 @@
 
 #pragma once
 
+#include <string>
+
 /**
  * @brief Structure to hold all program arguments.
  */
@@ -11,9 +13,14 @@ struct Args {
     char *input_file;
 
     /**
-     * @brief Output file path. Provided by CLI.
+     * @brief Output file path. Provided by CLI or input files.
      */
-    char *output_path;
+    std::string output_path;
+
+    /**
+     * @brief True if the output file path was overriden by CLI argument.
+     */
+    bool output_file_cli = false;
 
     /**
      * @brief Simulation start time. Constant. Reserved for future use.

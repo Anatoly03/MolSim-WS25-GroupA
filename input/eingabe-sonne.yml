@@ -3,6 +3,7 @@ name: Halley's comet simulation
 config:
   delta_time: 0.14
   total_time: 100
+  output: Sonne
   output_interval: 25
 
 particles:

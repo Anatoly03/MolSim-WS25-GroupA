@@ -73,8 +73,7 @@ class Simulation {
         if (arguments.benchmark_enabled) return;
         if (writer == nullptr) return;
 
-        std::string out_name(arguments.output_path);
-        writer->plot(out_name, iteration);
+        writer->plot(arguments.output_path, iteration);
     }
 
    public:
