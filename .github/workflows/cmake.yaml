@@ -14,9 +14,32 @@ jobs:
     steps:
       - name: Checkout Project
         uses: actions/checkout@v4.2.2
+
+      - name: Restore CMake Cache
+        uses: actions/cache/restore@v4
+        with:
+            path: |
+                build/_deps
+                build/CMakeFiles
+                build/CMakeCache.txt
+            key: ${{ runner.os }}-cmake-${{ hashFiles('**/CMakeCache.txt') }}
+
       - name: Build Project
         uses: threeal/cmake-action@v2.1.0
         with:
-          args: -DENABLE_VTK_OUTPUT=OFF -DCMAKE_CXX_FLAGS="-fsanitize=address"
+          options: |
+            CMAKE_POLICY_VERSION_MINIMUM=3.5
+            -DENABLE_VTK_OUTPUT=OFF
+          args: -DCMAKE_CXX_FLAGS="-fsanitize=address"
+
+      - name: Save CMake Cache
+        uses: actions/cache/save@v4
+        with:
+            path: |
+                build/_deps
+                build/CMakeFiles
+                build/CMakeCache.txt
+            key: ${{ runner.os }}-cmake-${{ hashFiles('**/CMakeCache.txt') }}
+
       - name: Run Tests
         uses: threeal/ctest-action@v1.1.0
