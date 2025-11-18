@@ -26,7 +26,7 @@ std::unique_ptr<FileReader> FileReader::getReaderForFile(const std::string &file
         spdlog::error("no file extension detected in file `{}`, assume 'txt'", fileName);
         extension = "txt";
     } else {
-        extension = fileName.substr(extension_start + 1).to_lower();
+        extension = fileName.substr(extension_start + 1);
     }
 
     // return appropriate reader instance based on detected file format
