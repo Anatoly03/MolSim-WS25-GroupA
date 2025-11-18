@@ -31,5 +31,6 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 add_executable(MolSimTest ${MY_TEST_SRC})
-target_link_libraries(MolSimTest GTest::gtest_main)
+# target_link_libraries(MolSimTest GTest::gtest_main)
+target_link_libraries(MolSimTest gtest gtest_main)
 add_test(NAME MolSimTest COMMAND MolSimTest)
