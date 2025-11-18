@@ -30,7 +30,6 @@ jobs:
         uses: threeal/cmake-action@v2.1.0
         with:
           options: |
-            CMAKE_POLICY_VERSION_MINIMUM=3.5
             ENABLE_VTK_OUTPUT=OFF
             CMAKE_CXX_FLAGS="-fsanitize=address"
 
