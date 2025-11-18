@@ -45,8 +45,9 @@ class YamlReader : public FileReader {
             exit(-1);
         }
 
-        spdlog::debug("yaml file decoded");
-        spdlog::debug("contnents: {}", config);
+        YAML::Emitter out;
+        out << config;
+        spdlog::debug("yaml file decoded: {}", out.c_str());
 
         // TODO extract YAML data
         (void) particles;
