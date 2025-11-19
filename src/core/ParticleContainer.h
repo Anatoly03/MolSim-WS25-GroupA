@@ -25,6 +25,10 @@ class ParticleContainer {
     typedef std::vector<Particle>::size_type size_type;
     typedef std::vector<Particle>::iterator iterator;
     typedef std::vector<Particle>::const_iterator const_iterator;
+    std::vector<std::list<Particle>> cells;
+    int cellSize;
+
+
 
     /**
      * @brief Default constructor for ParticleContainer.
@@ -35,6 +39,16 @@ class ParticleContainer {
      * @brief Copy constructor for ParticleContainer.
      */
     explicit ParticleContainer(const ParticleContainer &other) : particles(other.particles) {}
+
+    /**
+        * @brief Constructor for container of cells
+        */
+    explicit ParticleContainer(int cuttOff, int xOfDomain, int yOfDomain, int zOfDomain){
+        cells.resize((xOfDomain/cuttOff) * (yOfDomain/cuttOff) * (zOfDomain/cuttOff));
+        cellSize=cuttOff;
+
+    }
+
 
     /**
      * @brief ParticleContainer destructor.
@@ -156,4 +170,19 @@ class ParticleContainer {
      * ```
      */
     void forEachDistinctPair(const std::function<void(Particle &, Particle &)> &callback);
+
+    void placeInCells(){
+
+        forEach([&](Particle &p) {
+            int cx = static_cast<int>(p.getPosition().x / cellSize);
+            int cy = static_cast<int>(p.getPosition().y / cellSize);
+            int cz = static_cast<int>(p.getPosition().z / cellSize);
+
+            int index = cz * (p.getPosition().x * p.getPosition().y) + cy * p.getPosition().x + cx;
+            cells[index].push_back(p);
+        });
+
+
+
+    }
 };
