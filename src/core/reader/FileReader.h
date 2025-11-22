@@ -86,6 +86,10 @@ class FileReader {
         (void) particles;
     };
 
+    //
+    // STATIC
+    //
+
     /**
      * @brief Get a reader-based instance for a specific file.
      */

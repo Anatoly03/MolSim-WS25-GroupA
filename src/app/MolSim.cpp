@@ -1,10 +1,11 @@
 
 #include <string.h>
 
-#include "Frame.h"
 #include "../core/ParticleContainer.h"
-#include "../core/Simulation.h"
 #include "../core/reader/FileReader.h"
+#include "../core/simulation/Simulation.h"
+#include "../core/simulation/DirectSumAlgorithm.h"
+#include "Frame.h"
 #include "spdlog/spdlog.h"
 
 #ifdef ENABLE_VTK_OUTPUT
@@ -29,47 +30,48 @@ int main(int argc, char *argsv[]) {
     // load particles from file
     auto reader = FileReader::writeParticles(particles, args);
 
+    // set up simulation variable
+    std::unique_ptr<Simulation> simulation;
+
     // set up simulation
     if (!args.benchmark_enabled) {
-        Simulation simulation(particles, args);
+        simulation = Simulation::createSimulation(particles, args);
 
 #ifdef ENABLE_VTK_OUTPUT
         outputWriter::VTKWriter writer(particles);
-        simulation.setWriter(std::make_unique<outputWriter::VTKWriter>(particles));
+        simulation->setWriter(std::make_unique<outputWriter::VTKWriter>(particles));
 #else
         outputWriter::XYZWriter writer(particles);
-        simulation.setWriter(std::make_unique<outputWriter::XYZWriter>(particles));
+        simulation->setWriter(std::make_unique<outputWriter::XYZWriter>(particles));
 #endif
 
         // everything ready - run the simulation
-        simulation.run();
+        simulation->run();
         return 0;
     }
 
     // set up benchmarking
     const int bits = args.benchmark_iterations;
-    
+
     timespec starttime;
     timespec end;
     double total_duration = 0.0;
 
     for (int i = 0; i < bits; i++) {
         ParticleContainer copy(particles);
-        Simulation simulation(copy, args);
+        std::unique_ptr<Simulation> simulation = Simulation::createSimulation(copy, args);
 
         clock_gettime(CLOCK_MONOTONIC, &starttime);
-
-        simulation.run();
-
+        simulation->run();
         clock_gettime(CLOCK_MONOTONIC, &end);
 
         double duration = (double)(end.tv_sec - starttime.tv_sec) + ((double)(end.tv_nsec - starttime.tv_nsec) * 1e-9);
         total_duration += duration;
+
         spdlog::info("Benchmark iteration {} finished in {:.4f}s", i, duration);
     }
 
     double avg_duration = total_duration / bits;
-    spdlog::info("Average duration over {} iterations and {} particles: {:.4f}s",
-                 bits, particles.size(), avg_duration);
+    spdlog::info("Average duration over {} iterations and {} particles: {:.4f}s", bits, particles.size(), avg_duration);
     return 0;
 }

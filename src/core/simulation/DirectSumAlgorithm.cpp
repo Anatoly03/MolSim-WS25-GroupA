@@ -1,15 +1,16 @@
 
-#include "utils/ArrayUtils.h"
-#include "ParticleContainer.h"
-#include "writer/Writer.h"
+#include "../utils/ArrayUtils.h"
+#include "../ParticleContainer.h"
+#include "../writer/Writer.h"
 #include "Simulation.h"
+#include "DirectSumAlgorithm.h"
 
 #include "spdlog/spdlog.h"
 
 /**
  * @brief calculate the position for all particles
  */
-void Simulation::calculatePosition() {
+void DirectSumAlgorithm::calculatePosition() {
     const double dt = arguments.delta_t;
 
     particles.forEach([dt](Particle &particle) {
@@ -22,7 +23,7 @@ void Simulation::calculatePosition() {
 /**
  * @brief calculate the velocity for all particles
  */
-void Simulation::calculateVelocity() {
+void DirectSumAlgorithm::calculateVelocity() {
     const double dt = arguments.delta_t;
 
     particles.forEach([dt](Particle &particle) {
@@ -35,7 +36,7 @@ void Simulation::calculateVelocity() {
 /**
  * @brief delay the force for all particles
  */
-void Simulation::delayForce() {
+void DirectSumAlgorithm::delayForce() {
     particles.forEach([](Particle &particle) {
         particle.delayForce();
     });
@@ -52,7 +53,7 @@ void Simulation::delayForce() {
  * @todo replace with efficient algorithm
  * @param None (operates on member variable @c particles)
  */
-void Simulation::calculateForce() {
+void DirectSumAlgorithm::calculateForce() {
     // Lennard-Jones Parameters (hard code for now)
     const double epsilon = 5.0;
     const double sigma   = 1.0;

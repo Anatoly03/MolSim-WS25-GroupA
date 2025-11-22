@@ -1,20 +1,24 @@
 
 #pragma once
 
-#include "Args.h"
-#include "ParticleContainer.h"
-#include "utils/ArrayUtils.h"
-#include "writer/Writer.h"
+#include "../Args.h"
+#include "../utils/ArrayUtils.h"
+#include "../writer/Writer.h"
 
 #include "spdlog/spdlog.h"
 
 class Simulation {
-   private:
+   protected:
+    /**
+     * @brief CLI input arguments, constant for the simulation run.
+     */
     const Args arguments;
-    ParticleContainer& particles;
+
+    /**
+     * @brief Writer to output particle data.
+     */
     std::unique_ptr<Writer> writer;
 
-   public:
     /**
      * @brief Current simulation iteration.
      */
@@ -25,47 +29,18 @@ class Simulation {
      * @note Default constructor without providing particle container is private.
      */
     Simulation() = delete;
-    // Simulation() : arguments(), particles(), writer(particles) {}
 
     /**
      * @brief Default constructor
      */
-    Simulation(ParticleContainer &p, const Args &args) : arguments(args), particles(p), writer(nullptr) {}
-
-    /**
-     * @brief Builder method to set up a writer.
-     */
-    void setWriter(std::unique_ptr<Writer> w) {
-        spdlog::debug("writer set to `{}` format", w->getExtension());
-        writer = std::move(w);
-    }
+    Simulation(const Args &args) : arguments(args), writer(nullptr) {}
 
     /**
      * @brief Destructor
      */
-    ~Simulation() = default;
+    virtual ~Simulation() = default;
 
-   protected:
-    /**
-     * @brief calculate the position for all particles
-     */
-    void calculatePosition();
-
-    /**
-     * @brief calculate the velocity for all particles
-     */
-    void calculateVelocity();
-
-    /**
-     * @brief delay the force for all particles
-     */
-    void delayForce();
-
-    /**
-     * @brief calculate the force for all particles
-     */
-    void calculateForce();
-
+   private:
     /**
      * @brief Plot the particles of a particular iteration to a file.
      */
@@ -78,23 +53,24 @@ class Simulation {
 
    public:
     /**
+     * @brief Builder method to set up a writer.
+     */
+    void setWriter(std::unique_ptr<Writer> w) {
+        spdlog::debug("writer set to `{}` format", w->getExtension());
+        writer = std::move(w);
+    }
+
+    /**
      * @brief Advance the simulation by one time step.
-     * @note This performs position, force, and velocity calculations.
+     * @note This performs one calculation step of the simulation.
      * No prints are performed and this method is benchmark viable.
      */
-    void tick() {
-        calculatePosition();
-        delayForce();
-        calculateForce();
-        calculateVelocity();
-
-        iteration++;
-    }
+    virtual void tick() {}
 
     /**
      * @brief Run the simulation for a given time with specified time step.
      */
-    void run() {
+    virtual void run() {
         const double start = arguments.start_time;
         const double end = arguments.end_time;
         const double delta_t = arguments.delta_t;
@@ -103,6 +79,7 @@ class Simulation {
 
         for (double t = start; t < end; t += delta_t) {
             tick();
+            iteration++;
 
             if (iteration % arguments.output_interval == 0) {
                 plotParticles(iteration);
@@ -113,4 +90,13 @@ class Simulation {
 
         spdlog::info("Output written. Terminating...");
     }
+
+    //
+    // STATIC
+    //
+
+    /**
+     * @brief Factory method to create a simulation instance based on args.
+     */
+    static std::unique_ptr<Simulation> createSimulation(ParticleContainer &particles, const Args &args);
 };
