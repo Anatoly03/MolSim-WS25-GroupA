@@ -76,7 +76,7 @@ class YamlReader : public FileReader {
         Vec3D velocity = node["velocity"].as<Vec3<double>>();
         double mass = node["mass"].as<double>();
 
-        particles.emplace_back(position, velocity, mass, 0);
+        particles.add(position, velocity, mass, 0);
     }
 
     /**

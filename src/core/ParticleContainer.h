@@ -42,11 +42,6 @@ class ParticleContainer {
     ~ParticleContainer() = default;
 
     /**
-     * @brief ParticleContainer constructor with initial capacity.
-     */
-    explicit ParticleContainer(size_type capacity) { particles.reserve(capacity); }
-
-    /**
      * @brief Begin non-const iterator for ParticleContainer.
      * @note Allows range-based for loops.
      * @example
@@ -97,21 +92,16 @@ class ParticleContainer {
     size_type size() const { return particles.size(); }
 
     /**
-     * @brief Get the capacity of the undderlying vector in the container.
-     */
-    size_type capacity() const { return particles.capacity(); }
-
-    /**
      * @brief Add a new Particle to the container.
      */
-    void emplace_back(const Vec3D &position, const Vec3D &velocity, double mass, int type = 0) {
+    void add(const Vec3D &position, const Vec3D &velocity, double mass, int type = 0) {
         particles.emplace_back(position, velocity, mass, type);
     }
 
     /**
      * @brief Add a new Particle to the container.
      */
-    void emplace_back(const Particle &particle) { particles.emplace_back(particle); }
+    void add(const Particle &particle) { particles.emplace_back(particle); }
 
     /**
      * @brief Reserve memory for particles.

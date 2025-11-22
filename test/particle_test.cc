@@ -5,7 +5,7 @@
 #include "../src/core/math/Vec3.h"
 
 /**
- * @brief Simple particle container test to check emplace_back
+ * @brief Simple particle container test to check add
  * and iterator functionality.
  */
 TEST(ParticleContainerTest, BasicAssertions) {
@@ -17,9 +17,9 @@ TEST(ParticleContainerTest, BasicAssertions) {
 
     EXPECT_EQ(particles.size(), 0);
 
-    particles.emplace_back(p1);
-    particles.emplace_back(p2);
-    particles.emplace_back(p3);
+    particles.add(p1);
+    particles.add(p2);
+    particles.add(p3);
 
     // TODO fix the c++ syntax below
 

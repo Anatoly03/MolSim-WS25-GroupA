@@ -66,7 +66,7 @@ class TxtReader : public FileReader {
             }
             datastream >> mass;
 
-            particles.emplace_back(position, (velocity), mass);
+            particles.add(position, (velocity), mass);
 
             readLine(tmp_string);
         }

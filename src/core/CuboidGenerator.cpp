@@ -25,7 +25,7 @@ void addCuboid(ParticleContainer &particles, const Cuboid &cuboid, double browni
 
                 if (brownian_sigma > 0.0) vel += maxwellBoltzmannDistributedVelocity(brownian_sigma, 3);
 
-                particles.emplace_back(pos, vel, cuboid.mass);
+                particles.add(pos, vel, cuboid.mass);
             }
         }
     }
@@ -48,7 +48,7 @@ void addCuboid2D(ParticleContainer &particles, const Cuboid &cuboid, double brow
                     vel += v_brown;
                 }
 
-                particles.emplace_back(pos, vel, cuboid.mass);
+                particles.add(pos, vel, cuboid.mass);
             }
         }
     }
