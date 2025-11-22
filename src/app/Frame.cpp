@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
-#include "../core/Args.h"
+#include "../core/utils/Args.h"
 #include "spdlog/spdlog.h"
 
 // https://stackoverflow.com/a/42906151 mkdir needs wrapper on windows subsystems

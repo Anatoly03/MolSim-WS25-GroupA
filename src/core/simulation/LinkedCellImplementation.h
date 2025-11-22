@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "../Args.h"
+#include "../utils/Args.h"
 #include "Simulation.h"
 
 class LinkedCellImplementation : public Simulation {
@@ -20,7 +20,7 @@ class LinkedCellImplementation : public Simulation {
     /**
      * @brief Default constructor
      */
-    LinkedCellImplementation(const Args &args, ParticleContainer &p,int cuttOff, int xOfDomain, int yOfDomain, int zOfDomain) : Simulation(args), particles(p) {
+    LinkedCellImplementation(const Args &args, ParticleContainer &p, int cuttOff, int xOfDomain, int yOfDomain, int zOfDomain) : Simulation(args), particles(p) {
         cells.resize((xOfDomain/cuttOff) * (yOfDomain/cuttOff) * (zOfDomain/cuttOff));
         cellSize=cuttOff;
         placeInCells();
