@@ -8,108 +8,124 @@
 #include <vector>
 
 #include "Particle.h"
+#include "ParticleContainer.h"
 #include "math/Vec3.h"
 
 /**
  * @class ParticleContainer
  * @brief Refactoring,owning container for Particle with simple iteration over particles and particle pairs
  */
-class ParticleContainer {
+class LinkedCells {
    private:
     /**
-     * Internal storage of particles.
+     * @brief Internal storage of particle containers.
      */
-    std::vector<Particle> particles;
-
+    std::vector<ParticleContainer> containers;
+   
    public:
-    typedef std::vector<Particle>::size_type size_type;
-    typedef std::vector<Particle>::iterator iterator;
-    typedef std::vector<Particle>::const_iterator const_iterator;
+    
+   public:
+    typedef std::vector<ParticleContainer>::size_type size_type;
+    typedef std::vector<ParticleContainer>::iterator iterator;
+    typedef std::vector<ParticleContainer>::const_iterator const_iterator;
 
     /**
-     * @brief Default constructor for ParticleContainer.
+     * @brief Default constructor for LinkedCells.
      */
-    ParticleContainer() : particles() {}
+    LinkedCells() = default;
 
     /**
-     * @brief Copy constructor for ParticleContainer.
+     * @brief Copy constructor for LinkedCells.
      */
-    ParticleContainer(const ParticleContainer &other) : particles(other.particles) {}
+    LinkedCells(const LinkedCells &other) = default;
 
     /**
-     * @brief ParticleContainer destructor.
+     * @brief LinkedCells destructor.
      */
-    ~ParticleContainer() = default;
+    ~LinkedCells() = default;
 
     /**
-     * @brief Begin non-const iterator for ParticleContainer.
+     * @brief Begin non-const iterator for LinkedCells.
      * @note Allows range-based for loops.
      * @example
      * ```c++
-     * ParticleContainer container;
+     * LinkedCells container;
      *
      * for (auto &particle : container) {
      *     std::cout << particle.toString() << std::endl;
      * }
      * ```
      */
-    iterator begin() { return particles.begin(); }
+    iterator begin() { return containers.begin(); }
 
     /**
-     * @brief End non-const iterator for ParticleContainer.
+     * @brief End non-const iterator for LinkedCells.
      * @note Allows range-based for loops.
      */
-    iterator end() { return particles.end(); }
+    iterator end() { return containers.end(); }
 
     /**
-     * @brief Begin const iterator for ParticleContainer.
+     * @brief Begin const iterator for LinkedCells.
      * @note Allows range-based for loops over constant elements.
      * @example
      * ```c++
-     * ParticleContainer container;
+     * LinkedCells container;
      *
      * for (const auto &particle : container) {
      *     std::cout << particle.toString() << std::endl;
      * }
      * ```
      */
-    const_iterator begin() const { return particles.begin(); }
+    const_iterator begin() const { return containers.begin(); }
 
     /**
-     * @brief End const iterator for ParticleContainer.
+     * @brief End const iterator for LinkedCells.
      * @note Allows range-based for loops.
      */
-    const_iterator end() const { return particles.end(); }
+    const_iterator end() const { return containers.end(); }
 
     /**
      * @brief Get the number of particles in the container.
      */
-    virtual size_type size() const { return particles.size(); }
+    virtual size_type size() const {
+        int total_size = 0;
 
-    /**
-     * @brief Add a new Particle to the container.
-     */
-    virtual void add(const Vec3D &position, const Vec3D &velocity, double mass, int type = 0) {
-        particles.emplace_back(position, velocity, mass, type);
+        for (const auto &container : containers) {
+            total_size += container.size();
+        }
+
+        return total_size;
     }
 
     /**
      * @brief Add a new Particle to the container.
      */
-    virtual void add(const Particle &particle) { particles.emplace_back(particle); }
+    virtual void add(const Vec3D &position, const Vec3D &velocity, double mass, int type = 0) {
+        if (containers.empty()) {
+            containers.emplace_back();
+        }
+        
+        // TODO decide which container to add to
+        containers[0].add(position, velocity, mass, type);
+    }
 
     /**
-     * @brief Reserve memory for particles.
-     * @param reserve Number of particles to reserve space for.
+     * @brief Add a new Particle to the container.
      */
-    void reserve(size_type reserve = 0) { particles.reserve(reserve); }
+    virtual void add(const Particle &particle) { containers.emplace_back(particle); }
+
+    /**
+     * @brief Reserve memory for containers.
+     * @param reserve Number of containers to reserve space for.
+     */
+    void reserve(size_type reserve = 0) { containers.reserve(reserve); }
 
     /**
      * @brief Iteration over single particles.
      * @param callback Function to be called for each particle.
      * @example
      * ```c++
-     * ParticleContainer container;
+     * LinkedCells container;
      *
      * container.forEach([](Particle &particle) {
      *     std::cout << particle.toString() << std::endl;
@@ -118,22 +134,12 @@ class ParticleContainer {
      */
     virtual void forEach(const std::function<void(Particle &)> &callback);
 
-    // /**
-    //  * @brief Reduction of an accumulator value, processing over all single particles.
-    //  */
-    // template<typename Acc>
-    // void reduce(const std::function<Acc(Particle &, Acc)> &callback, Acc acc = default) {
-    //     for (size_t i = 0; i < particles.size(); i++) {
-    //         acc = callback(particles[i], acc);
-    //     }
-    // }
-
     /**
      * @brief Iteration over distinct particle pairs.
      * @param callback Function to be called for each particle pair.
      * @example
      * ```c++
-     * ParticleContainer container;
+     * LinkedCells container;
      *
      * container.forEachDistinctPair([](Particle &particle1, Particle &particle2) {
      *     std::cout << particle1.toString() << " interacts with " << particle2.toString() << std::endl;
