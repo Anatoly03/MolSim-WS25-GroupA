@@ -4,7 +4,7 @@
 #include "../Args.h"
 #include "Simulation.h"
 
-class DirectSumAlgorithm : public Simulation {
+class LinkedCellImplementation : public Simulation {
    private:
     ParticleContainer& particles;
 
@@ -12,13 +12,13 @@ class DirectSumAlgorithm : public Simulation {
     /**
      * @note Default constructor without providing particle container is private.
      */
-    DirectSumAlgorithm() = delete;
-    // DirectSumAlgorithm() : arguments(), particles(), writer(particles) {}
+    LinkedCellImplementation() = delete;
+    // LinkedCellImplementation() : arguments(), particles(), writer(particles) {}
 
     /**
      * @brief Default constructor
      */
-    DirectSumAlgorithm(ParticleContainer &p, const Args &args) : Simulation(args), particles(p) {}
+    LinkedCellImplementation(ParticleContainer &p, const Args &args) : Simulation(args), particles(p) {}
 
    public:
     /**

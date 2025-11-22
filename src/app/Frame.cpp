@@ -1,11 +1,11 @@
 #include "Frame.h"
-#include "../core/Args.h"
 
 #include <errno.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <sys/types.h>
 
+#include "../core/Args.h"
 #include "spdlog/spdlog.h"
 
 // https://stackoverflow.com/a/42906151 mkdir needs wrapper on windows subsystems
@@ -24,8 +24,9 @@ void printHelp(const char *progname) {
     fprintf(stdout,
             "Usage:\n"
             "  %s [input] [options]\n\n"
-            
+
             "Allowed Input File Formats:\n\n"
+
             "  === Text File: .txt, .text ===\n"
             "    Deprecated. Use YAML format instead.\n"
             "  === YAML File: .yaml, .yml ===\n"
@@ -47,7 +48,11 @@ void printHelp(const char *progname) {
             "  -t, --time <int>      total simulation time (default: 1000)\n"
             "  -d, --delta <float>   time step delta (default: 0.014)\n"
             "  -L <level>            log level (hierarchy: trace, debug, info, warn, err, critical)\n"
-            "  -B <amount>           benchmark parameter, if specified will re-run simulation and output benchmark results\n"
+            "  -B <amount>           benchmark parameter, if specified will re-run simulation and output benchmark "
+            "results\n"
+            "  -V <amount>           algorithm version parameter\n\n"
+            "         V0             Direct Sum Algorithm\n"
+            "         V1 (default)   Linked Cell Algorithm\n\n"
             "  -h, --help            print this help message\n"
             "  --help short          print compact help message\n\n"
 
@@ -108,10 +113,10 @@ Args ProcessArgs(int argc, char *argv[]) {
     const char *progname = argv[0];
 
     Args args = Args();
-    
+
     // log level argument
     bool log_level_set = false;
-    char* log_level_str = 0;
+    char *log_level_str = 0;
     int log_level_code = 0;
 
     int opt;
@@ -148,6 +153,20 @@ Args ProcessArgs(int argc, char *argv[]) {
             case 'B':
                 args.benchmark_enabled = true;
                 args.benchmark_iterations = atoi(optarg);
+                break;
+            case 'V':
+                args.version = atoi(optarg);
+
+                switch (args.version) {
+                    case 0:
+                    case 1:
+                        break;
+
+                    default:
+                        spdlog::error("invalid algorithm version specified: {}", args.version);
+                        printUsage(progname);
+                }
+
                 break;
 
             case 'h':  // -h or --help
@@ -196,6 +215,17 @@ Args ProcessArgs(int argc, char *argv[]) {
         spdlog::info("benchmark: running {} iterations...", args.benchmark_iterations);
         spdlog::set_level(spdlog::level::err);
     }
+
+    // print version of implementation
+    switch (args.version) {
+    case 0:
+        spdlog::info("running `direct sum` implementation");
+        break;
+    case 1:
+        spdlog::info("running `linked cell` implementation");
+        break;
+    }
+
 
     return args;
 }
