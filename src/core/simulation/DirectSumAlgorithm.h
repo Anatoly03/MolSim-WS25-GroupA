@@ -3,11 +3,7 @@
 
 #include "../Args.h"
 #include "../ParticleContainer.h"
-#include "../utils/ArrayUtils.h"
-#include "../writer/Writer.h"
 #include "Simulation.h"
-
-#include "spdlog/spdlog.h"
 
 class DirectSumAlgorithm : public Simulation {
    private:

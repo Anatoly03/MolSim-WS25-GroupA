@@ -1,7 +1,6 @@
 
 #include "../utils/ArrayUtils.h"
 #include "../ParticleContainer.h"
-#include "../writer/Writer.h"
 #include "Simulation.h"
 #include "DirectSumAlgorithm.h"
 
