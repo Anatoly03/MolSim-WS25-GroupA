@@ -75,7 +75,7 @@ class Writer {
      */
     virtual const std::string plotSingleParticle(const Particle &part) const {
         std::stringstream strstr;
-        const Vec3D &pos = part.getPosition();
+        const Vec3D &pos = part.position;
         strstr << pos.x << ", " << pos.y << ", " << pos.z << "\n";
         return strstr.str();
     }

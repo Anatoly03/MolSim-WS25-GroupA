@@ -1,9 +1,9 @@
 
-#include "../utils/ArrayUtils.h"
-#include "../ParticleContainer.h"
-#include "Simulation.h"
 #include "DirectSumAlgorithm.h"
 
+#include "../ParticleContainer.h"
+#include "../utils/ArrayUtils.h"
+#include "Simulation.h"
 #include "spdlog/spdlog.h"
 
 /**
@@ -13,9 +13,8 @@ void DirectSumAlgorithm::calculatePosition() {
     const double dt = arguments.delta_t;
 
     particles.forEach([dt](Particle &particle) {
-        Vec3D x = particle.getPosition() + dt * particle.getVelocity() +
-                  std::pow(dt, 2) * particle.getForce() / (2 * particle.getMass());
-        particle.setPosition(x);
+        Vec3D x = particle.position + dt * particle.velocity + std::pow(dt, 2) * particle.force / (2 * particle.mass);
+        particle.position = x;
     });
 }
 
@@ -26,9 +25,8 @@ void DirectSumAlgorithm::calculateVelocity() {
     const double dt = arguments.delta_t;
 
     particles.forEach([dt](Particle &particle) {
-        Vec3D v =
-            particle.getVelocity() + dt * ((particle.getForce() + particle.getOldForce()) / (2 * particle.getMass()));
-        particle.setVelocity(v);
+        Vec3D v = particle.velocity + dt * ((particle.force + particle.old_force) / (2 * particle.mass));
+        particle.velocity = v;
     });
 }
 
@@ -36,9 +34,7 @@ void DirectSumAlgorithm::calculateVelocity() {
  * @brief delay the force for all particles
  */
 void DirectSumAlgorithm::delayForce() {
-    particles.forEach([](Particle &particle) {
-        particle.delayForce();
-    });
+    particles.forEach([](Particle &particle) { particle.delayForce(); });
 }
 
 /**
@@ -55,10 +51,10 @@ void DirectSumAlgorithm::delayForce() {
 void DirectSumAlgorithm::calculateForce() {
     // Lennard-Jones Parameters (hard code for now)
     const double epsilon = 5.0;
-    const double sigma   = 1.0;
+    const double sigma = 1.0;
 
     particles.forEachDistinctPair([&](Particle &p_i, Particle &p_j) {
-        Vec3D r = p_i.getPosition() - p_j.getPosition();
+        Vec3D r = p_i.position - p_j.position;
         double r_len = r.length();
         if (r_len == 0.0) {
             return;
@@ -67,11 +63,10 @@ void DirectSumAlgorithm::calculateForce() {
         // rf. formula (3)
         double inv_r2 = 1.0 / (r_len * r_len);
         double sigma_r2 = sigma * inv_r2;
-        double scalar = -24.0 * epsilon * std::pow(inv_r2, 2) *
-                        ( std::pow(sigma_r2, 6) - 2.0 * std::pow(sigma_r2, 12) );
+        double scalar = -24.0 * epsilon * std::pow(inv_r2, 2) * (std::pow(sigma_r2, 6) - 2.0 * std::pow(sigma_r2, 12));
         Vec3D F_ij = scalar * r;
 
-        p_i.addForce(F_ij);
-        p_j.addForce(-F_ij);
+        p_i.force += F_ij;
+        p_j.force -= F_ij;
     });
 }

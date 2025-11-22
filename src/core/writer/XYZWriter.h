@@ -45,7 +45,7 @@ class XYZWriter : public Writer {
      */
     virtual const std::string plotSingleParticle(const Particle &part) const override {
         std::stringstream strstr;
-        const Vec3D &pos = part.getPosition();
+        const Vec3D &pos = part.position;
 
         strstr << "Ar ";
         strstr.setf(std::ios_base::showpoint);

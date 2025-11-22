@@ -8,11 +8,11 @@
  */
 void LinkedCellImplementation::placeInCells(){
     particles.forEach([&](Particle &p) {
-        int cx = static_cast<int>(p.getPosition().x / cellSize);
-        int cy = static_cast<int>(p.getPosition().y / cellSize);
-        int cz = static_cast<int>(p.getPosition().z / cellSize);
+        int cx = static_cast<int>(p.position.x / cellSize);
+        int cy = static_cast<int>(p.position.y / cellSize);
+        int cz = static_cast<int>(p.position.z / cellSize);
 
-        int index = cz * (p.getPosition().x * p.getPosition().y) + cy * p.getPosition().x + cx;
+        int index = cz * (p.position.x * p.position.y) + cy * p.position.x + cx;
         cells[index].push_back(p);
     });
 }

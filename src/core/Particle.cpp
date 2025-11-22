@@ -60,41 +60,6 @@ Particle::Particle(Vec3D pos_arg, Vec3D vel_arg, double mass_arg, int type_arg) 
 Particle::~Particle() { spdlog::debug("Particle destructed!"); }
 
 /**
- * @brief Get the position of this Particle.
- */
-const Vec3D &Particle::getPosition() const { return position; }
-
-/**
- * @brief Get the velocity of this Particle.
- */
-const Vec3D &Particle::getVelocity() const { return velocity; }
-
-/**
- * @brief Get the force effective on this Particle.
- */
-const Vec3D &Particle::getForce() const { return force; }
-
-/**
- * @brief Set the position of this Particle.
- */
-void Particle::setPosition(const Vec3D &position_) { this->position = position_; }
-
-/**
- * @brief Set the velocity of this Particle.
- */
-void Particle::setVelocity(const Vec3D &velocity_) { this->velocity = velocity_; }
-
-/**
- * @brief Set the force effective on this Particle.
- */
-void Particle::setForce(const Vec3D &force_) { this->force = force_; }
-
-/**
- * @brief Add to the force on this Particle.
- */
-void Particle::addForce(const Vec3D &force_) { this->force += force_; }
-
-/**
  * Move force to old force and reset current force to zero. This
  * delays force value by one tick.
  */
@@ -102,22 +67,6 @@ void Particle::delayForce() {
     this->old_force = this->force;
     this->force = Vec3D(0);
 }
-
-/**
- * @brief Get the delayed force effective on this Particle
- * in the previous tick.
- */
-const Vec3D &Particle::getOldForce() const { return old_force; }
-
-/**
- * @brief Get the mass of this Particle.
- */
-double Particle::getMass() const { return mass; }
-
-/**
- * @deprecated
- */
-int Particle::getType() const { return type; }
 
 /**
  * @brief Convert Particle to a string representation.

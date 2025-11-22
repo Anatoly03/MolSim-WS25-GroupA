@@ -13,7 +13,7 @@
 #include "math/Vec3.h"
 
 class Particle {
-   private:
+   public:
     /**
      * @brief Position of the particle
      */
@@ -76,60 +76,9 @@ class Particle {
     Particle clone() const;
 
     /**
-     * @brief Get the position of this Particle.
-     */
-    const Vec3D &getPosition() const;
-
-    /**
-     * @brief Get the velocity of this Particle.
-     */
-    const Vec3D &getVelocity() const;
-
-    /**
-     * @brief Get the force effective on this Particle.
-     */
-    const Vec3D &getForce() const;
-
-    /**
-     * @brief Set the position of this Particle.
-     */
-    void setPosition(const Vec3D &position_);
-
-    /**
-     * @brief Set the velocity of this Particle.
-     */
-    void setVelocity(const Vec3D &velocity_);
-
-    /**
-     * @brief Set the force effective on this Particle.
-     */
-    void setForce(const Vec3D &force_);
-
-    /**
-     * @brief Add to the force on this Particle.
-     */
-    void addForce(const Vec3D &force_delta);
-
-    /**
      * @brief Push force to old force and reset current force to zero.
      */
     void delayForce();
-
-    /**
-     * @brief Retrieve the old force of the Particle. It is the force
-     * delayed by one time step.
-     */
-    const Vec3D &getOldForce() const;
-
-    /**
-     * @brief Retrieve the mass of the Particle.
-     */
-    double getMass() const;
-
-    /**
-     * @brief Reserved.
-     */
-    int getType() const;
 
     /**
      * @brief Equivalence operation for Particle.

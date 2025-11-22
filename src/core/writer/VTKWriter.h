@@ -82,7 +82,7 @@ class VTKWriter : public Writer {
         typeArray->SetNumberOfComponents(1);
 
         for (const auto &p : particles) {
-            points->InsertNextPoint(p.getPosition().asArray().data());
+            points->InsertNextPoint(p.position.asArray().data());
             massArray->InsertNextValue(static_cast<float>(p.getMass()));
             velocityArray->InsertNextTuple(p.getVelocity().asArray().data());
             forceArray->InsertNextTuple(p.getForce().asArray().data());
