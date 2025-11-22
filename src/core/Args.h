@@ -63,6 +63,11 @@ struct Args {
     int benchmark_iterations = 0;
 
     /**
+     * @brief Default version of the algorithm to use. Overridden by CLI.
+     */
+    int version = 1;
+
+    /**
      * @brief Default constructor.
      */
     Args() = default;

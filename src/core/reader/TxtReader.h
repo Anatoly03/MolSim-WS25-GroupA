@@ -39,19 +39,15 @@ class TxtReader : public FileReader {
         int num_particles = 0;
 
         readLine(tmp_string);
-        spdlog::debug("read: {}", tmp_string);
 
         while (tmp_string.empty() or tmp_string[0] == '#') {
             readLine(tmp_string);
-            spdlog::debug("read: {}", tmp_string);
         }
 
         std::istringstream numstream(tmp_string);
         numstream >> num_particles;
-        spdlog::debug("read: {}", num_particles);
 
         readLine(tmp_string);
-        spdlog::debug("read: {}", tmp_string);
         particles.reserve(num_particles);
 
         for (int i = 0; i < num_particles; i++) {
@@ -73,7 +69,6 @@ class TxtReader : public FileReader {
             particles.emplace_back(position, (velocity), mass);
 
             readLine(tmp_string);
-            spdlog::debug("read: {}", tmp_string);
         }
     }
 };
