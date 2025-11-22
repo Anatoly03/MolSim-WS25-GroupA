@@ -53,7 +53,7 @@ void printHelp(const char *progname) {
             "  -V <amount>           algorithm version parameter\n\n"
             "         V0             Direct Sum Algorithm\n"
             "         V1 (default)   Linked Cell Algorithm\n\n"
-            "  -h, --help            print this help message\n"
+            "  --help                print this help message\n"
             "  --help short          print compact help message\n\n"
 
             "Example:\n"
