@@ -1,14 +1,18 @@
 
 #include "../Args.h"
 #include "Simulation.h"
+#include "LinkedCellImplementation.h"
 
-class LinkedCellImplementation : public Simulation {
+/**
+ * @brief places all particles into correct cells.
+ */
+void LinkedCellImplementation::placeInCells(){
+    particles.forEach([&](Particle &p) {
+        int cx = static_cast<int>(p.getPosition().x / cellSize);
+        int cy = static_cast<int>(p.getPosition().y / cellSize);
+        int cz = static_cast<int>(p.getPosition().z / cellSize);
 
-    /**
-     * @brief Advance the simulation by one time step.
-     */
-    void tick() override {
-        // TODO work here
-    }
-};
-// TODO work here
+        int index = cz * (p.getPosition().x * p.getPosition().y) + cy * p.getPosition().x + cx;
+        cells[index].push_back(p);
+    });
+}

@@ -20,12 +20,17 @@ class LinkedCellImplementation : public Simulation {
     /**
      * @brief Default constructor
      */
-    LinkedCellImplementation(const Args &args, ParticleContainer &p,int cuttOff, int xOfDomain, int yOfDomain, int zOfDomain) : Simulation(args), particles(p){
+    LinkedCellImplementation(const Args &args, ParticleContainer &p,int cuttOff, int xOfDomain, int yOfDomain, int zOfDomain) : Simulation(args), particles(p) {
         cells.resize((xOfDomain/cuttOff) * (yOfDomain/cuttOff) * (zOfDomain/cuttOff));
         cellSize=cuttOff;
         placeInCells();
-
     }
+
+   private:
+    /**
+     * @brief places all particles into correct cells.
+     */
+    void placeInCells();
 
    public:
     /**
@@ -33,23 +38,5 @@ class LinkedCellImplementation : public Simulation {
      */
     void tick() override {
         // TODO work here
-    }
-
-    /**
-     * @brief places all particles into correct cells.
-     */
-    void placeInCells(){
-
-        particles.forEach([&](Particle &p) {
-            int cx = static_cast<int>(p.getPosition().x / cellSize);
-            int cy = static_cast<int>(p.getPosition().y / cellSize);
-            int cz = static_cast<int>(p.getPosition().z / cellSize);
-
-            int index = cz * (p.getPosition().x * p.getPosition().y) + cy * p.getPosition().x + cx;
-            cells[index].push_back(p);
-        });
-
-
-
     }
 };
