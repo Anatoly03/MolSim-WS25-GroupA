@@ -1,0 +1,68 @@
+#include <gtest/gtest.h>
+
+#include "../src/core/math/Vec3.h"
+
+/**
+ * @brief Simple vector comparison test.
+ */
+TEST(VecEqTest, BasicAssertions) {
+    Vec3D a(1.0, 2.0, 3.0);
+    Vec3D b(4.0, 5.0, 6.0);
+
+    // Test Equality
+    EXPECT_EQ(a, Vec3D(1.0, 2.0, 3.0));
+    EXPECT_NE(a, b);
+
+    // Test Constructor Equality
+    EXPECT_EQ(Vec3(1), Vec3(1, 1, 1));
+}
+
+/**
+ * @brief Simple vector arithmetics test.
+ */
+TEST(VecScalarTest, BasicAssertions) {
+    Vec3D a(1.0, 2.0, 3.0);
+    Vec3D b(4.0, 5.0, 6.0);
+
+    // Test Scalar Arithmetics
+    Vec3D c = a * 2.0;
+    EXPECT_DOUBLE_EQ(c.x, 2.0);
+    EXPECT_DOUBLE_EQ(c.y, 4.0);
+    EXPECT_DOUBLE_EQ(c.z, 6.0);
+
+    // Test Vec Arithmetics
+    EXPECT_EQ(b - a, Vec3D(3.0));
+    EXPECT_EQ(a + b, Vec3D(5.0, 7.0, 9.0));
+}
+
+/**
+ * @brief Simple vector dot product tests.
+ */
+TEST(VecDotTest, BasicAssertions) {
+    Vec3D a(1.0, 2.0, 3.0);
+    Vec3D b(4.0, 5.0, 6.0);
+
+    // Test dot product
+    EXPECT_DOUBLE_EQ(a.dot(a), 14.0);
+    EXPECT_DOUBLE_EQ(a.dot(b), 32.0);
+}
+
+/**
+ * @brief Simple YAML covnersion tests.
+ */
+TEST(VecYAMLTest, BasicAssertions) {
+    YAML::Node node = YAML::Load("[1.0, 2.0, 3.0]");
+    Vec3D v = node.as<Vec3D>();
+
+    EXPECT_DOUBLE_EQ(v.x, 1.0);
+    EXPECT_DOUBLE_EQ(v.y, 2.0);
+    EXPECT_DOUBLE_EQ(v.z, 3.0);
+
+    Vec3D v2(1.0, 2.0, 3.0);
+    YAML::Emitter out;
+    out << YAML::convert<Vec3D>::encode(v2);
+    node = YAML::Load(out.c_str());
+    Vec3D v3 = node.as<Vec3D>();
+
+    EXPECT_EQ(v2, v3);
+}
