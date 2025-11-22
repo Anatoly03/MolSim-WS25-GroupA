@@ -20,7 +20,13 @@ class LinkedCellImplementation : public Simulation {
     /**
      * @brief Default constructor
      */
-    LinkedCellImplementation(const Args &args, ParticleContainer &p, int cuttOff, int xOfDomain, int yOfDomain, int zOfDomain) : Simulation(args), particles(p) {
+    LinkedCellImplementation(ParticleContainer &p, const Args &args) : Simulation(args), particles(p) {
+        // TODO work here
+        int cuttOff = 0;
+        int xOfDomain = 0;
+        int yOfDomain = 0;
+        int zOfDomain = 0;
+
         cells.resize((xOfDomain/cuttOff) * (yOfDomain/cuttOff) * (zOfDomain/cuttOff));
         cellSize=cuttOff;
         placeInCells();
