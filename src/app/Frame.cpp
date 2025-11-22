@@ -50,9 +50,9 @@ void printHelp(const char *progname) {
             "  -L <level>            log level (hierarchy: trace, debug, info, warn, err, critical)\n"
             "  -B <amount>           benchmark parameter, if specified will re-run simulation and output benchmark "
             "results\n"
-            "  -V <amount>           algorithm version parameter\n\n"
+            "  -V <amount>           algorithm version parameter\n"
             "         V0             Direct Sum Algorithm\n"
-            "         V1 (default)   Linked Cell Algorithm\n\n"
+            "         V1 (default)   Linked Cell Algorithm\n"
             "  --help                print this help message\n"
             "  --help short          print compact help message\n\n"
 
