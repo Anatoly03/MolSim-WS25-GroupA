@@ -104,24 +104,13 @@ class LinkedCells {
     /**
      * @brief Add a new Particle to the cell manager.
      */
-    virtual void add(const Vec3D &position, const Vec3D &velocity, double mass, int type = 0) {
-        if (containers.empty()) {
-            containers.emplace_back();
-        }
-        
-        // TODO decide which container to add to
-        containers[0].add(position, velocity, mass, type);
-    }
-
-    /**
-     * @brief Add a new Particle to the container.
-     */
     virtual void add(const Particle &particle) {
         if (containers.empty()) {
             containers.emplace_back();
         }
 
-        containers.back().add(particle);
+        // TODO decide which container to add to
+        containers[0].add(particle);
     }
 
     /**

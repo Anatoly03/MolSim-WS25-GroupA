@@ -7,6 +7,7 @@
 
 #include "../ParticleContainer.h"
 #include "../math/Vec3.h"
+#include "../Particle.h"
 #include "FileReader.h"
 #include "spdlog/spdlog.h"
 
@@ -33,9 +34,7 @@ class TxtReader : public FileReader {
         claimFile(args.input_file);
         std::string tmp_string;
 
-        Vec3D position;
-        Vec3D velocity;
-        double mass;
+        Particle particle;
         int num_particles = 0;
 
         readLine(tmp_string);
@@ -53,21 +52,20 @@ class TxtReader : public FileReader {
         for (int i = 0; i < num_particles; i++) {
             std::istringstream datastream(tmp_string);
 
-            datastream >> position.x;
-            datastream >> position.y;
-            datastream >> position.z;
-            datastream >> velocity.x;
-            datastream >> velocity.y;
-            datastream >> velocity.z;
+            datastream >> particle.position.x;
+            datastream >> particle.position.y;
+            datastream >> particle.position.z;
+            datastream >> particle.velocity.x;
+            datastream >> particle.velocity.y;
+            datastream >> particle.velocity.z;
 
             if (datastream.eof()) {
                 spdlog::error("read file: eof reached unexpectedly reading from line {}", i);
                 exit(-1);
             }
-            datastream >> mass;
 
-            particles.add(position, (velocity), mass);
-
+            datastream >> particle.mass;
+            particles.add(particle);
             readLine(tmp_string);
         }
     }

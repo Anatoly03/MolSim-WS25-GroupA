@@ -89,13 +89,6 @@ class ParticleContainer {
     /**
      * @brief Add a new Particle to the container.
      */
-    virtual void add(const Vec3D &position, const Vec3D &velocity, double mass, int type = 0) {
-        particles.emplace_back(position, velocity, mass, type);
-    }
-
-    /**
-     * @brief Add a new Particle to the container.
-     */
     virtual void add(const Particle &particle) { particles.emplace_back(particle); }
 
     /**

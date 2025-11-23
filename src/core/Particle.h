@@ -39,18 +39,11 @@ class Particle {
      */
     double mass;
 
-    /**
-     * @brief Type of the particle.
-     * @note Use it for whatever you want (e.g. to separate
-     * molecules belonging to different bodies, matters, and so on)
-     */
-    int type;
-
    public:
     /**
      * @brief Default constructor for Particle.
      */
-    explicit Particle(int type = 0);
+    Particle(int type = 0) = default;
 
     /**
      * @brief Copy constructor for Particle.
@@ -60,9 +53,7 @@ class Particle {
     /**
      * @brief Multi-argument constructor for Particle.
      */
-    // for visualization, we need always 3 coordinates
-    // -> in case of 2d, we use only the first and the second
-    Particle(Vec3D pos_arg, Vec3D vel_arg, double mass_arg, int type = 0);
+    Particle(Vec3D pos_arg, Vec3D vel_arg, double mass_arg);
 
     /**
      * @brief Particle destructor.

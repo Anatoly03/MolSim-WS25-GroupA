@@ -6,6 +6,7 @@
 #include "../ParticleContainer.h"
 #include "../CuboidGenerator.h"
 #include "../math/Vec3.h"
+#include "../Particle.h"
 #include "FileReader.h"
 
 #include <fstream>
@@ -72,11 +73,13 @@ class YamlReader : public FileReader {
             return readCuboidNode(particles, node);
         }
 
-        Vec3D position = node["position"].as<Vec3<double>>();
-        Vec3D velocity = node["velocity"].as<Vec3<double>>();
-        double mass = node["mass"].as<double>();
+        Particle particle;
 
-        particles.add(position, velocity, mass, 0);
+        particle.position = node["position"].as<Vec3<double>>();
+        particle.velocity = node["velocity"].as<Vec3<double>>();
+        particle.mass = node["mass"].as<double>();
+
+        particles.add(particle);
     }
 
     /**
