@@ -127,6 +127,9 @@ public:
         delayForce();
         calculateForce();
         calculateVelocity();
+        forEachBoundaryParticles([](Particle &p) {
+            std::cout << p.toString()<< std::endl;
+        });
 
     }
 };
