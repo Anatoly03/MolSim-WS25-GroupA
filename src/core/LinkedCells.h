@@ -12,8 +12,8 @@
 #include "math/Vec3.h"
 
 /**
- * @class ParticleContainer
- * @brief Refactoring,owning container for Particle with simple iteration over particles and particle pairs
+ * @class LinkedCells
+ * @brief Manager of ParticleContainers, dividing the space into isolated physical cells.
  */
 class LinkedCells {
    private:
@@ -49,10 +49,12 @@ class LinkedCells {
      * @note Allows range-based for loops.
      * @example
      * ```c++
-     * LinkedCells container;
+     * LinkedCells cells;
      *
-     * for (auto &particle : container) {
-     *     std::cout << particle.toString() << std::endl;
+     * for (auto &container : cells) {
+     *     for (auto &particle : container) {
+     *         std::cout << container.toString() << std::endl;
+     *     }
      * }
      * ```
      */
@@ -69,10 +71,12 @@ class LinkedCells {
      * @note Allows range-based for loops over constant elements.
      * @example
      * ```c++
-     * LinkedCells container;
+     * LinkedCells cells;
      *
-     * for (const auto &particle : container) {
-     *     std::cout << particle.toString() << std::endl;
+     * for (const auto &container : cells) {
+     *     for (const auto &particle : container) {
+     *         std::cout << container.toString() << std::endl;
+     *     }
      * }
      * ```
      */
@@ -85,7 +89,7 @@ class LinkedCells {
     const_iterator end() const { return containers.end(); }
 
     /**
-     * @brief Get the number of particles in the container.
+     * @brief Get the number of total particles in all cells combined.
      */
     virtual size_type size() const {
         int total_size = 0;
@@ -98,7 +102,7 @@ class LinkedCells {
     }
 
     /**
-     * @brief Add a new Particle to the container.
+     * @brief Add a new Particle to the cell manager.
      */
     virtual void add(const Vec3D &position, const Vec3D &velocity, double mass, int type = 0) {
         if (containers.empty()) {
@@ -131,9 +135,9 @@ class LinkedCells {
      * @param callback Function to be called for each particle.
      * @example
      * ```c++
-     * LinkedCells container;
+     * LinkedCells cells;
      *
-     * container.forEach([](Particle &particle) {
+     * cells.forEach([](Particle &particle) {
      *     std::cout << particle.toString() << std::endl;
      * });
      * ```
@@ -141,13 +145,13 @@ class LinkedCells {
     virtual void forEach(const std::function<void(Particle &)> &callback);
 
     /**
-     * @brief Iteration over distinct particle pairs.
+     * @brief Iteration over distinct particle pairs per cell.
      * @param callback Function to be called for each particle pair.
      * @example
      * ```c++
-     * LinkedCells container;
+     * LinkedCells cells;
      *
-     * container.forEachDistinctPair([](Particle &particle1, Particle &particle2) {
+     * cells.forEachDistinctPair([](Particle &particle1, Particle &particle2) {
      *     std::cout << particle1.toString() << " interacts with " << particle2.toString() << std::endl;
      * });
      * ```

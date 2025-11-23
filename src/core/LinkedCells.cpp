@@ -1,7 +1,7 @@
 #include "LinkedCells.h"
 
 /**
- * Iteration over single particles using a callback function.
+ * Iteration over containers, each over single particles using a callback function.
  */
 void LinkedCells::forEach(const std::function<void(Particle &)> &callback) {
     for (size_t i = 0; i < containers.size(); i++) {
@@ -10,8 +10,7 @@ void LinkedCells::forEach(const std::function<void(Particle &)> &callback) {
 }
 
 /**
- * Iteration over distinct particle pairs using a callback function.
- * Index-based particle comparison ensures a pair has distinct particles.
+ * Iteration over containers, each over distinct particle pairs using a callback function.
  */
 void LinkedCells::forEachDistinctPair(const std::function<void(Particle &, Particle &)> &callback) {
     for (size_t i = 0; i < containers.size(); i++) {
