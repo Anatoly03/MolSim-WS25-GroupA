@@ -25,10 +25,10 @@ class LinkedCellImplementation : public Simulation {
     LinkedCellImplementation(ParticleContainer &p, const Args &args) : Simulation(args), cells() {
         // TODO work here
 
-        int cuttOff = 0;
-        int xOfDomain = 0;
-        int yOfDomain = 0;
-        int zOfDomain = 0;
+        // int cuttOff = 0;
+        // int xOfDomain = 0;
+        // int yOfDomain = 0;
+        // int zOfDomain = 0;
 
         // cells.resize((xOfDomain/cuttOff) * (yOfDomain/cuttOff) * (zOfDomain/cuttOff));
         // cellSize=cuttOff;
