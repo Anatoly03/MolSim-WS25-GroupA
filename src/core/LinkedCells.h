@@ -112,7 +112,13 @@ class LinkedCells {
     /**
      * @brief Add a new Particle to the container.
      */
-    virtual void add(const Particle &particle) { containers.emplace_back(particle); }
+    virtual void add(const Particle &particle) {
+        if (containers.empty()) {
+            containers.emplace_back();
+        }
+
+        containers.back().add(particle);
+    }
 
     /**
      * @brief Reserve memory for containers.
