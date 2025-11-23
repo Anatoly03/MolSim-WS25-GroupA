@@ -77,9 +77,9 @@ class VTKWriter : public Writer {
         forceArray->SetName("force");
         forceArray->SetNumberOfComponents(3);
 
-        vtkNew<vtkIntArray> typeArray;
-        typeArray->SetName("type");
-        typeArray->SetNumberOfComponents(1);
+        // vtkNew<vtkIntArray> typeArray;
+        // typeArray->SetName("type");
+        // typeArray->SetNumberOfComponents(1);
 
         for (const auto &p : particles) {
             points->InsertNextPoint(p.position.asArray().data());

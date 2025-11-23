@@ -17,8 +17,7 @@
  * The default constructor for Particle logs the creation
  * of an initially forceless particle.
  */
-Particle::Particle(int type_arg) {
-    type = type_arg;
+Particle::Particle() {
     spdlog::debug("Particle generated (empty)!");
     force = {0., 0., 0.};
     old_force = {0., 0., 0.};
@@ -34,7 +33,6 @@ Particle::Particle(const Particle &other) {
     force = other.force;
     old_force = other.old_force;
     mass = other.mass;
-    type = other.type;
 
     spdlog::debug("Particle generated (by copy)!");
 }
@@ -43,11 +41,10 @@ Particle::Particle(const Particle &other) {
  * The component-wise constructor for Particle creates a
  * new particle from atomic attributes.
  */
-Particle::Particle(Vec3D pos_arg, Vec3D vel_arg, double mass_arg, int type_arg) {
+Particle::Particle(Vec3D pos_arg, Vec3D vel_arg, double mass_arg) {
     position = pos_arg;
     velocity = vel_arg;
     mass = mass_arg;
-    type = type_arg;
     force = {0., 0., 0.};
     old_force = {0., 0., 0.};
 
@@ -74,7 +71,7 @@ void Particle::delayForce() {
 std::string Particle::toString() const {
     std::stringstream stream;
     stream << "Particle: Position:" << position.asArray() << " Velocity: " << velocity.asArray()
-           << " Force: " << force.asArray() << " Old Force: " << old_force.asArray() << " Type: " << type;
+           << " Force: " << force.asArray() << " Old Force: " << old_force.asArray();
     return stream.str();
 }
 

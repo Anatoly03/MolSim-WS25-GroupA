@@ -2,41 +2,46 @@
 #pragma once
 
 #include "../utils/Args.h"
+#include "../math/Vec3.h"
+#include "../LinkedCells.h"
+#include "../ParticleContainer.h"
 #include "Simulation.h"
 
 class LinkedCellImplementation : public Simulation {
    private:
-    ParticleContainer& particles;
-    std::vector<std::list<Particle>> cells;
-    int cellSize;
+    std::map<Vec3<int>, std::vector<Particle>> cells;
+    
+    Vec3D cellSize = Vec3D(1.0);
 
    public:
     /**
      * @note Default constructor without providing particle container is private.
      */
     LinkedCellImplementation() = delete;
-    // DirectSumAlgorithm() : arguments(), particles(), writer(particles) {}
 
     /**
      * @brief Default constructor
      */
-    LinkedCellImplementation(ParticleContainer &p, const Args &args) : Simulation(args), particles(p) {
+    LinkedCellImplementation(ParticleContainer &p, const Args &args) : Simulation(args), cells() {
         // TODO work here
+
         int cuttOff = 0;
         int xOfDomain = 0;
         int yOfDomain = 0;
         int zOfDomain = 0;
 
-        cells.resize((xOfDomain/cuttOff) * (yOfDomain/cuttOff) * (zOfDomain/cuttOff));
-        cellSize=cuttOff;
-        placeInCells();
+        // cells.resize((xOfDomain/cuttOff) * (yOfDomain/cuttOff) * (zOfDomain/cuttOff));
+        // cellSize=cuttOff;
+
+        // Flood the cells with particles from the container.
+        placeInCells(p);
     }
 
    private:
     /**
-     * @brief places all particles into correct cells.
+     * @brief Places all particles into correct cells.
      */
-    void placeInCells();
+    void placeInCells(ParticleContainer &p);
 
    public:
     /**

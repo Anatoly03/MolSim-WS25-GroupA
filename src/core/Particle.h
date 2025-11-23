@@ -17,33 +17,33 @@ class Particle {
     /**
      * @brief Position of the particle
      */
-    Vec3D position;
+    Vec3D position = Vec3D(0.0);
 
     /**
      * @brief Velocity of the particle
      */
-    Vec3D velocity;
+    Vec3D velocity = Vec3D(0.0);
 
     /**
      * @brief Force effective on this particle
      */
-    Vec3D force;
+    Vec3D force = Vec3D(0.0);
 
     /**
      * @brief Force which was effective on this particle
      */
-    Vec3D old_force;
+    Vec3D old_force = Vec3D(0.0);
 
     /**
      * @brief Mass of this particle
      */
-    double mass;
+    double mass = 0.0;
 
    public:
     /**
      * @brief Default constructor for Particle.
      */
-    Particle(int type = 0) = default;
+    Particle();
 
     /**
      * @brief Copy constructor for Particle.
@@ -75,8 +75,8 @@ class Particle {
      * @brief Equivalence operation for Particle.
      */
     bool operator==(const Particle &other) const {
-        return position == other.position && velocity == other.velocity && force == other.force && type == other.type &&
-               mass == other.mass && old_force == other.old_force;
+        return (position == other.position) && (velocity == other.velocity) && (mass == other.mass)
+            && (force == other.force) && (old_force == other.old_force);
     }
 
     /**

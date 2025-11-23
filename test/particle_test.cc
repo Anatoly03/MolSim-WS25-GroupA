@@ -11,9 +11,9 @@
 TEST(ParticleContainerSizeTest, BasicAssertions) {
     ParticleContainer particles;
 
-    Particle p1(Vec3D(1.0), Vec3D(4.0), 7, 0);
-    Particle p2(Vec3D(2.0), Vec3D(5.0), 8, 0);
-    Particle p3(Vec3D(3.0), Vec3D(6.0), 9, 0);
+    Particle p1(Vec3D(1.0), Vec3D(4.0), 7);
+    Particle p2(Vec3D(2.0), Vec3D(5.0), 8);
+    Particle p3(Vec3D(3.0), Vec3D(6.0), 9);
     EXPECT_EQ(particles.size(), 0);
 
     particles.add(p1);

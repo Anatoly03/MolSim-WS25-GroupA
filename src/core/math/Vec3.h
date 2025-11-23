@@ -276,3 +276,25 @@ struct convert<Vec3<T>> {
     }
 };
 } // namespace YAML
+
+namespace std {
+// https://stackoverflow.com/a/1102720
+template <typename T>
+struct less<Vec3<T>> {
+    /**
+     * @brief Less-than comparison for Vec3. Math is verified on paper
+     * but not optimized.
+     */
+    bool operator() (const Vec3<T>& lhs, const Vec3<T>& rhs) const {
+        if (lhs.x < rhs.x)
+            return true;
+        if (lhs.x == rhs.x) {
+            if (lhs.y < rhs.y)
+                return true;
+            if (lhs.y == rhs.y)
+                return lhs.z < rhs.z;
+        }
+        return false;
+    }
+};
+} // namespace std
