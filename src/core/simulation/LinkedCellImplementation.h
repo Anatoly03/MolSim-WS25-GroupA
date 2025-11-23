@@ -10,8 +10,8 @@
 class LinkedCellImplementation : public Simulation {
    private:
     ParticleContainer& particles;
-    std::vector<std::list<Particle>> cells;
-    int cellSize;
+    //std::vector<std::list<Particle>> cells;
+    //int cellSize;
     int cutOff;
 
     std::map<Vec3<int>, std::vector<Particle>> cells;
@@ -31,15 +31,15 @@ class LinkedCellImplementation : public Simulation {
     /**
      * @brief the +2 contribute to creating ghost cells which helps with boundery
      */
-    LinkedCellImplementation(const Args &args, ParticleContainer &p,int size, int xOfDomain, int yOfDomain, int zOfDomain,int cutOff) : Simulation(args), particles(p) {
+    LinkedCellImplementation( ParticleContainer &p, const Args &args,int size, int xOfDomain, int yOfDomain, int zOfDomain,int cutOff) : Simulation(args), particles(p) {
 
         nx = static_cast<int>(std::ceil(xOfDomain / static_cast<double>(size))) + 2;
         ny = static_cast<int>(std::ceil(yOfDomain / static_cast<double>(size))) + 2;
         nz = static_cast<int>(std::ceil(zOfDomain / static_cast<double>(size))) + 2;
 
-        cells.resize(nx * ny * nz);
-        cellSize=size;
-        placeInCells(p);
+        //cells.resize(nx * ny * nz);
+        //cellSize=size;
+        placeInCells();
         this->cutOff=cutOff;
     }
 
@@ -47,7 +47,7 @@ class LinkedCellImplementation : public Simulation {
     /**
      * @brief Places all particles into correct cells.
      */
-    void placeInCells(ParticleContainer &p);
+    void placeInCells();
 
     /**
     * @brief return all boundary particles .
@@ -63,7 +63,7 @@ class LinkedCellImplementation : public Simulation {
     /**
       * @brief calculate the position for all particles
       */
-    void calculatePosition();
+    void calculatePosition(std::vector<Particle*> &p);
 
     /**
      * @brief calculate the velocity for all particles
@@ -80,6 +80,36 @@ class LinkedCellImplementation : public Simulation {
      */
     void calculateForce();
 
+    /**
+     * @brief return all particles in ghost/halo cells
+     */
+    std::vector<Particle*> ghostCellParticles();
+
+    /**
+     * @brief for each methode for all boundary particles
+     */
+    void forEachBoundaryParticles(const std::function<void(Particle &)> &callback);
+
+    /**
+     * @brief for each methode for all inner particles
+     */
+    void forEachInnerParticles(const std::function<void(Particle &)> &callback);
+
+    /**
+     * @brief for each methode for all ghost/halo particles
+     */
+    void forEachGhostParticles(const std::function<void(Particle &)> &callback);
+
+    /**
+     * @brief for each methode for all ghost/halo particles
+     */
+    void forEachDistinctPair(const std::function<void(Particle &, Particle&)> &callback);
+
+    /**
+     * @brief deletes ghost cell particles
+     */
+    void deleteGhostCellParticles();
+
 public:
     /**
      * @brief Advance the simulation by one time step.
@@ -88,6 +118,12 @@ public:
         // TODO work here
         //calculatePosition();
         //we should then first check the boundary cells and then the inner cells
+        std::vector<Particle*> particlesVec=boundaryParticles();
+        calculatePosition(particlesVec);
+        particlesVec=innerParticles();
+        calculatePosition(particlesVec);
+
+
         delayForce();
         calculateForce();
         calculateVelocity();
