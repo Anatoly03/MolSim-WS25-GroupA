@@ -48,7 +48,7 @@ TEST(VecDotTest, BasicAssertions) {
 }
 
 /**
- * @brief Simple YAML covnersion tests.
+ * @brief Simple YAML conversion tests.
  */
 TEST(VecYAMLTest, BasicAssertions) {
     YAML::Node node = YAML::Load("[1.0, 2.0, 3.0]");
@@ -65,4 +65,22 @@ TEST(VecYAMLTest, BasicAssertions) {
     Vec3D v3 = node.as<Vec3D>();
 
     EXPECT_EQ(v2, v3);
+}
+
+/**
+ * @brief Simple hashmap indexation by vector test.
+ */
+TEST(VecHashMapTest, BasicAssertions) {
+    std::map<Vec3<int>, int> vecMap;
+    
+    Vec3<int> v1(1, 2, 3);
+    Vec3<int> v2(4, 5, 6);
+    Vec3<int> v3(v1.x, v1.y, v1.z); // equal to v1 in value
+
+    vecMap[v1] = 1;
+    vecMap[v2] = 2;
+
+    EXPECT_EQ(vecMap[v1], 1);
+    EXPECT_EQ(vecMap[v2], 2);
+    EXPECT_EQ(vecMap[v3], 1);
 }
