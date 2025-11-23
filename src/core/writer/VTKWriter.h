@@ -83,10 +83,10 @@ class VTKWriter : public Writer {
 
         for (const auto &p : particles) {
             points->InsertNextPoint(p.position.asArray().data());
-            massArray->InsertNextValue(static_cast<float>(p.getMass()));
-            velocityArray->InsertNextTuple(p.getVelocity().asArray().data());
-            forceArray->InsertNextTuple(p.getForce().asArray().data());
-            typeArray->InsertNextValue(p.getType());
+            massArray->InsertNextValue(static_cast<float>(p.mass));
+            velocityArray->InsertNextTuple(p.velocity.asArray().data());
+            forceArray->InsertNextTuple(p.force.asArray().data());
+            //typeArray->InsertNextValue(p.getType());
         }
 
         // Set up the grid
@@ -98,7 +98,7 @@ class VTKWriter : public Writer {
         grid->GetPointData()->AddArray(massArray);
         grid->GetPointData()->AddArray(velocityArray);
         grid->GetPointData()->AddArray(forceArray);
-        grid->GetPointData()->AddArray(typeArray);
+        //grid->GetPointData()->AddArray(typeArray);
 
         // Create filename with iteration number
         std::string full_filename = getFileName(filename, iteration);

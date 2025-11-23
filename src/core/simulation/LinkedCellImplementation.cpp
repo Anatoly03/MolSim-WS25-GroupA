@@ -13,15 +13,15 @@ void LinkedCellImplementation::placeInCells() {
     particles.forEach([&](Particle &p) {
         Vec3<int> cellIndex;
 
-        cellIndex.x = (int)(p.position.x) / (cellSize.x);
-        cellIndex.y = (int)(p.position.y) / cellSize.y;
-        cellIndex.z = (int)(p.position.z) / cellSize.z;
+        cellIndex.x =  static_cast<int>(p.position.x) / (cellSize.x);
+        cellIndex.y =  static_cast<int>(p.position.y) / cellSize.y;
+        cellIndex.z =  static_cast<int>(p.position.z) / cellSize.z;
 
         // if (cells[cellIndex] == nullptr) {
         //     cells[cellIndex] = std::vector<Particle>();
         // }
 
-        cells[cellIndex].push_back(p);
+        cells[cellIndex].push_back(&p);
     });
 }
 
@@ -46,7 +46,7 @@ std::vector<Particle*> LinkedCellImplementation::innerParticles() {
                     cellIndex.y = (int)(j) / cellSize.y;
                     cellIndex.z = (int)(k) / cellSize.z;
                     for (auto &p : cells[cellIndex]) {
-                        result.push_back(&p);
+                        result.push_back(p);
                     }
 
                 }
@@ -69,7 +69,7 @@ std::vector<Particle*> LinkedCellImplementation::boundaryParticles() {
                     cellIndex.y = (int)(j) / cellSize.y;
                     cellIndex.z = (int)(k) / cellSize.z;
                     for (auto &p : cells[cellIndex]) {
-                        result.push_back(&p);
+                        result.push_back(p);
                     }
 
                 }
@@ -128,7 +128,7 @@ std::vector<Particle*> LinkedCellImplementation::ghostCellParticles() {
 
             // Collect addresses of particles in this ghost cell
             for (auto &p : cellParticles) {
-                result.push_back(&p);
+                result.push_back(p);
             }
         }
     }
@@ -159,11 +159,11 @@ void LinkedCellImplementation::forEachGhostParticles(const std::function<void(Pa
 void LinkedCellImplementation::forEachDistinctPair(const std::function<void(Particle &, Particle&)> &callback) {
     for (auto &entry : cells) {
 
-        std::vector<Particle> &cellParticles = entry.second; // particles in this cell
+        auto &cellParticles = entry.second; // particles in this cell
         for (size_t i = 0; i < cellParticles.size(); ++i) {
             for (size_t j = i; j < cellParticles.size(); ++j) {
                 if (i == j) continue;
-                callback(cellParticles[i], cellParticles[j]);
+                callback(*cellParticles[i], *cellParticles[j]);
             }
         }
     }
@@ -183,12 +183,11 @@ void LinkedCellImplementation::deleteGhostCellParticles() {
         const Vec3<int> &idx = entry.first;
 
         // Ghost cells are those at the domain boundary
-        bool isGhost =
-                (idx[0] == 0 || idx[0] == nx-1 ||
-                 idx[1] == 0 || idx[1] == ny-1 ||
-                 idx[2] == 0 || idx[2] == nz-1);
 
-        if (isGhost) {
+
+        if (idx[0] == 0 || idx[0] == nx-1 ||
+                    idx[1] == 0 || idx[1] == ny-1 ||
+                    idx[2] == 0 || idx[2] == nz-1) {
             entry.second.clear();  // remove all particles in this ghost cell
         }
     }

@@ -14,7 +14,7 @@ class LinkedCellImplementation : public Simulation {
     //int cellSize;
     int cutOff;
 
-    std::map<Vec3<int>, std::vector<Particle>> cells;
+    std::map<Vec3<int>, std::vector<Particle*>> cells;
 
     Vec3D cellSize = Vec3D(1.0);
 
