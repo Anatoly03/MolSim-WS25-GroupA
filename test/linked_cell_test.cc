@@ -75,7 +75,7 @@ TEST(LinkedCellIndexTest, BasicAssertions) {
     EXPECT_TRUE(found_p2_p3);  // neighbouring cell
     EXPECT_TRUE(found_p2_p4);  // neighbouring cell
     EXPECT_FALSE(found_p2_p5); // non-neighbouring cell
-    EXPECT_FALSE(found_p3_p4); // non-neighbouring cell
+    EXPECT_TRUE(found_p3_p4);  // neighbouring cell over x
     EXPECT_TRUE(found_p3_p5);  // neighbouring cell over diagonal
     EXPECT_FALSE(found_p4_p5); // non-neighbouring cell
 }
