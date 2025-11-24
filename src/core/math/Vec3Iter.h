@@ -57,7 +57,11 @@ struct Vec3Iter {
     }
 
     bool hasNext() {
-        return current.x < total.x && current.y < total.y && current.z < total.z;
+        Vec3I tmp =Vec3I(total.x-1,total.y-1,total.z-1);
+        //return current.x < total.x && current.y < total.y &&
+               current.z < total.z;
+
+        return current!=tmp;
     }
 
     Vec3I next() {
