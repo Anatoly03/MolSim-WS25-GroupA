@@ -140,24 +140,6 @@ public:
         delayForce();
         calculateForce();
         calculateVelocity();
-        std::cout << "print "<< std::endl;
-        /*particles.forEach([](Particle &p) {
-            std::cout << p.toString()<< std::endl;
-        });*/
-        std::cout << "forEachBoundaryParticles "<< std::endl;
 
-        forEachBoundaryParticles([](Particle &p) {
-            std::cout << p.toString()<< std::endl;
-        });
-        std::cout << "forEachInnerParticles "<< std::endl;
-
-        forEachInnerParticles([](Particle &p) {
-            std::cout << p.toString()<< std::endl;
-        });
-        std::cout << "forEachGhostParticles "<< std::endl;
-
-        forEachGhostParticles([](Particle &p) {
-            std::cout << p.toString()<< std::endl;
-        });
     }
 };

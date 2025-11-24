@@ -16,14 +16,11 @@ void LinkedCellImplementation::placeInCells() {
         cellIndex.y = static_cast<int>(std::floor((p.position.y - domainMin.y) / cellSize.y)) + 1;
         cellIndex.z = static_cast<int>(std::floor((p.position.z - domainMin.z) / cellSize.z)) + 1;
 
-        /*cellIndex.x =  static_cast<int>(p.position.x) / (cellSize.x);
-        cellIndex.y =  static_cast<int>(p.position.y) / cellSize.y;
-        cellIndex.z =  static_cast<int>(p.position.z) / cellSize.z;*/
+
 
         // if (cells[cellIndex] == nullptr) {
         //     cells[cellIndex] = std::vector<Particle>();
         // }
-        std::cout <<"placing "<< p.toString()<<" in cell "<< cellIndex.x<< cellIndex.y<< cellIndex.z<< std::endl;
 
         cells[cellIndex].push_back(&p);
     });
@@ -61,7 +58,7 @@ std::vector<Particle*> LinkedCellImplementation::innerParticles() {
     return result;
 }
 std::vector<Particle*> LinkedCellImplementation::boundaryParticles() {
-    //std::cout <<"entered boundaryParticles"<< std::endl;
+
     std::vector<Particle*> result;
     for (int i = 1; i < nx-1; ++i) {
         for (int j = 1; j < ny-1; ++j) {
@@ -71,9 +68,9 @@ std::vector<Particle*> LinkedCellImplementation::boundaryParticles() {
                       k == 1 || k == nz-2)) {
                     Vec3<int> cellIndex;
 
-                    cellIndex.x = (int)(i); // (cellSize.x);
-                    cellIndex.y = (int)(j); // cellSize.y;
-                    cellIndex.z = (int)(k); // cellSize.z;
+                    cellIndex.x = (int)(i);
+                    cellIndex.y = (int)(j);
+                    cellIndex.z = (int)(k);
                     for (auto &p : cells[cellIndex]) {
                         std::cout << p->toString()<< std::endl;
                         result.push_back(p);
@@ -113,7 +110,7 @@ void LinkedCellImplementation::calculateForce() {
     });
 }
 void LinkedCellImplementation::calculatePosition(std::vector<Particle*>  &p) {
-    //std::cout << "calculating position "<< std::endl;
+
     const double dt = arguments.delta_t;
     for (size_t i = 0; i < p.size(); i++) {
         Vec3D x = p[i]->position + dt * p[i]->velocity + std::pow(dt, 2) * p[i]->force / (2 * p[i]->mass);
@@ -129,12 +126,12 @@ std::vector<Particle*> LinkedCellImplementation::ghostCellParticles() {
         const Vec3<int> &idx = entry.first;
         auto &cellParticles = entry.second;
 
-        // Check if this cell is a ghost cell
+
         if (idx[0] == 0 || idx[0] == nx-1 ||
             idx[1] == 0 || idx[1] == ny-1 ||
             idx[2] == 0 || idx[2] == nz-1) {
 
-            // Collect addresses of particles in this ghost cell
+
             for (auto &p : cellParticles) {
                 result.push_back(p);
             }
@@ -167,7 +164,7 @@ void LinkedCellImplementation::forEachGhostParticles(const std::function<void(Pa
 void LinkedCellImplementation::forEachDistinctPair(const std::function<void(Particle &, Particle&)> &callback) {
     for (auto &entry : cells) {
 
-        auto &cellParticles = entry.second; // particles in this cell
+        auto &cellParticles = entry.second;
         for (size_t i = 0; i < cellParticles.size(); ++i) {
             for (size_t j = i; j < cellParticles.size(); ++j) {
                 if (i == j) continue;
@@ -190,13 +187,13 @@ void LinkedCellImplementation::deleteGhostCellParticles() {
     for (auto &entry : cells) {
         const Vec3<int> &idx = entry.first;
 
-        // Ghost cells are those at the domain boundary
+
 
 
         if (idx[0] == 0 || idx[0] == nx-1 ||
                     idx[1] == 0 || idx[1] == ny-1 ||
                     idx[2] == 0 || idx[2] == nz-1) {
-            entry.second.clear();  // remove all particles in this ghost cell
+            entry.second.clear();
         }
     }
 }
