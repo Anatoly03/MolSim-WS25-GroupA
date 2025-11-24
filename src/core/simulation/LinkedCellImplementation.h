@@ -17,8 +17,11 @@ class LinkedCellImplementation : public Simulation {
     std::map<Vec3<int>, std::vector<Particle*>> cells;
 
     Vec3D cellSize = Vec3D(1.0);
+    Vec3D domainMin = Vec3D(1.0);
+    Vec3D domainMax = Vec3D(1.0);
 
-   public:
+
+public:
     int nx=0;
     int ny=0;
     int nz=0;
@@ -39,6 +42,7 @@ class LinkedCellImplementation : public Simulation {
 
         //cells.resize(nx * ny * nz);
         //cellSize=size;
+        setMinMax();
         placeInCells();
         this->cutOff=cutOff;
     }
@@ -110,6 +114,15 @@ class LinkedCellImplementation : public Simulation {
      */
     void deleteGhostCellParticles();
 
+    /**
+     *  @brief gets the offset (due to the inclusion of ghost/halo cells) for index calculation
+     */
+    void setMinMax();
+    /**
+     *  @brief returns the index of a particle
+     */
+    Vec3<int> getIndex(Particle &p);
+
 public:
     /**
      * @brief Advance the simulation by one time step.
@@ -127,9 +140,24 @@ public:
         delayForce();
         calculateForce();
         calculateVelocity();
+        std::cout << "print "<< std::endl;
+        /*particles.forEach([](Particle &p) {
+            std::cout << p.toString()<< std::endl;
+        });*/
+        std::cout << "forEachBoundaryParticles "<< std::endl;
+
         forEachBoundaryParticles([](Particle &p) {
             std::cout << p.toString()<< std::endl;
         });
+        std::cout << "forEachInnerParticles "<< std::endl;
 
+        forEachInnerParticles([](Particle &p) {
+            std::cout << p.toString()<< std::endl;
+        });
+        std::cout << "forEachGhostParticles "<< std::endl;
+
+        forEachGhostParticles([](Particle &p) {
+            std::cout << p.toString()<< std::endl;
+        });
     }
 };

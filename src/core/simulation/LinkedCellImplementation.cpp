@@ -12,14 +12,18 @@ void LinkedCellImplementation::placeInCells() {
 
     particles.forEach([&](Particle &p) {
         Vec3<int> cellIndex;
+        cellIndex.x = static_cast<int>(std::floor((p.position.x - domainMin.x) / cellSize.x)) + 1;
+        cellIndex.y = static_cast<int>(std::floor((p.position.y - domainMin.y) / cellSize.y)) + 1;
+        cellIndex.z = static_cast<int>(std::floor((p.position.z - domainMin.z) / cellSize.z)) + 1;
 
-        cellIndex.x =  static_cast<int>(p.position.x) / (cellSize.x);
+        /*cellIndex.x =  static_cast<int>(p.position.x) / (cellSize.x);
         cellIndex.y =  static_cast<int>(p.position.y) / cellSize.y;
-        cellIndex.z =  static_cast<int>(p.position.z) / cellSize.z;
+        cellIndex.z =  static_cast<int>(p.position.z) / cellSize.z;*/
 
         // if (cells[cellIndex] == nullptr) {
         //     cells[cellIndex] = std::vector<Particle>();
         // }
+        std::cout <<"placing "<< p.toString()<<" in cell "<< cellIndex.x<< cellIndex.y<< cellIndex.z<< std::endl;
 
         cells[cellIndex].push_back(&p);
     });
@@ -42,9 +46,10 @@ std::vector<Particle*> LinkedCellImplementation::innerParticles() {
                     j == 1 || j == ny-2 ||
                     k == 1 || k == nz-2)) {Vec3<int> cellIndex;
 
-                    cellIndex.x = (int)(i) / (cellSize.x);
-                    cellIndex.y = (int)(j) / cellSize.y;
-                    cellIndex.z = (int)(k) / cellSize.z;
+                    cellIndex.x = i;
+                    cellIndex.y = j;
+                    cellIndex.z = k;
+
                     for (auto &p : cells[cellIndex]) {
                         result.push_back(p);
                     }
@@ -56,6 +61,7 @@ std::vector<Particle*> LinkedCellImplementation::innerParticles() {
     return result;
 }
 std::vector<Particle*> LinkedCellImplementation::boundaryParticles() {
+    //std::cout <<"entered boundaryParticles"<< std::endl;
     std::vector<Particle*> result;
     for (int i = 1; i < nx-1; ++i) {
         for (int j = 1; j < ny-1; ++j) {
@@ -65,10 +71,11 @@ std::vector<Particle*> LinkedCellImplementation::boundaryParticles() {
                       k == 1 || k == nz-2)) {
                     Vec3<int> cellIndex;
 
-                    cellIndex.x = (int)(i) / (cellSize.x);
-                    cellIndex.y = (int)(j) / cellSize.y;
-                    cellIndex.z = (int)(k) / cellSize.z;
+                    cellIndex.x = (int)(i); // (cellSize.x);
+                    cellIndex.y = (int)(j); // cellSize.y;
+                    cellIndex.z = (int)(k); // cellSize.z;
                     for (auto &p : cells[cellIndex]) {
+                        std::cout << p->toString()<< std::endl;
                         result.push_back(p);
                     }
 
@@ -106,6 +113,7 @@ void LinkedCellImplementation::calculateForce() {
     });
 }
 void LinkedCellImplementation::calculatePosition(std::vector<Particle*>  &p) {
+    //std::cout << "calculating position "<< std::endl;
     const double dt = arguments.delta_t;
     for (size_t i = 0; i < p.size(); i++) {
         Vec3D x = p[i]->position + dt * p[i]->velocity + std::pow(dt, 2) * p[i]->force / (2 * p[i]->mass);
@@ -191,4 +199,48 @@ void LinkedCellImplementation::deleteGhostCellParticles() {
             entry.second.clear();  // remove all particles in this ghost cell
         }
     }
+}
+
+void LinkedCellImplementation::setMinMax() {
+    double minX = +std::numeric_limits<double>::infinity();
+    double minY = +std::numeric_limits<double>::infinity();
+    double minZ = +std::numeric_limits<double>::infinity();
+
+    particles.forEach([&](Particle &p) {
+        minX = std::min(minX, p.position.x);
+        minY = std::min(minY, p.position.y);
+        minZ = std::min(minZ, p.position.z);
+    });
+    domainMin.x = minX - cellSize.x;
+    domainMin.y = minY - cellSize.y;
+    domainMin.z = minZ - cellSize.z;
+
+    double maxX = -std::numeric_limits<double>::infinity();
+    double maxY = -std::numeric_limits<double>::infinity();
+    double maxZ = -std::numeric_limits<double>::infinity();
+
+    particles.forEach([&](Particle &p) {
+        maxX = std::max(maxX, p.position.x);
+        maxY = std::max(maxY, p.position.y);
+        maxZ = std::max(maxZ, p.position.z);
+    });
+
+    domainMax.x = maxX + cellSize.x;
+    domainMax.y = maxY + cellSize.y;
+    domainMax.z = maxZ + cellSize.z;
+
+
+}
+
+Vec3<int> LinkedCellImplementation::getIndex(Particle &p){
+    Vec3<int> cellIndex;
+    cellIndex.x = static_cast<int>(std::floor((p.position.x - domainMin.x) / cellSize.x)) + 1;
+    cellIndex.y = static_cast<int>(std::floor((p.position.y - domainMin.y) / cellSize.y)) + 1;
+    cellIndex.z = static_cast<int>(std::floor((p.position.z - domainMin.z) / cellSize.z)) + 1;
+
+
+    return cellIndex;
+
+
+
 }
