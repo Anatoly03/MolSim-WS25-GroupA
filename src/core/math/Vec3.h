@@ -165,21 +165,6 @@ struct Vec3 {
     constexpr Vec3(const Vec3 &other) = default;
     constexpr Vec3 &operator=(const Vec3 &other) = default;
 
-/*
- * Somehow here causes CI error,
- * maybe there are other better solutions to fix the bug.
- *
-    inline constexpr Vec3 &operator=(const Vec3 &other) {
-        // guard self assignment
-        if (this == &other) return *this;
-
-        x = other.x;
-        y = other.y;
-        z = other.z;
-        return *this;
-    }
-*/
-
     /**
      * @brief Binary addition operator overload for Vec3.
      */
@@ -229,16 +214,24 @@ struct Vec3 {
 typedef Vec3<double> Vec3D;
 
 /**
+ * @struct Vec3I
+ * @brief Represents a 3D vector of integer type.
+ */
+typedef Vec3<int> Vec3I;
+
+/**
  * @brief fmt formatter specialization for Vec3D (for spdlog support)
  */
-template<>
-struct fmt::formatter<Vec3D> : fmt::formatter<std::string>
+namespace fmt {
+template <typename T>
+struct formatter<Vec3<T>> : formatter<std::string>
 {
-    auto format(Vec3D vec, format_context &ctx) const -> decltype(ctx.out())
+    auto format(Vec3<T> vec, fmt::format_context &ctx) const -> decltype(ctx.out())
     {
-        return fmt::format_to(ctx.out(), "({}, {}, {})", vec.x, vec.y, vec.z);
+        return format_to(ctx.out(), "({}, {}, {})", vec.x, vec.y, vec.z);
     }
 };
+} // namespace fmt
 
 /**
  * Implements the YAML::convert<Vec3<T>> type which can be used to reduce

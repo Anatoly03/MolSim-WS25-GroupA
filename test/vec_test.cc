@@ -1,6 +1,7 @@
 #include <gtest/gtest.h>
 
 #include "../src/core/math/Vec3.h"
+#include "../src/core/math/Vec3Iter.h"
 
 /**
  * @brief Simple vector comparison test.
@@ -83,4 +84,38 @@ TEST(VecHashMapTest, BasicAssertions) {
     EXPECT_EQ(vecMap[v1], 1);
     EXPECT_EQ(vecMap[v2], 2);
     EXPECT_EQ(vecMap[v3], 1);
+}
+
+/**
+ * @brief Test vector iterator.
+ */
+TEST(VecIterTest, BasicAssertions) {
+    Vec3Iter iter(1, 2, 3);
+    Vec3<int> v;
+
+    EXPECT_TRUE(iter.hasNext());
+    v = iter.next();
+    EXPECT_EQ(v, Vec3<int>(0, 0, 0));
+
+    EXPECT_TRUE(iter.hasNext());
+    v = iter.next();
+    EXPECT_EQ(v, Vec3<int>(0, 0, 1));
+
+    EXPECT_TRUE(iter.hasNext());
+    v = iter.next();
+    EXPECT_EQ(v, Vec3<int>(0, 1, 2));
+
+    EXPECT_TRUE(iter.hasNext());
+    v = iter.next();
+    EXPECT_EQ(v, Vec3<int>(0, 1, 0));
+
+    EXPECT_TRUE(iter.hasNext());
+    v = iter.next();
+    EXPECT_EQ(v, Vec3<int>(0, 1, 1));
+
+    EXPECT_TRUE(iter.hasNext());
+    v = iter.next();
+    EXPECT_EQ(v, Vec3<int>(0, 1, 2));
+
+    EXPECT_FALSE(iter.hasNext());
 }
