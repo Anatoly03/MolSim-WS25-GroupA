@@ -206,16 +206,6 @@ Args ProcessArgs(int argc, char *argv[]) {
     // SUCCESS !
     // NO MORE FURTHER ERRORS
 
-    // disable all further logging in benchmark mode
-    if (args.benchmark_enabled) {
-        if (log_level_set) {
-            spdlog::warn("benchmark mode enabled: ignoring option '-L {}'", log_level_str);
-        }
-
-        spdlog::info("benchmark: running {} iterations...", args.benchmark_iterations);
-        spdlog::set_level(spdlog::level::err);
-    }
-
     // print version of implementation
     switch (args.version) {
     case 0:
@@ -226,6 +216,15 @@ Args ProcessArgs(int argc, char *argv[]) {
         break;
     }
 
+    // disable all further logging in benchmark mode
+    if (args.benchmark_enabled) {
+        if (log_level_set) {
+            spdlog::warn("benchmark mode enabled: ignoring option '-L {}'", log_level_str);
+        }
+
+        spdlog::info("benchmark: running {} iterations...", args.benchmark_iterations);
+        spdlog::set_level(spdlog::level::err);
+    }
 
     return args;
 }

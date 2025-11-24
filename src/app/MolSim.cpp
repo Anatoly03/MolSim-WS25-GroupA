@@ -56,6 +56,7 @@ int main(int argc, char *argsv[]) {
     timespec starttime;
     timespec end;
     double total_duration = 0.0;
+    auto level = spdlog::get_level();
 
     for (int i = 0; i < bits; i++) {
         ParticleContainer copy(particles);
@@ -68,10 +69,13 @@ int main(int argc, char *argsv[]) {
         double duration = (double)(end.tv_sec - starttime.tv_sec) + ((double)(end.tv_nsec - starttime.tv_nsec) * 1e-9);
         total_duration += duration;
 
+        spdlog::set_level(spdlog::level::info);
         spdlog::info("Benchmark iteration {} finished in {:.4f}s", i, duration);
+        spdlog::set_level(level);
     }
 
     double avg_duration = total_duration / bits;
+    spdlog::set_level(spdlog::level::info);
     spdlog::info("Average duration over {} iterations and {} particles: {:.4f}s", bits, particles.size(), avg_duration);
     return 0;
 }

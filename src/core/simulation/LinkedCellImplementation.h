@@ -20,11 +20,11 @@ class LinkedCellImplementation : public Simulation {
     Vec3D domainMin = Vec3D(1.0);
     Vec3D domainMax = Vec3D(1.0);
 
-
-public:
+   public:
     int nx=0;
     int ny=0;
     int nz=0;
+
     /**
      * @note Default constructor without providing particle container is private.
      */

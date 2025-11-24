@@ -72,7 +72,6 @@ std::vector<Particle*> LinkedCellImplementation::boundaryParticles() {
                     cellIndex.y = (int)(j);
                     cellIndex.z = (int)(k);
                     for (auto &p : cells[cellIndex]) {
-                        std::cout << p->toString()<< std::endl;
                         result.push_back(p);
                     }
 
