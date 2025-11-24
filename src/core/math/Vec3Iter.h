@@ -29,44 +29,41 @@ struct Vec3Iter {
     // attributes
    public:
     Vec3I current = Vec3I(0);
-    Vec3I total;
+    Vec3I last;
 
     // constructors
-    Vec3Iter() : total(0) {}
-    Vec3Iter(int e) : total(e) {}
-    Vec3Iter(int x, int y, int z) : total(x, y, z) {}
+    Vec3Iter() : last(0) {}
+    Vec3Iter(int e) : last(e) {}
+    Vec3Iter(int x, int y, int z) : last(x, y, z) {}
 
    private:
-    Vec3Iter(Vec3I current, Vec3I total) : current(current), total(total) {}
+    Vec3Iter(Vec3I current, Vec3I last) : current(current), last(last) {}
 
    public:
     Vec3Iter begin() {
-        return Vec3Iter(0, total);
+        return Vec3Iter(Vec3I(0), last);
     }
 
     Vec3Iter end() {
-        return Vec3Iter(total, total);
+        // End sentinel: when x reaches last.x we are done. Use (last.x,0,0)
+        return Vec3Iter(Vec3I(last.x, 0, 0), last);
     }
 
     Vec3Iter begin() const {
-        return Vec3Iter(0, total);
+        return Vec3Iter(Vec3I(0), last);
     }
 
     Vec3Iter end() const {
-        return Vec3Iter(total, total);
+        return Vec3Iter(Vec3I(last.x, 0, 0), last);
     }
 
-    bool hasNext() {
-        Vec3I tmp =Vec3I(total.x-1,total.y-1,total.z-1);
-        //return current.x < total.x && current.y < total.y &&
-               current.z < total.z;
+    bool hasNext() const { return *this != end(); }
 
-        return current!=tmp;
-    }
-
+    // Return the current coordinate and advance the iterator (post-increment semantics)
     Vec3I next() {
+        Vec3I cur = current;
         ++(*this);
-        return current;
+        return cur;
     }
 
     //
@@ -82,12 +79,12 @@ struct Vec3Iter {
     Vec3Iter& operator++() {
         current.z++;
 
-        if (current.z >= total.z) {
+        if (current.z >= last.z) {
             current.z = 0;
             current.y ++;
         }
 
-        if (current.y >= total.y) {
+        if (current.y >= last.y) {
             current.y = 0;
             current.x ++;
         }
@@ -100,5 +97,4 @@ struct Vec3Iter {
     // comparison
     bool operator==(const Vec3Iter& o) const { return current == o.current; }
     bool operator!=(const Vec3Iter& o) const { return !(*this == o); }
-
 };

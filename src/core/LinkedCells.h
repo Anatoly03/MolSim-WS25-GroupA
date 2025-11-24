@@ -20,19 +20,37 @@ class LinkedCells {
     /**
      * @brief Internal storage of particle containers.
      */
-    std::vector<ParticleContainer> containers;
-   
-   public:
+    std::map<Vec3I, std::vector<Particle>> containers;
+
+    /**
+     * @brief cell divison size
+     */
+    Vec3I cellSize = Vec3I(10);
+
+    /**
+     * @brief cell divison size
+     */
+    Vec3I domainMin = Vec3I(0);
+
+    /**
+     * @brief cell divison size
+     */
+    Vec3I domainMax = Vec3I(0);
     
    public:
-    typedef std::vector<ParticleContainer>::size_type size_type;
-    typedef std::vector<ParticleContainer>::iterator iterator;
-    typedef std::vector<ParticleContainer>::const_iterator const_iterator;
+    typedef std::map<Vec3I, std::vector<Particle> >::size_type size_type;
+    typedef std::map<Vec3I, std::vector<Particle> >::iterator iterator;
+    typedef std::map<Vec3I, std::vector<Particle> >::const_iterator const_iterator;
 
     /**
      * @brief Default constructor for LinkedCells.
      */
     LinkedCells() = default;
+
+    /**
+     * @brief Constructor for LinkedCells specifying cell size.
+     */
+    LinkedCells(Vec3I cellSize) : cellSize(cellSize) {}
 
     /**
      * @brief Copy constructor for LinkedCells.
@@ -94,7 +112,8 @@ class LinkedCells {
     virtual size_type size() const {
         int total_size = 0;
 
-        for (const auto &container : containers) {
+        for (const auto &it : containers) {
+            const auto &container = it.second;
             total_size += container.size();
         }
 
@@ -102,22 +121,37 @@ class LinkedCells {
     }
 
     /**
-     * @brief Add a new Particle to the cell manager.
+     * @brief Absorb a particle container and sort particles into cells.
      */
-    virtual void add(const Particle &particle) {
-        if (containers.empty()) {
-            containers.emplace_back();
-        }
-
-        // TODO decide which container to add to
-        containers[0].add(particle);
+    virtual void absorb(ParticleContainer &particles) {
+        particles.forEach([&](Particle &p) {
+            add(p);
+        });
     }
 
     /**
-     * @brief Reserve memory for containers.
-     * @param reserve Number of containers to reserve space for.
+     * @brief Add a new Particle to the cell manager.
      */
-    void reserve(size_type reserve = 0) { containers.reserve(reserve); }
+    virtual void add(Particle &particle) {
+        auto cellIndex = Vec3I(
+            (int) std::floor(particle.position.x / (double) cellSize.x),
+            (int) std::floor(particle.position.y / (double) cellSize.y),
+            (int) std::floor(particle.position.z / (double) cellSize.z)
+        );
+
+        containers[cellIndex].emplace_back(particle);
+    }
+
+    /**
+     * @brief Set the domain boundaries and return domain size.
+     * @note Range is inclusive.
+     */
+    virtual Vec3I setDomainSize(Vec3I min, Vec3I max) {
+        domainMin = min;
+        domainMax = max;
+
+        return domainMax - domainMin;
+    }
 
     /**
      * @brief Iteration over single particles.

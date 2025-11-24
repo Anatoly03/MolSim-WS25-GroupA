@@ -72,11 +72,11 @@ TEST(VecYAMLTest, BasicAssertions) {
  * @brief Simple hashmap indexation by vector test.
  */
 TEST(VecHashMapTest, BasicAssertions) {
-    std::map<Vec3<int>, int> vecMap;
+    std::map<Vec3I, int> vecMap;
     
-    Vec3<int> v1(1, 2, 3);
-    Vec3<int> v2(4, 5, 6);
-    Vec3<int> v3(v1.x, v1.y, v1.z); // equal to v1 in value
+    Vec3I v1(1, 2, 3);
+    Vec3I v2(4, 5, 6);
+    Vec3I v3(v1.x, v1.y, v1.z); // equal to v1 in value
 
     vecMap[v1] = 1;
     vecMap[v2] = 2;
@@ -91,31 +91,47 @@ TEST(VecHashMapTest, BasicAssertions) {
  */
 TEST(VecIterTest, BasicAssertions) {
     Vec3Iter iter(1, 2, 3);
-    Vec3<int> v;
+
+    // init
+    EXPECT_TRUE(iter.hasNext());
+    Vec3<int> v = *iter;
+    EXPECT_EQ(v, Vec3I(0, 0, 0));
+
+    // loops
+    EXPECT_TRUE(iter.hasNext());
+    ++iter;
+    v = *iter;
+    EXPECT_EQ(v, Vec3I(0, 0, 1));
 
     EXPECT_TRUE(iter.hasNext());
-    //v = iter.next();
-    EXPECT_EQ(v, Vec3<int>(0, 0, 0));
-
-    //EXPECT_TRUE(iter.hasNext());
-    v = iter.next();
-    EXPECT_EQ(v, Vec3<int>(0, 0, 1));
+    ++iter;
+    v = *iter;
+    EXPECT_EQ(v, Vec3I(0, 1, 0));
 
     EXPECT_TRUE(iter.hasNext());
-    v = iter.next();
-    EXPECT_EQ(v, Vec3<int>(0, 0, 2));
+    ++iter;
+    v = *iter;
+    EXPECT_EQ(v, Vec3I(0, 1, 1));
 
     EXPECT_TRUE(iter.hasNext());
-    v = iter.next();
-    EXPECT_EQ(v, Vec3<int>(0, 1, 0));
+    ++iter;
+    v = *iter;
+    EXPECT_EQ(v, Vec3I(1, 0, 0));
 
     EXPECT_TRUE(iter.hasNext());
-    v = iter.next();
-    EXPECT_EQ(v, Vec3<int>(0, 1, 1));
+    ++iter;
+    v = *iter;
+    EXPECT_EQ(v, Vec3I(1, 0, 1));
 
     EXPECT_TRUE(iter.hasNext());
-    v = iter.next();
-    EXPECT_EQ(v, Vec3<int>(0, 1, 2));
+    ++iter;
+    v = *iter;
+    EXPECT_EQ(v, Vec3I(1, 1, 0));
+
+    EXPECT_TRUE(iter.hasNext());
+    ++iter;
+    v = *iter;
+    EXPECT_EQ(v, Vec3I(1, 1, 1));
 
     EXPECT_FALSE(iter.hasNext());
 }
