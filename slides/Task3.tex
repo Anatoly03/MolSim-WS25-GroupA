@@ -223,7 +223,28 @@ particles:
     \begin{itemize}
         \item Circular dependency between \blue{Writer} and \blue{Simulation}!
         \item Forward declaration of no help because we need full type information.
+        \item Refactoring the entire codebase proved more lethal in discarded commits than our magic trick (next slide).
     \end{itemize}
+\end{frame}
+
+\simpleframe\begin{frame}{Our Weeks' Toughest Challenge: Circular Dependencies}
+    \vspace{0.5cm}
+    \begin{itemize}
+        \item \blue{Our Fix:} Use \yellow{functional, data-driven callbacks} to break the circular dependency!
+        \item This needs to be optimized. We are not happy with this design, but it works as a short-term solution.
+    \end{itemize}
+
+    \centering
+    \begin{tikzpicture}[node distance=1cm and 1.5cm, minimum height=1cm, minimum width=3cm]
+        \node[draw, rectangle] (r) {Reader};
+        \node[draw, rectangle, right=of r] (s) {Simulation};
+        \node[draw, rectangle, right=of s] (w) {Writer};
+        \node[draw, rectangle, below=of s] (cb) {\gray{\textit{Lambda}}};
+
+        \draw[->, thick] (r) -- (s) node[midway, above] { creates };
+        \draw[->, thick] (cb) -- (s) node[midway, left] { calls };
+        \draw[->, thick] (w) -- (cb) node[midway, right] { calls };
+    \end{tikzpicture}
 \end{frame}
 
 \headerframe\begin{frame}{That's it – for now, at least}{Shaw! We thank you for your attention!}
