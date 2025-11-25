@@ -124,3 +124,63 @@ TEST(LinkedCellBorderTest, BasicAssertions) {
     EXPECT_TRUE(found_p3); // border particle
     EXPECT_TRUE(found_p4); // border particle
 }
+
+/**
+ * @brief Linked cell test (logic verified on paper, do not change)
+ * @details
+ * 
+ * We have two particles, p1 and p2. p1 is a border particle and we iterate
+ * over all border particles, p1 should be updated to non-border.
+ * 
+ * After reindexation, we expect: there are no border particles and p1 with
+ * old data does not exist.
+ */
+TEST(LinkedCellIndexReindexTest, BasicAssertions) {
+    LinkedCells cells(Vec3I(5));
+
+    Particle p1(Vec3D(1.0, 2.0, 3.0), Vec3D(4.0), 7); // in chunk 0,0,0
+    Particle p2(Vec3D(6.0, 7.0, 8.0), Vec3D(6.0), 9); // in chunk 1,1,1
+
+    Particle p1expect(Vec3D(7.0, 8.0, 9.0), p1.velocity, p1.mass); // when p1 moved to chunk 1,1,1
+
+    cells.add(p1);
+    cells.add(p2);
+
+    Args args;
+    cells.setDomainSize(Vec3I(0), Vec3I(2));
+
+    cells.forEachBordered([&p1, &p1expect](Particle &p) {
+        // expect: this should iterate only once: for p1
+        EXPECT_EQ(p, p1);
+        p.position = p1expect.position; // should only update p1
+    });
+
+    cells.reindex(); // this is what we test in this suite
+
+    std::vector<Particle> borderParticles;
+    cells.forEachBordered([&borderParticles](Particle &p) {
+        borderParticles.push_back(p);
+    });
+
+    EXPECT_EQ(cells.size(), 0); // both particles should NOT be called (they are in central chunk)
+
+    cells.forEach([&borderParticles](Particle &p) {
+        borderParticles.push_back(p);
+    });
+
+    EXPECT_EQ(cells.size(), 2); // p2 and p1expect
+
+    bool found_p1 = false;
+    bool found_p2 = false;
+    bool found_p1expect = false;
+
+    for (const auto &p : borderParticles) {
+        if (p == p1) found_p1 = true;
+        if (p == p2) found_p2 = true;
+        if (p == p1expect) found_p1expect = true;
+    }
+
+    EXPECT_FALSE(found_p1);
+    EXPECT_TRUE(found_p2);
+    EXPECT_TRUE(found_p1expect);
+}

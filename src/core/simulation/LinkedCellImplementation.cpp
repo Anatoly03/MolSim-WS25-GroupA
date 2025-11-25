@@ -86,7 +86,7 @@ void LinkedCellImplementation::calculateBorderBehaviour() {
         // TODO reflecting boundary condition
 
         calculateForce(p, ghost);
-    }
+    });
 }
 
 // /**

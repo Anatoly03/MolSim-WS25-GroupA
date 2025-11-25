@@ -194,4 +194,8 @@ class LinkedCells {
      */
     virtual void forEachBordered(const std::function<void(Particle &, Vec3I)> &callback);
 
+    /**
+     * @brief Iterates over all particles and updates their parent chunk.
+     */
+    virtual void reindex();
 };
