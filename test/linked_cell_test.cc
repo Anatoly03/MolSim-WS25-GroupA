@@ -32,6 +32,7 @@ TEST(LinkedCellIndexTest, BasicAssertions) {
     cells.add(p2);
     cells.add(p3);
     cells.add(p4);
+    cells.add(p5);
 
     Args args;
     std::vector<DistinctParticlePair> interactions;
@@ -41,7 +42,6 @@ TEST(LinkedCellIndexTest, BasicAssertions) {
 
     cells.forEachDistinctPair([&interactions](Particle &a, Particle &b) {
         interactions.emplace_back(DistinctParticlePair(a, b));
-        std::cout << a.toString() << " <-> " << b.toString() << std::endl;
     });
 
     bool found_p1_p2 = false;
