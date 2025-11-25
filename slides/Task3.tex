@@ -207,6 +207,25 @@ particles:
 \end{lstlisting}
 \end{frame}
 
+\simpleframe\begin{frame}{Our Weeks' Toughest Challenge: Circular Dependencies}
+    \centering
+    \begin{tikzpicture}[node distance=1cm and 1.5cm, minimum height=1cm, minimum width=3cm]
+        \node[draw, rectangle] (r) {Reader};
+        \node[draw, rectangle, right=of r] (s) {Simulation};
+        \node[draw, rectangle, right=of s] (w) {Writer};
+
+        \draw[->, thick] (r) -- (s) node[midway, above] { creates };
+        \draw[->, thick] (s) to[bend left=10] (w) node[above] { calls };
+        \draw[->, thick] (w) to[bend left=10] (s) node[below] { reads };
+    \end{tikzpicture}
+
+    \vspace{0.5cm}
+    \begin{itemize}
+        \item Circular dependency between \blue{Writer} and \blue{Simulation}!
+        \item Forward declaration of no help because we need full type information.
+    \end{itemize}
+\end{frame}
+
 \headerframe\begin{frame}{That's it – for now, at least}{Shaw! We thank you for your attention!}
     \begin{center}
         \begin{figure}
