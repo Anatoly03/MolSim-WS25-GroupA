@@ -36,6 +36,7 @@ int main(int argc, char *argsv[]) {
 
     // set up simulation
     if (!args.benchmark_enabled) {
+        spdlog::set_level(args.log_level);
         simulation = Simulation::createSimulation(particles, args);
 
 #ifdef ENABLE_VTK_OUTPUT

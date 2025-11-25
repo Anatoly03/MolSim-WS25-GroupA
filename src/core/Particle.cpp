@@ -18,7 +18,7 @@
  * of an initially forceless particle.
  */
 Particle::Particle() {
-    spdlog::debug("Particle generated (empty)!");
+    spdlog::trace("Particle generated (empty)!");
     force = {0., 0., 0.};
     old_force = {0., 0., 0.};
 }
@@ -34,7 +34,7 @@ Particle::Particle(const Particle &other) {
     old_force = other.old_force;
     mass = other.mass;
 
-    spdlog::debug("Particle generated (by copy)!");
+    spdlog::trace("Particle generated (by copy)!");
 }
 
 /**
@@ -48,13 +48,13 @@ Particle::Particle(Vec3D pos_arg, Vec3D vel_arg, double mass_arg) {
     force = {0., 0., 0.};
     old_force = {0., 0., 0.};
 
-    spdlog::debug("Particle generated!");
+    spdlog::trace("Particle generated!");
 }
 
 /**
  * Particle destructor.
  */
-Particle::~Particle() { spdlog::debug("Particle destructed!"); }
+Particle::~Particle() { spdlog::trace("Particle destructed!"); }
 
 /**
  * Move force to old force and reset current force to zero. This

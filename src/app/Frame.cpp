@@ -219,6 +219,5 @@ Args ProcessArgs(int argc, char *argv[]) {
         spdlog::set_level(spdlog::level::err); // this will be overriden by custom benchmark implementation
     }
 
-    spdlog::set_level(spdlog::level::info); // reset spdlog level to default
     return args;
 }

@@ -67,7 +67,7 @@ class YamlReader : public FileReader {
      * @brief Get particle from YAML::Node
      */
     void readNode(ParticleContainer &particles, const YAML::Node &node) const {
-        auto node_type = node["type"].as<std::string>();
+        std::string node_type = node["type"] ? (node["type"].as<std::string>()) : "particle";
 
         if (node_type == "cuboid") {
             return readCuboidNode(particles, node);
