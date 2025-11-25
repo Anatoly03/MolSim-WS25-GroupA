@@ -56,14 +56,14 @@ int main(int argc, char *argsv[]) {
     timespec starttime;
     timespec end;
     double total_duration = 0.0;
-    auto level = spdlog::get_level(); // store current log level (should be error for benchmarking)
-    auto benchmarkLogLevel = spdlog::level::info;
+    const auto benchmarkLogLevel = spdlog::level::trace; // spdlog::get_level();
 
     for (int i = 0; i < bits; i++) {
+        spdlog::set_level(spdlog::level::off); // disable logging for benchmarking
+
         ParticleContainer copy(particles);
         std::unique_ptr<Simulation> simulation = Simulation::createSimulation(copy, args);
-        spdlog::set_level(level); // current log level
-
+        
         clock_gettime(CLOCK_MONOTONIC, &starttime);
         simulation->run();
         clock_gettime(CLOCK_MONOTONIC, &end);
@@ -71,16 +71,16 @@ int main(int argc, char *argsv[]) {
         double duration = (double)(end.tv_sec - starttime.tv_sec) + ((double)(end.tv_nsec - starttime.tv_nsec) * 1e-9);
         total_duration += duration;
 
-        spdlog::set_level(benchmarkLogLevel);
-        spdlog::info("benchmark: iteration {}: in {:.4f}s", i, duration);
+        spdlog::set_level(benchmarkLogLevel); // end benchmark iteration: report
+        spdlog::trace("benchmark: iteration {}: in {:.4f}s", i, duration);
+        spdlog::set_level(spdlog::level::off); // disable logging for benchmarking (destructor invocation)
     }
 
     double avg_duration = total_duration / bits;
-    spdlog::set_level(benchmarkLogLevel);
-    spdlog::info("benchmark: finish {} iterations: average {} particles: {:.4f}s", bits, particles.size(), avg_duration);
-    spdlog::debug("average: {:.4f}s", avg_duration);
-    spdlog::debug("total:   {:.4f}s", total_duration);
-    spdlog::set_level(level); // current log level
-
+    spdlog::set_level(benchmarkLogLevel); // end all benchmarking: report
+    spdlog::debug("benchmark: finish {} iterations, over {} particles", bits, particles.size());
+    spdlog::info("average: {:.4f}s", avg_duration);
+    spdlog::info("total:   {:.4f}s", total_duration);
+    spdlog::set_level(spdlog::level::off); // disable further logging (destructor invocation)
     return 0;
 }

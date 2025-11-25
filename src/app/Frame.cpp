@@ -47,7 +47,8 @@ void printHelp(const char *progname) {
             "path/to/output/vtk)\n"
             "  -t, --time <int>      total simulation time (default: 1000)\n"
             "  -d, --delta <float>   time step delta (default: 0.014)\n"
-            "  -L <level>            log level (hierarchy: trace, debug, info, warn, err, critical)\n"
+            "  -L <level>            log level (hierarchy: trace, debug, info, warn, err, critical), note: in"
+                    "benchmark mode, this setting is ignored\n"
             "  -B <amount>           benchmark parameter, if specified will re-run simulation and output benchmark "
             "results\n"
             "  -V <amount>           algorithm version parameter\n"
@@ -209,10 +210,10 @@ Args ProcessArgs(int argc, char *argv[]) {
     // print version of implementation
     switch (args.version) {
     case 0:
-        spdlog::info("running `direct sum` implementation");
+        spdlog::debug("running `direct sum` implementation");
         break;
     case 1:
-        spdlog::info("running `linked cell` implementation");
+        spdlog::debug("running `linked cell` implementation");
         break;
     }
 
@@ -223,7 +224,7 @@ Args ProcessArgs(int argc, char *argv[]) {
         }
 
         spdlog::info("benchmark: running {} iterations...", args.benchmark_iterations);
-        spdlog::set_level(spdlog::level::err);
+        spdlog::set_level(spdlog::level::err); // this will be overriden by custom benchmark implementation
     }
 
     return args;
