@@ -6,6 +6,7 @@
 #include "../core/simulation/Simulation.h"
 #include "../core/simulation/DirectSumAlgorithm.h"
 #include "Frame.h"
+
 #include "spdlog/spdlog.h"
 
 #ifdef ENABLE_VTK_OUTPUT
@@ -56,7 +57,6 @@ int main(int argc, char *argsv[]) {
     timespec starttime;
     timespec end;
     double total_duration = 0.0;
-    const auto benchmarkLogLevel = spdlog::level::trace; // spdlog::get_level();
 
     for (int i = 0; i < bits; i++) {
         spdlog::set_level(spdlog::level::off); // disable logging for benchmarking
@@ -71,13 +71,13 @@ int main(int argc, char *argsv[]) {
         double duration = (double)(end.tv_sec - starttime.tv_sec) + ((double)(end.tv_nsec - starttime.tv_nsec) * 1e-9);
         total_duration += duration;
 
-        spdlog::set_level(benchmarkLogLevel); // end benchmark iteration: report
+        spdlog::set_level(args.log_level); // end benchmark iteration: report
         spdlog::trace("benchmark: iteration {}: in {:.4f}s", i, duration);
         spdlog::set_level(spdlog::level::off); // disable logging for benchmarking (destructor invocation)
     }
 
     double avg_duration = total_duration / bits;
-    spdlog::set_level(benchmarkLogLevel); // end all benchmarking: report
+    spdlog::set_level(args.log_level); // end all benchmarking: report
     spdlog::debug("benchmark: finish {} iterations, over {} particles", bits, particles.size());
     spdlog::info("average: {:.4f}s", avg_duration);
     spdlog::info("total:   {:.4f}s", total_duration);

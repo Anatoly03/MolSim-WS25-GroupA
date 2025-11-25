@@ -2,6 +2,7 @@
 #pragma once
 
 #include <string>
+#include "spdlog/spdlog.h"
 
 /**
  * @brief Structure to hold all program arguments.
@@ -21,6 +22,16 @@ struct Args {
      * @brief True if the output file path was overriden by CLI argument.
      */
     bool output_file_cli = false;
+
+    /**
+     * @brief Log level for benchmarking output.
+     */
+    spdlog::level::level_enum log_level = spdlog::level::info;
+
+    /**
+     * @brief True if the log level was set by CLI argument.
+     */
+    bool log_level_cli = false;
 
     /**
      * @brief Simulation start time. Constant. Reserved for future use.
