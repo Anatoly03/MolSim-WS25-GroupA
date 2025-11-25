@@ -75,9 +75,8 @@ void LinkedCellImplementation::calculateForce(Particle& p_i, Particle& p_j) {
 }
 
 void LinkedCellImplementation::reindexParticles() {
-    // TODO
+    cells.reindex();
 };
-
 
 void LinkedCellImplementation::calculateBorderBehaviour() {
     cells.forEachBordered([&](Particle &p, Vec3I /* ghostCellIndex */) {
