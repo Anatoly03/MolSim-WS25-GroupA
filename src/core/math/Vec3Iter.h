@@ -57,7 +57,9 @@ struct Vec3Iter {
         return Vec3Iter(Vec3I(last.x, 0, 0), last);
     }
 
-    bool hasNext() const { return *this != end(); }
+    bool hasNext() const {
+        return last - Vec3I(1) != current;
+    }
 
     // Return the current coordinate and advance the iterator (post-increment semantics)
     Vec3I next() {

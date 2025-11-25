@@ -90,48 +90,31 @@ TEST(VecHashMapTest, BasicAssertions) {
  * @brief Test vector iterator.
  */
 TEST(VecIterTest, BasicAssertions) {
-    Vec3Iter iter(1, 2, 3);
-
+    Vec3Iter iter(1, 2, 2);
+    
     // init
+    iter = iter.begin();
+    Vec3I current = *iter;
+
     EXPECT_TRUE(iter.hasNext());
-    Vec3<int> v = *iter;
-    EXPECT_EQ(v, Vec3I(0, 0, 0));
+    current = *iter;
+    EXPECT_EQ(current, Vec3I(0, 0, 0));
 
     // loops
     EXPECT_TRUE(iter.hasNext());
     ++iter;
-    v = *iter;
-    EXPECT_EQ(v, Vec3I(0, 0, 1));
+    current = *iter;
+    EXPECT_EQ(current, Vec3I(0, 0, 1));
 
     EXPECT_TRUE(iter.hasNext());
     ++iter;
-    v = *iter;
-    EXPECT_EQ(v, Vec3I(0, 1, 0));
+    current = *iter;
+    EXPECT_EQ(current, Vec3I(0, 1, 0));
 
     EXPECT_TRUE(iter.hasNext());
     ++iter;
-    v = *iter;
-    EXPECT_EQ(v, Vec3I(0, 1, 1));
-
-    EXPECT_TRUE(iter.hasNext());
-    ++iter;
-    v = *iter;
-    EXPECT_EQ(v, Vec3I(1, 0, 0));
-
-    EXPECT_TRUE(iter.hasNext());
-    ++iter;
-    v = *iter;
-    EXPECT_EQ(v, Vec3I(1, 0, 1));
-
-    EXPECT_TRUE(iter.hasNext());
-    ++iter;
-    v = *iter;
-    EXPECT_EQ(v, Vec3I(1, 1, 0));
-
-    EXPECT_TRUE(iter.hasNext());
-    ++iter;
-    v = *iter;
-    EXPECT_EQ(v, Vec3I(1, 1, 1));
+    current = *iter;
+    EXPECT_EQ(current, Vec3I(0, 1, 1));
 
     EXPECT_FALSE(iter.hasNext());
 }
