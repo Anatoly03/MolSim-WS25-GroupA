@@ -22,6 +22,7 @@ class LinkedCells {
      */
     std::map<Vec3I, std::vector<Particle>> containers;
 
+   public:
     /**
      * @brief cell divison size
      */
@@ -186,5 +187,11 @@ class LinkedCells {
      * @param callback Function to be called for each particle.
      */
     virtual void forEachBordered(const std::function<void(Particle &)> &callback);
+
+    /**
+     * @brief Iteration over single particles which are located in the cells near the domain border.
+     * @param callback Function to be called for each particle and the chunk index of the closest ghost cell.
+     */
+    virtual void forEachBordered(const std::function<void(Particle &, Vec3I)> &callback);
 
 };

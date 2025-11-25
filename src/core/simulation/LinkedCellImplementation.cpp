@@ -8,6 +8,10 @@
 #include <spdlog/spdlog.h>
 
 /**
+ * @brief force calculation logic for two particles
+ */
+
+/**
  * @brief calculate the position for all particles
  */
 void LinkedCellImplementation::calculatePosition() {
@@ -49,27 +53,25 @@ void LinkedCellImplementation::delayForce() {
  * @todo replace with efficient algorithm
  * @param None (operates on member variable @c particles)
  */
-void LinkedCellImplementation::calculateForce() {
+void LinkedCellImplementation::calculateForce(Particle& p_i, Particle& p_j) {
     // TODO lennard-Jones Parameters (hard code for now)
     const double epsilon = 5.0;
     const double sigma = 1.0;
 
-    cells.forEachDistinctPair([&](Particle &p_i, Particle &p_j) {
-        Vec3D r = p_i.position - p_j.position;
-        double r_len = r.length();
-        if (r_len == 0.0) {
-            return;
-        }
+    Vec3D r = p_i.position - p_j.position;
+    double r_len = r.length();
+    if (r_len == 0.0) {
+        return;
+    }
 
-        // rf. formula (3)
-        double inv_r2 = 1.0 / (r_len * r_len);
-        double sigma_r2 = sigma * inv_r2;
-        double scalar = -24.0 * epsilon * std::pow(inv_r2, 2) * (std::pow(sigma_r2, 6) - 2.0 * std::pow(sigma_r2, 12));
-        Vec3D F_ij = scalar * r;
+    // rf. formula (3)
+    double inv_r2 = 1.0 / (r_len * r_len);
+    double sigma_r2 = sigma * inv_r2;
+    double scalar = -24.0 * epsilon * std::pow(inv_r2, 2) * (std::pow(sigma_r2, 6) - 2.0 * std::pow(sigma_r2, 12));
+    Vec3D F_ij = scalar * r;
 
-        p_i.force += F_ij;
-        p_j.force -= F_ij;
-    });
+    p_i.force += F_ij;
+    p_j.force -= F_ij;
 }
 
 void LinkedCellImplementation::reindexParticles() {
@@ -78,7 +80,13 @@ void LinkedCellImplementation::reindexParticles() {
 
 
 void LinkedCellImplementation::calculateBorderBehaviour() {
-    // TODO
+    cells.forEachBordered([&](Particle &p, Vec3I ghostCellIndex) {
+        Particle ghost(p);
+
+        // TODO reflecting boundary condition
+
+        calculateForce(p, ghost);
+    }
 }
 
 // /**

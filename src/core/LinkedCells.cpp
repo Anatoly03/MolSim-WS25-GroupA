@@ -60,7 +60,19 @@ void LinkedCells::forEachDistinctPair(const std::function<void(Particle &, Parti
 }
 
 /**
+ * @brief wrapper for 'for each bordered' without relative chunk
+ */
+void LinkedCells::forEachBordered(const std::function<void(Particle &)> &callback) {
+    forEachBordered([&callback](Particle &p, Vec3I /*ghostCellIndex*/) {
+        callback(p);
+    });
+}
+
+/**
  * @brief Iteration over the cells at domain border.
+ * @note The same particle CAN AND WILL be processed multiple times for small
+ * domain size. This is because particles at edges and corners belong to multiple
+ * border planes.
  * @details
  * 
  * ```
@@ -79,7 +91,7 @@ void LinkedCells::forEachDistinctPair(const std::function<void(Particle &, Parti
  * 
  * Iterate over six planes of cells.
  */
-void LinkedCells::forEachBordered(const std::function<void(Particle &)> &callback) {
+void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &callback) {
     const auto domainSize = domainMax - domainMin + Vec3I(1);
 
     // XY PLANE [FRONT]
@@ -88,7 +100,7 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &)> &callbac
         auto &particles = containers[cellIndex];
 
         for (auto &p: particles) {
-            callback(p);
+            callback(p, Vec3I(0, 0, -1));
         }
     }
 
@@ -98,7 +110,7 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &)> &callbac
         auto &particles = containers[cellIndex];
 
         for (auto &p: particles) {
-            callback(p);
+            callback(p, Vec3I(0, 0, 1));
         }
     }
 
@@ -108,7 +120,7 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &)> &callbac
         auto &particles = containers[cellIndex];
 
         for (auto &p: particles) {
-            callback(p);
+            callback(p, Vec3I(0, -1, 0));
         }
     }
 
@@ -118,7 +130,7 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &)> &callbac
         auto &particles = containers[cellIndex];
 
         for (auto &p: particles) {
-            callback(p);
+            callback(p, Vec3I(0, 1, 0));
         }
     }
 
@@ -128,7 +140,7 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &)> &callbac
         auto &particles = containers[cellIndex];
 
         for (auto &p: particles) {
-            callback(p);
+            callback(p, Vec3I(-1, 0, 0));
         }
     }
 
@@ -138,7 +150,7 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &)> &callbac
         auto &particles = containers[cellIndex];
 
         for (auto &p: particles) {
-            callback(p);
+            callback(p, Vec3I(1, 0, 0));
         }
     }
 }
