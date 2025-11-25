@@ -1,7 +1,7 @@
 name: Cuboid Generator
 
 config:
-  delta_time: 0.14
+  delta_time: 0.014
   total_time: 100
   output_interval: 20
 

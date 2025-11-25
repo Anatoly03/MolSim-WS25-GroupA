@@ -41,7 +41,12 @@ class XYZWriter : public Writer {
      */
     virtual const std::string plotSingleParticle(const Particle &part) const override {
         std::stringstream strstr;
-        const Vec3D &pos = part.position;
+        Vec3D pos = part.position;
+
+        // ParaView has problems when atoms are close to zero (e-notation)
+        if (abs(pos.x) < 0.00001) { pos.x = 0; }
+        if (abs(pos.y) < 0.00001) { pos.y = 0; }
+        if (abs(pos.z) < 0.00001) { pos.z = 0; }
 
         strstr << "Ar ";
         strstr.setf(std::ios_base::showpoint);
