@@ -58,3 +58,87 @@ void LinkedCells::forEachDistinctPair(const std::function<void(Particle &, Parti
         }
     }
 }
+
+/**
+ * @brief Iteration over the cells at domain border.
+ * @details
+ * 
+ * ```
+ *                NORTH      BACK
+ *
+ *               /- - - - - -/
+ *             /           / |
+ *           /    XZ     /   |   EAST
+ *  WEST    |- - - - - -| YZ |
+ *          |           |   /
+ *          |     XY    | /
+ *          |- - - - - -|
+ *
+ *   FRONT      SOUTH
+ * ```
+ * 
+ * Iterate over six planes of cells.
+ */
+void LinkedCells::forEachBordered(const std::function<void(Particle &)> &callback) {
+    const auto domainSize = domainMax - domainMin + Vec3I(1);
+
+    // XY PLANE [FRONT]
+    for (auto xyPlane : Vec3Iter(domainSize.x, domainSize.y, 1)) {
+        Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, xyPlane.y, 0);
+        auto &particles = containers[cellIndex];
+
+        for (auto &p: particles) {
+            callback(p);
+        }
+    }
+
+    // XY PLANE [BACK]
+    for (auto xyPlane : Vec3Iter(domainSize.x, domainSize.y, 1)) {
+        Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, xyPlane.y, domainSize.z - 1);
+        auto &particles = containers[cellIndex];
+
+        for (auto &p: particles) {
+            callback(p);
+        }
+    }
+
+    // XZ PLANE [NORTH]
+    for (auto xyPlane : Vec3Iter(domainSize.x, 1, domainSize.z)) {
+        Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, 0, xyPlane.z);
+        auto &particles = containers[cellIndex];
+
+        for (auto &p: particles) {
+            callback(p);
+        }
+    }
+
+    // XZ PLANE [SOUTH]
+    for (auto xyPlane : Vec3Iter(domainSize.x, 1, domainSize.z)) {
+        Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, domainSize.y - 1, xyPlane.z);
+        auto &particles = containers[cellIndex];
+
+        for (auto &p: particles) {
+            callback(p);
+        }
+    }
+
+    // YZ PLANE [WEST]
+    for (auto xyPlane : Vec3Iter(1, domainSize.y, domainSize.z)) {
+        Vec3I cellIndex = domainMin + Vec3I(0, xyPlane.y, xyPlane.z);
+        auto &particles = containers[cellIndex];
+
+        for (auto &p: particles) {
+            callback(p);
+        }
+    }
+
+    // YZ PLANE [EAST]
+    for (auto xyPlane : Vec3Iter(1, domainSize.y, domainSize.z)) {
+        Vec3I cellIndex = domainMin + Vec3I(domainSize.x - 1, xyPlane.y, xyPlane.z);
+        auto &particles = containers[cellIndex];
+
+        for (auto &p: particles) {
+            callback(p);
+        }
+    }
+}

@@ -180,4 +180,11 @@ class LinkedCells {
      * ```
      */
     virtual void forEachDistinctPair(const std::function<void(Particle &, Particle &)> &callback);
+
+    /**
+     * @brief Iteration over single particles which are located in the cells near the domain border.
+     * @param callback Function to be called for each particle.
+     */
+    virtual void forEachBordered(const std::function<void(Particle &)> &callback);
+
 };

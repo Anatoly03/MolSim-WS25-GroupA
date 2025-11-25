@@ -79,3 +79,48 @@ TEST(LinkedCellIndexTest, BasicAssertions) {
     EXPECT_TRUE(found_p3_p5);  // neighbouring cell over diagonal
     EXPECT_FALSE(found_p4_p5); // non-neighbouring cell
 }
+
+/**
+ * @brief Simple particle container test to check size
+ * and quantity functionality.
+ */
+TEST(LinkedCellBorderTest, BasicAssertions) {
+    LinkedCells cells(Vec3I(5));
+
+    Particle p1(Vec3D(1.0, 2.0, 3.0), Vec3D(4.0), 7); // in chunk 0,0,0
+    Particle p2(Vec3D(6.0, 7.0, 8.0), Vec3D(6.0), 9); // in chunk 1,1,1
+    Particle p3(Vec3D(6.0, 2.0, 2.0), Vec3D(6.0), 9); // in chunk 1,0,0
+    Particle p4(Vec3D(11.0, 12.0, 13.0), Vec3D(6.0), 9); // in chunk 2,2,2
+
+    cells.add(p1);
+    cells.add(p2);
+    cells.add(p3);
+    cells.add(p4);
+
+    Args args;
+
+    // set domain to include chunks 0,0,0 to 2,2,2
+    cells.setDomainSize(Vec3I(0), Vec3I(2));
+
+    std::vector<Particle> borderParticles;
+    cells.forEachBordered([&borderParticles](Particle &p) {
+        borderParticles.push_back(p);
+    });
+
+    bool found_p1 = false;
+    bool found_p2 = false;
+    bool found_p3 = false;
+    bool found_p4 = false;
+
+    for (const auto &p : borderParticles) {
+        if (p == p1) found_p1 = true;
+        if (p == p2) found_p2 = true;
+        if (p == p3) found_p3 = true;
+        if (p == p4) found_p4 = true;
+    }
+
+    EXPECT_TRUE(found_p1); // border particle
+    EXPECT_FALSE(found_p2); // central particle in chunk 1,1,1
+    EXPECT_TRUE(found_p3); // border particle
+    EXPECT_TRUE(found_p4); // border particle
+}
