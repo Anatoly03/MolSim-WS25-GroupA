@@ -1,6 +1,7 @@
 #include "LinkedCells.h"
 #include "math/Util.h"
 #include "math/Vec3Iter.h"
+#include "spdlog/spdlog.h"
 
 /**
  * Iteration over containers, each over single particles using a callback function.
@@ -180,6 +181,8 @@ void LinkedCells::reindex() {
 
                 // add to new container
                 containers[newCellIndex].emplace_back(p);
+
+                spdlog::trace("Particle reindexed!");
             }
         }
     }
