@@ -2,8 +2,8 @@ name: Cuboid Generator
 
 config:
   delta_time: 0.014
-  total_time: 100
-  output_interval: 20
+  total_time: 10
+  output_interval: 5
 
 particles:
   cuboid1:

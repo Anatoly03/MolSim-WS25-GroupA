@@ -4,6 +4,30 @@
 #include "spdlog/spdlog.h"
 
 /**
+ * iterate over all cells and removes out of range
+ */
+int LinkedCells::clearOutOfBoundsCells() {
+    // retrieve cell keys/ index
+    std::vector<Vec3I> cellsToRemove;
+
+    for (const auto &it : containers) {
+        const Vec3I &cellIndex = it.first;
+
+        if (!ascending(domainMin.x, cellIndex.x, domainMax.x)
+            || !ascending(domainMin.y, cellIndex.y, domainMax.y)
+            || !ascending(domainMin.z, cellIndex.z, domainMax.z)) {
+            cellsToRemove.emplace_back(cellIndex);
+        }
+    }
+
+    for (const auto &cellIndex : cellsToRemove) {
+        containers.erase(cellIndex);
+    }
+
+    return cellsToRemove.size();
+}
+
+/**
  * Iteration over containers, each over single particles using a callback function.
  */
 void LinkedCells::forEach(const std::function<void(Particle &)> &callback) {
@@ -183,6 +207,13 @@ void LinkedCells::reindex() {
                 // remove from current container
                 particles.erase(particles.begin() + i);
                 i--;
+
+                if (!ascending(domainMin.x, newCellIndex.x, domainMax.x)
+                 || !ascending(domainMin.y, newCellIndex.y, domainMax.y)
+                 || !ascending(domainMin.z, newCellIndex.z, domainMax.z)) {
+                    spdlog::trace("Particle left boundary and has been removed!");
+                    continue;
+                }
 
                 // add to new container
                 containers[newCellIndex].emplace_back(p);

@@ -158,6 +158,13 @@ class LinkedCells {
     }
 
     /**
+     * @brief Removes out of bounds cells.
+     * @returns amount of removed cells
+     * @note Range is inclusive.
+     */
+    virtual int clearOutOfBoundsCells();
+
+    /**
      * @brief Iteration over single particles.
      * @param callback Function to be called for each particle.
      * @example
