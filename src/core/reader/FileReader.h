@@ -72,8 +72,7 @@ class FileReader {
      * @brief Read particle information from a file into particle container
      * attribute.
      */
-    // NOLINTNEXTLINE(unused-parameter)
-    virtual void readFile(ParticleContainer &particles, Args &args) {
+    virtual void readFile(ParticleContainer & /* particles */, Args &args) {
         claimFile(args.input_file);
 
         // read magic header
@@ -82,8 +81,7 @@ class FileReader {
             exit(-1);
         }
 
-        // TODO abstraction
-        (void) particles;
+        // TODO
     };
 
     //

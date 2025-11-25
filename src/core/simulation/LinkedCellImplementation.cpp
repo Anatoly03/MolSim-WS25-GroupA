@@ -80,7 +80,7 @@ void LinkedCellImplementation::reindexParticles() {
 
 
 void LinkedCellImplementation::calculateBorderBehaviour() {
-    cells.forEachBordered([&](Particle &p, Vec3I ghostCellIndex) {
+    cells.forEachBordered([&](Particle &p, Vec3I /* ghostCellIndex */) {
         Particle ghost(p);
 
         // TODO reflecting boundary condition
