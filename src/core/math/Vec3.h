@@ -204,6 +204,13 @@ struct Vec3 {
         z /= scalar;
         return *this;
     }
+
+    // casting
+
+    template<typename K>
+    explicit operator Vec3<K>() const {
+        return Vec3<K>(static_cast<K>(x), static_cast<K>(y), static_cast<K>(z));
+    }
 };
 
 /**

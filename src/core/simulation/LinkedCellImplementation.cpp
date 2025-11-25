@@ -78,11 +78,42 @@ void LinkedCellImplementation::reindexParticles() {
     cells.reindex();
 };
 
+/**
+ * @brief calculate special physics for domain-bordering cells, e.g.
+ * particle-border collision or particle extinction
+ */
 void LinkedCellImplementation::calculateBorderBehaviour() {
-    cells.forEachBordered([&](Particle &p, Vec3I /* ghostCellIndex */) {
+    cells.forEachBordered([&](Particle &p, Vec3I ghostCellIndex) {
         Particle ghost(p);
 
-        // TODO reflecting boundary condition
+        //
+        //     cell    ghost cell
+        // |----------| - - - - -|
+        // |          |          |
+        // |  x------ | ------x' |
+        // |          |          |
+        // |----------| - - - - -|
+        //   cellSize -> mirror!
+        //    |----------------------| twice cell
+        //                     |-----| minus twice relative
+        //
+
+        // TODO reflecting boundary condition / verify math
+        // TODO are particles attracted to border?
+
+        // calculate relative position in cell
+        Vec3D cellRelative = Vec3D(
+            p.position.x - (ghostCellIndex.x * cells.cellSize.x),
+            p.position.y - (ghostCellIndex.y * cells.cellSize.y),
+            p.position.z - (ghostCellIndex.z * cells.cellSize.z)
+        );
+
+        // mirror relative position in cell against ghost cell border
+        ghost.position = p.position;
+
+        ghost.position.x += cells.cellSize.x * 2 - 2 * cellRelative.x;
+        ghost.position.y += cells.cellSize.y * 2 - 2 * cellRelative.y;
+        ghost.position.z += cells.cellSize.z * 2 - 2 * cellRelative.z;
 
         calculateForce(p, ghost);
     });
