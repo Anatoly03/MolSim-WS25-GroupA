@@ -132,8 +132,9 @@ class LinkedCells {
 
     /**
      * @brief Add a new Particle to the cell manager.
+     * @returns Index of the cell.
      */
-    virtual void add(Particle &particle) {
+    virtual Vec3I add(Particle &particle) {
         auto cellIndex = Vec3I(
             (int) std::floor(particle.position.x / (double) cellSize.x),
             (int) std::floor(particle.position.y / (double) cellSize.y),
@@ -141,6 +142,8 @@ class LinkedCells {
         );
 
         containers[cellIndex].emplace_back(particle);
+
+        return cellIndex;
     }
 
     /**

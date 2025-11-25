@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 
 #include "../src/core/Particle.h"
-#include "../src/core/utils/Args.h"
 #include "../src/core/LinkedCells.h"
 #include "../src/core/math/Vec3.h"
 
@@ -34,7 +33,6 @@ TEST(LinkedCellIndexTest, BasicAssertions) {
     cells.add(p4);
     cells.add(p5);
 
-    Args args;
     std::vector<DistinctParticlePair> interactions;
 
     // set domain to include chunks 0,0,0 to 2,2,2
@@ -97,8 +95,6 @@ TEST(LinkedCellBorderTest, BasicAssertions) {
     cells.add(p3);
     cells.add(p4);
 
-    Args args;
-
     // set domain to include chunks 0,0,0 to 2,2,2
     cells.setDomainSize(Vec3I(0), Vec3I(2));
 
@@ -143,27 +139,25 @@ TEST(LinkedCellIndexReindexTest, BasicAssertions) {
 
     Particle p1expect(Vec3D(7.0, 8.0, 9.0), p1.velocity, p1.mass); // when p1 moved to chunk 1,1,1
 
-    cells.add(p1);
-    cells.add(p2);
+    EXPECT_EQ(Vec3I(0, 0, 0), cells.add(p1));
+    EXPECT_EQ(Vec3I(1, 1, 1), cells.add(p2));
 
-    Args args;
+    // set domain to include chunks 0,0,0 to 2,2,2
     cells.setDomainSize(Vec3I(0), Vec3I(2));
 
-    cells.forEachBordered([&p1, &p1expect](Particle &p) {
-        // expect: this should iterate only once: for p1
-        EXPECT_EQ(p, p1);
-        p.position = p1expect.position; // should only update p1
-    });
+    // expect: this should iterate only for p1 (but it can iterate multiple times, side effects can occur)
+    cells.forEachBordered([&p1, &p2, &p1expect](Particle &p, Vec3I idx) { EXPECT_EQ(p1, p); });  // only p1 should bordered
+    cells.forEachBordered([&p1, &p2, &p1expect](Particle &p, Vec3I idx) { p.position = p1expect.position; }); // should only update p1
 
     cells.reindex(); // this is what we test in this suite
 
     std::vector<Particle> borderParticles;
     cells.forEachBordered([&borderParticles](Particle &p) {
-        borderParticles.push_back(p);
+        // should be unreachable: no bordered particles after reindex
+        FAIL() << "unreachable: forEachBordered called after reindex: contained particle " << p.toString();
     });
 
-    EXPECT_EQ(cells.size(), 0); // both particles should NOT be called (they are in central chunk)
-
+    // test all cells
     cells.forEach([&borderParticles](Particle &p) {
         borderParticles.push_back(p);
     });
