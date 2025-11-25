@@ -13,7 +13,8 @@ std::unique_ptr<Simulation> Simulation::createSimulation(ParticleContainer &part
         case 0:
             return std::make_unique<DirectSumAlgorithm>(particles, args);
         case 1:
-            return std::make_unique<LinkedCellImplementation>(particles, args, 10, 40, 40, 40, 2.5);
+            // TODO refactor
+            return std::make_unique<LinkedCellImplementation>(particles, args, Vec3I(10));
     }
 
     spdlog::critical("unreachable: args.version was {} in simulation factory", args.version);
