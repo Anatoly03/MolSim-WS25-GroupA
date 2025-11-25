@@ -2,7 +2,6 @@
 #include "../utils/Args.h"
 #include "../LinkedCells.h"
 #include "../ParticleContainer.h"
-#include "Simulation.h"
 #include "LinkedCellImplementation.h"
 
 #include <spdlog/spdlog.h>

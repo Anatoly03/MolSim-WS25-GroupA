@@ -32,7 +32,7 @@ int main(int argc, char *argsv[]) {
     auto reader = FileReader::writeParticles(particles, args);
 
     // set up simulation variable
-    std::unique_ptr<Simulation> simulation;
+    std::shared_ptr<Simulation> simulation = nullptr;
 
     // set up simulation
     if (!args.benchmark_enabled) {
@@ -40,15 +40,16 @@ int main(int argc, char *argsv[]) {
         simulation = Simulation::createSimulation(particles, args);
 
 #ifdef ENABLE_VTK_OUTPUT
-        outputWriter::VTKWriter writer(particles);
-        simulation->setWriter(std::make_unique<outputWriter::VTKWriter>(particles));
+        auto writer = std::make_shared<outputWriter::VTKWriter>();
 #else
-        outputWriter::XYZWriter writer(particles);
-        simulation->setWriter(std::make_unique<outputWriter::XYZWriter>(particles));
+        auto writer = std::make_shared<outputWriter::XYZWriter>();
 #endif
 
         // everything ready - run the simulation
-        simulation->run();
+        simulation->run([&simulation, &writer, &args](int iteration, Simulation& sim){
+            writer->plot(args.output_path, iteration, *simulation);
+        });
+
         return 0;
     }
 
@@ -63,10 +64,10 @@ int main(int argc, char *argsv[]) {
         spdlog::set_level(spdlog::level::off); // disable logging for benchmarking
 
         ParticleContainer copy(particles);
-        std::unique_ptr<Simulation> simulation = Simulation::createSimulation(copy, args);
+        simulation = Simulation::createSimulation(copy, args);
         
         clock_gettime(CLOCK_MONOTONIC, &starttime);
-        simulation->run();
+        simulation->run(nullptr);
         clock_gettime(CLOCK_MONOTONIC, &end);
 
         double duration = (double)(end.tv_sec - starttime.tv_sec) + ((double)(end.tv_nsec - starttime.tv_nsec) * 1e-9);

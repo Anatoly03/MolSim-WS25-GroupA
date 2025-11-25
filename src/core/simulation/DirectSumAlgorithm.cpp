@@ -3,7 +3,6 @@
 
 #include "../ParticleContainer.h"
 #include "../utils/ArrayUtils.h"
-#include "Simulation.h"
 #include "spdlog/spdlog.h"
 
 /**

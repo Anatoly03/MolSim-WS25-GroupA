@@ -140,6 +140,29 @@ class LinkedCellImplementation : public Simulation {
 
    public:
     /**
+     * @brief Iteration over every particle for writer callback.
+     * @param callback Function to be called for each particle.
+     * @example
+     * ```c++
+     * LinkedCellImplementation simulation;
+     *
+     * simulation.forEachParticle([](Particle &particle) {{
+     *     std::cout << particle.toString() << std::endl;
+     * });
+     * ```
+     */
+    void forEachParticle(const std::function<void(Particle &)> &callback) override {
+        cells.forEach(callback);
+    }
+
+    /**
+     * @brief Total amount of tracked particles.
+     */
+    int particleCount() override {
+        return cells.size();
+    }
+
+    /**
      * @brief Advance the simulation by one time step.
      * @note This performs position, force, and velocity calculations.
      * No prints are performed and this method is benchmark viable.

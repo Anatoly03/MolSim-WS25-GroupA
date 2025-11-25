@@ -8,7 +8,12 @@
  */
 void LinkedCells::forEach(const std::function<void(Particle &)> &callback) {
     for (auto &it : containers) {
+        const Vec3I &cellIndex = it.first;
         auto &particles = it.second;
+
+        if (!ascending(domainMin.x, cellIndex.x, domainMax.x)) continue;
+        if (!ascending(domainMin.y, cellIndex.y, domainMax.y)) continue;
+        if (!ascending(domainMin.z, cellIndex.z, domainMax.z)) continue;
 
         for (auto &p: particles) {
             callback(p);

@@ -23,8 +23,9 @@
 #include <sstream>
 #include <string>
 
-#include "../ParticleContainer.h"
+#include "../simulation/Simulation.h"
 #include "../Particle.h"
+#include "Writer.h"
 
 namespace outputWriter {
 
@@ -35,14 +36,9 @@ namespace outputWriter {
 class VTKWriter : public Writer {
    public:
     /**
-     * @note Default constructor without providing particle container is private.
+     * @brief Default constructor.
      */
-    VTKWriter() = delete;
-
-    /**
-     * @brief Default constructor
-     */
-    VTKWriter(ParticleContainer &p) : Writer(p) {}
+    VTKWriter() = default;
 
     // Delete copy constructor and assignment operator
     VTKWriter(const VTKWriter &) = delete;
@@ -81,13 +77,13 @@ class VTKWriter : public Writer {
         // typeArray->SetName("type");
         // typeArray->SetNumberOfComponents(1);
 
-        for (const auto &p : particles) {
+        simulation->forEachParticle([&file, this](const Particle &p) {
             points->InsertNextPoint(p.position.asArray().data());
             massArray->InsertNextValue(static_cast<float>(p.mass));
             velocityArray->InsertNextTuple(p.velocity.asArray().data());
             forceArray->InsertNextTuple(p.force.asArray().data());
             //typeArray->InsertNextValue(p.getType());
-        }
+        });
 
         // Set up the grid
 
