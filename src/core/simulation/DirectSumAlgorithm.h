@@ -40,7 +40,11 @@ class DirectSumAlgorithm : public Simulation {
     /**
      * @brief calculate the force for all particles
      */
-    void calculateForce();
+    void calculateForce() {
+        particles.forEachDistinctPair([&](Particle &p_i, Particle &p_j) {
+            calculateSingleForce(p_i, p_j);
+        });
+    }
 
    public:
     /**

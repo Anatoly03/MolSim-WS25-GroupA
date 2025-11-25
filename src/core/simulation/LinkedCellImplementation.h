@@ -79,16 +79,11 @@ class LinkedCellImplementation : public Simulation {
     void delayForce();
 
     /**
-     * @brief calculate the force for two distinct particles
-     */
-    void calculateForce(Particle& p1, Particle& p2);
-
-    /**
      * @brief calculate the force for all particles
      */
     void calculateForce() {
         cells.forEachDistinctPair([&](Particle &p_i, Particle &p_j) {
-            calculateForce(p_i, p_j);
+            calculateSingleForce(p_i, p_j);
         });
     }
 

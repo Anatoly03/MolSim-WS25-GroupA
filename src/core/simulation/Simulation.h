@@ -60,6 +60,13 @@ class Simulation {
         writer = std::move(w);
     }
 
+   protected:
+    /**
+     * @brief calculate the force for two distinct particles
+     */
+    virtual void calculateSingleForce(Particle& p1, Particle& p2);
+
+   public:
     /**
      * @brief Advance the simulation by one time step.
      * @note This performs one calculation step of the simulation.
