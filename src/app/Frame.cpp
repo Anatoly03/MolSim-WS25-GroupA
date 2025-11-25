@@ -115,7 +115,6 @@ Args ProcessArgs(int argc, char *argv[]) {
     const char *progname = argv[0];
 
     Args args = Args();
-    char* tmp = nullptr; // reserved as temporary string variable
 
     int opt;
     // parse options first
