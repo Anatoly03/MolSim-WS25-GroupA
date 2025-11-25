@@ -68,7 +68,7 @@ class Simulation {
      * });
      * ```
      */
-    virtual void forEachParticle(const std::function<void(Particle &)> &callback) {}
+    virtual void forEachParticle(const std::function<void(Particle &)> &/*callback*/) {}
     
     /**
      * @brief Total amount of tracked particles.
