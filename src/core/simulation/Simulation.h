@@ -3,6 +3,7 @@
 
 #include <functional>
 
+#include "../math/Vec3.h"
 #include "../utils/Args.h"
 #include "../utils/ArrayUtils.h"
 #include "../ParticleContainer.h"

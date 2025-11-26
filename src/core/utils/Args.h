@@ -64,6 +64,21 @@ struct Args {
     int output_interval = 10;
 
     /**
+     * @brief Cell size for linked cell implementation. Provided by input files.
+     */
+    Vec3I cell_size = Vec3I(5, 5, 5);
+
+    /**
+     * @brief Cell size for linked cell implementation. Provided by input files.
+     */
+    Vec3I domain_min = Vec3I(0);
+
+    /**
+     * @brief Cell size for linked cell implementation. Provided by input files.
+     */
+    Vec3I domain_max = Vec3I(10);
+
+    /**
      * @brief Benchmark flag. Set by CLI.
      */
     bool benchmark_enabled = false;

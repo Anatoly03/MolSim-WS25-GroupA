@@ -27,8 +27,7 @@ class LinkedCellImplementation : public Simulation {
     /**
      * @brief the +2 contribute to creating ghost cells which helps with boundery
      */
-    LinkedCellImplementation(ParticleContainer &particles, const Args &args, Vec3I cellSize) : Simulation(args), cells(cellSize) {
-
+    LinkedCellImplementation(ParticleContainer &particles, const Args &args) : Simulation(args), cells(args.cell_size) {
         // constants, to be set later
         // double size = 10;
         // double xOfDomain = 40;
@@ -43,8 +42,9 @@ class LinkedCellImplementation : public Simulation {
         // //cells.resize(nx * ny * nz);
         // //cellSize=size;
         // setMinMax();
+
         cells.absorb(particles);
-        cells.setDomainSize(Vec3I(-1), Vec3I(3)); // TODO pass domain size by arguments.
+        cells.setDomainSize(args.domain_min, args.domain_max);
         
         auto removedCells = cells.clearOutOfBoundsCells();
         if (removedCells != 0) {

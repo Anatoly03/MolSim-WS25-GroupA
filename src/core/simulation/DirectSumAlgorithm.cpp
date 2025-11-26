@@ -1,6 +1,7 @@
 
 #include "DirectSumAlgorithm.h"
 
+#include "../math/Vec3.h"
 #include "../ParticleContainer.h"
 #include "../utils/ArrayUtils.h"
 #include "spdlog/spdlog.h"

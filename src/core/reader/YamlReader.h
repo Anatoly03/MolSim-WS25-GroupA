@@ -138,6 +138,24 @@ class YamlReader : public FileReader {
             args.output_interval = interval;
         }
 
+        // parse args/ simulation constants: cell size
+        if (config["config"]["cell_size"]) {
+            Vec3I value = config["config"]["cell_size"].as<Vec3I>();
+            args.cell_size = value;
+        }
+
+        // parse args/ simulation constants: domain min
+        if (config["config"]["domain_min"]) {
+            Vec3I value = config["config"]["domain_min"].as<Vec3I>();
+            args.domain_min = value;
+        }
+
+        // parse args/ simulation constants: domain max
+        if (config["config"]["domain_max"]) {
+            Vec3I value = config["config"]["domain_max"].as<Vec3I>();
+            args.domain_max = value;
+        }
+
         // parse particles
         if (!config["particles"]) {
             spdlog::error("yaml file {} has no 'particles' entry", args.input_file);

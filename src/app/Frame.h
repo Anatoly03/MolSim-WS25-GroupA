@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "../core/math/Vec3.h"
 #include "../core/utils/Args.h"
 
 #include <getopt.h>

@@ -1,4 +1,5 @@
 
+#include "../math/Vec3.h"
 #include "../utils/Args.h"
 #include "../LinkedCells.h"
 #include "../ParticleContainer.h"
