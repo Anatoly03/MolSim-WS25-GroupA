@@ -86,6 +86,7 @@ class VTKWriter : public Writer {
         });
 
         // Set up the grid
+        //std::cout << "particle number: " << points->GetNumberOfPoints() << std::endl;
 
         auto grid = vtkSmartPointer<vtkUnstructuredGrid>::New();
         grid->SetPoints(points);
