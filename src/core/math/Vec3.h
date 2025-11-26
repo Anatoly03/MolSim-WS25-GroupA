@@ -232,17 +232,21 @@ typedef Vec3<int> Vec3I;
 namespace fmt {
 template <typename T>
 struct formatter<Vec3<T>> {
-    // Parse is a no-op (we don't support format specs for Vec3)
+    /**
+     * @brief Do nothing in parse.
+     */
     template <typename ParseContext>
     constexpr auto parse(ParseContext &ctx) -> decltype(ctx.begin()) {
-        return ctx.begin();
+        return ctx.begin(); // no op
     }
 
-    // Format the Vec3 as "(x, y, z)". Take the vector by const reference
-    // to avoid creating temporaries and dangling references during formatting.
+    /**
+     * @brief Format the Vec3 as "(x, y, z)".
+     * @note Take the vector by const reference to avoid creating temporary value
+     */
     template <typename FormatContext>
     auto format(const Vec3<T> &v, FormatContext &ctx) -> decltype(ctx.out()) {
-        return format_to(ctx.out(), "({}, {}, {})", v.x, v.y, v.z);
+        return format_to(ctx.out(), "({},{},{})", v.x, v.y, v.z);
     }
 };
 } // namespace fmt
