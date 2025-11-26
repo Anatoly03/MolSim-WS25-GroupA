@@ -49,7 +49,7 @@ Particle::Particle(const Particle &other) {
  * new particle from atomic attributes.
  */
 Particle::Particle(Vec3D pos_arg, Vec3D vel_arg, double mass_arg) {
-    //int type_id = ++global_id;
+    int p_id = ++global_id;
 
     position = pos_arg;
     velocity = vel_arg;
