@@ -195,8 +195,8 @@ void LinkedCells::reindex() {
         for (size_t i = 0; i < particles.size(); i++) {
             Particle &p = particles[i];
 
-            auto currentCellIndex = it.first;
-            auto newCellIndex = getIndex(p);
+            const auto currentCellIndex = it.first;
+            const auto newCellIndex = getIndex(p);
 
             if (newCellIndex != currentCellIndex) {
                 // remove from current container
