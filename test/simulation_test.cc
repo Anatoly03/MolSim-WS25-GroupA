@@ -71,7 +71,7 @@ TEST(DirectSumAttractionTest, BasicAssertions) {
     EXPECT_EQ(simulation.particleCount(), 2);
 
     // if tick is set to too large particles might start repelling each other.
-    for (int tick = 0; tick < 20; tick++) {
+    for (int tick = 0; tick < 40; tick++) {
         simulation.tick();
         int pairs = 0;
 
