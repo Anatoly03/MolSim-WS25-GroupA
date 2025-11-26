@@ -47,6 +47,20 @@ double Simulation::calculateLennardJonesPotential(Particle& p_i, Particle& p_j, 
 }
 
 /**
+ * @brief update the position for a single particles
+ */
+void Simulation::calculateSinglePosition(Particle &particle, double dt) {
+    particle.position += dt * particle.velocity + std::pow(dt, 2) * particle.force / (2 * particle.mass);
+}
+
+/**
+ * @brief update the velocity for a single particles
+ */
+void Simulation::calculateSingleVelocity(Particle &particle, double dt) {
+    particle.velocity += dt * ((particle.force + particle.old_force) / (2 * particle.mass));
+}
+
+/**
  * @brief Calculates force acting on two particles.
  */
 void Simulation::calculateSingleForce(Particle& p_i, Particle& p_j) {

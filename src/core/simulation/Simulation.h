@@ -50,16 +50,62 @@ class Simulation {
         callback(iteration, *this);
     }
 
-   protected:
+   public:
     /**
      * @brief calculate the force for two distinct particles
      */
     virtual double calculateLennardJonesPotential(Particle& p1, Particle& p2, double epsilon, double sigma);
 
     /**
+     * @brief Updates the position for a single particles.
+     */
+    virtual void calculateSinglePosition(Particle &particle, double dt);
+
+    /**
+     * @brief Updates the velocity for a single particles.
+     */
+    virtual void calculateSingleVelocity(Particle &particle, double dt);
+
+    /**
+     * @brief Updates the position for a all particles.
+     */
+    virtual void calculatePosition() {
+        forEachParticle([this](Particle &particle) {
+            calculateSinglePosition(particle, arguments.delta_t);
+        });
+    }
+
+    /**
+     * @brief Updates the velocity for a all particles.
+     */
+    virtual void calculateVelocity() {
+        forEachParticle([this](Particle &particle) {
+            calculateSingleVelocity(particle, arguments.delta_t);
+        });
+    }
+
+    /**
      * @brief calculate the force for two distinct particles
      */
     virtual void calculateSingleForce(Particle& p1, Particle& p2);
+
+    /**
+     * @brief calculate the force for all particles
+     */
+    virtual void calculateForce() {
+        forEachDistinctParticlePair([&](Particle &p_i, Particle &p_j) {
+            calculateSingleForce(p_i, p_j);
+        });
+    }
+
+    /**
+     * @brief Delays the force for all particles.
+     */
+    virtual void delayForce() {
+        forEachParticle([this](Particle &particle) {
+            particle.delayForce();
+        });
+    }
 
    public:
     /**
@@ -69,12 +115,26 @@ class Simulation {
      * ```c++
      * Simulation simulation;
      *
-     * container.forEach([](Particle &particle) {
+     * container.forEachParticle([](Particle &particle) {
      *     std::cout << particle.toString() << std::endl;
      * });
      * ```
      */
     virtual void forEachParticle(const std::function<void(Particle &)> &/*callback*/) {}
+    
+    /**
+     * @brief Iteration over every particle for writer callback.
+     * @param callback Function to be called for each particle.
+     * @example
+     * ```c++
+     * Simulation simulation;
+     *
+     * container.forEachParticlePair([](Particle &particle, Particle &other) {
+     *     std::cout << particle.toString() << " interacts with " << other.toString() << std::endl;
+     * });
+     * ```
+     */
+    virtual void forEachDistinctParticlePair(const std::function<void(Particle &, Particle &)> &/*callback*/) {}
     
     /**
      * @brief Total amount of tracked particles.

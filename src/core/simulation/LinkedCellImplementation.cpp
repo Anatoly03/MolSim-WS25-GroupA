@@ -8,40 +8,8 @@
 #include <spdlog/spdlog.h>
 
 /**
- * @brief force calculation logic for two particles
+ * @brief Reindex particles that switched cells.
  */
-
-/**
- * @brief calculate the position for all particles
- */
-void LinkedCellImplementation::calculatePosition() {
-    const double dt = arguments.delta_t;
-
-    cells.forEach([dt](Particle &particle) {
-        Vec3D x = particle.position + dt * particle.velocity + std::pow(dt, 2) * particle.force / (2 * particle.mass);
-        particle.position = x;
-    });
-}
-
-/**
- * @brief calculate the velocity for all particles
- */
-void LinkedCellImplementation::calculateVelocity() {
-    const double dt = arguments.delta_t;
-
-    cells.forEach([dt](Particle &particle) {
-        Vec3D v = particle.velocity + dt * ((particle.force + particle.old_force) / (2 * particle.mass));
-        particle.velocity = v;
-    });
-}
-
-/**
- * @brief delay the force for all particles
- */
-void LinkedCellImplementation::delayForce() {
-    cells.forEach([](Particle &particle) { particle.delayForce(); });
-}
-
 void LinkedCellImplementation::reindexParticles() {
     cells.reindex();
 };

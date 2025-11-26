@@ -22,31 +22,6 @@ class DirectSumAlgorithm : public Simulation {
      */
     DirectSumAlgorithm(ParticleContainer &p, const Args &args) : Simulation(args), particles(p) {}
 
-   private:
-    /**
-     * @brief calculate the position for all particles
-     */
-    void calculatePosition();
-
-    /**
-     * @brief calculate the velocity for all particles
-     */
-    void calculateVelocity();
-
-    /**
-     * @brief delay the force for all particles
-     */
-    void delayForce();
-
-    /**
-     * @brief calculate the force for all particles
-     */
-    void calculateForce() {
-        particles.forEachDistinctPair([&](Particle &p_i, Particle &p_j) {
-            calculateSingleForce(p_i, p_j);
-        });
-    }
-
    public:
     /**
      * @brief Iteration over every particle for writer callback.
@@ -65,6 +40,22 @@ class DirectSumAlgorithm : public Simulation {
     }
 
     /**
+     * @brief Iteration over every distinct particle pair for writer callback.
+     * @param callback Function to be called for each particle pair.
+     * @example
+     * ```c++
+     * DirectSumAlgorithm simulation;
+     *
+     * simulation.forEachDistinctParticlePair([](Particle &particle, Particle &other) {
+     *     std::cout << particle.toString() << " interacts with " << other.toString() << std::endl;
+     * });
+     * ```
+     */
+    void forEachDistinctParticlePair(const std::function<void(Particle &, Particle &)> &callback) override {
+        particles.forEachDistinctPair(callback);
+    }
+
+    /**
      * @brief Total amount of tracked particles.
      */
     int particleCount() override {
@@ -77,9 +68,9 @@ class DirectSumAlgorithm : public Simulation {
      * No prints are performed and this method is benchmark viable.
      */
     void tick() override {
-        calculatePosition();
-        delayForce();
+        calculatePosition(); // implemented in super class
+        delayForce(); // implemented in super class
         calculateForce();
-        calculateVelocity();
+        calculateVelocity(); // implemented in super class
     }
 };

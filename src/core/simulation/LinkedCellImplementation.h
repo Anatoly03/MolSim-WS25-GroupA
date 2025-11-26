@@ -69,29 +69,6 @@ class LinkedCellImplementation : public Simulation {
     // * @brief return all inner particles .
     // */
     // std::vector<Particle*> innerParticles();
-/**
-     * @brief calculate the position for all particles
-     */
-    void calculatePosition();
-
-    /**
-     * @brief calculate the velocity for all particles
-     */
-    void calculateVelocity();
-
-    /**
-     * @brief delay the force for all particles
-     */
-    void delayForce();
-
-    /**
-     * @brief calculate the force for all particles
-     */
-    void calculateForce() {
-        cells.forEachDistinctPair([&](Particle &p_i, Particle &p_j) {
-            calculateSingleForce(p_i, p_j);
-        });
-    }
 
     /**
      * @brief reindex particles into new chunks
@@ -157,6 +134,22 @@ class LinkedCellImplementation : public Simulation {
     }
 
     /**
+     * @brief Iteration over every distinct particle pair for writer callback.
+     * @param callback Function to be called for each particle pair.
+     * @example
+     * ```c++
+     * LinkedCellImplementation simulation;
+     *
+     * simulation.forEachDistinctParticlePair([](Particle &particle, Particle &other) {
+     *     std::cout << particle.toString() << " interacts with " << other.toString() << std::endl;
+     * });
+     * ```
+     */
+    void forEachDistinctParticlePair(const std::function<void(Particle &, Particle &)> &callback) override {
+        cells.forEachDistinctPair(callback);
+    }
+
+    /**
      * @brief Total amount of tracked particles.
      */
     int particleCount() override {
@@ -169,11 +162,11 @@ class LinkedCellImplementation : public Simulation {
      * No prints are performed and this method is benchmark viable.
      */
     void tick() override {
-        calculatePosition();
+        calculatePosition(); // implemented in super class
         reindexParticles();
-        delayForce();
+        delayForce(); // implemented in super class
         calculateForce();
         calculateBorderBehaviour();
-        calculateVelocity();
+        calculateVelocity(); // implemented in super class
     }
 };
