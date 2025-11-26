@@ -326,10 +326,14 @@ particles:
 
 \headerframe\begin{frame}{That's it – for now, at least}{Shaw! We thank you for your attention!}
     \begin{center}
-        \begin{figure}
-        \centering
-        \includegraphics[width=0.35\textwidth]{media/shaw.png}
-    \end{figure}
+        \begin{tikzpicture}
+            \node[inner sep=0] at (0.5\paperwidth) {
+                \includegraphics[height=0.7\paperheight]{media/shaw.png}
+            };
+            % \node[inner sep=0] at (0.5\paperwidth) {
+            %     \includegraphics[width=\textwidth]{media/github-ci-commits.png}
+            % };
+        \end{tikzpicture}
     \end{center}
 \end{frame}
 
