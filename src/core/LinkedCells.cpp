@@ -35,9 +35,18 @@ void LinkedCells::forEach(const std::function<void(Particle &)> &callback) {
         const Vec3I &cellIndex = it.first;
         auto &particles = it.second;
 
-        if (!ascending(domainMin.x, cellIndex.x, domainMax.x)) continue;
-        if (!ascending(domainMin.y, cellIndex.y, domainMax.y)) continue;
-        if (!ascending(domainMin.z, cellIndex.z, domainMax.z)) continue;
+        if (!ascending(domainMin.x, cellIndex.x, domainMax.x)
+            || !ascending(domainMin.y, cellIndex.y, domainMax.y)
+            || !ascending(domainMin.z, cellIndex.z, domainMax.z)) {
+                std::string tmp;
+
+                for (auto &p: particles) {
+                    if (tmp.length() > 0) tmp += ", ";
+                    tmp += p.toString();
+                }
+
+                spdlog::warn("cell {} out of domain bounds, affecting {} particles: {}", it.first, particles.size(), tmp);
+            }
 
         for (auto &p: particles) {
             callback(p);
@@ -202,7 +211,7 @@ void LinkedCells::reindex() {
                 || !ascending(domainMin.y, newCellIndex.y, domainMax.y)
                 || !ascending(domainMin.z, newCellIndex.z, domainMax.z)) {
                 // the line below breaks github CI
-                spdlog::warn("Particle {} left cell domain {} -> {}", p.p_id, currentCellIndex, newCellIndex);
+                spdlog::warn("Particle {} at {} left cell domain {} -> {}", p.p_id, p.position, currentCellIndex, newCellIndex);
                 // spdlog::debug("Cell size {}, Current cell {}, New cell {}", cellSize, currentCellIndex, newCellIndex);
                 continue;
             }

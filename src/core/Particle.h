@@ -42,6 +42,7 @@ class Particle {
     /**
      * @brief Unique particle ID
      */
+    // NOLINTNEXTLINE unused-variable
     int p_id = 0;
 
    public:
