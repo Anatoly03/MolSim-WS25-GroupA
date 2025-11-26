@@ -85,7 +85,7 @@ int main(int argc, char *argsv[]) {
 
     double avg_duration = total_duration / bits;
     spdlog::set_level(args.log_level); // end all benchmarking: report
-    spdlog::debug("benchmark: finish {} iterations, over {} particles", bits, particles.size());
+    spdlog::debug("benchmark: finish {} iterations, over {} particles", bits, particles.particleCount());
     spdlog::info("average: {:.4f}s", avg_duration);
     spdlog::info("total:   {:.4f}s", total_duration);
     spdlog::set_level(spdlog::level::off); // disable further logging (destructor invocation)

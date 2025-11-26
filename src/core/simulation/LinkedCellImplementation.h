@@ -153,7 +153,7 @@ class LinkedCellImplementation : public Simulation {
      * @brief Total amount of tracked particles.
      */
     int particleCount() override {
-        return cells.size();
+        return cells.particleCount();
     }
 
     /**

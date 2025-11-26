@@ -195,8 +195,8 @@ void LinkedCells::reindex() {
         for (size_t i = 0; i < particles.size(); i++) {
             Particle &p = particles[i];
 
-            auto currentCellIndex = it.first;
-            auto newCellIndex = getIndex(p);
+            const auto currentCellIndex = it.first;
+            const auto newCellIndex = getIndex(p);
 
             if (newCellIndex != currentCellIndex) {
                 // remove from current container
@@ -206,7 +206,8 @@ void LinkedCells::reindex() {
                 if (!ascending(domainMin.x, newCellIndex.x, domainMax.x)
                  || !ascending(domainMin.y, newCellIndex.y, domainMax.y)
                  || !ascending(domainMin.z, newCellIndex.z, domainMax.z)) {
-                    spdlog::trace("Particle left cell domain {} -> {}", currentCellIndex, newCellIndex);
+                    // the line below breaks github CI
+                    // spdlog::trace("Particle left cell domain {} -> {}", currentCellIndex, newCellIndex);
                     // spdlog::debug("Cell size {}, Current cell {}, New cell {}", cellSize, currentCellIndex, newCellIndex);
                     continue;
                 }

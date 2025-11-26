@@ -162,7 +162,7 @@ TEST(LinkedCellIndexReindexTest, BasicAssertions) {
         borderParticles.push_back(p);
     });
 
-    EXPECT_EQ(cells.size(), 2); // p2 and p1expect
+    EXPECT_EQ(cells.particleCount(), 2); // p2 and p1expect
 
     bool found_p1 = false;
     bool found_p2 = false;

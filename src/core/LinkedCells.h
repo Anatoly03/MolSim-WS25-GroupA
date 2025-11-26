@@ -55,7 +55,7 @@ class LinkedCells {
      */
     LinkedCells(Vec3I cellSize) : cellSize(cellSize) {
         if (cellSize.x == 0 || cellSize.y == 0 || cellSize.z == 0) {
-            spdlog::critical("cell size for linked cells was set to zero-volume: {}", cellSize);
+            spdlog::error("cell size for linked cells was set to zero-volume: ({},{},{})", cellSize.x, cellSize.y, cellSize.z);
         }
     }
 
@@ -116,7 +116,7 @@ class LinkedCells {
     /**
      * @brief Get the number of total particles in all cells combined.
      */
-    virtual size_type size() const {
+    virtual int particleCount() const {
         int total_size = 0;
 
         for (const auto &it : containers) {
