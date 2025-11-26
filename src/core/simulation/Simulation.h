@@ -54,6 +54,11 @@ class Simulation {
     /**
      * @brief calculate the force for two distinct particles
      */
+    virtual double calculateLennardJonesPotential(Particle& p1, Particle& p2, double epsilon, double sigma);
+
+    /**
+     * @brief calculate the force for two distinct particles
+     */
     virtual void calculateSingleForce(Particle& p1, Particle& p2);
 
    public:

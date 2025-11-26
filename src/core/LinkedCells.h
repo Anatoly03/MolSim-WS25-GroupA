@@ -10,6 +10,8 @@
 #include "Particle.h"
 #include "ParticleContainer.h"
 #include "math/Vec3.h"
+#include <cmath>
+#include <limits>
 
 /**
  * @class LinkedCells
@@ -51,7 +53,11 @@ class LinkedCells {
     /**
      * @brief Constructor for LinkedCells specifying cell size.
      */
-    LinkedCells(Vec3I cellSize) : cellSize(cellSize) {}
+    LinkedCells(Vec3I cellSize) : cellSize(cellSize) {
+        if (cellSize.x == 0 || cellSize.y == 0 || cellSize.z == 0) {
+            spdlog::critical("cell size for linked cells was set to zero-volume: {}", cellSize);
+        }
+    }
 
     /**
      * @brief Copy constructor for LinkedCells.
@@ -135,14 +141,8 @@ class LinkedCells {
      * @returns Index of the cell.
      */
     virtual Vec3I add(Particle &particle) {
-        auto cellIndex = Vec3I(
-            (int) std::floor(particle.position.x / (double) cellSize.x),
-            (int) std::floor(particle.position.y / (double) cellSize.y),
-            (int) std::floor(particle.position.z / (double) cellSize.z)
-        );
-
+        auto cellIndex = getIndex(particle);
         containers[cellIndex].emplace_back(particle);
-
         return cellIndex;
     }
 
@@ -208,4 +208,19 @@ class LinkedCells {
      * @brief Iterates over all particles and updates their parent chunk.
      */
     virtual void reindex();
+
+    /**
+     * @brief Divides particle position by cell size to get the cell index.
+     */
+    Vec3I getIndex(Particle &p){
+        Vec3I cellIndex;
+
+        cellIndex.x = static_cast<int>(std::floor(p.position.x / static_cast<double>(cellSize.x)));
+        cellIndex.y = static_cast<int>(std::floor(p.position.y / static_cast<double>(cellSize.y)));
+        cellIndex.z = static_cast<int>(std::floor(p.position.z / static_cast<double>(cellSize.z)));
+        
+        // spdlog::trace("{} | {} ----> {}", p.position, cellSize, cellIndex);
+
+        return cellIndex;
+    }
 };
