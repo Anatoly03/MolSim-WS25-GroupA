@@ -46,7 +46,10 @@ void LinkedCells::forEach(const std::function<void(Particle &)> &callback) {
                     tmp += p.toString();
                 }
 
-                spdlog::warn("cell {} out of domain bounds, affecting {} particles: {}", it.first, particles.size(), tmp);
+                {
+                    auto idx_str = fmt::format("({},{},{})", it.first.x, it.first.y, it.first.z);
+                    spdlog::warn("cell {} out of domain bounds, affecting {} particles: {}", idx_str, particles.size(), tmp);
+                }
             }
 
         for (auto &p: particles) {
@@ -212,7 +215,7 @@ void LinkedCells::reindex() {
                 || !ascending(domainMin.y, newCellIndex.y, domainMax.y)
                 || !ascending(domainMin.z, newCellIndex.z, domainMax.z)) {
                 // the line below breaks github CI
-                spdlog::warn("Particle {} at {} left cell domain {} -> {}", p.p_id, p.position, currentCellIndex, newCellIndex);
+                // spdlog::warn("Particle {} at {} left cell domain {} -> {}", p.p_id, p.position, currentCellIndex, newCellIndex);
                 // spdlog::debug("Cell size {}, Current cell {}, New cell {}", cellSize, currentCellIndex, newCellIndex);
                 continue;
             }
