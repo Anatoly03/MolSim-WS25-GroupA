@@ -16,7 +16,7 @@
  * so that Brownian motion is applied only at initialization.
  */
 void addCuboid(ParticleContainer &particles, const Cuboid &cuboid, double brownian_sigma) {
-    particles.reserve(particles.size() + cuboid.n1 * cuboid.n2 * cuboid.n3);
+    particles.reserve(particles.particleCount() + cuboid.n1 * cuboid.n2 * cuboid.n3);
 
     for (int i = 0; i < cuboid.n1; ++i) {
         for (int j = 0; j < cuboid.n2; ++j) {
@@ -40,7 +40,7 @@ void addCuboid(ParticleContainer &particles, const Cuboid &cuboid, double browni
  * @brief Analog to 3D version, by eliminating z-axis to keep it in 2D form.
  */
 void addCuboid2D(ParticleContainer &particles, const Cuboid &cuboid, double brownian_sigma) {
-    particles.reserve(particles.size() + cuboid.n1 * cuboid.n2 * cuboid.n3);
+    particles.reserve(particles.particleCount() + cuboid.n1 * cuboid.n2 * cuboid.n3);
 
     for (int i = 0; i < cuboid.n1; ++i) {
         for (int j = 0; j < cuboid.n2; ++j) {

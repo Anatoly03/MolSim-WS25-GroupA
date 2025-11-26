@@ -84,7 +84,7 @@ class ParticleContainer {
     /**
      * @brief Get the number of particles in the container.
      */
-    virtual size_type size() const { return particles.size(); }
+    virtual int particleCount() const { return particles.size(); }
 
     /**
      * @brief Add a new Particle to the container.

@@ -59,7 +59,7 @@ class DirectSumAlgorithm : public Simulation {
      * @brief Total amount of tracked particles.
      */
     int particleCount() override {
-        return particles.size();
+        return particles.particleCount();
     }
 
     /**

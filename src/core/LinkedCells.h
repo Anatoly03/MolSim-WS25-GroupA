@@ -116,7 +116,7 @@ class LinkedCells {
     /**
      * @brief Get the number of total particles in all cells combined.
      */
-    virtual size_type size() const {
+    virtual int particleCount() const {
         int total_size = 0;
 
         for (const auto &it : containers) {
