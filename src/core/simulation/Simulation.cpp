@@ -42,7 +42,13 @@ double Simulation::calculateLennardJonesPotential(Particle& p_i, Particle& p_j, 
     const auto factor = sigma / p_delta;
     const double sig6 = std::pow(factor, 6);
     const double sig12 = std::pow(factor, 12);
+    double x = 4 * epsilon * (sig12 - sig6);
 
+    if (x > std::numeric_limits<double>::max()) {
+        return std::numeric_limits<double>::max();
+    }else if ( x < std::numeric_limits<double>::min()) {
+       return std::numeric_limits<double>::min();
+    }
     return 4 * epsilon * (sig12 - sig6);
 }
 
@@ -51,13 +57,61 @@ double Simulation::calculateLennardJonesPotential(Particle& p_i, Particle& p_j, 
  */
 void Simulation::calculateSinglePosition(Particle &particle, double dt) {
     particle.position += dt * particle.velocity + std::pow(dt, 2) * particle.force / (2 * particle.mass);
+    /*Vec3D x = dt * particle.velocity + std::pow(dt, 2) * particle.force / (2 * particle.mass);
+    if ( particle.position.x + x.x > std::numeric_limits<double>::max()) {
+        particle.position.x = std::numeric_limits<double>::max();
+    }else{
+        particle.position.x = particle.velocity.x + x.x;
+
+    }
+    if ( particle.position.y + x.y > std::numeric_limits<double>::max()) {
+        particle.position.y = std::numeric_limits<double>::max();
+    }else{
+        particle.position.y = particle.velocity.y + x.y;
+
+    }
+    if ( particle.position.z + x.z > std::numeric_limits<double>::max()) {
+        particle.position.z = std::numeric_limits<double>::max();
+    }else{
+        particle.position.z = particle.velocity.z + x.z;
+
+    }*/
 }
 
 /**
  * @brief update the velocity for a single particles
  */
 void Simulation::calculateSingleVelocity(Particle &particle, double dt) {
-    particle.velocity += dt * ((particle.force + particle.old_force) / (2 * particle.mass));
+    //particle.velocity += dt * ((particle.force + particle.old_force) / (2 * particle.mass));
+    Vec3D x = dt * ((particle.force + particle.old_force) / (2 * particle.mass));
+    if ( particle.velocity.x + x.x > std::numeric_limits<double>::max()) {
+        particle.velocity.x = std::numeric_limits<double>::max();
+    }else if ( particle.velocity.x + x.x < std::numeric_limits<double>::min()) {
+        particle.velocity.x = std::numeric_limits<double>::min();
+    }else{
+        particle.velocity.x = particle.velocity.x + x.x;
+
+    }
+    if ( particle.velocity.y +x.y > std::numeric_limits<double>::max()) {
+
+        particle.velocity.y = std::numeric_limits<double>::max();
+
+    }else if ( particle.velocity.y + x.y < std::numeric_limits<double>::min()) {
+
+        particle.velocity.y = std::numeric_limits<double>::min();
+    }else{
+        particle.velocity.y = particle.velocity.y + x.y;
+
+    }
+    if ( particle.velocity.z + x.z > std::numeric_limits<double>::max()) {
+        particle.velocity.z = std::numeric_limits<double>::max();
+    }else if ( particle.velocity.z + x.z < std::numeric_limits<double>::min()) {
+        particle.velocity.z = std::numeric_limits<double>::min();
+    }else{
+        particle.velocity.z = particle.velocity.z + x.z;
+
+    }
+
 }
 
 /**
