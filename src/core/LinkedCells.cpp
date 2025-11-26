@@ -2,6 +2,7 @@
 #include "math/Util.h"
 #include "math/Vec3Iter.h"
 #include "spdlog/spdlog.h"
+#include <fmt/format.h>
 
 /**
  * iterate over all cells and removes out of range
@@ -211,7 +212,7 @@ void LinkedCells::reindex() {
                 || !ascending(domainMin.y, newCellIndex.y, domainMax.y)
                 || !ascending(domainMin.z, newCellIndex.z, domainMax.z)) {
                 // the line below breaks github CI
-                // spdlog::warn("Particle {} at {} left cell domain {} -> {}", p.p_id, p.position, currentCellIndex, newCellIndex);
+                spdlog::warn("Particle {} at {} left cell domain {} -> {}", p.p_id, p.position, currentCellIndex, newCellIndex);
                 // spdlog::debug("Cell size {}, Current cell {}, New cell {}", cellSize, currentCellIndex, newCellIndex);
                 continue;
             }
