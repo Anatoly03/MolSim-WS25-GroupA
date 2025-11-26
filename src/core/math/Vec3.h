@@ -227,7 +227,7 @@ typedef Vec3<double> Vec3D;
 typedef Vec3<int> Vec3I;
 
 /**
- * @brief fmt formatter specialization for Vec3D (for spdlog support)
+ * @brief fmt formatter specialization for Vec3<T> (for spdlog support)
  */
 namespace fmt {
 template <typename T>
