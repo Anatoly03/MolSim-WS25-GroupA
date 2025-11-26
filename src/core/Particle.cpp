@@ -13,11 +13,16 @@
 #include "spdlog/spdlog.h"
 #include "utils/ArrayUtils.h"
 
+// black magic, this is stored in the const segment of the program but we modify it anyway
+int global_id = 1;
+
 /**
  * The default constructor for Particle logs the creation
  * of an initially forceless particle.
  */
 Particle::Particle() {
+    p_id = ++global_id;
+
     spdlog::trace("Particle generated (empty)!");
     force = {0., 0., 0.};
     old_force = {0., 0., 0.};
@@ -28,6 +33,8 @@ Particle::Particle() {
  * copy constructor of Vec3 for all attributes.
  */
 Particle::Particle(const Particle &other) {
+    p_id = other.p_id;
+
     position = other.position;
     velocity = other.velocity;
     force = other.force;
@@ -42,6 +49,8 @@ Particle::Particle(const Particle &other) {
  * new particle from atomic attributes.
  */
 Particle::Particle(Vec3D pos_arg, Vec3D vel_arg, double mass_arg) {
+    int type_id = ++global_id;
+
     position = pos_arg;
     velocity = vel_arg;
     mass = mass_arg;

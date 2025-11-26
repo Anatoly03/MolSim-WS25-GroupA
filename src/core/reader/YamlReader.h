@@ -40,11 +40,11 @@ class YamlReader : public FileReader {
         Vec3D position = node["position"].as<Vec3<double>>();
         Vec3D velocity = node["velocity"].as<Vec3<double>>();
         double mass = node["mass"].as<double>();
-        double sigma = node["sigma"].as<double>();
         double brownian_sigma = node["brownian_sigma"].as<double>();
         
         double h;
         if (node["sigma"]) {
+            double sigma = node["sigma"].as<double>();
             h = std::pow(2.0, 1.0 / 6.0) * sigma;
         } else {
             h = node["h"].as<double>();

@@ -39,6 +39,11 @@ class Particle {
      */
     double mass = 0.0;
 
+    /**
+     * @brief Unique particle ID
+     */
+    int p_id = 0;
+
    public:
     /**
      * @brief Default constructor for Particle.
