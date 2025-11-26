@@ -75,6 +75,10 @@ int main(int argc, char *argsv[]) {
 
         spdlog::set_level(args.log_level); // end benchmark iteration: report
         spdlog::trace("benchmark: iteration {}: in {:.4f}s", i, duration);
+        if (i == bits - 1) { // verify benchmark result is relevant during last measurement
+            if (simulation->particleCount() != copy.size()) // how many particles are lost? this is important for measurement
+                spdlog::warn("particle count changed during simulation: was {}, at end is {}", copy.size(), simulation->particleCount());
+        }
         spdlog::set_level(spdlog::level::off); // disable logging for benchmarking (destructor invocation)
     }
 

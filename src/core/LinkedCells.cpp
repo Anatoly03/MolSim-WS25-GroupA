@@ -195,13 +195,8 @@ void LinkedCells::reindex() {
         for (size_t i = 0; i < particles.size(); i++) {
             Particle &p = particles[i];
 
-            auto newCellIndex = Vec3I(
-                (int) std::floor(p.position.x / (double) cellSize.x),
-                (int) std::floor(p.position.y / (double) cellSize.y),
-                (int) std::floor(p.position.z / (double) cellSize.z)
-            );
-
             auto currentCellIndex = it.first;
+            auto newCellIndex = getIndex(p);
 
             if (newCellIndex != currentCellIndex) {
                 // remove from current container
@@ -211,7 +206,8 @@ void LinkedCells::reindex() {
                 if (!ascending(domainMin.x, newCellIndex.x, domainMax.x)
                  || !ascending(domainMin.y, newCellIndex.y, domainMax.y)
                  || !ascending(domainMin.z, newCellIndex.z, domainMax.z)) {
-                    spdlog::trace("Particle left boundary and has been removed!");
+                    spdlog::trace("Particle left cell domain {} -> {}", currentCellIndex, newCellIndex);
+                    // spdlog::debug("Cell size {}, Current cell {}, New cell {}", cellSize, currentCellIndex, newCellIndex);
                     continue;
                 }
 

@@ -51,6 +51,9 @@ void LinkedCellImplementation::reindexParticles() {
  * particle-border collision or particle extinction
  */
 void LinkedCellImplementation::calculateBorderBehaviour() {
+    // brief: simple repulsion from border using ghost particles
+    const int REPULSION = 5;
+
     cells.forEachBordered([&](Particle &p, Vec3I ghostCellIndex) {
         Particle ghost(p);
 
@@ -75,6 +78,8 @@ void LinkedCellImplementation::calculateBorderBehaviour() {
             p.position.y - (ghostCellIndex.y * cells.cellSize.y),
             p.position.z - (ghostCellIndex.z * cells.cellSize.z)
         );
+
+        ghost.mass *= -REPULSION; // strong repulsion
 
         // mirror relative position in cell against ghost cell border
         ghost.position = p.position;
@@ -328,17 +333,4 @@ void LinkedCellImplementation::calculateBorderBehaviour() {
 //     domainMax.x = maxX + cellSize.x;
 //     domainMax.y = maxY + cellSize.y;
 //     domainMax.z = maxZ + cellSize.z;
-// }
-
-// /**
-//  * @brief divides particle position by 
-//  */
-// Vec3<int> LinkedCellImplementation::getIndex(Particle &p){
-//     Vec3<int> cellIndex;
-    
-//     cellIndex.x = (int) std::floor(p.position.x / (double) cellSize.x);
-//     cellIndex.y = (int) std::floor(p.position.y / (double) cellSize.y);
-//     cellIndex.z = (int) std::floor(p.position.z / (double) cellSize.z);
-
-//     return cellIndex;
 // }

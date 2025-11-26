@@ -139,11 +139,6 @@ class LinkedCellImplementation : public Simulation {
     //  */
     // void setMinMax();
 
-    // /**
-    //  *  @brief returns the index of a particle
-    //  */
-    // Vec3<int> getIndex(Particle &p);
-
    public:
     /**
      * @brief Iteration over every particle for writer callback.
