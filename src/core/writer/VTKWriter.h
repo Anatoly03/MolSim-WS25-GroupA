@@ -56,7 +56,7 @@ class VTKWriter : public Writer {
     /**
      * @brief Plot particles to file, returns stream.
      */
-    virtual void plot(const std::string &filename, int iteration) const override {
+    virtual void plot(const std::string &filename, int iteration,  Simulation &simulation) const override {
         // Initialize points
         auto points = vtkSmartPointer<vtkPoints>::New();
 
@@ -77,7 +77,7 @@ class VTKWriter : public Writer {
         // typeArray->SetName("type");
         // typeArray->SetNumberOfComponents(1);
 
-        simulation->forEachParticle([&file, this](const Particle &p) {
+        simulation.forEachParticle([&points,&massArray,&velocityArray,&forceArray,this](const Particle &p) {
             points->InsertNextPoint(p.position.asArray().data());
             massArray->InsertNextValue(static_cast<float>(p.mass));
             velocityArray->InsertNextTuple(p.velocity.asArray().data());

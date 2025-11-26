@@ -46,8 +46,8 @@ int main(int argc, char *argsv[]) {
 #endif
 
         // everything ready - run the simulation
-        simulation->run([&simulation, &writer, &args](int iteration, Simulation& sim){
-            writer->plot(args.output_path, iteration, *simulation);
+        simulation->run([ &writer, &args](int iteration, Simulation& sim){
+            writer->plot(args.output_path, iteration, sim);
         });
 
         return 0;
