@@ -82,36 +82,35 @@ void Simulation::calculateSinglePosition(Particle &particle, double dt) {
  * @brief update the velocity for a single particles
  */
 void Simulation::calculateSingleVelocity(Particle &particle, double dt) {
-    //particle.velocity += dt * ((particle.force + particle.old_force) / (2 * particle.mass));
-    Vec3D x = dt * ((particle.force + particle.old_force) / (2 * particle.mass));
-    if ( particle.velocity.x + x.x > std::numeric_limits<double>::max()) {
-        particle.velocity.x = std::numeric_limits<double>::max();
-    }else if ( particle.velocity.x + x.x < std::numeric_limits<double>::min()) {
-        particle.velocity.x = std::numeric_limits<double>::min();
-    }else{
-        particle.velocity.x = particle.velocity.x + x.x;
+    particle.velocity += dt * ((particle.force + particle.old_force) / (2 * particle.mass));
 
-    }
-    if ( particle.velocity.y +x.y > std::numeric_limits<double>::max()) {
+    // Vec3D x = dt * ((particle.force + particle.old_force) / (2 * particle.mass));
+    // if ( particle.velocity.x + x.x > std::numeric_limits<double>::max()) {
+    //     particle.velocity.x = std::numeric_limits<double>::max();
+    // }else if ( particle.velocity.x + x.x < std::numeric_limits<double>::min()) {
+    //     particle.velocity.x = std::numeric_limits<double>::min();
+    // }else{
+    //     particle.velocity.x = particle.velocity.x + x.x;
 
-        particle.velocity.y = std::numeric_limits<double>::max();
+    // }
+    // if ( particle.velocity.y +x.y > std::numeric_limits<double>::max()) {
 
-    }else if ( particle.velocity.y + x.y < std::numeric_limits<double>::min()) {
+    //     particle.velocity.y = std::numeric_limits<double>::max();
 
-        particle.velocity.y = std::numeric_limits<double>::min();
-    }else{
-        particle.velocity.y = particle.velocity.y + x.y;
+    // }else if ( particle.velocity.y + x.y < std::numeric_limits<double>::min()) {
 
-    }
-    if ( particle.velocity.z + x.z > std::numeric_limits<double>::max()) {
-        particle.velocity.z = std::numeric_limits<double>::max();
-    }else if ( particle.velocity.z + x.z < std::numeric_limits<double>::min()) {
-        particle.velocity.z = std::numeric_limits<double>::min();
-    }else{
-        particle.velocity.z = particle.velocity.z + x.z;
+    //     particle.velocity.y = std::numeric_limits<double>::min();
+    // }else{
+    //     particle.velocity.y = particle.velocity.y + x.y;
 
-    }
-
+    // }
+    // if ( particle.velocity.z + x.z > std::numeric_limits<double>::max()) {
+    //     particle.velocity.z = std::numeric_limits<double>::max();
+    // }else if ( particle.velocity.z + x.z < std::numeric_limits<double>::min()) {
+    //     particle.velocity.z = std::numeric_limits<double>::min();
+    // }else{
+    //     particle.velocity.z = particle.velocity.z + x.z;
+    // }
 }
 
 /**
@@ -130,6 +129,7 @@ void Simulation::calculateSingleForce(Particle& p_i, Particle& p_j) {
     double inv_r2 = 1.0 / (r_len * r_len);
     double sigma_r2 = sigma * inv_r2;
     double scalar = -24.0 * epsilon * std::pow(inv_r2, 2) * (std::pow(sigma_r2, 6) - 2.0 * std::pow(sigma_r2, 12));
+    
     Vec3D F_ij = scalar * r;
 
     p_i.force += F_ij;

@@ -14,7 +14,7 @@ particles:
     n: [50, 16, 1]
     position: [0.0, 0.0, 0.0]
     velocity: [0.0, 0.0, 0.0]
-    mass: 1.0
+    mass: 1.0e-14
     sigma: 1.0
     brownian_sigma: 0.1
     

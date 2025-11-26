@@ -210,6 +210,11 @@ Args ProcessArgs(int argc, char *argv[]) {
 
     // disable all further logging in benchmark mode
     if (args.benchmark_enabled) {
+        if (args.benchmark_iterations == 0) {
+            spdlog::error("benchmark iterations (-B {}) must be greater than zero", args.benchmark_iterations);
+            printUsage(progname);
+        }
+
         // default logging is trace of benchmark iterations
         if (!args.log_level_cli) {
             args.log_level = spdlog::level::trace;

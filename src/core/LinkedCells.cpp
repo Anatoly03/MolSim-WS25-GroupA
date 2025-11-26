@@ -207,7 +207,7 @@ void LinkedCells::reindex() {
                  || !ascending(domainMin.y, newCellIndex.y, domainMax.y)
                  || !ascending(domainMin.z, newCellIndex.z, domainMax.z)) {
                     // the line below breaks github CI
-                    // spdlog::trace("Particle left cell domain {} -> {}", currentCellIndex, newCellIndex);
+                    spdlog::warn("Particle left cell domain {} -> {}", currentCellIndex, newCellIndex);
                     // spdlog::debug("Cell size {}, Current cell {}, New cell {}", cellSize, currentCellIndex, newCellIndex);
                     continue;
                 }
