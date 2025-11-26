@@ -51,10 +51,10 @@ class Simulation {
     }
 
    public:
-    /**
-     * @brief calculate the force for two distinct particles
-     */
-    virtual double calculateLennardJonesPotential(Particle& p1, Particle& p2, double epsilon, double sigma);
+    // /**
+    //  * @brief calculate the force for two distinct particles
+    //  */
+    // virtual double calculateLennardJonesPotential(Particle& p1, Particle& p2, double epsilon, double sigma);
 
     /**
      * @brief Updates the position for a single particles.

@@ -144,7 +144,7 @@ void LinkedCellImplementation::calculateBorderBehaviour() {
 //     particles.forEachDistinctPair([&](Particle &p_i, Particle &p_j) {
 //         Vec3D r = p_i.position - p_j.position;
 
-//         double r_len = r.length();
+//         double r_len = r.length2();
 //         if (r_len == 0.0) {
 //             return;
 //         }

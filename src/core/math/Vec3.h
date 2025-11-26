@@ -88,10 +88,27 @@ struct Vec3 {
     }
 
     /**
+     * @brief Vec3 reduced to the length of 1.
+     */
+    inline constexpr Vec3 normal() const {
+        if (this->length() == 0) {
+            spdlog::error("cannot normalize zero-length vector ({}, {}, {})", x, y, z);
+            return Vec3<T>(0, 0, 0);
+        }
+
+        return *this / this->length();
+    }
+
+    /**
      * @brief Retrieve the length of the vector.
      * @see https://de.wikipedia.org/wiki/Euklidische_Norm
      */
     inline constexpr double length() const { return std::sqrt(dot(*this)); }
+
+    /**
+     * @brief Retrieve the length squared of the vector in the second norm.
+     */
+    inline constexpr double length2() const { return dot(*this); }
 
     /**
      * @brief Convert Vec3 to an array type. Useful for printing.
