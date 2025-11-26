@@ -21,7 +21,7 @@ int global_id = 1;
  * of an initially forceless particle.
  */
 Particle::Particle() {
-    p_id = ++global_id;
+   // p_id = ++global_id;
 
     spdlog::trace("Particle generated (empty)!");
     force = {0., 0., 0.};
