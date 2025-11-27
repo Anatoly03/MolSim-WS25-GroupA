@@ -99,6 +99,15 @@ class Simulation {
     }
 
     /**
+     * @brief Delays the position for all particles.
+     */
+    virtual void delayPosition() {
+        forEachParticle([this](Particle &particle) {
+            particle.delayPosition();
+        });
+    }
+
+    /**
      * @brief Delays the force for all particles.
      */
     virtual void delayForce() {

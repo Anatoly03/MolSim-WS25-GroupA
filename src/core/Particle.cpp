@@ -37,6 +37,7 @@ Particle::Particle(const Particle &other) {
     p_id = other.p_id;
 
     position = other.position;
+    old_position = other.old_position;
     velocity = other.velocity;
     force = other.force;
     old_force = other.old_force;
@@ -53,6 +54,7 @@ Particle::Particle(Vec3D pos_arg, Vec3D vel_arg, double mass_arg) {
     p_id = ++global_id;
 
     position = pos_arg;
+    old_position = pos_arg;
     velocity = vel_arg;
     mass = mass_arg;
     force = {0., 0., 0.};
@@ -65,6 +67,13 @@ Particle::Particle(Vec3D pos_arg, Vec3D vel_arg, double mass_arg) {
  * Particle destructor.
  */
 Particle::~Particle() { spdlog::trace("Particle destructed!"); }
+
+/**
+ * Move position to old position. This tracks the position delta.
+ */
+void Particle::delayPosition() {
+    this->old_position = this->position;
+}
 
 /**
  * Move force to old force and reset current force to zero. This
