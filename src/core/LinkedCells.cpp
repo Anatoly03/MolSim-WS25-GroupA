@@ -1,6 +1,7 @@
 #include "LinkedCells.h"
 #include "math/Util.h"
 #include "math/Vec3Iter.h"
+
 #include "spdlog/spdlog.h"
 #include <fmt/format.h>
 

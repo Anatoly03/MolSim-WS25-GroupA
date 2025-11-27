@@ -7,6 +7,9 @@
 #include "../ParticleContainer.h"
 #include "Simulation.h"
 
+#include "spdlog/spdlog.h"
+#include <fmt/format.h>
+
 class LinkedCellImplementation : public Simulation {
    public:
     LinkedCells cells;
