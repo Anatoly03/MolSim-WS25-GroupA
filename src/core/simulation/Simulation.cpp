@@ -120,6 +120,9 @@ void Simulation::calculateSingleForce(Particle& p_i, Particle& p_j) {
     double r2 = dist.length2();
     if (r2 == 0.0) return; // cut in to avoid high values
 
+    double min=pow(2,1/6)*arguments.sigma;
+    if (r2 < min) r2=min;
+
     double inv_r2 = 1.0 / r2;               // (xi -xj)
     double sr2 = std::pow(arguments.sigma, 2) * inv_r2;  // (sigma / (xi -xj))^2
     double sr6 = sr2 * sr2 * sr2;           // (sigma / (xi -xj))^6
