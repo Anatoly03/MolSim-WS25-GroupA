@@ -111,29 +111,25 @@ void Simulation::calculateSingleVelocity(Particle &particle, double dt) {
 /**
  * @brief Calculates force acting on two particles.
  */
-void Simulation::calculateSingleForce(Particle& p_i, Particle& p_j) {    
-    // TODO lennard-Jones Parameters (hard code for now)
-    const double cutoff_radius = 3.0;
-    const double epsilon = arguments.epsilon;
-    const double sigma = 1.0;
-
-
+void Simulation::calculateSingleForce(Particle& p_i, Particle& p_j) {
     Vec3D dist = p_i.position - p_j.position;
 
     double r1 = dist.length();
-    if (r1 > cutoff_radius) return;  // cut off for performance
+    if (r1 > arguments.cutoff_radius) return;  // cut off for performance
 
     double r2 = dist.length2();
     if (r2 == 0.0) return; // cut in to avoid high values
 
     double inv_r2 = 1.0 / r2;               // (xi -xj)
-    double sr2 = (sigma * sigma) * inv_r2;  // (sigma / (xi -xj))^2
+    double sr2 = std::pow(arguments.sigma, 2) * inv_r2;  // (sigma / (xi -xj))^2
     double sr6 = sr2 * sr2 * sr2;           // (sigma / (xi -xj))^6
     double sr12 = sr6 * sr6;                // (sigma / (xi -xj))^12
 
-    double scalar = 24.0 * epsilon * inv_r2 * (2.0 * sr12 - sr6);
+    double scalar = 24.0 * arguments.epsilon * inv_r2 * (2.0 * sr12 - sr6);
 
     Vec3D force = scalar * dist.normal();
+
+    spdlog::trace("Particles {}-{} exert force {}x{}", p_i.p_id, p_j.p_id, scalar, dist.normal());
 
     p_i.force += force;
     p_j.force -= force;

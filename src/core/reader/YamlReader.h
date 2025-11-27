@@ -102,14 +102,16 @@ class YamlReader : public FileReader {
      * @brief Get particle from YAML::Node
      */
     void readConfig(Args &args) const {
-        const double delta_time = unwrap_node<double>(0.014, "config", "delta_time");
-        const double total_time = unwrap_node<double>(1000.0, "config", "total_time");
-        const std::string output_path = unwrap_node<std::string>("config", "output");
-        const int output_interval = unwrap_node<int>(10, "config", "output_interval");
-        const Vec3I cell_size = unwrap_node<Vec3I>(Vec3I(10, 10, 10), "config", "cell_size");
-        const Vec3I domain_min = unwrap_node<Vec3I>(Vec3I(0, 0, 0), "config", "domain_min");
-        const Vec3I domain_max = unwrap_node<Vec3I>(Vec3I(100, 100, 100), "config", "domain_max");
-        const double epsilon = unwrap_node<double>(1.0, "config", "epsilon");
+        const double delta_time = unwrap_node<double>(args.delta_t, "config", "delta_time");
+        const double total_time = unwrap_node<double>(args.end_time, "config", "total_time");
+        const std::string output_path = unwrap_node<std::string>(args.output_path, "config", "output");
+        const int output_interval = unwrap_node<int>(args.output_interval, "config", "output_interval");
+        const Vec3I cell_size = unwrap_node<Vec3I>(args.cell_size, "config", "cell_size");
+        const Vec3I domain_min = unwrap_node<Vec3I>(args.domain_min, "config", "domain_min");
+        const Vec3I domain_max = unwrap_node<Vec3I>(args.domain_max, "config", "domain_max");
+        const double epsilon = unwrap_node<double>(args.epsilon, "config", "epsilon");
+        const double sigma = unwrap_node<double>(args.sigma, "config", "sigma");
+        const double cut_off = unwrap_node<double>(args.cutoff_radius, "config", "cut_off");
 
         if (args.delta_t_cli) {
             spdlog::warn("delta_time in {} overridden by CLI argument: {} -> {}", args.input_file, delta_time, args.delta_t);
@@ -134,6 +136,8 @@ class YamlReader : public FileReader {
         args.domain_min = domain_min;
         args.domain_max = domain_max;
         args.epsilon = epsilon;
+        args.sigma = sigma;
+        args.cutoff_radius = cut_off;
     }
 
     /**

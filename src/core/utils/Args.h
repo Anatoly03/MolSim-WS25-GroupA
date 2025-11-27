@@ -73,6 +73,12 @@ struct Args {
     */
     double epsilon = 1.0;
 
+    // TODO document
+    double sigma = 1.0;
+
+    // TODO document
+    double cutoff_radius = 3.0;
+
     /**
      * @brief Cell size for linked cell implementation. Provided by input files.
      */
