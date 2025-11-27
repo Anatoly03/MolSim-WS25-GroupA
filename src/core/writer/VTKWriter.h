@@ -23,8 +23,9 @@
 #include <sstream>
 #include <string>
 
-#include "../ParticleContainer.h"
+#include "../simulation/Simulation.h"
 #include "../Particle.h"
+#include "Writer.h"
 
 namespace outputWriter {
 
@@ -35,14 +36,9 @@ namespace outputWriter {
 class VTKWriter : public Writer {
    public:
     /**
-     * @note Default constructor without providing particle container is private.
+     * @brief Default constructor.
      */
-    VTKWriter() = delete;
-
-    /**
-     * @brief Default constructor
-     */
-    VTKWriter(ParticleContainer &p) : Writer(p) {}
+    VTKWriter() = default;
 
     // Delete copy constructor and assignment operator
     VTKWriter(const VTKWriter &) = delete;
@@ -60,7 +56,7 @@ class VTKWriter : public Writer {
     /**
      * @brief Plot particles to file, returns stream.
      */
-    virtual void plot(const std::string &filename, int iteration) const override {
+    virtual void plot(const std::string &filename, int iteration,  Simulation &simulation) const override {
         // Initialize points
         auto points = vtkSmartPointer<vtkPoints>::New();
 
@@ -77,19 +73,20 @@ class VTKWriter : public Writer {
         forceArray->SetName("force");
         forceArray->SetNumberOfComponents(3);
 
-        vtkNew<vtkIntArray> typeArray;
-        typeArray->SetName("type");
-        typeArray->SetNumberOfComponents(1);
+        // vtkNew<vtkIntArray> typeArray;
+        // typeArray->SetName("type");
+        // typeArray->SetNumberOfComponents(1);
 
-        for (const auto &p : particles) {
-            points->InsertNextPoint(p.getPosition().asArray().data());
-            massArray->InsertNextValue(static_cast<float>(p.getMass()));
-            velocityArray->InsertNextTuple(p.getVelocity().asArray().data());
-            forceArray->InsertNextTuple(p.getForce().asArray().data());
-            typeArray->InsertNextValue(p.getType());
-        }
+        simulation.forEachParticle([&points,&massArray,&velocityArray,&forceArray,this](const Particle &p) {
+            points->InsertNextPoint(p.position.asArray().data());
+            massArray->InsertNextValue(static_cast<float>(p.mass));
+            velocityArray->InsertNextTuple(p.velocity.asArray().data());
+            forceArray->InsertNextTuple(p.force.asArray().data());
+            //typeArray->InsertNextValue(p.getType());
+        });
 
         // Set up the grid
+        //std::cout << "particle number: " << points->GetNumberOfPoints() << std::endl;
 
         auto grid = vtkSmartPointer<vtkUnstructuredGrid>::New();
         grid->SetPoints(points);
@@ -98,7 +95,7 @@ class VTKWriter : public Writer {
         grid->GetPointData()->AddArray(massArray);
         grid->GetPointData()->AddArray(velocityArray);
         grid->GetPointData()->AddArray(forceArray);
-        grid->GetPointData()->AddArray(typeArray);
+        //grid->GetPointData()->AddArray(typeArray);
 
         // Create filename with iteration number
         std::string full_filename = getFileName(filename, iteration);

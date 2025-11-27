@@ -6,7 +6,7 @@
 #include <sstream>
 
 #include "../ParticleContainer.h"
-#include "../Args.h"
+#include "../utils/Args.h"
 #include "spdlog/spdlog.h"
 
 /**
@@ -71,20 +71,24 @@ class FileReader {
     /**
      * @brief Read particle information from a file into particle container
      * attribute.
+     * @returns True on success, false on failure.
      */
-    // NOLINTNEXTLINE(unused-parameter)
-    virtual void readFile(ParticleContainer &particles, Args &args) {
+    virtual bool readFile(ParticleContainer & /* particles */, Args &args) {
         claimFile(args.input_file);
 
         // read magic header
         if (!readMagicHeader()) {
             spdlog::error("file {} has invalid magic header", args.input_file);
-            exit(-1);
+            return false;
         }
 
-        // TODO abstraction
-        (void) particles;
+        // TODO: abstract implementation
+        return false;
     };
+
+    //
+    // STATIC
+    //
 
     /**
      * @brief Get a reader-based instance for a specific file.
@@ -96,7 +100,12 @@ class FileReader {
      */
     static std::unique_ptr<FileReader> writeParticles(ParticleContainer &particles, Args &args) {
         std::unique_ptr<FileReader> fileReader = FileReader::getReaderForFile(args.input_file);
-        fileReader->readFile(particles, args);
+
+        if (!fileReader->readFile(particles, args)) {
+            spdlog::error("could not read particles from file {}", args.input_file);
+            exit(-1);
+        }
+
         return fileReader;
     }
 };

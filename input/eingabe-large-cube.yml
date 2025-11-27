@@ -6,20 +6,12 @@ config:
   output_interval: 20
 
 particles:
-  cuboid1:
+  bigCube:
     type: cuboid
-    n: [40, 8, 1]
+    n: [80, 80, 1]
     position: [0.0, 0.0, 0.0]
     velocity: [0.0, 0.0, 0.0]
     mass: 1.0
-    sigma: 1.0
-    brownian_sigma: 0.1
-  cuboid2:
-    type: cuboid
-    n: [8, 8, 1]
-    position: [15.0, 15.0, 0.0]
-    velocity: [0.0, -10.0, 0.0]
-    mass: 1.0
-    sigma: 1.0
+    h: 1
     brownian_sigma: 0.1
     

@@ -2,6 +2,7 @@
 #pragma once
 
 #include <string>
+#include "spdlog/spdlog.h"
 
 /**
  * @brief Structure to hold all program arguments.
@@ -21,6 +22,16 @@ struct Args {
      * @brief True if the output file path was overriden by CLI argument.
      */
     bool output_file_cli = false;
+
+    /**
+     * @brief Log level for benchmarking output.
+     */
+    spdlog::level::level_enum log_level = spdlog::level::info;
+
+    /**
+     * @brief True if the log level was set by CLI argument.
+     */
+    bool log_level_cli = false;
 
     /**
      * @brief Simulation start time. Constant. Reserved for future use.
@@ -53,6 +64,32 @@ struct Args {
     int output_interval = 10;
 
     /**
+     * @brief Cell size for linked cell implementation. Provided by input files.
+     */
+    Vec3I cell_size = Vec3I(5, 5, 5);
+
+    /**
+    * @brief epsilon for lennard-Jones Parameters.
+    */
+    double epsilon = 1.0;
+
+    // TODO document
+    double sigma = 1.0;
+
+    // TODO document
+    double cutoff_radius = 3.0;
+
+    /**
+     * @brief Cell size for linked cell implementation. Provided by input files.
+     */
+    Vec3I domain_min = Vec3I(0);
+
+    /**
+     * @brief Cell size for linked cell implementation. Provided by input files.
+     */
+    Vec3I domain_max = Vec3I(10);
+
+    /**
      * @brief Benchmark flag. Set by CLI.
      */
     bool benchmark_enabled = false;
@@ -61,6 +98,11 @@ struct Args {
      * @brief Number of iterations for benchmarking. Set by CLI.
      */
     int benchmark_iterations = 0;
+
+    /**
+     * @brief Default version of the algorithm to use. Overridden by CLI.
+     */
+    int version = 1;
 
     /**
      * @brief Default constructor.

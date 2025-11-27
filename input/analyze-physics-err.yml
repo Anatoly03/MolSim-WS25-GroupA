@@ -1,0 +1,28 @@
+name: Cuboid Generator
+
+config:
+  delta_time: 0.014
+  total_time: 0.5
+  output_interval: 1
+  cell_size: [5, 5, 5]
+  domain_min: [0, 0, 0]
+  domain_max: [10, 4, 1]
+
+particles:
+  cuboid1:
+    type: cuboid
+    n: [40, 8, 1]
+    position: [0.0, 0.0, 0.0]
+    velocity: [0.0, 0.0, 0.0]
+    mass: 1.0
+    sigma: 1.0
+    brownian_sigma: 0.1
+  cuboid2:
+    type: cuboid
+    n: [8, 8, 1]
+    position: [15.0, 15.0, 0.0]
+    velocity: [0.0, -10.0, 0.0]
+    mass: 1.0
+    sigma: 1.0
+    brownian_sigma: 0.1
+    

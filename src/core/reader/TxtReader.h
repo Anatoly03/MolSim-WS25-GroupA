@@ -7,6 +7,7 @@
 
 #include "../ParticleContainer.h"
 #include "../math/Vec3.h"
+#include "../Particle.h"
 #include "FileReader.h"
 #include "spdlog/spdlog.h"
 
@@ -28,52 +29,47 @@ class TxtReader : public FileReader {
 
     /**
      * @brief Read custom 'text' file format into particle container.
+     * @returns True on success, false on failure.
      */
-    virtual void readFile(ParticleContainer &particles, Args &args) override {
+    virtual bool readFile(ParticleContainer &particles, Args &args) override {
         claimFile(args.input_file);
         std::string tmp_string;
 
-        Vec3D position;
-        Vec3D velocity;
-        double mass;
+        Particle particle;
         int num_particles = 0;
 
         readLine(tmp_string);
-        spdlog::debug("read: {}", tmp_string);
 
         while (tmp_string.empty() or tmp_string[0] == '#') {
             readLine(tmp_string);
-            spdlog::debug("read: {}", tmp_string);
         }
 
         std::istringstream numstream(tmp_string);
         numstream >> num_particles;
-        spdlog::debug("read: {}", num_particles);
 
         readLine(tmp_string);
-        spdlog::debug("read: {}", tmp_string);
         particles.reserve(num_particles);
 
         for (int i = 0; i < num_particles; i++) {
             std::istringstream datastream(tmp_string);
 
-            datastream >> position.x;
-            datastream >> position.y;
-            datastream >> position.z;
-            datastream >> velocity.x;
-            datastream >> velocity.y;
-            datastream >> velocity.z;
+            datastream >> particle.position.x;
+            datastream >> particle.position.y;
+            datastream >> particle.position.z;
+            datastream >> particle.velocity.x;
+            datastream >> particle.velocity.y;
+            datastream >> particle.velocity.z;
 
             if (datastream.eof()) {
                 spdlog::error("read file: eof reached unexpectedly reading from line {}", i);
-                exit(-1);
+                return false;
             }
-            datastream >> mass;
 
-            particles.emplace_back(position, (velocity), mass);
-
+            datastream >> particle.mass;
+            particles.add(particle);
             readLine(tmp_string);
-            spdlog::debug("read: {}", tmp_string);
         }
+
+        return true;
     }
 };

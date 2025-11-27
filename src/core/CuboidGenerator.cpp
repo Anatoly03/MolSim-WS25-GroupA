@@ -4,6 +4,7 @@
 
 #include "CuboidGenerator.h"
 #include "utils/MaxwellBoltzmannDistribution.h"
+#include "Particle.h"
 
 /**
  * @brief Adds a cuboid of particles to the container and applies Brownian initialization.
@@ -15,17 +16,22 @@
  * so that Brownian motion is applied only at initialization.
  */
 void addCuboid(ParticleContainer &particles, const Cuboid &cuboid, double brownian_sigma) {
-    particles.reserve(particles.size() + cuboid.n1 * cuboid.n2 * cuboid.n3);
+    particles.reserve(particles.particleCount() + cuboid.n1 * cuboid.n2 * cuboid.n3);
 
     for (int i = 0; i < cuboid.n1; ++i) {
         for (int j = 0; j < cuboid.n2; ++j) {
             for (int k = 0; k < cuboid.n3; ++k) {
-                Vec3D pos = cuboid.position + Vec3D(i * cuboid.h, j * cuboid.h, k * cuboid.h);
-                Vec3D vel = cuboid.initial_velocity;
+                Particle particle;
 
-                if (brownian_sigma > 0.0) vel += maxwellBoltzmannDistributedVelocity(brownian_sigma, 3);
+                particle.position = cuboid.position + Vec3D(i * cuboid.h, j * cuboid.h, k * cuboid.h);
+                particle.velocity = cuboid.initial_velocity;
 
-                particles.emplace_back(pos, vel, cuboid.mass);
+                if (brownian_sigma > 0.0) {
+                    particle.velocity += maxwellBoltzmannDistributedVelocity(brownian_sigma, 3);
+                }
+
+                particle.mass = cuboid.mass;
+                particles.add(particle);
             }
         }
     }
@@ -34,21 +40,24 @@ void addCuboid(ParticleContainer &particles, const Cuboid &cuboid, double browni
  * @brief Analog to 3D version, by eliminating z-axis to keep it in 2D form.
  */
 void addCuboid2D(ParticleContainer &particles, const Cuboid &cuboid, double brownian_sigma) {
-    particles.reserve(particles.size() + cuboid.n1 * cuboid.n2 * cuboid.n3);
+    particles.reserve(particles.particleCount() + cuboid.n1 * cuboid.n2 * cuboid.n3);
 
     for (int i = 0; i < cuboid.n1; ++i) {
         for (int j = 0; j < cuboid.n2; ++j) {
             for (int k = 0; k < cuboid.n3; ++k) {
-                Vec3D pos = cuboid.position + Vec3D(i * cuboid.h, j * cuboid.h, k * cuboid.h);
-                Vec3D vel = cuboid.initial_velocity;
+                Particle particle;
+                
+                particle.position = cuboid.position + Vec3D(i * cuboid.h, j * cuboid.h, k * cuboid.h);
+                particle.velocity = cuboid.initial_velocity;
 
                 if (brownian_sigma > 0.0) {
                     Vec3D v_brown = maxwellBoltzmannDistributedVelocity(brownian_sigma, 2);
                     v_brown.z = 0.0;
-                    vel += v_brown;
+                    particle.velocity += v_brown;
                 }
 
-                particles.emplace_back(pos, vel, cuboid.mass);
+                particle.mass = cuboid.mass;
+                particles.add(particle);
             }
         }
     }
