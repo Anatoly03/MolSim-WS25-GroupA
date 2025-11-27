@@ -45,7 +45,15 @@ class YamlReader : public FileReader {
      */
     template<typename T, typename... K>
     T unwrap_node(T _default, K... keys) const {
-        YAML::Node current = head;
+
+        // https://github.com/jbeder/yaml-cpp/issues/348
+        // https://stackoverflow.com/questions/11129234/copy-semantics-and-comparison
+        // we don't care about performance in the method below
+
+        // also f!ck c++, this method was marked as const yet it was modifying the
+        // attribute `head` at runtime, the clang compiler failed us and this is annoying
+        // and frustrating
+        YAML::Node current = Clone(head);
 
         if constexpr (sizeof...(K) > 0) {
             // iterate over keys using crazy wizardry c++ macro syntax
@@ -53,7 +61,6 @@ class YamlReader : public FileReader {
                 if (!current) break;
                 current = current[k];
             }
-
         } else {
             // no keys provided, return default
             return _default;
@@ -164,10 +171,9 @@ class YamlReader : public FileReader {
      * @returns True on success, false on failure.
      */
     virtual bool readFile(ParticleContainer &particles, Args &args) override {
-        // load yaml file
-        try {
+        try { // load yaml file
             head = YAML::LoadFile(args.input_file);
-        } catch (const YAML::BadFile &e) {
+        } catch (const YAML::BadFile &e) { // IO error
             spdlog::error("could not open yaml file {}: {}", args.input_file, e.what());
             return false;
         } catch (const YAML::ParserException &e) {
