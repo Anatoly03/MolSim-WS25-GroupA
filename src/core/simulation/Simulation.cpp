@@ -114,8 +114,9 @@ void Simulation::calculateSingleVelocity(Particle &particle, double dt) {
 void Simulation::calculateSingleForce(Particle& p_i, Particle& p_j) {    
     // TODO lennard-Jones Parameters (hard code for now)
     const double cutoff_radius = 3.0;
-    const double epsilon = 5.0;
+    const double epsilon = arguments.epsilon;
     const double sigma = 1.0;
+
 
     Vec3D dist = p_i.position - p_j.position;
 

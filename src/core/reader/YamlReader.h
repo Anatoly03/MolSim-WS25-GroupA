@@ -156,6 +156,12 @@ class YamlReader : public FileReader {
             args.domain_max = value;
         }
 
+        // parse args/ simulation constants: epsilon
+        if (config["config"]["epsilon"]) {
+            double value = config["config"]["epsilon"].as<double>();
+            args.epsilon = value;
+        }
+
         // parse particles
         if (!config["particles"]) {
             spdlog::error("yaml file {} has no 'particles' entry", args.input_file);

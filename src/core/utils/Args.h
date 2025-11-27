@@ -69,6 +69,11 @@ struct Args {
     Vec3I cell_size = Vec3I(5, 5, 5);
 
     /**
+    * @brief epsilon for lennard-Jones Parameters.
+    */
+    double epsilon = 1.0;
+
+    /**
      * @brief Cell size for linked cell implementation. Provided by input files.
      */
     Vec3I domain_min = Vec3I(0);

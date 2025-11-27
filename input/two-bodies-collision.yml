@@ -7,6 +7,7 @@ config:
   cell_size: [5, 5, 5]
   domain_min: [0, 0, 0]
   domain_max: [180,90,0]
+  epsilon: 5.0
 
 particles:
   cuboid1:
