@@ -21,6 +21,9 @@
  * that can read file type and yield a reader subtype, that can read particles.
  */
 class YamlReader : public FileReader {
+   private:
+    YAML::Node head = YAML::Node();
+
    public:
     /**
      * @note Default constructor without providing particle container is private.
@@ -31,6 +34,38 @@ class YamlReader : public FileReader {
      * @brief Destructor.
      */
     ~YamlReader() = default;
+
+    /**
+     * @brief Safe read: Read node oout of YAML file, with unwrap value.
+     * Adjusted Rust.
+     * @example
+     * ```c++
+     * unwrap_node()
+     * ```
+     */
+    template<typename T, typename... K>
+    T unwrap_node(T _default, K... keys) const {
+        YAML::Node current = head;
+
+        if constexpr (sizeof...(K) > 0) {
+            // iterate over keys using crazy wizardry c++ macro syntax
+            for (const auto &k : {std::string(keys)...}) {
+                if (!current) break;
+                current = current[k];
+            }
+
+        } else {
+            // no keys provided, return default
+            return _default;
+        }
+
+        // final unwrap_or
+        if (current) {
+            return current.as<T>();
+        } else {
+            return _default;
+        }
+    }
 
     /**
      * @brief Get particle from YAML::Node
@@ -66,6 +101,44 @@ class YamlReader : public FileReader {
     /**
      * @brief Get particle from YAML::Node
      */
+    void readConfig(Args &args) const {
+        const double delta_time = unwrap_node<double>(0.014, "config", "delta_time");
+        const double total_time = unwrap_node<double>(1000.0, "config", "total_time");
+        const std::string output_path = unwrap_node<std::string>("config", "output");
+        const int output_interval = unwrap_node<int>(10, "config", "output_interval");
+        const Vec3I cell_size = unwrap_node<Vec3I>(Vec3I(10, 10, 10), "config", "cell_size");
+        const Vec3I domain_min = unwrap_node<Vec3I>(Vec3I(0, 0, 0), "config", "domain_min");
+        const Vec3I domain_max = unwrap_node<Vec3I>(Vec3I(100, 100, 100), "config", "domain_max");
+        const double epsilon = unwrap_node<double>(1.0, "config", "epsilon");
+
+        if (args.delta_t_cli) {
+            spdlog::warn("delta_time in {} overridden by CLI argument: {} -> {}", args.input_file, delta_time, args.delta_t);
+        } else {
+            args.delta_t = delta_time;
+        }
+
+        if (args.end_time_cli) {
+            spdlog::warn("total_time in {} overridden by CLI argument: {} -> {}", args.input_file, total_time, args.end_time);
+        } else {
+            args.end_time = total_time;
+        }
+
+        if (args.output_file_cli) {
+            spdlog::warn("output path in {} overridden by CLI argument: `{}` -> `{}`", args.input_file, output_path, args.output_path);
+        } else {
+            args.output_path = output_path;
+        }
+
+        args.output_interval = output_interval;
+        args.cell_size = cell_size;
+        args.domain_min = domain_min;
+        args.domain_max = domain_max;
+        args.epsilon = epsilon;
+    }
+
+    /**
+     * @brief Get particle from YAML::Node
+     */
     void readNode(ParticleContainer &particles, const YAML::Node &node) const {
         std::string node_type = node["type"] ? (node["type"].as<std::string>()) : "particle";
 
@@ -84,92 +157,31 @@ class YamlReader : public FileReader {
 
     /**
      * @brief Read custom 'text' file format into particle container.
+     * @returns True on success, false on failure.
      */
-    virtual void readFile(ParticleContainer &particles, Args &args) override {
-        YAML::Node config;
-
+    virtual bool readFile(ParticleContainer &particles, Args &args) override {
         // load yaml file
         try {
-            config = YAML::LoadFile(args.input_file);
+            head = YAML::LoadFile(args.input_file);
         } catch (const YAML::BadFile &e) {
             spdlog::error("could not open yaml file {}: {}", args.input_file, e.what());
-            exit(-1);
+            return false;
         } catch (const YAML::ParserException &e) {
             spdlog::error("could not parse yaml file {}: {}", args.input_file, e.what());
-            exit(-1);
+            return false;
         }
 
-        // parse args/ simulation constants: delta time
-        if (config["config"]["delta_time"]) {
-            double delta_time = config["config"]["delta_time"].as<double>();
+        // read global physics config
+        readConfig(args);
 
-            if (args.delta_t_cli) {
-                spdlog::warn("delta_time in {} overridden by CLI argument: {} -> {}", args.input_file, delta_time, args.delta_t);
-            } else {
-                args.delta_t = delta_time;
-            }
-        }
-
-        // parse args/ simulation constants: duration
-        if (config["config"]["delta_time"]) {
-            double duration = config["config"]["total_time"].as<double>();
-
-            if (args.delta_t_cli) {
-                spdlog::warn("total_time in {} overridden by CLI argument: {} -> {}", args.input_file, duration, args.end_time);
-            } else {
-                args.end_time = duration;
-            }
-        }
-
-        // parse args/ simulation constants: duration
-        if (config["config"]["output"]) {
-            std::string output_path = config["config"]["output"].as<std::string>();
-
-            if (args.output_file_cli) {
-                spdlog::warn("output path in {} overridden by CLI argument: `{}` -> `{}`", args.input_file, output_path, args.output_path);
-            } else {
-                args.output_path = output_path;
-            }
-        }
-
-        // parse args/ simulation constants: output interval
-        if (config["config"]["output_interval"]) {
-            int interval = config["config"]["output_interval"].as<int>();
-            args.output_interval = interval;
-        }
-
-        // parse args/ simulation constants: cell size
-        if (config["config"]["cell_size"]) {
-            Vec3I value = config["config"]["cell_size"].as<Vec3I>();
-            args.cell_size = value;
-        }
-
-        // parse args/ simulation constants: domain min
-        if (config["config"]["domain_min"]) {
-            Vec3I value = config["config"]["domain_min"].as<Vec3I>();
-            args.domain_min = value;
-        }
-
-        // parse args/ simulation constants: domain max
-        if (config["config"]["domain_max"]) {
-            Vec3I value = config["config"]["domain_max"].as<Vec3I>();
-            args.domain_max = value;
-        }
-
-        // parse args/ simulation constants: epsilon
-        if (config["config"]["epsilon"]) {
-            double value = config["config"]["epsilon"].as<double>();
-            args.epsilon = value;
+        // parse particles
+        if (!head["particles"]) {
+            spdlog::error("yaml file {} has no 'particles' entry", args.input_file);
+            return false;
         }
 
         // parse particles
-        if (!config["particles"]) {
-            spdlog::error("yaml file {} has no 'particles' entry", args.input_file);
-            exit(-1);
-        }
-
-        // read out particles
-        YAML::Node node = config["particles"];
+        YAML::Node node = head["particles"];
 
         if (node.IsSequence()) {
             for (YAML::const_iterator it=node.begin();it!=node.end();++it) {
@@ -180,5 +192,7 @@ class YamlReader : public FileReader {
                 readNode(particles, it->second);
             }
         }
+
+        return true;
     }
 };

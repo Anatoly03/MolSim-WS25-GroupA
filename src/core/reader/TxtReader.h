@@ -29,8 +29,9 @@ class TxtReader : public FileReader {
 
     /**
      * @brief Read custom 'text' file format into particle container.
+     * @returns True on success, false on failure.
      */
-    virtual void readFile(ParticleContainer &particles, Args &args) override {
+    virtual bool readFile(ParticleContainer &particles, Args &args) override {
         claimFile(args.input_file);
         std::string tmp_string;
 
@@ -61,12 +62,14 @@ class TxtReader : public FileReader {
 
             if (datastream.eof()) {
                 spdlog::error("read file: eof reached unexpectedly reading from line {}", i);
-                exit(-1);
+                return false;
             }
 
             datastream >> particle.mass;
             particles.add(particle);
             readLine(tmp_string);
         }
+
+        return true;
     }
 };
