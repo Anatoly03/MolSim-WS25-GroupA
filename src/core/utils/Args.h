@@ -2,6 +2,9 @@
 #pragma once
 
 #include <string>
+
+#include "../math/Vec3.h"
+
 #include "spdlog/spdlog.h"
 
 /**

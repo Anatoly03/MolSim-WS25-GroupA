@@ -6,6 +6,7 @@
 #include "../math/Vec3.h"
 #include "../utils/Args.h"
 #include "../utils/ArrayUtils.h"
+#include "../physics/Force.h"
 #include "../ParticleContainer.h"
 #include "../Particle.h"
 
@@ -17,6 +18,11 @@ class Simulation {
      * @brief CLI input arguments, constant for the simulation run.
      */
     const Args arguments;
+
+    /**
+     * @brief Force calculation method
+     */
+    force_calculation_system forceCalculationSystem = lennard_jones_system;
 
     /**
      * @brief Current simulation iteration.
@@ -85,16 +91,11 @@ class Simulation {
     }
 
     /**
-     * @brief calculate the force for two distinct particles
-     */
-    virtual void calculateSingleForce(Particle& p1, Particle& p2);
-
-    /**
      * @brief calculate the force for all particles
      */
     virtual void calculateForce() {
         forEachDistinctParticlePair([&](Particle &p_i, Particle &p_j) {
-            calculateSingleForce(p_i, p_j);
+            forceCalculationSystem(const_cast<Args&>(arguments), p_i, p_j);
         });
     }
 
