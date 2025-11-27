@@ -1,7 +1,9 @@
 # Find clang-format
 find_program(CLANG_FORMAT "clang-format")
+
 if(CLANG_FORMAT)
     message(STATUS "Found clang-format: ${CLANG_FORMAT}")
+
     # Define list of all source files
     file(GLOB_RECURSE ALL_CXX_SOURCE_FILES
             "src/*.cpp"

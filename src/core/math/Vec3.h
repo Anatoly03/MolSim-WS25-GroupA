@@ -36,8 +36,11 @@ struct Vec3 {
 
     // attributes
    public:
+    // NOLINTNEXTLINE(readability-identifier-naming)
     T x;
+    // NOLINTNEXTLINE(readability-identifier-naming)
     T y;
+    // NOLINTNEXTLINE(readability-identifier-naming)
     T z;
 
     // constructors

@@ -53,7 +53,7 @@ class ParticleContainer {
      * ParticleContainer container;
      *
      * for (auto &particle : container) {
-     *     std::cout << particle.toString() << std::endl;
+     *     std::cout << particle.toString() << "\n";
      * }
      * ```
      */
@@ -73,7 +73,7 @@ class ParticleContainer {
      * ParticleContainer container;
      *
      * for (const auto &particle : container) {
-     *     std::cout << particle.toString() << std::endl;
+     *     std::cout << particle.toString() << "\n";
      * }
      * ```
      */
@@ -126,7 +126,7 @@ class ParticleContainer {
      * ParticleContainer container;
      *
      * container.forEach([](Particle &particle) {
-     *     std::cout << particle.toString() << std::endl;
+     *     std::cout << particle.toString() << "\n";
      * });
      * ```
      */
@@ -137,8 +137,8 @@ class ParticleContainer {
     //  */
     // template<typename Acc>
     // void reduce(const std::function<Acc(Particle &, Acc)> &callback, Acc acc = default) {
-    //     for (size_t i = 0; i < particles.size(); i++) {
-    //         acc = callback(particles[i], acc);
+    //     for (auto particle : particles) {
+    //         acc = callback(particle, acc);
     //     }
     // }
 
@@ -150,7 +150,7 @@ class ParticleContainer {
      * ParticleContainer container;
      *
      * container.forEachDistinctPair([](Particle &particle1, Particle &particle2) {
-     *     std::cout << particle1.toString() << " interacts with " << particle2.toString() << std::endl;
+     *     std::cout << particle1.toString() << " interacts with " << particle2.toString() << "\n";
      * });
      * ```
      */
