@@ -5,6 +5,7 @@
 #include "LinkedCellImplementation.h"
 
 #include "spdlog/spdlog.h"
+#include <fmt/format.h>
 
 /**
  * @brief Factory method to create a simulation instance based on args.
