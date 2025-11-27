@@ -5,7 +5,6 @@
 #include "LinkedCellImplementation.h"
 
 #include "spdlog/spdlog.h"
-#include <fmt/format.h>
 
 /**
  * @brief Factory method to create a simulation instance based on args.
@@ -133,7 +132,7 @@ void Simulation::calculateSingleForce(Particle& p_i, Particle& p_j) {
 
     Vec3D force = scalar * dist.normal();
 
-    spdlog::trace("Particles {}-{} exert force {}x{}", p_i.p_id, p_j.p_id, scalar, dist.normal());
+    // spdlog::trace("Particles {}-{} exert force {}x{}", p_i.p_id, p_j.p_id, scalar, dist.normal());
 
     p_i.force += force;
     p_j.force -= force;

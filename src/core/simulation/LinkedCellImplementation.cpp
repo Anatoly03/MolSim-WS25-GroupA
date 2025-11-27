@@ -5,8 +5,6 @@
 #include "../ParticleContainer.h"
 #include "LinkedCellImplementation.h"
 
-#include <spdlog/spdlog.h>
-
 /**
  * @brief Reindex particles that switched cells.
  */
