@@ -54,7 +54,7 @@ void LinkedCellImplementation::calculateBorderBehaviour() {
         ghost.position.y += cells.cellSize.y * 2 - 2 * cellRelative.y;
         ghost.position.z += cells.cellSize.z * 2 - 2 * cellRelative.z;
 
-        calculateSingleForce(p, ghost);
+        forceCalculationSystem(const_cast<Args&>(arguments), p, ghost);
     });
 }
 
