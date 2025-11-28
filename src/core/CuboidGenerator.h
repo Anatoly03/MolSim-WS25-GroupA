@@ -15,7 +15,7 @@ struct Cuboid {
     /// Numbers of particles along each axis
     Vec3I size;
     /// Distance between neighboring particles
-    double h;
+    Vec3D spacing;
     /// Mass of each particle
     double mass;
     /// Initial Velocity

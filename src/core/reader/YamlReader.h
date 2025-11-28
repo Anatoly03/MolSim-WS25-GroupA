@@ -91,14 +91,14 @@ class YamlReader : public FileReader {
             double sigma = node["sigma"].as<double>();
             h = std::pow(2.0, 1.0 / 6.0) * sigma;
         } else {
-            h = node["h"].as<double>();
+            h = node["dist"].as<double>();
         };
 
         Cuboid cuboid;
 
         cuboid.position = position;
         cuboid.size = amount;
-        cuboid.h = h;
+        cuboid.spacing = Vec3D(h, h, h); // for later: allow rescale distance per axis
         cuboid.mass = mass;
         cuboid.initial_velocity = velocity;
 

@@ -21,7 +21,11 @@ void addCuboid(ParticleContainer &particles, const Cuboid &cuboid, double browni
     for (auto v: Vec3Iter(cuboid.size)) {
         Particle particle;
 
-        particle.position = cuboid.position + (Vec3D)(v * cuboid.h);
+        particle.position = cuboid.position;
+        particle.position.x += v.x * cuboid.spacing.x;
+        particle.position.y += v.y * cuboid.spacing.y;
+        particle.position.z += v.z * cuboid.spacing.z;
+
         particle.velocity = cuboid.initial_velocity;
 
         if (brownian_sigma > 0.0) {
