@@ -41,8 +41,17 @@ class DiscGenerator : public ParticleGenerator {
      */
     Vec3D initial_velocity;
 
+   protected:
+    /**
+     * Constant, amount of dimensions.
+     */
+    virtual int dimensions() const {
+        return 2;
+    };
+
     /**
      * @brief Generate particles into the given container.
      */
+   public:
     virtual void generate(ParticleContainer &/*particles*/) override;
 };

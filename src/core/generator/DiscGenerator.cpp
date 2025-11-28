@@ -11,7 +11,7 @@
 void DiscGenerator::generate(ParticleContainer &particles) {
     const auto radius2 = std::pow(radius, 2.0);
 
-    for (auto v: Vec3Iter(radius, radius, 1)) {
+    for (auto v: Vec3Iter(radius, radius, dimensions() == 2 ? 1 : radius)) {
         // check if within circle boundaries
         if (v.length2() > double(radius2)) continue;
 
@@ -27,25 +27,26 @@ void DiscGenerator::generate(ParticleContainer &particles) {
         particle.mass = mass;
         particles.add(particle);
 
-        // reflect into first quadrant
-        if (v.x != 0) {
+        // permutate 
+        for (auto mirror : Vec3Iter(
+            v.x == 0 ? 1 : 2,
+            v.y == 0 ? 1 : 2,
+            v.z == 0 || dimensions() == 2 ? 1 : 2
+        )) {
             Particle _particle(particle);
-            _particle.position.x = center.x - v.x * spacing;
-            particles.add(_particle);
-        }
 
-        // reflect into third quadrant
-        if (v.y != 0) {
-            Particle _particle(particle);
-            _particle.position.y = center.y - v.y * spacing;
-            particles.add(_particle);
-        }
+            if (mirror.x != 0) {
+                _particle.position.x = center.x - v.x * spacing;
+            }
+    
+            if (mirror.y != 0) {
+                _particle.position.y = center.y - v.y * spacing;
+            }
 
-        // reflect into fourth quadrant
-        if (v.x != 0 && v.y != 0) {
-            Particle _particle(particle);
-            _particle.position.x = center.x - v.x * spacing;
-            _particle.position.y = center.y - v.y * spacing;
+            if (mirror.z != 0) {
+                _particle.position.z = center.z - v.z * spacing;
+            }
+
             particles.add(_particle);
         }
     }
