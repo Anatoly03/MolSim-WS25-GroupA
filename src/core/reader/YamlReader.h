@@ -97,14 +97,12 @@ class YamlReader : public FileReader {
         Cuboid cuboid;
 
         cuboid.position = position;
-        cuboid.n1 = amount.x;
-        cuboid.n2 = amount.y;
-        cuboid.n3 = amount.z;
+        cuboid.size = amount;
         cuboid.h = h;
         cuboid.mass = mass;
         cuboid.initial_velocity = velocity;
 
-        addCuboid2D(particles, cuboid, brownian_sigma);
+        addCuboid(particles, cuboid, brownian_sigma);
     }
 
     /**

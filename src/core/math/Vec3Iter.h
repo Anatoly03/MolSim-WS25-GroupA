@@ -33,6 +33,7 @@ struct Vec3Iter {
 
     // constructors
     Vec3Iter() : last(0) {}
+    Vec3Iter(Vec3I v) : last(v.x, v.y, v.z) {}
     Vec3Iter(int e) : last(e) {}
     Vec3Iter(int x, int y, int z) : last(x, y, z) {}
 
