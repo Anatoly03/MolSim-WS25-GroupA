@@ -4,7 +4,7 @@
 #pragma once
 
 #include "../ParticleContainer.h"
-#include "../CuboidGenerator.h"
+#include "../generator/CuboidGenerator.h"
 #include "../physics/Force.h"
 #include "../utils/Args.h"
 #include "../math/Vec3.h"
@@ -94,15 +94,16 @@ class YamlReader : public FileReader {
             h = node["dist"].as<double>();
         };
 
-        Cuboid cuboid;
+        CuboidGenerator cuboid;
 
         cuboid.position = position;
         cuboid.size = amount;
-        cuboid.spacing = Vec3D(h, h, h); // for later: allow rescale distance per axis
+        cuboid.spacing = Vec3D(h); // for later: allow rescale distance per axis
         cuboid.mass = mass;
         cuboid.initial_velocity = velocity;
+        cuboid.brownian_sigma = brownian_sigma;
 
-        addCuboid(particles, cuboid, brownian_sigma);
+        cuboid.generate(particles);
     }
 
     /**

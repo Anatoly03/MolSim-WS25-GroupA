@@ -21,7 +21,7 @@ inline const force_calculation_system newton_gravity_system = [](const Args & /*
 
     double r1 = dist.length();
     if (r1 == 0.0) return Vec3D(); // cut in to avoid high values
-    
+
     double mulMass = par1.mass * par2.mass;
     return dist * (mulMass / (std::pow(r1, 3)));
 };
@@ -46,7 +46,6 @@ inline const force_calculation_system lennard_jones_system = [](const Args &args
     double sr12 = sr6 * sr6;                // (sigma / (xi -xj))^12
 
     double scalar = 24.0 * args.epsilon * inv_r2 * (2.0 * sr12 - sr6);
-
     return scalar * dist.normal();
 };
 

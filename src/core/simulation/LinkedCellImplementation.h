@@ -166,11 +166,11 @@ class LinkedCellImplementation : public Simulation {
      */
     void tick() override {
         calculatePosition(); // implemented in super class
-        // calculateBorderBehaviour();
         delayPosition(); // implemented in super class
         reindexParticles();
         delayForce(); // implemented in super class
         calculateForce();
+        // calculateBorderBehaviour();
         calculateVelocity(); // implemented in super class
     }
 };
