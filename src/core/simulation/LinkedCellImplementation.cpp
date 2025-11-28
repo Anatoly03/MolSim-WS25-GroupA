@@ -18,7 +18,7 @@ void LinkedCellImplementation::reindexParticles() {
  */
 void LinkedCellImplementation::calculateBorderBehaviour() {
     // brief: simple repulsion from border using ghost particles
-    const int REPULSION = 5;
+    //const int REPULSION = 1;
 
     cells.forEachBordered([&](Particle &p, Vec3I ghostCellIndex) {
         Particle ghost(p);
@@ -39,22 +39,38 @@ void LinkedCellImplementation::calculateBorderBehaviour() {
         // TODO are particles attracted to border?
 
         // calculate relative position in cell
-        Vec3D cellRelative = Vec3D(
+       /* Vec3D cellRelative = Vec3D(
             p.position.x - (ghostCellIndex.x * cells.cellSize.x),
             p.position.y - (ghostCellIndex.y * cells.cellSize.y),
             p.position.z - (ghostCellIndex.z * cells.cellSize.z)
-        );
+        );*/
 
-        ghost.mass *= -REPULSION; // strong repulsion
+        //ghost.mass *= REPULSION; // strong repulsion
 
         // mirror relative position in cell against ghost cell border
         ghost.position = p.position;
-
-        ghost.position.x += cells.cellSize.x * 2 - 2 * cellRelative.x;
+        Vec3D boundary ;
+        boundary.x=ghostCellIndex.x * cells.cellSize.x;
+        boundary.y=ghostCellIndex.y * cells.cellSize.y;
+        boundary.z=ghostCellIndex.z * cells.cellSize.z;
+        /*ghost.position.x += cells.cellSize.x * 2 - 2 * cellRelative.x;
         ghost.position.y += cells.cellSize.y * 2 - 2 * cellRelative.y;
-        ghost.position.z += cells.cellSize.z * 2 - 2 * cellRelative.z;
+        ghost.position.z += cells.cellSize.z * 2 - 2 * cellRelative.z;*/
+        ghost.position = 2 * boundary - p.position;
 
-        forceCalculationSystem(const_cast<Args&>(arguments), p, ghost);
+
+        //std::cout<<"boundaryX "<<ghostCellIndex.x * cells.cellSize.x<<" boundaryY "<<ghostCellIndex.y * cells.cellSize.y<<" boundaryZ "<<ghostCellIndex.z * cells.cellSize.z<<std::endl;
+
+        //std::cout<<"Ghost "<<ghost.position.x<<" "<<ghost.position.y<<" "<<ghost.position.z<<" Particle "<<p.position.x<<" "<<p.position.y<<" "<<p.position.z<<std::endl;
+
+        if((ghost.position-p.position).length()<pow(2,1/6) * arguments.sigma){
+            std::cout<<"Ghost "<<ghost.position.x<<" "<<ghost.position.y<<" "<<ghost.position.z<<" Particle "<<p.position.x<<" "<<p.position.y<<" "<<p.position.z<<std::endl;
+
+            auto force = forceCalculationSystem(const_cast<Args&>(arguments), p, ghost);
+            p.force+=force;
+
+        }
+
     });
 }
 

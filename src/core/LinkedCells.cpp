@@ -144,7 +144,7 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
         auto &particles = containers[cellIndex];
 
         for (auto &p: particles) {
-            callback(p, Vec3I(0, 0, -1));
+            callback(p, cellIndex+Vec3I(0, 0, -1));
         }
     }
 
@@ -154,7 +154,7 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
         auto &particles = containers[cellIndex];
 
         for (auto &p: particles) {
-            callback(p, Vec3I(0, 0, 1));
+            callback(p, cellIndex+Vec3I(0, 0, 1));
         }
     }
 
@@ -164,7 +164,7 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
         auto &particles = containers[cellIndex];
 
         for (auto &p: particles) {
-            callback(p, Vec3I(0, -1, 0));
+            callback(p, cellIndex+Vec3I(0, -1, 0));
         }
     }
 
@@ -174,7 +174,7 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
         auto &particles = containers[cellIndex];
 
         for (auto &p: particles) {
-            callback(p, Vec3I(0, 1, 0));
+            callback(p, cellIndex+Vec3I(0, 1, 0));
         }
     }
 
@@ -184,7 +184,7 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
         auto &particles = containers[cellIndex];
 
         for (auto &p: particles) {
-            callback(p, Vec3I(-1, 0, 0));
+            callback(p, cellIndex+Vec3I(-1, 0, 0));
         }
     }
 
@@ -194,7 +194,7 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
         auto &particles = containers[cellIndex];
 
         for (auto &p: particles) {
-            callback(p, Vec3I(1, 0, 0));
+            callback(p, cellIndex+Vec3I(1, 0, 0));
         }
     }
 }
