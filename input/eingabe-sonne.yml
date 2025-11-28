@@ -1,10 +1,11 @@
 name: Halley's comet simulation
 
 config:
-  delta_time: 0.14
-  total_time: 100
+  delta_time: 0.014
+  total_time: 1000
   output: Sonne
   output_interval: 25
+  attraction: newton
 
 particles:
   sun:

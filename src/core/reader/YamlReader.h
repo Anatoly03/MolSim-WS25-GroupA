@@ -4,7 +4,11 @@
 #pragma once
 
 #include "../ParticleContainer.h"
-#include "../CuboidGenerator.h"
+#include "../generator/BallGenerator.h"
+#include "../generator/CuboidGenerator.h"
+#include "../generator/DiscGenerator.h"
+#include "../physics/Force.h"
+#include "../utils/Args.h"
 #include "../math/Vec3.h"
 #include "../Particle.h"
 #include "FileReader.h"
@@ -89,20 +93,65 @@ class YamlReader : public FileReader {
             double sigma = node["sigma"].as<double>();
             h = std::pow(2.0, 1.0 / 6.0) * sigma;
         } else {
-            h = node["h"].as<double>();
+            h = node["dist"].as<double>();
         };
 
-        Cuboid cuboid;
+        CuboidGenerator cuboid;
 
         cuboid.position = position;
-        cuboid.n1 = amount.x;
-        cuboid.n2 = amount.y;
-        cuboid.n3 = amount.z;
-        cuboid.h = h;
+        cuboid.size = amount;
+        cuboid.spacing = Vec3D(h); // for later: allow rescale distance per axis
         cuboid.mass = mass;
         cuboid.initial_velocity = velocity;
+        cuboid.brownian_sigma = brownian_sigma;
 
-        addCuboid2D(particles, cuboid, brownian_sigma);
+        cuboid.generate(particles);
+    }
+
+    /**
+     * @brief Get particle from YAML::Node
+     */
+    void readDiscNode(ParticleContainer &particles, const YAML::Node &node) const {
+        int radius = node["radius"].as<int>();
+        Vec3D center = node["center"].as<Vec3<double>>();
+        Vec3D velocity = node["velocity"].as<Vec3<double>>();
+        double mass = node["mass"].as<double>();
+        double brownian_sigma = node["brownian_sigma"].as<double>();
+        double spacing = node["dist"].as<double>();
+
+        DiscGenerator disc;
+
+        disc.center = center;
+        disc.radius = radius;
+        disc.spacing = spacing;
+        disc.mass = mass;
+        disc.initial_velocity = velocity;
+        disc.brownian_sigma = brownian_sigma;
+
+        disc.generate(particles);
+    }
+
+    /**
+     * @brief Get particle from YAML::Node
+     */
+    void readBallNode(ParticleContainer &particles, const YAML::Node &node) const {
+        int radius = node["radius"].as<int>();
+        Vec3D center = node["center"].as<Vec3<double>>();
+        Vec3D velocity = node["velocity"].as<Vec3<double>>();
+        double mass = node["mass"].as<double>();
+        double brownian_sigma = node["brownian_sigma"].as<double>();
+        double spacing = node["dist"].as<double>();
+
+        BallGenerator ball;
+
+        ball.center = center;
+        ball.radius = radius;
+        ball.spacing = spacing;
+        ball.mass = mass;
+        ball.initial_velocity = velocity;
+        ball.brownian_sigma = brownian_sigma;
+
+        ball.generate(particles);
     }
 
     /**
@@ -119,6 +168,7 @@ class YamlReader : public FileReader {
         const double epsilon = unwrap_node<double>(args.epsilon, "config", "epsilon");
         const double sigma = unwrap_node<double>(args.sigma, "config", "sigma");
         const double cut_off = unwrap_node<double>(args.cutoff_radius, "config", "cut_off");
+        const std::string attraction_method = unwrap_node<std::string>("lennard-jones", "config", "attraction");
 
         if (args.delta_t_cli) {
             spdlog::warn("delta_time in {} overridden by CLI argument: {} -> {}", args.input_file, delta_time, args.delta_t);
@@ -145,6 +195,7 @@ class YamlReader : public FileReader {
         args.epsilon = epsilon;
         args.sigma = sigma;
         args.cutoff_radius = cut_off;
+        args.attraction_method = attraction_method;
     }
 
     /**
@@ -155,6 +206,14 @@ class YamlReader : public FileReader {
 
         if (node_type == "cuboid") {
             return readCuboidNode(particles, node);
+        }
+        
+        if (node_type == "ball") {
+            return readBallNode(particles, node);
+        }
+
+        if (node_type == "disc") {
+            return readDiscNode(particles, node);
         }
 
         Particle particle;

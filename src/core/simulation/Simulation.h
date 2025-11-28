@@ -6,6 +6,7 @@
 #include "../math/Vec3.h"
 #include "../utils/Args.h"
 #include "../utils/ArrayUtils.h"
+#include "../physics/Force.h"
 #include "../ParticleContainer.h"
 #include "../Particle.h"
 
@@ -17,6 +18,11 @@ class Simulation {
      * @brief CLI input arguments, constant for the simulation run.
      */
     const Args arguments;
+
+    /**
+     * @brief Force calculation method
+     */
+    force_calculation_system forceCalculationSystem = lennard_jones_system;
 
     /**
      * @brief Current simulation iteration.
@@ -34,7 +40,10 @@ class Simulation {
     /**
      * @brief Default constructor
      */
-    Simulation(const Args &args) : arguments(args) {}
+    Simulation(const Args &args) : arguments(args) {
+        // use the attraction provided by args
+        forceCalculationSystem = get_force_system_by_name(args.attraction_method);
+    }
 
     /**
      * @brief Destructor
@@ -85,16 +94,24 @@ class Simulation {
     }
 
     /**
-     * @brief calculate the force for two distinct particles
-     */
-    virtual void calculateSingleForce(Particle& p1, Particle& p2);
-
-    /**
      * @brief calculate the force for all particles
      */
     virtual void calculateForce() {
-        forEachDistinctParticlePair([&](Particle &p_i, Particle &p_j) {
-            calculateSingleForce(p_i, p_j);
+        forEachDistinctParticlePair([&](Particle &par1, Particle &par2) {
+            Vec3D force = forceCalculationSystem(const_cast<Args&>(arguments), par1, par2);
+
+            // Newton 3: For every action, there is an equal and opposite reaction.
+            par1.force += force;
+            par2.force -= force;
+        });
+    }
+
+    /**
+     * @brief Delays the position for all particles.
+     */
+    virtual void delayPosition() {
+        forEachParticle([this](Particle &particle) {
+            particle.delayPosition();
         });
     }
 

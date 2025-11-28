@@ -2,6 +2,9 @@
 #pragma once
 
 #include <string>
+
+#include "../math/Vec3.h"
+
 #include "spdlog/spdlog.h"
 
 /**
@@ -78,6 +81,11 @@ struct Args {
 
     // TODO document
     double cutoff_radius = 3.0;
+
+    /**
+     * @brief Attraction method to use. Provided by input files.
+     */
+    std::string attraction_method = "lennard-jones";
 
     /**
      * @brief Cell size for linked cell implementation. Provided by input files.

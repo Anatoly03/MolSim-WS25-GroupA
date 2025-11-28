@@ -20,6 +20,11 @@ class Particle {
     Vec3D position = Vec3D(0.0);
 
     /**
+     * @brief Position of the particle
+     */
+    Vec3D old_position = Vec3D(0.0);
+
+    /**
      * @brief Velocity of the particle
      */
     Vec3D velocity = Vec3D(0.0);
@@ -71,6 +76,11 @@ class Particle {
      * @note Deep copy.
      */
     Particle clone() const;
+
+    /**
+     * @brief Push position to old position. Does not modify current position.
+     */
+    void delayPosition();
 
     /**
      * @brief Push force to old force and reset current force to zero.
