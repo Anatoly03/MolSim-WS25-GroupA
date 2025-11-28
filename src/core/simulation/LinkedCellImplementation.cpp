@@ -50,26 +50,118 @@ void LinkedCellImplementation::calculateBorderBehaviour() {
         // mirror relative position in cell against ghost cell border
         ghost.position = p.position;
         Vec3D boundary ;
-        boundary.x=ghostCellIndex.x * cells.cellSize.x;
+        /*boundary.x=ghostCellIndex.x * cells.cellSize.x;
         boundary.y=ghostCellIndex.y * cells.cellSize.y;
-        boundary.z=ghostCellIndex.z * cells.cellSize.z;
+        boundary.z=ghostCellIndex.z * cells.cellSize.z;*/
+        /*if (ghostCellIndex.x < domainMin.x) {
+            // Ghost is on the negative side → boundary is the inner face of minIdx cell
+            boundary.x = (domainMin.x) * cells.cellSize.x;
+        }
+        if (ghostCellIndex.x > domainMax.x) {
+            // Ghost is on the positive side → boundary is the outer face of maxIdx cell
+            boundary.x = (domainMax.x + 1) * cells.cellSize.x;
+        }
+
+        if (ghostCellIndex.y < domainMin.y) {
+            boundary.y = (domainMin.y) * cells.cellSize.y;
+        }
+        if (ghostCellIndex.y > domainMax.y) {
+            boundary.y = (domainMax.y + 1) * cells.cellSize.y;
+        }
+
+        if (ghostCellIndex.z < domainMin.z) {
+            boundary.z = (domainMin.z) * cells.cellSize.z;
+        }
+        if (ghostCellIndex.z > domainMax.z) {
+            boundary.z = (domainMax.z + 1) * cells.cellSize.z;
+        }*/
+        if (ghostCellIndex.x < domainMin.x) boundary.x = domainMin.x * cells.cellSize.x;
+        if (ghostCellIndex.x > domainMax.x) boundary.x = (domainMax.x+1) * cells.cellSize.x;
+
+        if (ghostCellIndex.y < domainMin.y) boundary.y = domainMin.y * cells.cellSize.y;
+        if (ghostCellIndex.y > domainMax.y) boundary.y = (domainMax.y+1) * cells.cellSize.y;
+
+        if (ghostCellIndex.z < domainMin.z) boundary.z = domainMin.z * cells.cellSize.z;
+        if (ghostCellIndex.z > domainMax.z) boundary.z = (domainMax.z+1) * cells.cellSize.z;
+
         /*ghost.position.x += cells.cellSize.x * 2 - 2 * cellRelative.x;
         ghost.position.y += cells.cellSize.y * 2 - 2 * cellRelative.y;
         ghost.position.z += cells.cellSize.z * 2 - 2 * cellRelative.z;*/
-        ghost.position = 2 * boundary - p.position;
+        //ghost.position = 2 * boundary - p.position;
+        ghost.position.x = 2 * boundary.x - p.position.x;
+        ghost.position.y = 2 * boundary.y - p.position.y;
+        ghost.position.z = 2 * boundary.z - p.position.z;
+
 
 
         //std::cout<<"boundaryX "<<ghostCellIndex.x * cells.cellSize.x<<" boundaryY "<<ghostCellIndex.y * cells.cellSize.y<<" boundaryZ "<<ghostCellIndex.z * cells.cellSize.z<<std::endl;
 
         //std::cout<<"Ghost "<<ghost.position.x<<" "<<ghost.position.y<<" "<<ghost.position.z<<" Particle "<<p.position.x<<" "<<p.position.y<<" "<<p.position.z<<std::endl;
+        //std::cout<<"diff "<<(ghost.position-p.position).length2()<<std::endl;
+        //std::cout<<"range "<<pow(2,1/6) * arguments.sigma<<std::endl;
 
-        if((ghost.position-p.position).length()<pow(2,1/6) * arguments.sigma){
-            std::cout<<"Ghost "<<ghost.position.x<<" "<<ghost.position.y<<" "<<ghost.position.z<<" Particle "<<p.position.x<<" "<<p.position.y<<" "<<p.position.z<<std::endl;
+        double d = p.position.x - domainMin.x * cells.cellSize.x;
+        if (d < pow(2,1/6) * arguments.sigma) {
+            Particle wall;
+            wall.position = Vec3D(domainMin.x * cells.cellSize.x, p.position.y, p.position.z);
 
-            auto force = forceCalculationSystem(const_cast<Args&>(arguments), p, ghost);
+            auto force = forceCalculationSystem(const_cast<Args&>(arguments), p, wall);
             p.force+=force;
 
         }
+        d = (domainMax.x+1)*cells.cellSize.x - p.position.x;
+        if (d < pow(2,1/6) * arguments.sigma) {
+            Particle wall;
+            wall.position = Vec3D((domainMax.x+1) * cells.cellSize.x, p.position.y, p.position.z);
+
+            auto force = forceCalculationSystem(const_cast<Args&>(arguments), p, wall);
+            p.force+=force;
+
+        }
+        d = p.position.y - domainMin.y * cells.cellSize.y;
+        if (d < pow(2,1/6) * arguments.sigma) {
+            Particle wall;
+            wall.position = Vec3D(p.position.x, domainMin.y * cells.cellSize.y, p.position.z);
+
+            auto force = forceCalculationSystem(const_cast<Args&>(arguments), p, wall);
+            p.force+=force;
+
+        }
+        d = (domainMax.y+1)*cells.cellSize.y - p.position.y;
+        if (d < pow(2,1/6) * arguments.sigma) {
+            Particle wall;
+            wall.position = Vec3D(p.position.x,( domainMax.y+1) * cells.cellSize.y, p.position.z);
+            auto force = forceCalculationSystem(const_cast<Args&>(arguments), p, wall);
+            p.force+=force;
+
+        }
+        d = p.position.z - domainMin.z * cells.cellSize.z;
+        if (d < pow(2,1/6) * arguments.sigma) {
+            Particle wall;
+            wall.position = Vec3D(p.position.x, p.position.y, domainMin.z * cells.cellSize.z);
+            auto force = forceCalculationSystem(const_cast<Args&>(arguments), p, wall);
+            p.force+=force;
+
+        }
+        d = (domainMax.z+1)*cells.cellSize.z - p.position.z;
+        if (d < pow(2,1/6) * arguments.sigma) {
+            Particle wall;
+            wall.position = Vec3D(p.position.x, p.position.y, (domainMax.z+1) * cells.cellSize.z);
+            auto force = forceCalculationSystem(const_cast<Args&>(arguments), p, wall);
+            p.force+=force;
+
+        }
+
+        /*if((ghost.position-p.position).length2()<pow(2,1/6) * arguments.sigma){
+            std::cout<<"Ghost "<<ghost.position.x<<" "<<ghost.position.y<<" "<<ghost.position.z<<" Particle "<<p.position.x<<" "<<p.position.y<<" "<<p.position.z<<std::endl;
+
+            auto force = forceCalculationSystem(const_cast<Args&>(arguments), p, ghost);
+            std::cout<<"Ghost "<<force.x<<" "<<force.y<<" "<<force.z<<" Particle "<<p.force.x<<" "<<p.force.y<<" "<<p.force.z<<std::endl;
+
+            p.force=-p.force*10;
+            //std::cout<<"After Ghost "<<force.x<<" "<<force.y<<" "<<force.z<<" Particle "<<p.force.x<<" "<<p.force.y<<" "<<p.force.z<<std::endl;
+
+        }*/
 
     });
 }

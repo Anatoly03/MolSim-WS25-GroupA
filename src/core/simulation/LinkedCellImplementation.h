@@ -170,7 +170,7 @@ class LinkedCellImplementation : public Simulation {
         reindexParticles();
         delayForce(); // implemented in super class
         calculateForce();
-        // calculateBorderBehaviour();
+        calculateBorderBehaviour();
         calculateVelocity(); // implemented in super class
     }
 };
