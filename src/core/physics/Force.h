@@ -11,34 +11,31 @@
 /**
  * @brief Abstraction for a force calculation lambda between two particles.
  */
-using force_calculation_system = std::function<void(const Args& args, Particle &a, Particle &b)>;
+using force_calculation_system = std::function<Vec3D(const Args& args, const Particle &a, const Particle &b)>;
 
 /**
  * @details Newton/ Coloumb-like calculation of attraction
  */
-inline const force_calculation_system newton_gravity_system = [](const Args & /*args*/, Particle &par1, Particle &par2) {
+inline const force_calculation_system newton_gravity_system = [](const Args & /*args*/, const Particle &par1, const Particle &par2) -> Vec3D {
     Vec3D dist = par2.position - par1.position;
 
     double r1 = dist.length();
-    if (r1 == 0.0) return;
+    if (r1 == 0.0) return Vec3D(); // cut in to avoid high values
     
     double mulMass = par1.mass * par2.mass;
-    const auto force = dist * (mulMass / (std::pow(r1, 3)));
-
-    par1.force += force;
-    par2.force -= force;
+    return dist * (mulMass / (std::pow(r1, 3)));
 };
 
 /**
  * @brief Lennard-Jones force calculation system.
  */
-inline const force_calculation_system lennard_jones_system = [](const Args &args, Particle &par1, Particle &par2) {
+inline const force_calculation_system lennard_jones_system = [](const Args &args, const Particle &par1, const Particle &par2) -> Vec3D {
     Vec3D dist = par1.position - par2.position;
 
     double r1 = dist.length();
-    if (r1 > args.cutoff_radius) return;  // cut off for performance
+    if (r1 > args.cutoff_radius) return Vec3D();  // cut off for performance
     double r2 = dist.length2();
-    if (r2 == 0.0) return; // cut in to avoid high values
+    if (r2 == 0.0) return Vec3D(); // cut in to avoid high values
 
     double min=pow(2,1/6) * args.sigma;
     if (r2 < min) r2=min;
@@ -50,12 +47,7 @@ inline const force_calculation_system lennard_jones_system = [](const Args &args
 
     double scalar = 24.0 * args.epsilon * inv_r2 * (2.0 * sr12 - sr6);
 
-    Vec3D force = scalar * dist.normal();
-
-    // spdlog::trace("Particles {}-{} exert force {}x{}", par1.p_id, par2.p_id, scalar, dist.normal());
-
-    par1.force += force;
-    par2.force -= force;
+    return scalar * dist.normal();
 };
 
 /**

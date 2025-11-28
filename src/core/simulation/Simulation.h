@@ -97,8 +97,12 @@ class Simulation {
      * @brief calculate the force for all particles
      */
     virtual void calculateForce() {
-        forEachDistinctParticlePair([&](Particle &p_i, Particle &p_j) {
-            forceCalculationSystem(const_cast<Args&>(arguments), p_i, p_j);
+        forEachDistinctParticlePair([&](Particle &par1, Particle &par2) {
+            Vec3D force = forceCalculationSystem(const_cast<Args&>(arguments), par1, par2);
+
+            // Newton 3: For every action, there is an equal and opposite reaction.
+            par1.force += force;
+            par2.force -= force;
         });
     }
 
