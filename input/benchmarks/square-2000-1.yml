@@ -1,0 +1,24 @@
+name: Square with 2048 particles
+benchmarked_on: 28th Nov 2025
+
+config:
+  delta_time: 0.0005
+  total_time: 1
+  cut_off: 3.0
+  output_interval: 1000
+  cell_size: [3, 3, 1]
+  domain_min: [0, 0, 0]
+  domain_max: [34, 25, 0] # 3*34 = 100, 3*25 = 75
+  epsilon: 5.0
+  sigma: 1.0
+
+particles:
+  cuboid1:
+    type: cuboid
+    n: [64, 32, 1]
+    position: [20.0, 20.0, 0.0]
+    velocity: [0.0, 10.0, 0.0]
+    mass: 1.0
+    sigma: 1.0
+    dist: 1.0
+    brownian_sigma: 0.0001
