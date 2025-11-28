@@ -40,7 +40,10 @@ class Simulation {
     /**
      * @brief Default constructor
      */
-    Simulation(const Args &args) : arguments(args) {}
+    Simulation(const Args &args) : arguments(args) {
+        // use the attraction provided by args
+        forceCalculationSystem = get_force_system_by_name(args.attraction_method);
+    }
 
     /**
      * @brief Destructor

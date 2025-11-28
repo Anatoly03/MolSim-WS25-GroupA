@@ -5,6 +5,8 @@
 
 #include "../ParticleContainer.h"
 #include "../CuboidGenerator.h"
+#include "../physics/Force.h"
+#include "../utils/Args.h"
 #include "../math/Vec3.h"
 #include "../Particle.h"
 #include "FileReader.h"
@@ -119,6 +121,7 @@ class YamlReader : public FileReader {
         const double epsilon = unwrap_node<double>(args.epsilon, "config", "epsilon");
         const double sigma = unwrap_node<double>(args.sigma, "config", "sigma");
         const double cut_off = unwrap_node<double>(args.cutoff_radius, "config", "cut_off");
+        const std::string attraction_method = unwrap_node<std::string>("lennard-jones", "config", "attraction");
 
         if (args.delta_t_cli) {
             spdlog::warn("delta_time in {} overridden by CLI argument: {} -> {}", args.input_file, delta_time, args.delta_t);
@@ -145,6 +148,7 @@ class YamlReader : public FileReader {
         args.epsilon = epsilon;
         args.sigma = sigma;
         args.cutoff_radius = cut_off;
+        args.attraction_method = attraction_method;
     }
 
     /**
