@@ -5,6 +5,7 @@
 
 #include "../ParticleContainer.h"
 #include "../generator/CuboidGenerator.h"
+#include "../generator/DiscGenerator.h"
 #include "../physics/Force.h"
 #include "../utils/Args.h"
 #include "../math/Vec3.h"
@@ -109,6 +110,29 @@ class YamlReader : public FileReader {
     /**
      * @brief Get particle from YAML::Node
      */
+    void readDiscNode(ParticleContainer &particles, const YAML::Node &node) const {
+        int radius = node["radius"].as<int>();
+        Vec3D center = node["center"].as<Vec3<double>>();
+        Vec3D velocity = node["velocity"].as<Vec3<double>>();
+        double mass = node["mass"].as<double>();
+        double brownian_sigma = node["brownian_sigma"].as<double>();
+        double spacing = node["dist"].as<double>();
+
+        DiscGenerator disc;
+
+        disc.center = center;
+        disc.radius = radius;
+        disc.spacing = spacing;
+        disc.mass = mass;
+        disc.initial_velocity = velocity;
+        disc.brownian_sigma = brownian_sigma;
+
+        disc.generate(particles);
+    }
+
+    /**
+     * @brief Get particle from YAML::Node
+     */
     void readConfig(Args &args) const {
         const double delta_time = unwrap_node<double>(args.delta_t, "config", "delta_time");
         const double total_time = unwrap_node<double>(args.end_time, "config", "total_time");
@@ -158,6 +182,8 @@ class YamlReader : public FileReader {
 
         if (node_type == "cuboid") {
             return readCuboidNode(particles, node);
+        } else if (node_type == "disc") {
+            return readDiscNode(particles, node);
         }
 
         Particle particle;

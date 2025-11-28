@@ -8,22 +8,23 @@
 /**
  * @brief Particle generator abstraction.
  */
-class CuboidGenerator : public ParticleGenerator {
+class DiscGenerator : public ParticleGenerator {
    public:
     /**
-     * @brief Position of the cuboid's low-left-front corner.
+     * @brief Focus point/ center of disc.
      */
-    Vec3D position;
+    Vec3D center;
 
     /**
-     * @brief Numbers of particles along each axis.
+     * @brief Radius of the disc, specifically the number of molecules along the
+     * axis lines of the disc.
      */
-    Vec3I size;
+    int radius;
 
     /**
      * @brief Distance between neighboring particles along each axis.
      */
-    Vec3D spacing;
+    double spacing;
     
     /**
      * @brief Mass of each particle.
