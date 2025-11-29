@@ -101,3 +101,20 @@
 [2025-11-28 21:17:16.115] [info] average: 16.7531s
 [2025-11-28 21:17:16.115] [info] total:   83.7653s
 
+./build/MolSim input/benchmarks/square-2000.yml -B5 -V0                                                                              1 ✘  27s 
+[2025-11-29 13:30:18.682] [trace] benchmark: iteration 0: in 55.3804s
+[2025-11-29 13:31:15.264] [trace] benchmark: iteration 1: in 56.5812s <---
+[2025-11-29 13:32:13.066] [trace] benchmark: iteration 2: in 57.8022s <--- potential memory leak
+[2025-11-29 13:33:09.514] [trace] benchmark: iteration 3: in 56.4475s <---
+[2025-11-29 13:34:07.942] [trace] benchmark: iteration 4: in 58.4281s <--- potential memory leak
+[2025-11-29 13:34:07.942] [debug] benchmark: finish 5 iterations, over 2048 particles, over 2001 iterations
+[2025-11-29 13:34:07.942] [info] average: 56.9279s
+[2025-11-29 13:34:07.942] [info] total:   284.6394s
+
+./build/MolSim input/benchmarks/square-4000.yml -B2 -V0                                                                      INT ✘  1m 34s 
+[2025-11-29 13:40:43.143] [trace] benchmark: iteration 0: in 230.1311s
+[2025-11-29 13:44:34.671] [trace] benchmark: iteration 1: in 231.5277s
+[2025-11-29 13:44:34.671] [debug] benchmark: finish 2 iterations, over 4096 particles, over 2001 iterations
+[2025-11-29 13:44:34.671] [info] average: 230.8294s
+[2025-11-29 13:44:34.671] [info] total:   461.6587s
+
