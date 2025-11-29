@@ -13,13 +13,18 @@
 #include "spdlog/spdlog.h"
 #include "utils/ArrayUtils.h"
 
+// black magic, this is stored in the const segment of the program but we modify it anyway
+int global_id = 1;
+
 /**
  * The default constructor for Particle logs the creation
  * of an initially forceless particle.
  */
-Particle::Particle(int type_arg) {
-    type = type_arg;
-    spdlog::debug("Particle generated (empty)!");
+Particle::Particle() {
+    // NOLINTNEXTLINE unused-variable
+    p_id = ++global_id;
+
+    spdlog::trace("Particle generated (empty)!");
     force = {0., 0., 0.};
     old_force = {0., 0., 0.};
 }
@@ -29,70 +34,46 @@ Particle::Particle(int type_arg) {
  * copy constructor of Vec3 for all attributes.
  */
 Particle::Particle(const Particle &other) {
+    p_id = other.p_id;
+
     position = other.position;
+    old_position = other.old_position;
     velocity = other.velocity;
     force = other.force;
     old_force = other.old_force;
     mass = other.mass;
-    type = other.type;
 
-    spdlog::debug("Particle generated (by copy)!");
+    spdlog::trace("Particle generated (by copy)!");
 }
 
 /**
  * The component-wise constructor for Particle creates a
  * new particle from atomic attributes.
  */
-Particle::Particle(Vec3D pos_arg, Vec3D vel_arg, double mass_arg, int type_arg) {
+Particle::Particle(Vec3D pos_arg, Vec3D vel_arg, double mass_arg) {
+    p_id = ++global_id;
+
     position = pos_arg;
+    old_position = pos_arg;
     velocity = vel_arg;
     mass = mass_arg;
-    type = type_arg;
     force = {0., 0., 0.};
     old_force = {0., 0., 0.};
 
-    spdlog::debug("Particle generated!");
+    spdlog::trace("Particle generated!");
 }
 
 /**
  * Particle destructor.
  */
-Particle::~Particle() { spdlog::debug("Particle destructed!"); }
+Particle::~Particle() { spdlog::trace("Particle destructed!"); }
 
 /**
- * @brief Get the position of this Particle.
+ * Move position to old position. This tracks the position delta.
  */
-const Vec3D &Particle::getPosition() const { return position; }
-
-/**
- * @brief Get the velocity of this Particle.
- */
-const Vec3D &Particle::getVelocity() const { return velocity; }
-
-/**
- * @brief Get the force effective on this Particle.
- */
-const Vec3D &Particle::getForce() const { return force; }
-
-/**
- * @brief Set the position of this Particle.
- */
-void Particle::setPosition(const Vec3D &position_) { this->position = position_; }
-
-/**
- * @brief Set the velocity of this Particle.
- */
-void Particle::setVelocity(const Vec3D &velocity_) { this->velocity = velocity_; }
-
-/**
- * @brief Set the force effective on this Particle.
- */
-void Particle::setForce(const Vec3D &force_) { this->force = force_; }
-
-/**
- * @brief Add to the force on this Particle.
- */
-void Particle::addForce(const Vec3D &force_) { this->force += force_; }
+void Particle::delayPosition() {
+    this->old_position = this->position;
+}
 
 /**
  * Move force to old force and reset current force to zero. This
@@ -104,28 +85,12 @@ void Particle::delayForce() {
 }
 
 /**
- * @brief Get the delayed force effective on this Particle
- * in the previous tick.
- */
-const Vec3D &Particle::getOldForce() const { return old_force; }
-
-/**
- * @brief Get the mass of this Particle.
- */
-double Particle::getMass() const { return mass; }
-
-/**
- * @deprecated
- */
-int Particle::getType() const { return type; }
-
-/**
  * @brief Convert Particle to a string representation.
  */
 std::string Particle::toString() const {
     std::stringstream stream;
     stream << "Particle: Position:" << position.asArray() << " Velocity: " << velocity.asArray()
-           << " Force: " << force.asArray() << " Old Force: " << old_force.asArray() << " Type: " << type;
+           << " Force: " << force.asArray() << " Old Force: " << old_force.asArray();
     return stream.str();
 }
 

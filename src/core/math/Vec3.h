@@ -10,6 +10,7 @@
 #include <type_traits>
 
 #include "spdlog/spdlog.h"
+#include "yaml-cpp/yaml.h"
 
 /**
  * @struct Vec3
@@ -87,10 +88,27 @@ struct Vec3 {
     }
 
     /**
+     * @brief Vec3 reduced to the length of 1.
+     */
+    inline constexpr Vec3 normal() const {
+        if (this->length() == 0) {
+            spdlog::error("cannot normalize zero-length vector ({}, {}, {})", x, y, z);
+            return Vec3<T>(0, 0, 0);
+        }
+
+        return *this / this->length();
+    }
+
+    /**
      * @brief Retrieve the length of the vector.
      * @see https://de.wikipedia.org/wiki/Euklidische_Norm
      */
     inline constexpr double length() const { return std::sqrt(dot(*this)); }
+
+    /**
+     * @brief Retrieve the length squared of the vector in the second norm.
+     */
+    inline constexpr double length2() const { return dot(*this); }
 
     /**
      * @brief Convert Vec3 to an array type. Useful for printing.
@@ -164,21 +182,6 @@ struct Vec3 {
     constexpr Vec3(const Vec3 &other) = default;
     constexpr Vec3 &operator=(const Vec3 &other) = default;
 
-/*
- * Somehow here causes CI error,
- * maybe there are other better solutions to fix the bug.
- *
-    inline constexpr Vec3 &operator=(const Vec3 &other) {
-        // guard self assignment
-        if (this == &other) return *this;
-
-        x = other.x;
-        y = other.y;
-        z = other.z;
-        return *this;
-    }
-*/
-
     /**
      * @brief Binary addition operator overload for Vec3.
      */
@@ -218,6 +221,13 @@ struct Vec3 {
         z /= scalar;
         return *this;
     }
+
+    // casting
+
+    template<typename K>
+    explicit operator Vec3<K>() const {
+        return Vec3<K>(static_cast<K>(x), static_cast<K>(y), static_cast<K>(z));
+    }
 };
 
 /**
@@ -228,13 +238,91 @@ struct Vec3 {
 typedef Vec3<double> Vec3D;
 
 /**
- * @brief fmt formatter specialization for Vec3D (for spdlog support)
+ * @struct Vec3I
+ * @brief Represents a 3D vector of integer type.
  */
-template<>
-struct fmt::formatter<Vec3D> : fmt::formatter<std::string>
-{
-    auto format(Vec3D vec, format_context &ctx) const -> decltype(ctx.out())
-    {
-        return fmt::format_to(ctx.out(), "({}, {}, {})", vec.x, vec.y, vec.z);
+typedef Vec3<int> Vec3I;
+
+/**
+ * @brief fmt formatter specialization for Vec3<T> (for spdlog support)
+ */
+namespace fmt {
+template <typename T>
+struct formatter<Vec3<T>> {
+    /**
+     * @brief Do nothing in parse.
+     */
+    template <typename ParseContext>
+    constexpr auto parse(ParseContext &ctx) -> decltype(ctx.begin()) {
+        return ctx.begin(); // no op
+    }
+
+    /**
+     * @brief Format the Vec3 as "(x, y, z)".
+     * @note Take the vector by const reference to avoid creating temporary value
+     */
+    template <typename FormatContext>
+    auto format(const Vec3<T> &v, FormatContext &ctx) -> decltype(ctx.out()) {
+        return format_to(ctx.out(), "({},{},{})", v.x, v.y, v.z);
     }
 };
+} // namespace fmt
+
+/**
+ * Implements the YAML::convert<Vec3<T>> type which can be used to reduce
+ * repetitive expressions in deserialization.
+ */
+namespace YAML {
+template <typename T>
+struct convert<Vec3<T>> {
+    /**
+     * @brief YAML conversion for Vec3.
+     */
+    static Node encode(const Vec3<T> &rhs) {
+        Node node;
+
+        node.push_back(rhs.x);
+        node.push_back(rhs.y);
+        node.push_back(rhs.z);
+
+        return node;
+    }
+
+    /**
+     * @brief Read Vector3 from YAML::Node
+     */
+    static bool decode(const Node &node, Vec3<T> &rhs) {
+        if (!node.IsSequence() || node.size() != 3) {
+            return false;
+        }
+
+        rhs.x = node[0].as<T>();
+        rhs.y = node[1].as<T>();
+        rhs.z = node[2].as<T>();
+
+        return true;
+    }
+};
+} // namespace YAML
+
+namespace std {
+// https://stackoverflow.com/a/1102720
+template <typename T>
+struct less<Vec3<T>> {
+    /**
+     * @brief Less-than comparison for Vec3. Math is verified on paper
+     * but not optimized.
+     */
+    bool operator() (const Vec3<T>& lhs, const Vec3<T>& rhs) const {
+        if (lhs.x < rhs.x)
+            return true;
+        if (lhs.x == rhs.x) {
+            if (lhs.y < rhs.y)
+                return true;
+            if (lhs.y == rhs.y)
+                return lhs.z < rhs.z;
+        }
+        return false;
+    }
+};
+} // namespace std

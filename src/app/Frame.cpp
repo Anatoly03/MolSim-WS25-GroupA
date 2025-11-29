@@ -5,6 +5,7 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 
+#include "../core/utils/Args.h"
 #include "spdlog/spdlog.h"
 
 // https://stackoverflow.com/a/42906151 mkdir needs wrapper on windows subsystems
@@ -23,17 +24,40 @@ void printHelp(const char *progname) {
     fprintf(stdout,
             "Usage:\n"
             "  %s [input] [options]\n\n"
-            "Input File Format:\n"
-            "  The input file contains the initial configuration of the particles.\n\n"
+
+            "Allowed Input File Formats:\n\n"
+
+            "  === Text File: .txt, .text ===\n"
+            "    Deprecated. Use YAML format instead.\n"
+            "  === YAML File: .yaml, .yml ===\n"
+            "    Recommended file format for input configuration.\n\n"
+            "    name: string (simulation name)\n"
+            "    config:\n"
+            "      delta_time: float (time step delta)\n"
+            "      total_time: float (total simulation time)\n"
+            "      output: string (output file path, default: ./MD_vtk)\n"
+            "      output_interval: int (output interval in number of steps)\n"
+            "    particles: (map of named particles or list of particles)\n"
+            "      position: vec3 (particle initial position)\n"
+            "      velocity: vec3 (particle initial velocity)\n"
+            "      mass: float (particle mass)\n\n"
+
             "Options:\n"
             "  -o, --output <path>   output path, file name after last slash (default: ./MD_vtk, example: "
             "path/to/output/vtk)\n"
             "  -t, --time <int>      total simulation time (default: 1000)\n"
             "  -d, --delta <float>   time step delta (default: 0.014)\n"
-            "  -L <level>            log level (hierarchy: trace, debug, info, warn, err, critical)\n"
-            "  -B <amount>           benchmark parameter, if specified will re-run simulation and output benchmark results\n"
-            "  -h, --help            print this help message\n"
+            "  -L <level>            spdlog level\n"
+            "                        hierarchy: trace - 0, debug - 1, info - 2, warn, err, critical, off\n"
+            "                        note: in benchmark mode this applies to benchmark logs only\n"
+            "  -B <amount>           benchmark parameter, if specified will re-run simulation and output benchmark "
+            "results\n"
+            "  -V <amount>           algorithm version parameter\n"
+            "         V0             Direct Sum Algorithm\n"
+            "         V1 (default)   Linked Cell Algorithm\n"
+            "  --help                print this help message\n"
             "  --help short          print compact help message\n\n"
+
             "Example:\n"
             "  %s input.txt -o output/simulation -t 500 -d 0.01\n",
             progname, progname);
@@ -91,11 +115,6 @@ Args ProcessArgs(int argc, char *argv[]) {
     const char *progname = argv[0];
 
     Args args = Args();
-    
-    // log level argument
-    bool log_level_set = false;
-    char* log_level_str = 0;
-    int log_level_code = 0;
 
     int opt;
     // parse options first
@@ -103,31 +122,41 @@ Args ProcessArgs(int argc, char *argv[]) {
         switch (opt) {
             case 't':  // -t or --time
                 args.end_time = atof(optarg);
+                args.end_time_cli = true;
                 break;
             case 'd':  // -d or --delta
                 args.delta_t = atof(optarg);
+                args.delta_t_cli = true;
                 break;
             case 'o':  // -o or --output
-                args.output_path = const_cast<char *>(optarg);
+                args.output_path = std::string(optarg);
+                args.output_file_cli = true;
                 break;
             case 'L':
-                log_level_set = true;
-                log_level_str = optarg;
-                log_level_code = atoi(log_level_str);
-
-                // if log level is in valid range, set it directly in spdlog
-                if (log_level_code >= 0 && log_level_code <= 5) {
-                    spdlog::set_level(static_cast<spdlog::level::level_enum>(log_level_code));
-                    break;
-                }
+                args.log_level_cli = true;
+                args.log_level = static_cast<spdlog::level::level_enum>(atoi(optarg));
 
                 // TODO non-numeric log level name options like `-L warn` and `-L err` (see spdlog source code)
-                // spdlog::level::from_str(&log_level_code);
-                // spdlog::set_level(level);
+                // args.log_level = spdlog::level::from_str(optarg);
+
                 break;
             case 'B':
                 args.benchmark_enabled = true;
                 args.benchmark_iterations = atoi(optarg);
+                break;
+            case 'V':
+                args.version = atoi(optarg);
+
+                switch (args.version) {
+                    case 0:
+                    case 1:
+                        break;
+
+                    default:
+                        spdlog::error("invalid algorithm version specified: {}", args.version);
+                        printUsage(progname);
+                }
+
                 break;
 
             case 'h':  // -h or --help
@@ -155,10 +184,10 @@ Args ProcessArgs(int argc, char *argv[]) {
     }
 
     // preprocess output option if not provided
-    if (args.output_path == nullptr) {
-        args.output_path = const_cast<char *>("MD_vtk");
+    if (args.output_path.empty()) {
+        args.output_path = "MD_vtk";
     } else {
-        if (!createPath(args.output_path)) {
+        if (!createPath(args.output_path.c_str())) {
             spdlog::error("could not create path: {}", args.output_path);
             printUsage(progname);
         }
@@ -167,14 +196,32 @@ Args ProcessArgs(int argc, char *argv[]) {
     // SUCCESS !
     // NO MORE FURTHER ERRORS
 
+    spdlog::set_level(args.log_level);
+
+    // print version of implementation
+    switch (args.version) {
+    case 0:
+        spdlog::debug("running `direct sum` implementation");
+        break;
+    case 1:
+        spdlog::debug("running `linked cell` implementation");
+        break;
+    }
+
     // disable all further logging in benchmark mode
     if (args.benchmark_enabled) {
-        if (log_level_set) {
-            spdlog::warn("benchmark mode enabled: ignoring option '-L {}'", log_level_str);
+        if (args.benchmark_iterations == 0) {
+            spdlog::error("benchmark iterations (-B {}) must be greater than zero", args.benchmark_iterations);
+            printUsage(progname);
         }
 
-        spdlog::info("benchmark: running {} iterations...", args.benchmark_iterations);
-        spdlog::set_level(spdlog::level::err);
+        // default logging is trace of benchmark iterations
+        if (!args.log_level_cli) {
+            args.log_level = spdlog::level::trace;
+        }
+
+        spdlog::debug("benchmark: running {} iterations...", args.benchmark_iterations);
+        spdlog::set_level(spdlog::level::err); // this will be overriden by custom benchmark implementation
     }
 
     return args;

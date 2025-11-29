@@ -1,0 +1,586 @@
+\documentclass[aspectratio=169]{beamer}
+\usepackage{babel}
+% \usepackage[german]{babel}
+
+\usepackage{tikz, transparent, colortbl, listings, pgfplots}
+\usepackage[export]{adjustbox}
+\usepackage[skins,theorems]{tcolorbox}
+ 
+\usetikzlibrary{automata,positioning}
+\setbeamercovered{transparent}
+\pgfplotsset{compat=1.18}
+\tcbset{highlight math style={enhanced,colframe=red,colback=white,arc=0pt,boxrule=1pt}}
+
+%
+% Cited from Ausarbeitung/aspdoc.cls
+%
+\lstset{
+    language=C++,
+    basicstyle=\upshape\footnotesize\ttfamily,
+    numbers=left,                   % where to put the line-numbers
+    numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+    numbersep=5pt,                  % how far the line-numbers are from the code
+    showstringspaces=false,
+    frame=single,                   % adds a frame around the code
+    rulecolor=\color{black},
+    tabsize=2,                      % sets default tabsize to 2 spaces
+    captionpos=b,                   % sets the caption-position to bottom
+    breaklines=true,                % sets automatic line breaking
+    breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+    title=\lstname,                 % show the filename of files included with \lstinputlisting;
+    keywordstyle=\color{blue},      % keyword style
+    commentstyle=\color{dkgreen},   % comment style
+    stringstyle=\color{mauve},      % string literal style
+    escapeinside={\%*}{*)},         % if you want to add LaTeX within your code
+}
+
+% \lstset{
+%     language=YAML,
+%     basicstyle=\upshape\footnotesize\ttfamily,
+%     numbers=left,
+%     numberstyle=\tiny\color{gray},
+%     numbersep=5pt,
+%     showstringspaces=false,
+%     frame=single,
+%     rulecolor=\color{black},
+%     tabsize=2,
+%     captionpos=b,
+%     breaklines=true,
+%     breakatwhitespace=false,
+%     title=\lstname,
+%     keywordstyle=\color{blue},
+%     commentstyle=\color{dkgreen},
+%     stringstyle=\color{mauve},
+%     escapeinside={\%*}{*)},
+% }
+
+% Useful Read:
+% https://www.overleaf.com/learn/latex/Beamer
+
+\title{Molecular Dynamics}
+\subtitle{Group A}
+\author{Haoyuan Ma \and Zhengying Zhao \and Anatoly Weinstein}
+\date{31st of October 2025}
+
+\newcommand{\framebackground}[2]{
+    \begin{tikzpicture}
+        \transparent{#1}
+        \node[inner sep=0] at (current page.center) {
+            \includegraphics[height=\paperheight, right]{./media/tum-uhrenturm.png}
+        };
+        \transparent{1}
+        \node[anchor=south, text width=\paperwidth, text height=1.5cm, draw=none, align=center] at (current page.south) {
+            \insertpagenumber
+        };
+        \transparent{#2}
+        \node[anchor=south, text width=\paperwidth, text height=1.5cm, draw=none, align=right] at (current page.south) {
+            \small Haoyuan Ma, Zhengying Z, Anatoly W. \,\,
+        };
+    \end{tikzpicture}
+}
+
+\newcommand{\headerframe}{
+    \usebackgroundtemplate{
+        \framebackground{0.2}{1}
+    }
+}
+
+\newcommand{\simpleframe}{
+    \usebackgroundtemplate{
+        \framebackground{0}{1}
+    }
+}
+
+\newcommand{\blue}[1]{{\color{beamer@blendedblue} #1}}
+\newcommand{\yellow}[1]{{\color[HTML]{AF8F10} #1}}
+\newcommand{\gray}[1]{{\color[HTML]{8F8F8F} #1}}
+\newcommand{\red}[1]{{\color[HTML]{FF5F5F} #1}}
+
+\begin{document}
+
+%
+% Frame
+%
+\usebackgroundtemplate{\framebackground{0.2}{0}}
+\begin{frame}
+    \maketitle
+\end{frame}
+
+\simpleframe\begin{frame}{Wrapping up tech debt from Assignment 1: `App \& Core' Pattern}
+    \centering
+    \begin{tikzpicture}[node distance=1cm and 1cm, minimum height=1cm, minimum width=3cm]
+        \node[draw, rectangle] (bin) {MolSim (bin)};
+        \node[draw, rectangle, below=of bin] (test) {MolSimTest (bin)};
+
+        \node[draw, rectangle, right=of bin] (lib) {MolSimLib (lib)};
+        \node[draw, rectangle, below=1cm of lib] (spdlog) {SpdLog (lib)};
+
+        \node[draw, rectangle, right=of lib] (other) {Other libraries};
+
+        \draw[->, thick] (test) -- (lib) node[midway, above] {};
+        \draw[->, thick] (bin) -- (lib) node[midway, above] {};
+
+        \draw[->, thick] (bin) -- (spdlog) node[midway, above] {};
+        \draw[->, thick] (lib) -- (spdlog) node[midway, above] {};
+
+        \draw[->, thick] (lib) -- (other) node[midway, above] {};
+    \end{tikzpicture}
+
+    \vspace{0.5cm}
+    \begin{itemize}
+        \item \blue{App `MolSim'} is executable that contains \blue{only interface-level logic}: argument parsing, simulation setup, etc.
+        \item \blue{Core `MolSimLib'} is a library that contains \blue{the implementation}: particle simulations, etc.
+    \end{itemize}
+\end{frame}
+
+\simpleframe\begin{frame}[fragile]{Wrapping up tech debt from Assignment 2: Caching Github CI builds}
+
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            Without Caching\footnotemark:
+
+            \begin{itemize}
+                \item \blue{2m 16s} Full Workflow Build
+                \item \blue{2m 8s} CMake Build Step
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            With Caching\footnotemark:
+
+            \begin{itemize}
+                \item \blue{43s} Full Workflow Build
+                \item \blue{28s} CMake Build Step
+                \item \blue{3s} Cache Retrieve
+            \end{itemize}
+        \end{column}
+    \end{columns}
+
+    \vspace{0.5cm}
+    \begin{itemize}
+        \item \blue{4x} performance speed up of CMake build!
+    \end{itemize}
+
+    % \footnotetext[1]{\href{https://github.com/Anatoly03/MolSim-WS25-GroupA/actions/runs/19469598810/job/55712979585}{Link to CI Run #72}}
+    % \footnotetext[2]{\href{https://github.com/Anatoly03/MolSim-WS25-GroupA/actions/runs/19470075154/job/55714616480}{Link to CI Run #73}}
+    \footnotetext[1]{CI Run \#72}
+    \footnotetext[2]{CI Run \#73}
+\end{frame}
+
+\simpleframe\begin{frame}[fragile]{Adding YAML Support}
+
+    \begin{lstlisting}
+name: Simple Setup
+
+config:
+  delta_time: 0.14
+  total_time: 100
+  output: OutputFile
+  output_interval: 20
+
+particles:
+  - position: [0.0, 0.0, 0.0]
+    velocity: [0.01, 0.0, 0.0]
+    mass: 1.0
+\end{lstlisting}
+
+    \blue{Extensible} and \blue{human-readable} configuration format!
+\end{frame}
+
+\simpleframe\begin{frame}[fragile]{Adding YAML Support}
+
+    \begin{lstlisting}
+name: Cuboid and Sun
+
+particles:
+  cuboid:
+    type: cuboid
+    n: [40, 8, 1]
+    position: [0.0, 0.0, 0.0]
+    velocity: [0.0, 0.0, 0.0]
+    mass: 1.0
+    sigma: 1.0
+    brownian_sigma: 0.1
+  sun:
+    position: [19.0, 16.0, 0.0]
+    velocity: [0.0, -10.0, 0.0]
+    mass: 1.0
+\end{lstlisting}
+\end{frame}
+
+\simpleframe\begin{frame}{Our Weeks' Toughest Challenge: Circular Dependencies}
+    \centering
+    \begin{tikzpicture}[node distance=1cm and 1.5cm, minimum height=1cm, minimum width=3cm]
+        \node[draw, rectangle] (r) {Reader};
+        \node[draw, rectangle, right=of r] (s) {Simulation};
+        \node[draw, rectangle, right=of s] (w) {Writer};
+
+        \draw[->, thick] (r) -- (s) node[midway, above] { creates };
+        \draw[->, thick] (s) to[bend left=10] (w) node[above] { calls };
+        \draw[->, thick] (w) to[bend left=10] (s) node[below] { reads };
+    \end{tikzpicture}
+
+    \vspace{0.5cm}
+    \begin{itemize}
+        \item Circular dependency between \blue{Writer} and \blue{Simulation}!
+        \item Forward declaration of no help because we need full type information.
+        \item Refactoring the entire codebase proved more lethal in discarded commits than our magic trick (next slide).
+    \end{itemize}
+\end{frame}
+
+\simpleframe\begin{frame}{Our Weeks' Toughest Challenge: Circular Dependencies}
+    \vspace{0.5cm}
+    \begin{itemize}
+        \item \blue{Our Fix:} Use \yellow{functional, data-driven callbacks} to break the circular dependency!
+        \item This needs to be optimized. We are not happy with this design, but it works as a short-term solution.
+    \end{itemize}
+
+    \centering
+    \begin{tikzpicture}[node distance=1cm and 1.5cm, minimum height=1cm, minimum width=3cm]
+        \node[draw, rectangle] (r) {Reader};
+        \node[draw, rectangle, right=of r] (s) {Simulation};
+        \node[draw, rectangle, right=of s] (w) {Writer};
+        \node[draw, rectangle, below=of s] (cb) {\gray{\textit{Lambda}}};
+
+        \draw[->, thick] (r) -- (s) node[midway, above] { creates };
+        \draw[->, thick] (cb) -- (s) node[midway, left] { calls };
+        \draw[->, thick] (w) -- (cb) node[midway, right] { calls };
+    \end{tikzpicture}
+\end{frame}
+
+\simpleframe\begin{frame}{Our physics is acting weird – Cuboid Example Case Study}
+    \begin{columns}
+        \begin{column}{0.5\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=0.6\textwidth]{media/w3-cuboid1.png}
+                \caption{Starting configuration}
+            \end{figure}
+        \end{column}
+        \begin{column}{0.5\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=0.6\textwidth]{media/w3-cuboid2.png}
+                \caption{After 20 ticks}
+            \end{figure}
+        \end{column}
+    \end{columns}
+    
+    \vspace{-0.5cm}
+    \begin{figure}
+        \centering
+        \includegraphics[width=0.3\textwidth]{media/w3-cuboid3.png}
+        \caption{After 40 ticks}
+    \end{figure}
+\end{frame}
+
+\simpleframe\begin{frame}{Our physics is acting weird – Cuboid Example Case Study}
+    \begin{columns}
+        \begin{column}{0.33\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=0.8\textwidth]{media/w3-cuboid4.png}
+                \caption{Starting configuration}
+            \end{figure}
+        \end{column}
+        \begin{column}{0.33\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=0.8\textwidth]{media/w3-cuboid5.png}
+                \caption{After 5 ticks}
+            \end{figure}
+        \end{column}
+        \begin{column}{0.33\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=0.8\textwidth]{media/w3-cuboid6.png}
+                \caption{After 10 ticks}
+            \end{figure}
+        \end{column}
+    \end{columns}
+    \vspace{-0.5cm}
+
+    \begin{columns}
+        \begin{column}{0.33\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=0.8\textwidth]{media/w3-cuboid7.png}
+                \caption{After 15 ticks}
+            \end{figure}
+        \end{column}
+        \begin{column}{0.33\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=0.8\textwidth]{media/w3-cuboid8.png}
+                \caption{After 20 ticks}
+            \end{figure}
+        \end{column}
+        \begin{column}{0.33\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=0.8\textwidth]{media/w3-cuboid9.png}
+                \caption{After 25 ticks}
+            \end{figure}
+        \end{column}
+    \end{columns}
+\end{frame}
+
+\simpleframe\begin{frame}[fragile]{Benchmarks - Two Body Collisions}
+    \begin{lstlisting}
+./MolSim input/benchmarks/2bc-perfect.yml -B5 [-V0]
+    \end{lstlisting}
+
+    \vspace{-0.5cm}
+    \gray{Testing Ground:} MacBook Pro, Intel i5, 2400 initial particles in 2001 iterations
+    \vspace{0.5cm}
+    
+    \begin{columns}
+    \begin{column}{0.5\textwidth}
+        \centering\blue{Linked Cell}
+
+        \vspace{0.20cm}
+        \begin{itemize}
+            % \item \blue{Particle Count}: 2400
+            % \item \blue{Iterations}: 2001
+            % \item \blue{Benchmark Iterations:} 5
+            \item \blue{Average Time:} 3.9309s
+            \item \blue{Total Time:}   19.6546s
+            \item \blue{Chunk Size:}   $3 \cdot 3 \cdot 3$
+        \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+        \centering\blue{Direct Sum}
+
+        \vspace{0.20cm}
+        \begin{itemize}
+            % \item \blue{Particle Count}: 2400
+            % \item \blue{Iterations}: 2001
+            % \item \blue{Benchmark Iterations:} 5
+            \item \blue{Average Time:} 94.2590s
+            \item \blue{Total Time:}   471.2952s
+        \end{itemize}
+    \end{column}
+    \end{columns}
+
+    \vspace{0.5cm}
+    Roughly \blue{30x speedup} using Linked Cell vs Direct Sum for this configuration. \gray{Note: Boundary Condition was not implemented here, we set $t_\text{total}$ to 1, no particles left processing domain.}
+\end{frame}
+
+\simpleframe\begin{frame}[fragile]{Benchmarks - Two Body Collisions}{Different Cell Size}
+    \begin{lstlisting}
+./MolSim input/benchmarks/2bc-cell4.yml -B5
+    \end{lstlisting}
+    
+    \begin{columns}
+    \begin{column}{0.5\textwidth}
+        \centering\blue{Linked Cell 3}
+
+        \vspace{0.20cm}
+        \begin{itemize}
+            \item \blue{Average Time:} 3.9309s
+            \item \blue{Total Time:}   19.6546s
+            \item \blue{Chunk Size:}   $3^3$
+        \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+        \centering\blue{Linked Cell 4}
+
+        \vspace{0.20cm}
+        \begin{itemize}
+            \item \blue{Average Time:} 4.7771s
+            \item \blue{Total Time:}   23.8857s
+            \item \blue{Chunk Size:}   $4^3$
+        \end{itemize}
+    \end{column}
+    \end{columns}
+
+    \vspace{0.5cm}
+    \blue{Chosing correct Chunk Size is important for Linked Cell performance!} Here, a $3^3$ cell outperforms $4^3$ by circa 20\%.
+\end{frame}
+
+\simpleframe\begin{frame}[fragile]{Benchmarks - Square}
+    \begin{lstlisting}
+./MolSim input/benchmarks/square-[N].yml -B5
+    \end{lstlisting}
+
+    \vspace{-0.5cm}
+    \gray{Testing Ground:} Same device, running Linked Cell algorithm, 1028 initial particles in 2001 iterations
+    \vspace{0.5cm}
+    
+    \begin{columns}
+    \begin{column}{0.33\textwidth}
+        \vspace{0.20cm}
+        \begin{itemize}
+            \item \blue{Chunk Size:} $5 \cdot 5 \cdot 1$
+            \item \blue{Domain Size (divided by chunk size):} $10 \cdot 15 \cdot 1$
+            \item \blue{Cuboid Size:} $32 \cdot 32 \cdot 1$
+            \item \blue{Average Time:} 2.4037s
+        \end{itemize}
+    \end{column}
+    \begin{column}{0.33\textwidth}
+        \vspace{0.20cm}
+        \begin{itemize}
+            \item \blue{Chunk Size:} $5 \cdot 5 \cdot 1$
+            \item \blue{Domain Size (divided by chunk size):} $20 \cdot 15 \cdot 1$
+            \item \blue{Cuboid Size:} $64 \cdot 32 \cdot 1$
+            \item \blue{Average Time:} 4.9814s
+        \end{itemize}
+    \end{column}
+    \begin{column}{0.33\textwidth}
+        \vspace{0.20cm}
+        \begin{itemize}
+            \item \blue{Chunk Size:} $10 \cdot 10 \cdot 1$
+            \item \blue{Domain Size (divided by chunk size):} $10 \cdot 15 \cdot 1$
+            \item \blue{Cuboid Size:} $64 \cdot 64 \cdot 1$
+            \item \blue{Average Time:} 10.5640s
+        \end{itemize}
+    \end{column}
+    
+    \end{columns}
+
+    % \vspace{0.5cm}
+    % \blue{Chosing correct Chunk Size is important for Linked Cell performance!} Here, a $3^3$ cell outperforms $4^3$ by circa 20\%.
+\end{frame}
+
+\simpleframe\begin{frame}[fragile]{Benchmarks - Square}
+    \begin{lstlisting}
+./MolSim input/benchmarks/square-[N].yml -B5
+    \end{lstlisting}
+
+    \vspace{-0.5cm}
+    \gray{Testing Ground:} Same device, running Linked Cell algorithm, 1028 initial particles in 2001 iterations, all chunks have been reduced to $3 \cdot 3 \cdot 1$
+    \vspace{0.5cm}
+    
+    \begin{columns}
+    \begin{column}{0.33\textwidth}
+        \vspace{0.20cm}
+        \begin{itemize}
+            \item \blue{Chunk Size:} $3 \cdot 3 \cdot 1$
+            \item \gray{Previous Average Time: 2.4037s}
+            \item \blue{Average Time:} 1.3643s
+        \end{itemize}
+    \end{column}
+    \begin{column}{0.33\textwidth}
+        \vspace{0.20cm}
+        \begin{itemize}
+            \item \blue{Chunk Size:} $3 \cdot 3 \cdot 1$
+            \item \gray{Previous Average Time: 4.9814s}
+            \item \blue{Average Time:} 3.0371s
+        \end{itemize}
+    \end{column}
+    \begin{column}{0.33\textwidth}
+        \vspace{0.20cm}
+        \begin{itemize}
+            \item \blue{Chunk Size:} $3 \cdot 3 \cdot 1$
+            \item \gray{Previous Average Time: 10.5640s}
+            \item \blue{Average Time:} 5.9325s
+        \end{itemize}
+    \end{column}
+    
+    \end{columns}
+
+    % \vspace{0.5cm}
+    % \blue{Chosing correct Chunk Size is important for Linked Cell performance!} Here, a $3^3$ cell outperforms $4^3$ by circa 20\%.
+\end{frame}
+
+\simpleframe\begin{frame}{Performance Measurement}{Both Algorithms}
+\begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[
+            width=\textwidth,  
+            height=0.7\textheight,
+            xlabel={Particle Count},
+            ylabel={Average Measurement [s]},
+            xtick={0, 1000, 2000, 4000},
+            ytick={0, 20, 50, 100, 200},
+            scaled x ticks=false,  
+            scaled y ticks=false,
+            ymajorgrids=true, 
+            grid style=dashed,
+            xmin=-100,
+            legend style={at={(0.2,1)},anchor=north},
+        ]
+        
+        \addplot[
+            color=orange,
+            mark=diamond,
+            line width=1pt,
+            ]
+            coordinates {
+            (0, 0)(1000, 1.3643)(2000, 3.0371)(4000, 5.9325)
+            };
+
+        \addplot[
+            color=purple,
+            mark=triangle,
+            line width=1pt,
+            ]
+            coordinates {
+            (0, 0)(1000, 2.4037)(2000, 4.98)(4000, 10.5640)
+            };
+
+        \addplot[
+            color=black,
+            mark=square,
+            line width=1pt,
+            ]
+            coordinates {
+            (0, 0)(1000, 16.7531)(2000, 56.9279)(4000, 230.8294)
+            };
+
+        \legend{$3\cdot 3$ cells, Larger cells, Direct Sum}
+        \end{axis}
+    \end{tikzpicture}
+\end{center}
+\end{frame}
+
+\simpleframe\begin{frame}{Performance Measurement}{Linked Cells}
+\begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[
+            width=\textwidth,  
+            height=0.7\textheight,
+            xlabel={Particle Count},
+            ylabel={Average Measurement [s]},
+            xtick={0, 1000, 2000, 4000},
+            scaled x ticks=false,  
+            scaled y ticks=false,
+            ymajorgrids=true, 
+            grid style=dashed,
+            xmin=-100,
+            legend style={at={(0.2,1)},anchor=north},
+        ]
+        
+        \addplot[
+            color=orange,
+            mark=diamond,
+            line width=1pt,
+            ]
+            coordinates {
+            (0, 0)(1000, 1.3643)(2000, 3.0371)(4000, 5.9325)
+            };
+
+        \addplot[
+            color=purple,
+            mark=triangle,
+            line width=1pt,
+            ]
+            coordinates {
+            (0, 0)(1000, 2.4037)(2000, 4.98)(4000, 10.5640)
+            };
+
+        \legend{$3\cdot 3$ cells, Larger cells}
+        \end{axis}
+    \end{tikzpicture}
+\end{center}
+\end{frame}
+
+\simpleframe\begin{frame}{That's it – for now, at least}{Bloppers: Explosions}
+    \begin{center}
+        \begin{figure}
+        \centering
+        \includegraphics[width=0.9\textwidth]{media/explosion-mapped.png}
+    \end{figure}
+    \end{center}
+\end{frame}
+
+\end{document}

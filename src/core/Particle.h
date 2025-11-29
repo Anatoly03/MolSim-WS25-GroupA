@@ -13,44 +13,48 @@
 #include "math/Vec3.h"
 
 class Particle {
-   private:
+   public:
     /**
      * @brief Position of the particle
      */
-    Vec3D position;
+    Vec3D position = Vec3D(0.0);
+
+    /**
+     * @brief Position of the particle
+     */
+    Vec3D old_position = Vec3D(0.0);
 
     /**
      * @brief Velocity of the particle
      */
-    Vec3D velocity;
+    Vec3D velocity = Vec3D(0.0);
 
     /**
      * @brief Force effective on this particle
      */
-    Vec3D force;
+    Vec3D force = Vec3D(0.0);
 
     /**
      * @brief Force which was effective on this particle
      */
-    Vec3D old_force;
+    Vec3D old_force = Vec3D(0.0);
 
     /**
      * @brief Mass of this particle
      */
-    double mass;
+    double mass = 0.0;
 
     /**
-     * @brief Type of the particle.
-     * @note Use it for whatever you want (e.g. to separate
-     * molecules belonging to different bodies, matters, and so on)
+     * @brief Unique particle ID
      */
-    int type;
+    // NOLINTNEXTLINE unused-variable
+    int p_id = 0;
 
    public:
     /**
      * @brief Default constructor for Particle.
      */
-    explicit Particle(int type = 0);
+    Particle();
 
     /**
      * @brief Copy constructor for Particle.
@@ -60,9 +64,7 @@ class Particle {
     /**
      * @brief Multi-argument constructor for Particle.
      */
-    // for visualization, we need always 3 coordinates
-    // -> in case of 2d, we use only the first and the second
-    Particle(Vec3D pos_arg, Vec3D vel_arg, double mass_arg, int type = 0);
+    Particle(Vec3D pos_arg, Vec3D vel_arg, double mass_arg);
 
     /**
      * @brief Particle destructor.
@@ -76,39 +78,9 @@ class Particle {
     Particle clone() const;
 
     /**
-     * @brief Get the position of this Particle.
+     * @brief Push position to old position. Does not modify current position.
      */
-    const Vec3D &getPosition() const;
-
-    /**
-     * @brief Get the velocity of this Particle.
-     */
-    const Vec3D &getVelocity() const;
-
-    /**
-     * @brief Get the force effective on this Particle.
-     */
-    const Vec3D &getForce() const;
-
-    /**
-     * @brief Set the position of this Particle.
-     */
-    void setPosition(const Vec3D &position_);
-
-    /**
-     * @brief Set the velocity of this Particle.
-     */
-    void setVelocity(const Vec3D &velocity_);
-
-    /**
-     * @brief Set the force effective on this Particle.
-     */
-    void setForce(const Vec3D &force_);
-
-    /**
-     * @brief Add to the force on this Particle.
-     */
-    void addForce(const Vec3D &force_delta);
+    void delayPosition();
 
     /**
      * @brief Push force to old force and reset current force to zero.
@@ -116,27 +88,11 @@ class Particle {
     void delayForce();
 
     /**
-     * @brief Retrieve the old force of the Particle. It is the force
-     * delayed by one time step.
-     */
-    const Vec3D &getOldForce() const;
-
-    /**
-     * @brief Retrieve the mass of the Particle.
-     */
-    double getMass() const;
-
-    /**
-     * @brief Reserved.
-     */
-    int getType() const;
-
-    /**
      * @brief Equivalence operation for Particle.
      */
     bool operator==(const Particle &other) const {
-        return position == other.position && velocity == other.velocity && force == other.force && type == other.type &&
-               mass == other.mass && old_force == other.old_force;
+        return (position == other.position) && (velocity == other.velocity) && (mass == other.mass)
+            && (force == other.force) && (old_force == other.old_force);
     }
 
     /**

@@ -1,0 +1,23 @@
+name: two bodies collision
+
+config:
+  delta_time: 0.00005
+  total_time: 10
+  cut_off: 3.0
+  output_interval: 25
+  cell_size: [10, 10, 10]
+  domain_min: [0, 0, 0]
+  domain_max: [12, 5, 1]
+  epsilon: 5.0
+  sigma: 1.0
+
+particles:
+  disc1:
+    type: disc
+    center: [60.0, 25.0, 0.0]
+    velocity: [0.0, -10.0, 0.0]
+    radius: 15
+    mass: 1.0
+    sigma: 1.0
+    dist: 1.1225 #  h=21/6 ·σ≈1.1225
+    brownian_sigma: 0.0000

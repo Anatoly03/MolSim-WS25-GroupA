@@ -9,6 +9,7 @@
 
 #include "Particle.h"
 #include "math/Vec3.h"
+
 /**
  * @class ParticleContainer
  * @brief Refactoring,owning container for Particle with simple iteration over particles and particle pairs
@@ -39,11 +40,6 @@ class ParticleContainer {
      * @brief ParticleContainer destructor.
      */
     ~ParticleContainer() = default;
-
-    /**
-     * @brief ParticleContainer constructor with initial capacity.
-     */
-    explicit ParticleContainer(size_type capacity) { particles.reserve(capacity); }
 
     /**
      * @brief Begin non-const iterator for ParticleContainer.
@@ -86,31 +82,14 @@ class ParticleContainer {
     const_iterator end() const { return particles.end(); }
 
     /**
-     * @brief Clear all particles from the container.
-     */
-    void clear() { particles.clear(); }
-
-    /**
      * @brief Get the number of particles in the container.
      */
-    size_type size() const { return particles.size(); }
-
-    /**
-     * @brief Get the capacity of the undderlying vector in the container.
-     */
-    size_type capacity() const { return particles.capacity(); }
+    virtual int particleCount() const { return particles.size(); }
 
     /**
      * @brief Add a new Particle to the container.
      */
-    void emplace_back(const Vec3D &position, const Vec3D &velocity, double mass, int type = 0) {
-        particles.emplace_back(position, velocity, mass, type);
-    }
-
-    /**
-     * @brief Add a new Particle to the container.
-     */
-    void emplace_back(const Particle &particle) { particles.emplace_back(particle); }
+    virtual void add(const Particle &particle) { particles.emplace_back(particle); }
 
     /**
      * @brief Reserve memory for particles.
@@ -130,7 +109,7 @@ class ParticleContainer {
      * });
      * ```
      */
-    void forEach(const std::function<void(Particle &)> &callback);
+    virtual void forEach(const std::function<void(Particle &)> &callback);
 
     // /**
     //  * @brief Reduction of an accumulator value, processing over all single particles.
@@ -154,5 +133,5 @@ class ParticleContainer {
      * });
      * ```
      */
-    void forEachDistinctPair(const std::function<void(Particle &, Particle &)> &callback);
+    virtual void forEachDistinctPair(const std::function<void(Particle &, Particle &)> &callback);
 };

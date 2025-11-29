@@ -1,9 +1,12 @@
 
-#include "../core/FileReader.h"
+#include <string.h>
+
 #include "../core/ParticleContainer.h"
-#include "../core/Simulation.h"
+#include "../core/reader/FileReader.h"
+#include "../core/simulation/Simulation.h"
+#include "../core/simulation/DirectSumAlgorithm.h"
 #include "Frame.h"
-#include "../core/CuboidGenerator.h"
+
 #include "spdlog/spdlog.h"
 
 #ifdef ENABLE_VTK_OUTPUT
@@ -17,7 +20,7 @@
  * variables calls the molecular simulation methods.
  */
 int main(int argc, char *argsv[]) {
-    const auto args = ProcessArgs(argc, argsv);
+    auto args = ProcessArgs(argc, argsv);
 
     ParticleContainer particles;
 
@@ -25,76 +28,68 @@ int main(int argc, char *argsv[]) {
     // Otherwise, use the regular file input.
     std::string input_name = args.input_file ? std::string(args.input_file) : "";
 
-    if (input_name == "task4") {
-        const double sigma = 1.0;
-        const double h     = std::pow(2.0, 1.0 / 6.0) * sigma;
-        const double mass  = 1.0;
-        const double brownian_sigma = 0.1;
+    // load particles from file
+    auto reader = FileReader::writeParticles(particles, args);
 
-        Cuboid c1;
-        c1.position         = Vec3D{0.0, 0.0, 0.0};
-        c1.n1 = 40; c1.n2 = 8; c1.n3 = 1;
-        c1.h                = h;
-        c1.mass             = mass;
-        c1.initial_velocity = Vec3D{0.0, 0.0, 0.0};
-
-        Cuboid c2;
-        c2.position         = Vec3D{15.0, 15.0, 0.0};
-        c2.n1 = 8; c2.n2 = 8; c2.n3 = 1;
-        c2.h                = h;
-        c2.mass             = mass;
-        c2.initial_velocity = Vec3D{0.0, -10.0, 0.0};
-
-        addCuboid2D(particles, c1, brownian_sigma);
-        addCuboid2D(particles, c2, brownian_sigma);
-
-    } else {
-        FileReader fileReader;
-        fileReader.readFile(particles, args.input_file);
-    }
-
+    // set up simulation variable
+    std::shared_ptr<Simulation> simulation = nullptr;
 
     // set up simulation
     if (!args.benchmark_enabled) {
-        Simulation simulation(particles, args);
+        spdlog::set_level(args.log_level);
+        simulation = Simulation::createSimulation(particles, args);
 
 #ifdef ENABLE_VTK_OUTPUT
-        outputWriter::VTKWriter writer(particles);
-        simulation.setWriter(std::make_unique<outputWriter::VTKWriter>(particles));
+        auto writer = std::make_shared<outputWriter::VTKWriter>();
 #else
-        outputWriter::XYZWriter writer(particles);
-        simulation.setWriter(std::make_unique<outputWriter::XYZWriter>(particles));
+        auto writer = std::make_shared<outputWriter::XYZWriter>();
 #endif
 
         // everything ready - run the simulation
-        simulation.run();
+        simulation->run([ &writer, &args](int iteration, Simulation& sim){
+            writer->plot(args.output_path, iteration, sim);
+        });
+
         return 0;
     }
 
     // set up benchmarking
     const int bits = args.benchmark_iterations;
-    
+
     timespec starttime;
     timespec end;
+    int iterations = 0;
     double total_duration = 0.0;
 
     for (int i = 0; i < bits; i++) {
+        spdlog::set_level(spdlog::level::off); // disable logging for benchmarking
+
         ParticleContainer copy(particles);
-        Simulation simulation(copy, args);
-
+        simulation = Simulation::createSimulation(copy, args);
+        
         clock_gettime(CLOCK_MONOTONIC, &starttime);
-
-        simulation.run();
-
+        simulation->run(nullptr);
         clock_gettime(CLOCK_MONOTONIC, &end);
 
         double duration = (double)(end.tv_sec - starttime.tv_sec) + ((double)(end.tv_nsec - starttime.tv_nsec) * 1e-9);
         total_duration += duration;
-        spdlog::info("Benchmark iteration {} finished in {:.4f}s", i, duration);
+        iterations = simulation->iteration;
+
+        spdlog::set_level(args.log_level); // end benchmark iteration: report
+        spdlog::trace("benchmark: iteration {}: in {:.4f}s", i, duration);
+        if (i == bits - 1) { // verify benchmark result is relevant during last measurement
+            int count = simulation->particleCount();
+            if (count != copy.particleCount()) // how many particles are lost? this is important for measurement
+                spdlog::warn("particle count changed during simulation: was {}, at end is {}", copy.particleCount(), simulation->particleCount());
+        }
+        spdlog::set_level(spdlog::level::off); // disable logging for benchmarking (destructor invocation)
     }
 
     double avg_duration = total_duration / bits;
-    spdlog::info("Average duration over {} iterations and {} particles: {:.4f}s",
-                 bits, particles.size(), avg_duration);
+    spdlog::set_level(args.log_level); // end all benchmarking: report
+    spdlog::debug("benchmark: finish {} iterations, over {} particles, over {} iterations", bits, particles.particleCount(), iterations);
+    spdlog::info("average: {:.4f}s", avg_duration);
+    spdlog::info("total:   {:.4f}s", total_duration);
+    spdlog::set_level(spdlog::level::off); // disable further logging (destructor invocation)
     return 0;
 }

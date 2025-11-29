@@ -4,11 +4,13 @@
 
 #pragma once
 
-#include <getopt.h>
+#include "../core/math/Vec3.h"
+#include "../core/utils/Args.h"
 
+#include <getopt.h>
 #include <iostream>
 
-const char *const OPTSTRING = "h:o:t:d:L:B:";
+const char *const OPTSTRING = "h:o:t:d:L:B:V:";
 
 /**
  * @brief Definition of all long options.
@@ -18,24 +20,6 @@ const option GETOPT_LONG[] = {{"output", required_argument, 0, 'o'},
                               {"delta", required_argument, 0, 'd'},
                               {"help", optional_argument, 0, 'h'},
                               {0, 0, 0, 0}};
-
-/**
- * @brief Structure to hold all program arguments.
- */
-struct Args {
-    char *input_file;
-    char *output_path;
-
-    double start_time = 0;
-    double end_time = 1000;
-    double delta_t = 0.014;
-
-    bool benchmark_enabled = false;
-    int benchmark_iterations = 0;
-
-    Args() = default;
-    ~Args() = default;
-};
 
 /**
  * @details The program entry point is the Rahmenprogramm which after getting
