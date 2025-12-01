@@ -48,7 +48,8 @@ class LinkedCellImplementation : public Simulation {
 
         cells.absorb(particles);
         cells.setDomainSize(args.domain_min, args.domain_max);
-        
+        domainMin=args.domain_min;
+        domainMax=args.domain_max;
         auto removedCells = cells.clearOutOfBoundsCells();
         if (removedCells != 0) {
             spdlog::warn("out of bounds particles in {} cells removed", removedCells);
