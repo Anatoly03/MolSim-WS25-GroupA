@@ -324,6 +324,17 @@ particles:
     \end{columns}
 \end{frame}
 
+\simpleframe\begin{frame}{Our physics is acting weird}
+    Multiple Issues (a combination of all made it difficult to debug):
+
+    \begin{itemize}
+        \item Errors in cell reindexing. ($\rightarrow$ Some particles disappearing)
+        \item Time step ($\Delta t$) too large for high velocities. ($\rightarrow$ Inability to `bounce back')
+        \item Flawed Brownian motion implementation.
+        \item Using plain length instead of squared length in force calculations. ($\rightarrow$ Force too large $\rightarrow$  Velocity too large)
+    \end{itemize}
+\end{frame}
+
 \simpleframe\begin{frame}[fragile]{Benchmarks - Two Body Collisions}
     \begin{lstlisting}
 ./MolSim input/benchmarks/2bc-perfect.yml -B5 [-V0]
@@ -572,7 +583,6 @@ particles:
         \end{axis}
     \end{tikzpicture}
 \end{center}
-\end{frame}
 
 \simpleframe\begin{frame}{That's it – for now, at least}{Bloppers: Explosions}
     \begin{center}
