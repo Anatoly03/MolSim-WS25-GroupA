@@ -170,6 +170,16 @@ class YamlReader : public FileReader {
         const double cut_off = unwrap_node<double>(args.cutoff_radius, "config", "cut_off");
         const std::string attraction_method = unwrap_node<std::string>("lennard-jones", "config", "attraction");
 
+        const std::string boarderXmin = unwrap_node<std::string>("reflect", "config", "delete");
+        const std::string boarderXmax = unwrap_node<std::string>("reflect", "config", "delete");
+        const std::string boarderYmin = unwrap_node<std::string>("reflect", "config", "delete");
+        const std::string boarderYmax = unwrap_node<std::string>("reflect", "config", "delete");
+        const std::string boarderZmin = unwrap_node<std::string>("reflect", "config", "delete");
+        const std::string boarderZmax = unwrap_node<std::string>("reflect", "config", "delete");
+
+
+
+
         if (args.delta_t_cli) {
             spdlog::warn("delta_time in {} overridden by CLI argument: {} -> {}", args.input_file, delta_time, args.delta_t);
         } else {
@@ -196,6 +206,13 @@ class YamlReader : public FileReader {
         args.sigma = sigma;
         args.cutoff_radius = cut_off;
         args.attraction_method = attraction_method;
+
+        args.boarderXmin = boarderXmin;
+        args.boarderXmax = boarderXmax;
+        args.boarderYmin = boarderYmin;
+        args.boarderYmax = boarderYmax;
+        args.boarderZmin = boarderZmin;
+        args.boarderZmax = boarderZmax;
     }
 
     /**
