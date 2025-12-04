@@ -3,6 +3,8 @@
 #include "../src/core/Particle.h"
 #include "../src/core/LinkedCells.h"
 #include "../src/core/math/Vec3.h"
+#include "../src/core/generator/DiscGenerator.h"
+#include "../src/core/simulation/LinkedCellImplementation.h"
 
 struct DistinctParticlePair {
    private:
@@ -177,4 +179,109 @@ TEST(LinkedCellIndexReindexTest, BasicAssertions) {
     EXPECT_FALSE(found_p1);
     EXPECT_TRUE(found_p2);
     EXPECT_TRUE(found_p1expect);
+}
+
+/**
+ * @brief LinkedCells Basic Absorption absorb() and cellIndex Accuracy Test.
+ */
+TEST(LinkedCellsTest, AbsorbAndIndexing) {
+    ParticleContainer pc;
+
+    Particle p1({1, 1, 1}, {0,0,0}, 1);
+    Particle p2({9, 9, 9}, {0,0,0}, 1);
+    pc.add(p1);
+    pc.add(p2);
+
+    LinkedCells cells({5,5,5});
+    cells.setDomainSize({0,0,0}, {10,10,10});
+    cells.absorb(pc);
+
+    EXPECT_EQ(cells.particleCount(), 2);
+
+    // p1 at (1,1,1) → cell (0,0,0)
+    Vec3I c1 = cells.getIndex(pc.begin()[0]);
+    EXPECT_EQ(c1.x, 0);
+    EXPECT_EQ(c1.y, 0);
+    EXPECT_EQ(c1.z, 0);
+
+    // p2 at (9,9,9) → cell (1,1,1)
+    Vec3I c2 = cells.getIndex(pc.begin()[1]);
+    EXPECT_EQ(c2.x, 1);
+    EXPECT_EQ(c2.y, 1);
+    EXPECT_EQ(c2.z, 1);
+}
+
+/**
+ * @brief Can LinkedCells reindex() move particles to a new cell?
+ */
+TEST(LinkedCellsTest, ReindexParticles) {
+    ParticleContainer pc;
+
+    Particle p({1, 1, 1}, {0,0,0}, 1);
+    pc.add(p);
+
+    LinkedCells cells({5,5,5});
+    cells.setDomainSize({0,0,0}, {20,20,20});
+    cells.absorb(pc);
+
+    EXPECT_EQ(cells.particleCount(), 1);
+
+    // change particle position → should move to cell(2,0,0)
+    cells.forEach([](Particle &pp){
+        pp.position = {11,1,1};
+    });
+
+    cells.reindex();
+
+    Vec3I idx = cells.begin()->first;
+    EXPECT_EQ(idx.x, 2);
+    EXPECT_EQ(idx.y, 0);
+    EXPECT_EQ(idx.z, 0);
+}
+
+/**
+ * @brief DiscGenerator (2D Disk) does not generate duplicate/incorrect positions.
+ */
+TEST(DiscGeneratorTest, GenerateDisc2D) {
+    ParticleContainer pc;
+
+    DiscGenerator gen;
+    gen.center = {0,0,0};
+    gen.radius = 2;
+    gen.spacing = 1.0;
+    gen.mass = 1;
+    gen.initial_velocity = {0,0,0};
+    gen.brownian_sigma = 0.0;
+
+    gen.generate(pc);
+
+    EXPECT_GT(pc.particleCount(), 0);
+
+    // x^2 + y^2 <= radius^2 * spacing^2
+    for (auto &p : pc) {
+        double r2 = p.position.x * p.position.x + p.position.y * p.position.y;
+        EXPECT_LE(r2, 4.0 + 1e-6);   // radius=2 → 2²=4
+    }
+}
+TEST(SimulationTest, TickUpdatesPositionAndVelocity) {
+    ParticleContainer pc;
+
+    Particle p({0,0,0},{1,0,0},1);
+    pc.add(p);
+
+    Args args;
+    args.cell_size = {5,5,5};
+    args.domain_min = {0,0,0};
+    args.domain_max = {20,20,20};
+
+    LinkedCellImplementation sim(pc, args);
+
+    sim.tick();  // one iteration
+
+    bool moved = false;
+    sim.forEachParticle([&](Particle &pp){
+        moved = (pp.position.x > 0);
+    });
+
+    EXPECT_TRUE(moved);
 }

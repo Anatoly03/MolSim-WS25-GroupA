@@ -280,8 +280,24 @@ void LinkedCells::reindex() {
                 particles.erase(particles.begin() + i);
                 i--;
 
-                spdlog::trace("Particle reindexed!");
+                spdlog::trace("Particle reindexed from {} to {}",
+                              fmt::format("({}, {}, {})", currentCellIndex.x, currentCellIndex.y, currentCellIndex.z),
+                              fmt::format("({}, {}, {})", newCellIndex.x, newCellIndex.y, newCellIndex.z));
             }
         }
+    }
+
+    // If necessary delete all empty cells.
+    std::vector<Vec3I> emptyCells;
+    emptyCells.reserve(containers.size());
+
+    for (const auto &entry : containers) {
+        if (entry.second.empty()) {
+            emptyCells.emplace_back(entry.first);
+        }
+    }
+
+    for (const auto &idx : emptyCells) {
+        containers.erase(idx);
     }
 }
