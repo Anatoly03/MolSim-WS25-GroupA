@@ -44,58 +44,70 @@ void LinkedCellImplementation::calculateBorderBehaviour() {
 
 
         // X min wall
-        double dxMin = p.position.x - domainMin.x;
-        if (dxMin < dist) {
-            Particle wall;
-            wall.position = Vec3D(domainMin.x, p.position.y, p.position.z);
-            auto f = forceCalculationSystem(const_cast<Args&>(arguments), p, wall);
-            p.force += f;
+        if(cells.boarderXmin=="reflect") {
+            double dxMin = p.position.x - domainMin.x;
+            if (dxMin < dist) {
+                Particle wall;
+                wall.position = Vec3D(domainMin.x, p.position.y, p.position.z);
+                auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
+                p.force += f;
+            }
         }
 
         // X max wall
         //std::cout<<boxMax.x<<std::endl;
-        double dxMax = domainMax.x - p.position.x;
-        if (dxMax < dist) {
-            Particle wall;
-            wall.position = Vec3D(domainMax.x, p.position.y, p.position.z);
-            auto f = forceCalculationSystem(const_cast<Args&>(arguments), p, wall);
-            p.force += f;
+        if(cells.boarderXmax=="reflect") {
+            double dxMax = domainMax.x - p.position.x;
+            if (dxMax < dist) {
+                Particle wall;
+                wall.position = Vec3D(domainMax.x, p.position.y, p.position.z);
+                auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
+                p.force += f;
+            }
         }
 
         // Y min wall
-        double dyMin = p.position.y - domainMin.y;
-        if (dyMin < dist) {
-            Particle wall;
-            wall.position = Vec3D(p.position.x, domainMin.y, p.position.z);
-            auto f = forceCalculationSystem(const_cast<Args&>(arguments), p, wall);
-            p.force += f;
+        if(cells.boarderYmin=="reflect") {
+            double dyMin = p.position.y - domainMin.y;
+            if (dyMin < dist) {
+                Particle wall;
+                wall.position = Vec3D(p.position.x, domainMin.y, p.position.z);
+                auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
+                p.force += f;
+            }
         }
 
         // Y max wall
-        double dyMax = domainMax.y - p.position.y;
-        if (dyMax < dist) {
-            Particle wall;
-            wall.position = Vec3D(p.position.x, domainMax.y, p.position.z);
-            auto f = forceCalculationSystem(const_cast<Args&>(arguments), p, wall);
-            p.force += f;
+        if(cells.boarderYmax=="reflect") {
+            double dyMax = domainMax.y - p.position.y;
+            if (dyMax < dist) {
+                Particle wall;
+                wall.position = Vec3D(p.position.x, domainMax.y, p.position.z);
+                auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
+                p.force += f;
+            }
         }
 
         // Z min wall
-        double dzMin = p.position.z - domainMin.z;
-        if (dzMin < dist) {
-            Particle wall;
-            wall.position = Vec3D(p.position.x, p.position.y, domainMin.z);
-            auto f = forceCalculationSystem(const_cast<Args&>(arguments), p, wall);
-            p.force += f;
+        if(cells.boarderZmin=="reflect") {
+            double dzMin = p.position.z - domainMin.z;
+            if (dzMin < dist) {
+                Particle wall;
+                wall.position = Vec3D(p.position.x, p.position.y, domainMin.z);
+                auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
+                p.force += f;
+            }
         }
 
         // Z max wall
-        double dzMax = domainMax.z - p.position.z;
-        if (dzMax < dist) {
-            Particle wall;
-            wall.position = Vec3D(p.position.x, p.position.y, domainMax.z);
-            auto f = forceCalculationSystem(const_cast<Args&>(arguments), p, wall);
-            p.force += f;
+        if(cells.boarderZmax=="reflect") {
+            double dzMax = domainMax.z - p.position.z;
+            if (dzMax < dist) {
+                Particle wall;
+                wall.position = Vec3D(p.position.x, p.position.y, domainMax.z);
+                auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
+                p.force += f;
+            }
         }
     });
 }

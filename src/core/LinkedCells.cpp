@@ -21,12 +21,13 @@ int LinkedCells::clearOutOfBoundsCells() {
             cellsToRemove.emplace_back(cellIndex);
         }
     }
+    int tmp =cellsToRemove.size();
 
     for (const auto &cellIndex : cellsToRemove) {
         containers.erase(cellIndex);
     }
 
-    return cellsToRemove.size();
+    return tmp;
 }
 
 /**
@@ -227,7 +228,7 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
             Vec3I cellIndex = domainMin + Vec3I(0, xyPlane.y, xyPlane.z);
             containers.erase(cellIndex);
         }*/
-        std::cout<<"minX"<<std::endl;
+        //std::cout<<"minX"<<std::endl;
         clearOutOfBoundsCells();
     }
 
