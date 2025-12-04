@@ -139,7 +139,9 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
     const auto domainSize = domainMax - domainMin + Vec3I(1);
 
     // XY PLANE [FRONT]
+    //std::cout<<boarderXmin<<std::endl;
     if(boarderZmin=="reflect") {
+        //std::cout<<"minZ"<<std::endl;
         for (auto xyPlane: Vec3Iter(domainSize.x, domainSize.y, 1)) {
             Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, xyPlane.y, 0);
             auto &particles = containers[cellIndex];
@@ -225,6 +227,7 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
             Vec3I cellIndex = domainMin + Vec3I(0, xyPlane.y, xyPlane.z);
             containers.erase(cellIndex);
         }*/
+        std::cout<<"minX"<<std::endl;
         clearOutOfBoundsCells();
     }
 
