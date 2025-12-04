@@ -254,10 +254,13 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
  * @brief Iterates over all particles and updates their parent chunk when they leave their cell.
  */
 void LinkedCells::reindex() {
+    std::vector<Vec3I> emptyCells;
+
     for (auto &it : containers) {
         auto &particles = it.second;
+        size_t i = 0;
 
-        for (size_t i = 0; i < particles.size(); i++) {
+        for (i = 0; i < particles.size(); i++) {
             Particle &p = particles[i];
 
             const auto currentCellIndex = it.first;
@@ -285,15 +288,9 @@ void LinkedCells::reindex() {
                               fmt::format("({}, {}, {})", newCellIndex.x, newCellIndex.y, newCellIndex.z));
             }
         }
-    }
-
-    // If necessary delete all empty cells.
-    std::vector<Vec3I> emptyCells;
-    emptyCells.reserve(containers.size());
-
-    for (const auto &entry : containers) {
-        if (entry.second.empty()) {
-            emptyCells.emplace_back(entry.first);
+        
+        if (i == 0) {
+            emptyCells.emplace_back(it.first);
         }
     }
 
