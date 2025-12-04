@@ -24,6 +24,7 @@ class Simulation {
      */
     force_calculation_system forceCalculationSystem = lennard_jones_system;
 
+   public:
     /**
      * @brief Current simulation iteration.
      */

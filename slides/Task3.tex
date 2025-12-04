@@ -324,6 +324,267 @@ particles:
     \end{columns}
 \end{frame}
 
+\simpleframe\begin{frame}{Our physics is acting weird}
+    Multiple Issues (a combination of all made it difficult to debug):
+
+    \begin{itemize}
+        \item Errors in cell reindexing. ($\rightarrow$ Some particles disappearing)
+        \item Time step ($\Delta t$) too large for high velocities. ($\rightarrow$ Inability to `bounce back')
+        \item Flawed Brownian motion implementation.
+        \item Using plain length instead of squared length in force calculations. ($\rightarrow$ Force too large $\rightarrow$  Velocity too large)
+    \end{itemize}
+\end{frame}
+
+\simpleframe\begin{frame}[fragile]{Benchmarks - Two Body Collisions}
+    \begin{lstlisting}
+./MolSim input/benchmarks/2bc-perfect.yml -B5 [-V0]
+    \end{lstlisting}
+
+    \vspace{-0.5cm}
+    \gray{Testing Ground:} MacBook Pro, Intel i5, 2400 initial particles in 2001 iterations
+    \vspace{0.5cm}
+    
+    \begin{columns}
+    \begin{column}{0.5\textwidth}
+        \centering\blue{Linked Cell}
+
+        \vspace{0.20cm}
+        \begin{itemize}
+            % \item \blue{Particle Count}: 2400
+            % \item \blue{Iterations}: 2001
+            % \item \blue{Benchmark Iterations:} 5
+            \item \blue{Average Time:} 3.9309s
+            \item \blue{Total Time:}   19.6546s
+            \item \blue{Chunk Size:}   $3 \cdot 3 \cdot 3$
+        \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+        \centering\blue{Direct Sum}
+
+        \vspace{0.20cm}
+        \begin{itemize}
+            % \item \blue{Particle Count}: 2400
+            % \item \blue{Iterations}: 2001
+            % \item \blue{Benchmark Iterations:} 5
+            \item \blue{Average Time:} 94.2590s
+            \item \blue{Total Time:}   471.2952s
+        \end{itemize}
+    \end{column}
+    \end{columns}
+
+    \vspace{0.5cm}
+    Roughly \blue{30x speedup} using Linked Cell vs Direct Sum for this configuration. \gray{Note: Boundary Condition was not implemented here, we set $t_\text{total}$ to 1, no particles left processing domain.}
+\end{frame}
+
+\simpleframe\begin{frame}[fragile]{Benchmarks - Two Body Collisions}{Different Cell Size}
+    \begin{lstlisting}
+./MolSim input/benchmarks/2bc-cell4.yml -B5
+    \end{lstlisting}
+    
+    \begin{columns}
+    \begin{column}{0.5\textwidth}
+        \centering\blue{Linked Cell 3}
+
+        \vspace{0.20cm}
+        \begin{itemize}
+            \item \blue{Average Time:} 3.9309s
+            \item \blue{Total Time:}   19.6546s
+            \item \blue{Chunk Size:}   $3^3$
+        \end{itemize}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+        \centering\blue{Linked Cell 4}
+
+        \vspace{0.20cm}
+        \begin{itemize}
+            \item \blue{Average Time:} 4.7771s
+            \item \blue{Total Time:}   23.8857s
+            \item \blue{Chunk Size:}   $4^3$
+        \end{itemize}
+    \end{column}
+    \end{columns}
+
+    \vspace{0.5cm}
+    \blue{Chosing correct Chunk Size is important for Linked Cell performance!} Here, a $3^3$ cell outperforms $4^3$ by circa 20\%.
+\end{frame}
+
+\simpleframe\begin{frame}[fragile]{Benchmarks - Square}
+    \begin{lstlisting}
+./MolSim input/benchmarks/square-[N].yml -B5
+    \end{lstlisting}
+
+    \vspace{-0.5cm}
+    \gray{Testing Ground:} Same device, running Linked Cell algorithm, 1028 initial particles in 2001 iterations
+    \vspace{0.5cm}
+    
+    \begin{columns}
+    \begin{column}{0.33\textwidth}
+        \vspace{0.20cm}
+        \begin{itemize}
+            \item \blue{Chunk Size:} $5 \cdot 5 \cdot 1$
+            \item \blue{Domain Size (divided by chunk size):} $10 \cdot 15 \cdot 1$
+            \item \blue{Cuboid Size:} $32 \cdot 32 \cdot 1$
+            \item \blue{Average Time:} 2.4037s
+        \end{itemize}
+    \end{column}
+    \begin{column}{0.33\textwidth}
+        \vspace{0.20cm}
+        \begin{itemize}
+            \item \blue{Chunk Size:} $5 \cdot 5 \cdot 1$
+            \item \blue{Domain Size (divided by chunk size):} $20 \cdot 15 \cdot 1$
+            \item \blue{Cuboid Size:} $64 \cdot 32 \cdot 1$
+            \item \blue{Average Time:} 4.9814s
+        \end{itemize}
+    \end{column}
+    \begin{column}{0.33\textwidth}
+        \vspace{0.20cm}
+        \begin{itemize}
+            \item \blue{Chunk Size:} $10 \cdot 10 \cdot 1$
+            \item \blue{Domain Size (divided by chunk size):} $10 \cdot 15 \cdot 1$
+            \item \blue{Cuboid Size:} $64 \cdot 64 \cdot 1$
+            \item \blue{Average Time:} 10.5640s
+        \end{itemize}
+    \end{column}
+    
+    \end{columns}
+
+    % \vspace{0.5cm}
+    % \blue{Chosing correct Chunk Size is important for Linked Cell performance!} Here, a $3^3$ cell outperforms $4^3$ by circa 20\%.
+\end{frame}
+
+\simpleframe\begin{frame}[fragile]{Benchmarks - Square}
+    \begin{lstlisting}
+./MolSim input/benchmarks/square-[N].yml -B5
+    \end{lstlisting}
+
+    \vspace{-0.5cm}
+    \gray{Testing Ground:} Same device, running Linked Cell algorithm, 1028 initial particles in 2001 iterations, all chunks have been reduced to $3 \cdot 3 \cdot 1$
+    \vspace{0.5cm}
+    
+    \begin{columns}
+    \begin{column}{0.33\textwidth}
+        \vspace{0.20cm}
+        \begin{itemize}
+            \item \blue{Chunk Size:} $3 \cdot 3 \cdot 1$
+            \item \gray{Previous Average Time: 2.4037s}
+            \item \blue{Average Time:} 1.3643s
+        \end{itemize}
+    \end{column}
+    \begin{column}{0.33\textwidth}
+        \vspace{0.20cm}
+        \begin{itemize}
+            \item \blue{Chunk Size:} $3 \cdot 3 \cdot 1$
+            \item \gray{Previous Average Time: 4.9814s}
+            \item \blue{Average Time:} 3.0371s
+        \end{itemize}
+    \end{column}
+    \begin{column}{0.33\textwidth}
+        \vspace{0.20cm}
+        \begin{itemize}
+            \item \blue{Chunk Size:} $3 \cdot 3 \cdot 1$
+            \item \gray{Previous Average Time: 10.5640s}
+            \item \blue{Average Time:} 5.9325s
+        \end{itemize}
+    \end{column}
+    
+    \end{columns}
+
+    % \vspace{0.5cm}
+    % \blue{Chosing correct Chunk Size is important for Linked Cell performance!} Here, a $3^3$ cell outperforms $4^3$ by circa 20\%.
+\end{frame}
+
+\simpleframe\begin{frame}{Performance Measurement}{Both Algorithms}
+\begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[
+            width=\textwidth,  
+            height=0.7\textheight,
+            xlabel={Particle Count},
+            ylabel={Average Measurement [s]},
+            xtick={0, 1000, 2000, 4000},
+            ytick={0, 20, 50, 100, 200},
+            scaled x ticks=false,  
+            scaled y ticks=false,
+            ymajorgrids=true, 
+            grid style=dashed,
+            xmin=-100,
+            legend style={at={(0.2,1)},anchor=north},
+        ]
+        
+        \addplot[
+            color=orange,
+            mark=diamond,
+            line width=1pt,
+            ]
+            coordinates {
+            (0, 0)(1000, 1.3643)(2000, 3.0371)(4000, 5.9325)
+            };
+
+        \addplot[
+            color=purple,
+            mark=triangle,
+            line width=1pt,
+            ]
+            coordinates {
+            (0, 0)(1000, 2.4037)(2000, 4.98)(4000, 10.5640)
+            };
+
+        \addplot[
+            color=black,
+            mark=square,
+            line width=1pt,
+            ]
+            coordinates {
+            (0, 0)(1000, 16.7531)(2000, 56.9279)(4000, 230.8294)
+            };
+
+        \legend{$3\cdot 3$ cells, Larger cells, Direct Sum}
+        \end{axis}
+    \end{tikzpicture}
+\end{center}
+\end{frame}
+
+\simpleframe\begin{frame}{Performance Measurement}{Linked Cells}
+\begin{center}
+    \begin{tikzpicture}
+        \begin{axis}[
+            width=\textwidth,  
+            height=0.7\textheight,
+            xlabel={Particle Count},
+            ylabel={Average Measurement [s]},
+            xtick={0, 1000, 2000, 4000},
+            scaled x ticks=false,  
+            scaled y ticks=false,
+            ymajorgrids=true, 
+            grid style=dashed,
+            xmin=-100,
+            legend style={at={(0.2,1)},anchor=north},
+        ]
+        
+        \addplot[
+            color=orange,
+            mark=diamond,
+            line width=1pt,
+            ]
+            coordinates {
+            (0, 0)(1000, 1.3643)(2000, 3.0371)(4000, 5.9325)
+            };
+
+        \addplot[
+            color=purple,
+            mark=triangle,
+            line width=1pt,
+            ]
+            coordinates {
+            (0, 0)(1000, 2.4037)(2000, 4.98)(4000, 10.5640)
+            };
+
+        \legend{$3\cdot 3$ cells, Larger cells}
+        \end{axis}
+    \end{tikzpicture}
+\end{center}
+\end{frame}
+
 \simpleframe\begin{frame}{That's it – for now, at least}{Bloppers: Explosions}
     \begin{center}
         \begin{figure}

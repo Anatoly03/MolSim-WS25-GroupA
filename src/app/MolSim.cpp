@@ -58,6 +58,7 @@ int main(int argc, char *argsv[]) {
 
     timespec starttime;
     timespec end;
+    int iterations = 0;
     double total_duration = 0.0;
 
     for (int i = 0; i < bits; i++) {
@@ -72,6 +73,7 @@ int main(int argc, char *argsv[]) {
 
         double duration = (double)(end.tv_sec - starttime.tv_sec) + ((double)(end.tv_nsec - starttime.tv_nsec) * 1e-9);
         total_duration += duration;
+        iterations = simulation->iteration;
 
         spdlog::set_level(args.log_level); // end benchmark iteration: report
         spdlog::trace("benchmark: iteration {}: in {:.4f}s", i, duration);
@@ -85,7 +87,7 @@ int main(int argc, char *argsv[]) {
 
     double avg_duration = total_duration / bits;
     spdlog::set_level(args.log_level); // end all benchmarking: report
-    spdlog::debug("benchmark: finish {} iterations, over {} particles", bits, particles.particleCount());
+    spdlog::debug("benchmark: finish {} iterations, over {} particles, over {} iterations", bits, particles.particleCount(), iterations);
     spdlog::info("average: {:.4f}s", avg_duration);
     spdlog::info("total:   {:.4f}s", total_duration);
     spdlog::set_level(spdlog::level::off); // disable further logging (destructor invocation)

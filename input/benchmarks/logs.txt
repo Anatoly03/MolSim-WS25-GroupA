@@ -1,0 +1,120 @@
+# These are terminal logs.
+# They are incomplete, but not altered, only noted after `<---` markers
+
+./build/MolSim input/benchmarks/square-1000.yml -B5                                              INT ✘  15s 
+[2025-11-28 20:17:49.523] [trace] benchmark: iteration 0: in 2.3966s
+[2025-11-28 20:17:51.990] [trace] benchmark: iteration 1: in 2.4650s
+[2025-11-28 20:17:54.305] [trace] benchmark: iteration 2: in 2.3152s
+[2025-11-28 20:17:56.615] [trace] benchmark: iteration 3: in 2.3097s
+[2025-11-28 20:17:59.148] [trace] benchmark: iteration 4: in 2.5320s
+[2025-11-28 20:17:59.148] [debug] benchmark: finish 5 iterations, over 1024 particles, over 2001 iterations
+[2025-11-28 20:17:59.148] [info] average: 2.4037s
+[2025-11-28 20:17:59.148] [info] total:   12.0184s
+
+./build/MolSim input/benchmarks/square-2000.yml -B5                                              INT ✘  17s 
+[2025-11-28 20:26:40.764] [trace] benchmark: iteration 0: in 4.8928s
+[2025-11-28 20:26:45.960] [trace] benchmark: iteration 1: in 5.1934s <--- outliers
+[2025-11-28 20:26:50.799] [trace] benchmark: iteration 2: in 4.8387s
+[2025-11-28 20:26:55.771] [trace] benchmark: iteration 3: in 4.9710s
+[2025-11-28 20:27:00.783] [trace] benchmark: iteration 4: in 5.0108s <--- outliers
+[2025-11-28 20:27:00.783] [debug] benchmark: finish 5 iterations, over 2048 particles, over 2001 iterations
+[2025-11-28 20:27:00.783] [info] average: 4.9814s
+[2025-11-28 20:27:00.783] [info] total:   24.9068s
+
+./build/MolSim input/benchmarks/square-4000.yml -B5                                              INT ✘  12s 
+[2025-11-28 20:28:23.841] [trace] benchmark: iteration 0: in 11.1221s <--- outlier
+[2025-11-28 20:28:34.090] [trace] benchmark: iteration 1: in 10.2458s
+[2025-11-28 20:28:44.664] [trace] benchmark: iteration 2: in 10.5736s
+[2025-11-28 20:28:55.010] [trace] benchmark: iteration 3: in 10.3435s
+[2025-11-28 20:29:05.547] [trace] benchmark: iteration 4: in 10.5353s
+[2025-11-28 20:29:05.547] [debug] benchmark: finish 5 iterations, over 4096 particles, over 2001 iterations
+[2025-11-28 20:29:05.547] [info] average: 10.5640s
+[2025-11-28 20:29:05.547] [info] total:   52.8203s
+
+./build/MolSim input/benchmarks/2bc-cell4.yml -B5                                                    ✔  53s 
+[2025-11-28 20:31:44.667] [trace] benchmark: iteration 0: in 5.4181s <--- outlier
+[2025-11-28 20:31:49.262] [trace] benchmark: iteration 1: in 4.5919s
+[2025-11-28 20:31:53.898] [trace] benchmark: iteration 2: in 4.6350s
+[2025-11-28 20:31:58.539] [trace] benchmark: iteration 3: in 4.6396s
+[2025-11-28 20:32:03.140] [trace] benchmark: iteration 4: in 4.6010s
+[2025-11-28 20:32:03.145] [debug] benchmark: finish 5 iterations, over 2400 particles, over 2001 iterations
+[2025-11-28 20:32:03.145] [info] average: 4.7771s
+[2025-11-28 20:32:03.145] [info] total:   23.8857s
+
+./build/MolSim input/benchmarks/2bc-perfect.yml -B5                                                   ✔  4s 
+[2025-11-28 20:32:35.495] [trace] benchmark: iteration 0: in 3.9408s
+[2025-11-28 20:32:39.405] [trace] benchmark: iteration 1: in 3.9083s
+[2025-11-28 20:32:43.236] [trace] benchmark: iteration 2: in 3.8291s
+[2025-11-28 20:32:47.440] [trace] benchmark: iteration 3: in 4.2034s <--- outlier
+[2025-11-28 20:32:51.214] [trace] benchmark: iteration 4: in 3.7730s
+[2025-11-28 20:32:51.214] [debug] benchmark: finish 5 iterations, over 2400 particles, over 2001 iterations
+[2025-11-28 20:32:51.214] [info] average: 3.9309s
+[2025-11-28 20:32:51.214] [info] total:   19.6546s
+
+./build/MolSim input/benchmarks/square-4000-1.yml -B5                                                  INT ✘ 
+[2025-11-28 20:40:16.333] [trace] benchmark: iteration 0: in 13.2562s <--- extreme outlier
+[2025-11-28 20:40:26.548] [trace] benchmark: iteration 1: in 10.2114s
+[2025-11-28 20:40:36.869] [trace] benchmark: iteration 2: in 10.3196s
+[2025-11-28 20:40:48.107] [trace] benchmark: iteration 3: in 11.2368s
+[2025-11-28 20:40:58.850] [trace] benchmark: iteration 4: in 10.7411s
+[2025-11-28 20:40:58.850] [debug] benchmark: finish 5 iterations, over 4096 particles, over 2001 iterations
+[2025-11-28 20:40:58.850] [info] average: 11.1530s
+[2025-11-28 20:40:58.850] [info] total:   55.7650s
+
+./build/MolSim input/benchmarks/square-4000-2.yml -B5                                                      ✔ 
+[2025-11-28 20:42:49.357] [trace] benchmark: iteration 0: in 6.0206s
+[2025-11-28 20:42:55.196] [trace] benchmark: iteration 1: in 5.8360s
+[2025-11-28 20:43:01.403] [trace] benchmark: iteration 2: in 6.2053s
+[2025-11-28 20:43:07.130] [trace] benchmark: iteration 3: in 5.7254s
+[2025-11-28 20:43:13.008] [trace] benchmark: iteration 4: in 5.8753s
+[2025-11-28 20:43:13.008] [debug] benchmark: finish 5 iterations, over 4096 particles, over 2001 iterations
+[2025-11-28 20:43:13.008] [info] average: 5.9325s
+[2025-11-28 20:43:13.008] [info] total:   29.6625s
+
+./build/MolSim input/benchmarks/square-2000-1.yml -B5                                                ✔  30s 
+[2025-11-28 20:44:07.897] [trace] benchmark: iteration 0: in 2.8791s
+[2025-11-28 20:44:11.057] [trace] benchmark: iteration 1: in 3.1581s
+[2025-11-28 20:44:14.129] [trace] benchmark: iteration 2: in 3.0701s
+[2025-11-28 20:44:17.283] [trace] benchmark: iteration 3: in 3.1522s
+[2025-11-28 20:44:20.210] [trace] benchmark: iteration 4: in 2.9261s
+[2025-11-28 20:44:20.210] [debug] benchmark: finish 5 iterations, over 2048 particles, over 2001 iterations
+[2025-11-28 20:44:20.210] [info] average: 3.0371s
+[2025-11-28 20:44:20.210] [info] total:   15.1856s
+
+./build/MolSim input/benchmarks/square-1000-1.yml -B5                                                ✔  15s 
+[2025-11-28 20:47:29.296] [trace] benchmark: iteration 0: in 1.3926s
+[2025-11-28 20:47:30.634] [trace] benchmark: iteration 1: in 1.3364s
+[2025-11-28 20:47:32.007] [trace] benchmark: iteration 2: in 1.3726s
+[2025-11-28 20:47:33.434] [trace] benchmark: iteration 3: in 1.4261s
+[2025-11-28 20:47:34.728] [trace] benchmark: iteration 4: in 1.2938s
+[2025-11-28 20:47:34.728] [debug] benchmark: finish 5 iterations, over 1024 particles, over 2001 iterations
+[2025-11-28 20:47:34.728] [info] average: 1.3643s
+[2025-11-28 20:47:34.728] [info] total:   6.8214s
+
+./build/MolSim input/benchmarks/square-1000.yml -B5 -V0                                                                  INT ✘  4s 
+[2025-11-28 21:16:08.105] [trace] benchmark: iteration 0: in 15.7560s
+[2025-11-28 21:16:24.244] [trace] benchmark: iteration 1: in 16.1383s
+[2025-11-28 21:16:39.975] [trace] benchmark: iteration 2: in 15.7313s
+[2025-11-28 21:16:59.550] [trace] benchmark: iteration 3: in 19.5747s <--- heavy outlier, screensaver got turned on
+[2025-11-28 21:17:16.115] [trace] benchmark: iteration 4: in 16.5651s
+[2025-11-28 21:17:16.115] [debug] benchmark: finish 5 iterations, over 1024 particles, over 2001 iterations
+[2025-11-28 21:17:16.115] [info] average: 16.7531s
+[2025-11-28 21:17:16.115] [info] total:   83.7653s
+
+./build/MolSim input/benchmarks/square-2000.yml -B5 -V0                                                                              1 ✘  27s 
+[2025-11-29 13:30:18.682] [trace] benchmark: iteration 0: in 55.3804s
+[2025-11-29 13:31:15.264] [trace] benchmark: iteration 1: in 56.5812s <---
+[2025-11-29 13:32:13.066] [trace] benchmark: iteration 2: in 57.8022s <--- potential memory leak
+[2025-11-29 13:33:09.514] [trace] benchmark: iteration 3: in 56.4475s <---
+[2025-11-29 13:34:07.942] [trace] benchmark: iteration 4: in 58.4281s <--- potential memory leak
+[2025-11-29 13:34:07.942] [debug] benchmark: finish 5 iterations, over 2048 particles, over 2001 iterations
+[2025-11-29 13:34:07.942] [info] average: 56.9279s
+[2025-11-29 13:34:07.942] [info] total:   284.6394s
+
+./build/MolSim input/benchmarks/square-4000.yml -B2 -V0                                                                      INT ✘  1m 34s 
+[2025-11-29 13:40:43.143] [trace] benchmark: iteration 0: in 230.1311s
+[2025-11-29 13:44:34.671] [trace] benchmark: iteration 1: in 231.5277s
+[2025-11-29 13:44:34.671] [debug] benchmark: finish 2 iterations, over 4096 particles, over 2001 iterations
+[2025-11-29 13:44:34.671] [info] average: 230.8294s
+[2025-11-29 13:44:34.671] [info] total:   461.6587s
+
