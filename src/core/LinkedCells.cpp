@@ -6,33 +6,50 @@
 #include <fmt/format.h>
 
 /**
- * iterate over all cells and removes out of range
- */
+* iterate over all cells and removes out of range
+*/
 int LinkedCells::clearOutOfBoundsCells() {
-    // retrieve cell keys/ index
     std::vector<Vec3I> cellsToRemove;
 
-    for (const auto &it : containers) {
+
+    for (auto &it : containers) {
         const Vec3I &cellIndex = it.first;
 
         if (!ascending(domainMin.x, cellIndex.x, domainMax.x)
             || !ascending(domainMin.y, cellIndex.y, domainMax.y)
             || !ascending(domainMin.z, cellIndex.z, domainMax.z)) {
             cellsToRemove.emplace_back(cellIndex);
+            continue;
         }
+
+        auto &particles = it.second;
+
+
+
+
+        particles.erase(
+                std::remove_if(particles.begin(), particles.end(),
+                               [&](const Particle &p) {
+                                   return (p.position.x < domainMin.x || p.position.x > domainMax.x ||
+                                           p.position.y < domainMin.y || p.position.y > domainMax.y ||
+                                           p.position.z < domainMin.z || p.position.z > domainMax.z);
+                               }),
+                particles.end()
+        );
     }
-    int tmp =cellsToRemove.size();
+
 
     for (const auto &cellIndex : cellsToRemove) {
         containers.erase(cellIndex);
     }
 
-    return tmp;
+    return static_cast<int>(cellsToRemove.size());
 }
 
+
 /**
- * Iteration over containers, each over single particles using a callback function.
- */
+* Iteration over containers, each over single particles using a callback function.
+*/
 void LinkedCells::forEach(const std::function<void(Particle &)> &callback) {
     for (auto &it : containers) {
         const Vec3I &cellIndex = it.first;
@@ -41,18 +58,18 @@ void LinkedCells::forEach(const std::function<void(Particle &)> &callback) {
         if (!ascending(domainMin.x, cellIndex.x, domainMax.x)
             || !ascending(domainMin.y, cellIndex.y, domainMax.y)
             || !ascending(domainMin.z, cellIndex.z, domainMax.z)) {
-                std::string tmp;
+            std::string tmp;
 
-                for (auto &p: particles) {
-                    if (tmp.length() > 0) tmp += ", ";
-                    tmp += p.toString();
-                }
-
-                {
-                    auto idx_str = fmt::format("({},{},{})", it.first.x, it.first.y, it.first.z);
-                    spdlog::warn("cell {} out of domain bounds, affecting {} particles: {}", idx_str, particles.size(), tmp);
-                }
+            for (auto &p: particles) {
+                if (tmp.length() > 0) tmp += ", ";
+                tmp += p.toString();
             }
+
+            {
+                auto idx_str = fmt::format("({},{},{})", it.first.x, it.first.y, it.first.z);
+                spdlog::warn("cell {} out of domain bounds, affecting {} particles: {}", idx_str, particles.size(), tmp);
+            }
+        }
 
         for (auto &p: particles) {
             callback(p);
@@ -61,9 +78,9 @@ void LinkedCells::forEach(const std::function<void(Particle &)> &callback) {
 }
 
 /**
- * Iteration over close distinct particle pairs using a callback function. Particles
- * across some chunks are ignored.
- */
+* Iteration over close distinct particle pairs using a callback function. Particles
+* across some chunks are ignored.
+*/
 void LinkedCells::forEachDistinctPair(const std::function<void(Particle &, Particle &)> &callback) {
     const int CHUNK_RADIUS = 2;
 
@@ -75,7 +92,7 @@ void LinkedCells::forEachDistinctPair(const std::function<void(Particle &, Parti
         if (!ascending(domainMin.y, cellIndex.y, domainMax.y)) continue;
         if (!ascending(domainMin.z, cellIndex.z, domainMax.z)) continue;
 
-        // calculate all distinct pairs within same chunk
+// calculate all distinct pairs within same chunk
         for (size_t i = 0; i < particles.size(); i++) {
             for (size_t j = i + 1; j < particles.size(); j++) {
                 if (i == j) continue;
@@ -83,7 +100,7 @@ void LinkedCells::forEachDistinctPair(const std::function<void(Particle &, Parti
             }
         }
 
-        // only iterate over neighbouring chunks with greater chunk index (avoid duplication)
+// only iterate over neighbouring chunks with greater chunk index (avoid duplication)
         for (const Vec3I indexDelta : Vec3Iter(CHUNK_RADIUS)) {
             const Vec3I nIndex = cellIndex + indexDelta; // neighbour index
 
@@ -94,7 +111,7 @@ void LinkedCells::forEachDistinctPair(const std::function<void(Particle &, Parti
 
             auto &neighbour = containers[nIndex];
 
-            // calculate all distinct pairs across chunks
+// calculate all distinct pairs across chunks
             for (size_t i = 0; i < particles.size(); i++) {
                 for (size_t j = 0; j < neighbour.size(); j++) {
                     callback(particles[i], neighbour[j]);
@@ -105,8 +122,8 @@ void LinkedCells::forEachDistinctPair(const std::function<void(Particle &, Parti
 }
 
 /**
- * @brief wrapper for 'for each bordered' without relative chunk
- */
+* @brief wrapper for 'for each bordered' without relative chunk
+*/
 void LinkedCells::forEachBordered(const std::function<void(Particle &)> &callback) {
     forEachBordered([&callback](Particle &p, Vec3I /*ghostCellIndex*/) {
         callback(p);
@@ -114,35 +131,35 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &)> &callbac
 }
 
 /**
- * @brief Iteration over the cells at domain border.
- * @note The same particle CAN AND WILL be processed multiple times for small
- * domain size. This is because particles at edges and corners belong to multiple
- * border planes.
- * @details
- * 
- * ```
- *                NORTH      BACK
- *
- *               /- - - - - -/
- *             /           / |
- *           /    XZ     /   |   EAST
- *  WEST    |- - - - - -| YZ |
- *          |           |   /
- *          |     XY    | /
- *          |- - - - - -|
- *
- *   FRONT      SOUTH
- * ```
- * 
- * Iterate over six planes of cells.
- */
+* @brief Iteration over the cells at domain border.
+* @note The same particle CAN AND WILL be processed multiple times for small
+* domain size. This is because particles at edges and corners belong to multiple
+* border planes.
+* @details
+*
+* ```
+*                NORTH      BACK
+*
+*               /- - - - - -/
+*             /           / |
+*           /    XZ     /   |   EAST
+*  WEST    |- - - - - -| YZ |
+*          |           |   /
+*          |     XY    | /
+*          |- - - - - -|
+*
+*   FRONT      SOUTH
+* ```
+*
+* Iterate over six planes of cells.
+*/
 void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &callback) {
     const auto domainSize = domainMax - domainMin + Vec3I(1);
 
-    // XY PLANE [FRONT]
-    //std::cout<<boarderXmin<<std::endl;
+// XY PLANE [FRONT]
+//std::cout<<boarderXmin<<std::endl;
     if(boarderZmin=="reflect") {
-        //std::cout<<"minZ"<<std::endl;
+//std::cout<<"minZ"<<std::endl;
         for (auto xyPlane: Vec3Iter(domainSize.x, domainSize.y, 1)) {
             Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, xyPlane.y, 0);
             auto &particles = containers[cellIndex];
@@ -152,14 +169,14 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
             }
         }
     }else{
-        /*for (auto xyPlane: Vec3Iter(domainSize.x, domainSize.y, 1)) {
-            Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, xyPlane.y, 0);
-            containers.erase(cellIndex);
-        }*/
+/*for (auto xyPlane: Vec3Iter(domainSize.x, domainSize.y, 1)) {
+           Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, xyPlane.y, 0);
+           containers.erase(cellIndex);
+       }*/
         clearOutOfBoundsCells();
     }
 
-    // XY PLANE [BACK]
+// XY PLANE [BACK]
     if(boarderZmax == "reflect") {
         for (auto xyPlane: Vec3Iter(domainSize.x, domainSize.y, 1)) {
             Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, xyPlane.y, domainSize.z - 1);
@@ -170,14 +187,14 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
             }
         }
     }else{
-        /*for (auto xyPlane: Vec3Iter(domainSize.x, domainSize.y, 1)) {
-            Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, xyPlane.y, domainSize.z - 1);
-            containers.erase(cellIndex);
-        }*/
+/*for (auto xyPlane: Vec3Iter(domainSize.x, domainSize.y, 1)) {
+           Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, xyPlane.y, domainSize.z - 1);
+           containers.erase(cellIndex);
+       }*/
         clearOutOfBoundsCells();
     }
 
-    // XZ PLANE [NORTH]
+// XZ PLANE [NORTH]
     if(boarderYmin=="reflect") {
         for (auto xyPlane: Vec3Iter(domainSize.x, 1, domainSize.z)) {
             Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, 0, xyPlane.z);
@@ -188,14 +205,14 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
             }
         }
     }else{
-        /*for (auto xyPlane: Vec3Iter(domainSize.x, 1, domainSize.z)) {
-            Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, 0, xyPlane.z);
-            containers.erase(cellIndex);
-        }*/
+/*for (auto xyPlane: Vec3Iter(domainSize.x, 1, domainSize.z)) {
+           Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, 0, xyPlane.z);
+           containers.erase(cellIndex);
+       }*/
         clearOutOfBoundsCells();
     }
 
-    // XZ PLANE [SOUTH]
+// XZ PLANE [SOUTH]
     if(boarderYmax=="reflect") {
         for (auto xyPlane: Vec3Iter(domainSize.x, 1, domainSize.z)) {
             Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, domainSize.y - 1, xyPlane.z);
@@ -206,14 +223,14 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
             }
         }
     }else{
-        /*for (auto xyPlane: Vec3Iter(domainSize.x, 1, domainSize.z)) {
-            Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, domainSize.y - 1, xyPlane.z);
-            containers.erase(cellIndex);
-        }*/
+/*for (auto xyPlane: Vec3Iter(domainSize.x, 1, domainSize.z)) {
+           Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, domainSize.y - 1, xyPlane.z);
+           containers.erase(cellIndex);
+       }*/
         clearOutOfBoundsCells();
     }
 
-    // YZ PLANE [WEST]
+// YZ PLANE [WEST]
     if(boarderXmin=="reflect") {
         for (auto xyPlane: Vec3Iter(1, domainSize.y, domainSize.z)) {
             Vec3I cellIndex = domainMin + Vec3I(0, xyPlane.y, xyPlane.z);
@@ -224,15 +241,16 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
             }
         }
     }else{
-        /*for (auto xyPlane: Vec3Iter(1, domainSize.y, domainSize.z)) {
-            Vec3I cellIndex = domainMin + Vec3I(0, xyPlane.y, xyPlane.z);
-            containers.erase(cellIndex);
-        }*/
+/*for (auto xyPlane: Vec3Iter(1, domainSize.y, domainSize.z)) {
+           Vec3I cellIndex = domainMin + Vec3I(0, xyPlane.y, xyPlane.z);
+           containers.erase(cellIndex);
+       }*/
+        std::cout<<"minX"<<std::endl;
         //std::cout<<"minX"<<std::endl;
         clearOutOfBoundsCells();
     }
 
-    // YZ PLANE [EAST]
+// YZ PLANE [EAST]
     if(boarderXmax=="reflect") {
         for (auto xyPlane: Vec3Iter(1, domainSize.y, domainSize.z)) {
             Vec3I cellIndex = domainMin + Vec3I(domainSize.x - 1, xyPlane.y, xyPlane.z);
@@ -243,25 +261,22 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
             }
         }
     }else{
-        /*for (auto xyPlane : Vec3Iter(1, domainSize.y, domainSize.z)) {
-            Vec3I cellIndex = domainMin + Vec3I(domainSize.x - 1, xyPlane.y, xyPlane.z);
-            containers.erase(cellIndex);
-        }*/
+/*for (auto xyPlane : Vec3Iter(1, domainSize.y, domainSize.z)) {
+           Vec3I cellIndex = domainMin + Vec3I(domainSize.x - 1, xyPlane.y, xyPlane.z);
+           containers.erase(cellIndex);
+       }*/
         clearOutOfBoundsCells();
     }
 }
 
 /**
- * @brief Iterates over all particles and updates their parent chunk when they leave their cell.
- */
+* @brief Iterates over all particles and updates their parent chunk when they leave their cell.
+*/
 void LinkedCells::reindex() {
-    std::vector<Vec3I> emptyCells;
-
     for (auto &it : containers) {
         auto &particles = it.second;
-        size_t i = 0;
 
-        for (i = 0; i < particles.size(); i++) {
+        for (size_t i = 0; i < particles.size(); i++) {
             Particle &p = particles[i];
 
             const auto currentCellIndex = it.first;
@@ -270,32 +285,22 @@ void LinkedCells::reindex() {
             if (!ascending(domainMin.x, newCellIndex.x, domainMax.x)
                 || !ascending(domainMin.y, newCellIndex.y, domainMax.y)
                 || !ascending(domainMin.z, newCellIndex.z, domainMax.z)) {
-                // the line below breaks github CI
-                // spdlog::warn("Particle {} at {} left cell domain {} -> {}", p.p_id, p.position, currentCellIndex, newCellIndex);
-                // spdlog::debug("Cell size {}, Current cell {}, New cell {}", cellSize, currentCellIndex, newCellIndex);
+// the line below breaks github CI
+// spdlog::warn("Particle {} at {} left cell domain {} -> {}", p.p_id, p.position, currentCellIndex, newCellIndex);
+// spdlog::debug("Cell size {}, Current cell {}, New cell {}", cellSize, currentCellIndex, newCellIndex);
                 continue;
             }
 
             if (newCellIndex != currentCellIndex) {
-                // add to new container
+// add to new container
                 containers[newCellIndex].emplace_back(p);
 
-                // remove from current container
+// remove from current container
                 particles.erase(particles.begin() + i);
                 i--;
 
-                spdlog::trace("Particle reindexed from {} to {}",
-                              fmt::format("({}, {}, {})", currentCellIndex.x, currentCellIndex.y, currentCellIndex.z),
-                              fmt::format("({}, {}, {})", newCellIndex.x, newCellIndex.y, newCellIndex.z));
+                spdlog::trace("Particle reindexed!");
             }
         }
-        
-        if (i == 0) {
-            emptyCells.emplace_back(it.first);
-        }
-    }
-
-    for (const auto &idx : emptyCells) {
-        containers.erase(idx);
     }
 }
