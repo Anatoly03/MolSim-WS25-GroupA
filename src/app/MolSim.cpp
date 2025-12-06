@@ -58,8 +58,10 @@ int main(int argc, char *argsv[]) {
 
     timespec starttime;
     timespec end;
+
     int iterations = 0;
     double total_duration = 0.0;
+    double best_of = std::numeric_limits<double>::max();
 
     for (int i = 0; i < bits; i++) {
         spdlog::set_level(spdlog::level::off); // disable logging for benchmarking
@@ -75,6 +77,9 @@ int main(int argc, char *argsv[]) {
         total_duration += duration;
         iterations = simulation->iteration;
 
+        if (duration < best_of)
+            best_of = duration;
+
         spdlog::set_level(args.log_level); // end benchmark iteration: report
         spdlog::trace("benchmark: iteration {}: in {:.4f}s", i, duration);
         if (i == bits - 1) { // verify benchmark result is relevant during last measurement
@@ -89,6 +94,7 @@ int main(int argc, char *argsv[]) {
     spdlog::set_level(args.log_level); // end all benchmarking: report
     spdlog::debug("benchmark: finish {} iterations, over {} particles, over {} iterations", bits, particles.particleCount(), iterations);
     spdlog::info("average: {:.4f}s", avg_duration);
+    spdlog::info("best:    {:.4f}s", best_of);
     spdlog::info("total:   {:.4f}s", total_duration);
     spdlog::set_level(spdlog::level::off); // disable further logging (destructor invocation)
     return 0;
