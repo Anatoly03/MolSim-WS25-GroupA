@@ -6,6 +6,8 @@ config:
   output: Sonne
   output_interval: 25
   attraction: newton
+  cell_size: [5, 5, 5]
+  domain_max: [50000000, 50000000, 50000000]
 
 particles:
   sun:
