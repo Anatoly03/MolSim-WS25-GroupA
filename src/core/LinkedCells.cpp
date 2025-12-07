@@ -47,7 +47,8 @@ void LinkedCells::forEach(const std::function<void(Particle &)> &callback) {
                     tmp += p.toString();
                 }
 
-                spdlog::warn("cell {} out of domain bounds, affecting {} particles: {}", fmt::format("{}", it.first), particles.size(), tmp);
+                auto i_str = fmt::format("({},{},{})", it.first.x, it.first.y, it.first.z); // TODO FIX DANGLING REFERENCE FORMATTING
+                spdlog::warn("cell {} out of domain bounds, affecting {} particles: {}", i_str, particles.size(), tmp); // TODO FIX DANGLING REFERENCE FORMATTING
             }
 
         for (auto &p: particles) {
@@ -239,7 +240,9 @@ void LinkedCells::reindex() {
                 particles.erase(particles.begin() + i);
                 i--;
 
-                spdlog::trace("Particle reindexed {} -> {}!", fmt::format("{}", currentCellIndex), fmt::format("{}", newCellIndex));
+                auto i_str = fmt::format("({},{},{})", currentCellIndex.x, currentCellIndex.y, currentCellIndex.z); // TODO FIX DANGLING REFERENCE FORMATTING
+                auto j_str = fmt::format("({},{},{})", newCellIndex.x, newCellIndex.y, newCellIndex.z); // TODO FIX DANGLING REFERENCE FORMATTING
+                spdlog::trace("Particle reindexed {} -> {}!", i_str, j_str); // TODO FIX DANGLING REFERENCE FORMATTING
             }
         }
     }
@@ -251,7 +254,8 @@ void LinkedCells::reindex() {
         auto &particles = it.second;
 
         if (particles.size() == 0) {
-            spdlog::trace("Linked Cell {} detached!", fmt::format("{}", it.first));
+            auto i_str = fmt::format("({},{},{})", it.first.x, it.first.y, it.first.z); // TODO FIX DANGLING REFERENCE FORMATTING
+            spdlog::trace("Linked Cell {} detached!", i_str); // TODO FIX DANGLING REFERENCE FORMATTING
             cellsToRemove.emplace_back(it.first);
         }
     }
