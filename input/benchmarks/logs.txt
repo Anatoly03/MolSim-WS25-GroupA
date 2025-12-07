@@ -118,3 +118,34 @@
 [2025-11-29 13:44:34.671] [info] average: 230.8294s
 [2025-11-29 13:44:34.671] [info] total:   461.6587s
 
+/build/MolSim input/benchmarks/eingabe-sonne.yml -V0 -B10                                 ✔ 
+[2025-12-06 17:42:48.223] [trace] benchmark: iteration 0: in 0.0443s
+[2025-12-06 17:42:48.273] [trace] benchmark: iteration 1: in 0.0489s
+[2025-12-06 17:42:48.349] [trace] benchmark: iteration 2: in 0.0760s
+[2025-12-06 17:42:48.396] [trace] benchmark: iteration 3: in 0.0471s
+[2025-12-06 17:42:48.445] [trace] benchmark: iteration 4: in 0.0485s
+[2025-12-06 17:42:48.486] [trace] benchmark: iteration 5: in 0.0412s
+[2025-12-06 17:42:48.528] [trace] benchmark: iteration 6: in 0.0418s
+[2025-12-06 17:42:48.570] [trace] benchmark: iteration 7: in 0.0424s
+[2025-12-06 17:42:48.613] [trace] benchmark: iteration 8: in 0.0426s
+[2025-12-06 17:42:48.657] [trace] benchmark: iteration 9: in 0.0442s
+[2025-12-06 17:42:48.657] [debug] benchmark: finish 10 iterations, over 4 particles, over 71429 iterations
+[2025-12-06 17:42:48.657] [info] average: 0.0477s
+[2025-12-06 17:42:48.657] [info] best:    0.0412s
+[2025-12-06 17:42:48.657] [info] total:   0.4769s
+
+./build/MolSim input/benchmarks/eingabe-sonne.yml -V1 -B10                              ✔ 
+[2025-12-06 17:43:08.495] [trace] benchmark: iteration 0: in 0.0785s
+[2025-12-06 17:43:08.557] [trace] benchmark: iteration 1: in 0.0616s
+[2025-12-06 17:43:08.616] [trace] benchmark: iteration 2: in 0.0588s
+[2025-12-06 17:43:08.681] [trace] benchmark: iteration 3: in 0.0649s
+[2025-12-06 17:43:08.737] [trace] benchmark: iteration 4: in 0.0561s
+[2025-12-06 17:43:08.795] [trace] benchmark: iteration 5: in 0.0576s
+[2025-12-06 17:43:08.849] [trace] benchmark: iteration 6: in 0.0538s
+[2025-12-06 17:43:08.902] [trace] benchmark: iteration 7: in 0.0536s
+[2025-12-06 17:43:08.964] [trace] benchmark: iteration 8: in 0.0611s
+[2025-12-06 17:43:09.034] [trace] benchmark: iteration 9: in 0.0702s
+[2025-12-06 17:43:09.034] [debug] benchmark: finish 10 iterations, over 4 particles, over 71429 iterations
+[2025-12-06 17:43:09.034] [info] average: 0.0616s
+[2025-12-06 17:43:09.034] [info] best:    0.0536s <--- overhead V1 over V0 is 0.1s 
+[2025-12-06 17:43:09.034] [info] total:   0.6161s

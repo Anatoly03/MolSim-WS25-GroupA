@@ -47,10 +47,8 @@ void LinkedCells::forEach(const std::function<void(Particle &)> &callback) {
                     tmp += p.toString();
                 }
 
-                {
-                    auto idx_str = fmt::format("({},{},{})", it.first.x, it.first.y, it.first.z);
-                    spdlog::warn("cell {} out of domain bounds, affecting {} particles: {}", idx_str, particles.size(), tmp);
-                }
+                auto i_str = fmt::format("({},{},{})", it.first.x, it.first.y, it.first.z); // TODO FIX DANGLING REFERENCE FORMATTING
+                spdlog::warn("cell {} out of domain bounds, affecting {} particles: {}", i_str, particles.size(), tmp); // TODO FIX DANGLING REFERENCE FORMATTING
             }
 
         for (auto &p: particles) {
@@ -85,6 +83,7 @@ void LinkedCells::forEachDistinctPair(const std::function<void(Particle &, Parti
         // only iterate over neighbouring chunks with greater chunk index (avoid duplication)
         for (const Vec3I indexDelta : Vec3Iter(CHUNK_RADIUS)) {
             const Vec3I nIndex = cellIndex + indexDelta; // neighbour index
+            if (containers.count(nIndex) == 0) continue;
 
             if (indexDelta.length() == 0) continue;
             if (!ascending(domainMin.x, nIndex.x, domainMax.x)) continue;
@@ -141,6 +140,8 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
     // XY PLANE [FRONT]
     for (auto xyPlane : Vec3Iter(domainSize.x, domainSize.y, 1)) {
         Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, xyPlane.y, 0);
+        if (containers.count(cellIndex) == 0) continue;
+
         auto &particles = containers[cellIndex];
 
         for (auto &p: particles) {
@@ -151,6 +152,8 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
     // XY PLANE [BACK]
     for (auto xyPlane : Vec3Iter(domainSize.x, domainSize.y, 1)) {
         Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, xyPlane.y, domainSize.z - 1);
+        if (containers.count(cellIndex) == 0) continue;
+
         auto &particles = containers[cellIndex];
 
         for (auto &p: particles) {
@@ -161,6 +164,8 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
     // XZ PLANE [NORTH]
     for (auto xyPlane : Vec3Iter(domainSize.x, 1, domainSize.z)) {
         Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, 0, xyPlane.z);
+        if (containers.count(cellIndex) == 0) continue;
+
         auto &particles = containers[cellIndex];
 
         for (auto &p: particles) {
@@ -171,6 +176,8 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
     // XZ PLANE [SOUTH]
     for (auto xyPlane : Vec3Iter(domainSize.x, 1, domainSize.z)) {
         Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, domainSize.y - 1, xyPlane.z);
+        if (containers.count(cellIndex) == 0) continue;
+
         auto &particles = containers[cellIndex];
 
         for (auto &p: particles) {
@@ -181,6 +188,8 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
     // YZ PLANE [WEST]
     for (auto xyPlane : Vec3Iter(1, domainSize.y, domainSize.z)) {
         Vec3I cellIndex = domainMin + Vec3I(0, xyPlane.y, xyPlane.z);
+        if (containers.count(cellIndex) == 0) continue;
+
         auto &particles = containers[cellIndex];
 
         for (auto &p: particles) {
@@ -191,6 +200,8 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
     // YZ PLANE [EAST]
     for (auto xyPlane : Vec3Iter(1, domainSize.y, domainSize.z)) {
         Vec3I cellIndex = domainMin + Vec3I(domainSize.x - 1, xyPlane.y, xyPlane.z);
+        if (containers.count(cellIndex) == 0) continue;
+
         auto &particles = containers[cellIndex];
 
         for (auto &p: particles) {
@@ -229,8 +240,27 @@ void LinkedCells::reindex() {
                 particles.erase(particles.begin() + i);
                 i--;
 
-                spdlog::trace("Particle reindexed!");
+                auto i_str = fmt::format("({},{},{})", currentCellIndex.x, currentCellIndex.y, currentCellIndex.z); // TODO FIX DANGLING REFERENCE FORMATTING
+                auto j_str = fmt::format("({},{},{})", newCellIndex.x, newCellIndex.y, newCellIndex.z); // TODO FIX DANGLING REFERENCE FORMATTING
+                spdlog::trace("Particle reindexed {} -> {}!", i_str, j_str); // TODO FIX DANGLING REFERENCE FORMATTING
             }
         }
+    }
+
+    // retrieve cell keys/ index to detached off loaded cells
+    std::vector<Vec3I> cellsToRemove;
+
+    for (auto &it : containers) {
+        auto &particles = it.second;
+
+        if (particles.size() == 0) {
+            auto i_str = fmt::format("({},{},{})", it.first.x, it.first.y, it.first.z); // TODO FIX DANGLING REFERENCE FORMATTING
+            spdlog::trace("Linked Cell {} detached!", i_str); // TODO FIX DANGLING REFERENCE FORMATTING
+            cellsToRemove.emplace_back(it.first);
+        }
+    }
+
+    for (const auto &cellIndex : cellsToRemove) {
+        containers.erase(cellIndex);
     }
 }

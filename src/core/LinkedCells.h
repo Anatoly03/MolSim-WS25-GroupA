@@ -128,6 +128,13 @@ class LinkedCells {
     }
 
     /**
+     * @brief Get the number of total particles in all cells combined.
+     */
+    int cellCount() const {
+        return containers.size();
+    }
+
+    /**
      * @brief Absorb a particle container and sort particles into cells.
      */
     virtual void absorb(ParticleContainer &particles) {
