@@ -47,10 +47,7 @@ void LinkedCells::forEach(const std::function<void(Particle &)> &callback) {
                     tmp += p.toString();
                 }
 
-                {
-                    auto idx_str = fmt::format("({},{},{})", it.first.x, it.first.y, it.first.z);
-                    spdlog::warn("cell {} out of domain bounds, affecting {} particles: {}", idx_str, particles.size(), tmp);
-                }
+                spdlog::warn("cell {} out of domain bounds, affecting {} particles: {}", fmt::format("{}", it.first), particles.size(), tmp);
             }
 
         for (auto &p: particles) {
@@ -242,7 +239,7 @@ void LinkedCells::reindex() {
                 particles.erase(particles.begin() + i);
                 i--;
 
-                spdlog::trace("Particle reindexed {} -> {}!", currentCellIndex, newCellIndex);
+                spdlog::trace("Particle reindexed {} -> {}!", fmt::format("{}", currentCellIndex), fmt::format("{}", newCellIndex));
             }
         }
     }
@@ -254,7 +251,7 @@ void LinkedCells::reindex() {
         auto &particles = it.second;
 
         if (particles.size() == 0) {
-            spdlog::trace("Linked Cell {} detached!", it.first);
+            spdlog::trace("Linked Cell {} detached!", fmt::format("{}", it.first));
             cellsToRemove.emplace_back(it.first);
         }
     }
