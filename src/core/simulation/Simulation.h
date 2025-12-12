@@ -144,7 +144,11 @@ class Simulation {
 
         //boltzmann constant
         double kB = 1;
-        currentTemperature = (tmp * 2) / (n * d * kB);
+        if(n > 0) { currentTemperature = (tmp * 2) / (n * d * kB); }
+        else{
+            std::cout<<"no particle present"<<std::endl;
+        }
+
 
     }
 

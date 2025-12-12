@@ -111,6 +111,10 @@ struct Args {
      * @brief Default version of the algorithm to use. Overridden by CLI.
      */
     int version = 1;
+    /**
+     * @brief Default temperature. Overridden by CLI.
+     */
+    double temperature= 1;
 
     /**
      * @brief Default constructor.
