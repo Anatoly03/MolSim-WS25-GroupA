@@ -32,26 +32,31 @@ void Simulation::calculateSinglePosition(Particle &particle, double dt) {
  * @brief update the velocity for a single particles
  */
 void Simulation::calculateSingleVelocity(Particle &particle, double dt) {
-    if(arguments.temperatureScaling == "gradual"){
-        if(std::abs(arguments.temperature - currentTemperature) > arguments.maximumTemperatureDifference){
+    if(iteration % arguments.thermostatStep == 0) {
+        if (arguments.temperatureScaling == "gradual") {
+            if (std::abs(arguments.temperature - currentTemperature) > arguments.maximumTemperatureDifference) {
 
-            if(arguments.temperature > currentTemperature){
-                double beta = std::sqrt((this->currentTemperature + arguments.maximumTemperatureDifference) / this->currentTemperature);
-                particle.velocity += (dt * ((particle.force + particle.old_force) / (2 * particle.mass))) * beta;
-            }else{
-                double beta = std::sqrt((this->currentTemperature - arguments.maximumTemperatureDifference) / this->currentTemperature);
-                particle.velocity += (dt * ((particle.force + particle.old_force) / (2 * particle.mass))) * beta;
+                if (arguments.temperature > currentTemperature) {
+                    double beta = std::sqrt((this->currentTemperature + arguments.maximumTemperatureDifference) /
+                                            this->currentTemperature);
+                    particle.velocity += (dt * ((particle.force + particle.old_force) / (2 * particle.mass))) * beta;
+                } else {
+                    double beta = std::sqrt((this->currentTemperature - arguments.maximumTemperatureDifference) /
+                                            this->currentTemperature);
+                    particle.velocity += (dt * ((particle.force + particle.old_force) / (2 * particle.mass))) * beta;
+                }
+
+
             }
-
-
+        } else if (arguments.temperatureScaling == "directly") {
+            double beta = std::sqrt(arguments.temperature / this->currentTemperature);
+            particle.velocity += (dt * ((particle.force + particle.old_force) / (2 * particle.mass))) * beta;
+        } else {
+            particle.velocity += (dt * ((particle.force + particle.old_force) / (2 * particle.mass)));
 
         }
-    }else if(arguments.temperatureScaling == "directly") {
-        double beta = std::sqrt(arguments.temperature / this->currentTemperature);
-        particle.velocity += (dt * ((particle.force + particle.old_force) / (2 * particle.mass))) * beta;
     }else{
         particle.velocity += (dt * ((particle.force + particle.old_force) / (2 * particle.mass)));
-
     }
 
 }
