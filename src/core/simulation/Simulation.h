@@ -30,6 +30,8 @@ class Simulation {
      */
     int iteration = 0;
 
+    double currentTemperature = 0;
+
    public:
     typedef const std::function<void(int/*iteration*/, Simulation&)> cb_type;
 
@@ -75,6 +77,8 @@ class Simulation {
      * @brief Updates the velocity for a single particles.
      */
     virtual void calculateSingleVelocity(Particle &particle, double dt);
+
+
 
     /**
      * @brief Updates the position for a all particles.
@@ -123,6 +127,25 @@ class Simulation {
         forEachParticle([this](Particle &particle) {
             particle.delayForce();
         });
+    }
+
+    /**
+   * @brief Updates the current temperature for the simulation.
+   */
+    virtual void calculateTemperature(){
+        double tmp = 0;
+        forEachParticle([this, &tmp](Particle &particle) {
+            tmp += (particle.mass * particle.velocity.length2()) / 2;
+            particle.delayForce();
+        });
+        int n = particleCount();
+        //assumes there is only 3 dimensions
+        int d = 3;
+
+        //boltzmann constant
+        double kB = 1;
+        currentTemperature = (tmp * 2) / (n * d * kB);
+
     }
 
    public:
