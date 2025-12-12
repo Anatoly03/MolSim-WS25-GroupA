@@ -112,9 +112,24 @@ struct Args {
      */
     int version = 1;
     /**
-     * @brief Default temperature. Overridden by CLI.
+     * @brief Default target temperature. Overridden by CLI.
      */
     double temperature= 1;
+
+    /**
+     * @brief Default temperature scaling. Overridden by CLI.
+     */
+    std::string temperatureScaling = "directly";
+
+    /**
+     * @brief Default maximum temperature difference. Overridden by CLI.
+     */
+    double maximumTemperatureDifference = INFINITY;
+
+    /**
+     * @brief Default number of time steps after which the thermostat is periodically applied. Overridden by CLI.
+     */
+    int thermostatStep = 1;
 
     /**
      * @brief Default constructor.

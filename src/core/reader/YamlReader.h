@@ -169,7 +169,12 @@ class YamlReader : public FileReader {
         const double sigma = unwrap_node<double>(args.sigma, "config", "sigma");
         const double cut_off = unwrap_node<double>(args.cutoff_radius, "config", "cut_off");
         const std::string attraction_method = unwrap_node<std::string>("lennard-jones", "config", "attraction");
+
         const double temperature = unwrap_node<double>(args.temperature, "config", "temperature");
+        const std::string temperatureScaling = unwrap_node<std::string>(args.temperatureScaling, "config", "temperature scaling");
+        const double maximumTemperatureDifference = unwrap_node<double>(args.maximumTemperatureDifference, "config", "maximum temperature difference");
+        const int thermostatStep = unwrap_node<int>(args.thermostatStep, "config", "thermostat step");
+
 
         if (args.delta_t_cli) {
             spdlog::warn("delta_time in {} overridden by CLI argument: {} -> {}", args.input_file, delta_time, args.delta_t);
@@ -198,6 +203,12 @@ class YamlReader : public FileReader {
         args.cutoff_radius = cut_off;
         args.attraction_method = attraction_method;
         args.temperature = temperature;
+        args.temperatureScaling = temperatureScaling;
+        args.maximumTemperatureDifference = maximumTemperatureDifference;
+        args.thermostatStep = thermostatStep;
+
+
+
     }
 
     /**
