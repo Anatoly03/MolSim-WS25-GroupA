@@ -18,10 +18,14 @@ void LinkedCellImplementation::reindexParticles() {
  */
 void LinkedCellImplementation::calculateBorderBehaviour() {
     // brief: simple repulsion from border using ghost particles
-    const int REPULSION = 5;
+    //const int REPULSION = 1;
 
-    cells.forEachBordered([&](Particle &p, Vec3I ghostCellIndex) {
-        Particle ghost(p);
+
+
+    const double dist = std::pow(2.0, 1.0/6.0) * arguments.sigma;
+
+    cells.forEachBordered([&](Particle &p, Vec3I /*ghostCellIndex*/) {
+
 
         //
         //     cell    ghost cell
@@ -38,23 +42,73 @@ void LinkedCellImplementation::calculateBorderBehaviour() {
         // TODO reflecting boundary condition / verify math
         // TODO are particles attracted to border?
 
-        // calculate relative position in cell
-        Vec3D cellRelative = Vec3D(
-            p.position.x - (ghostCellIndex.x * cells.cellSize.x),
-            p.position.y - (ghostCellIndex.y * cells.cellSize.y),
-            p.position.z - (ghostCellIndex.z * cells.cellSize.z)
-        );
 
-        ghost.mass *= -REPULSION; // strong repulsion
+        // X min wall
+        if(cells.boarderXmin=="reflect") {
+            double dxMin = p.position.x - domainMin.x;
+            if (dxMin < dist) {
+                Particle wall;
+                wall.position = Vec3D(domainMin.x, p.position.y, p.position.z);
+                auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
+                p.force += f;
+            }
+        }
 
-        // mirror relative position in cell against ghost cell border
-        ghost.position = p.position;
+        // X max wall
+        //std::cout<<boxMax.x<<std::endl;
+        if(cells.boarderXmax=="reflect") {
+            double dxMax = domainMax.x - p.position.x;
+            if (dxMax < dist) {
+                Particle wall;
+                wall.position = Vec3D(domainMax.x, p.position.y, p.position.z);
+                auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
+                p.force += f;
+            }
+        }
 
-        ghost.position.x += cells.cellSize.x * 2 - 2 * cellRelative.x;
-        ghost.position.y += cells.cellSize.y * 2 - 2 * cellRelative.y;
-        ghost.position.z += cells.cellSize.z * 2 - 2 * cellRelative.z;
+        // Y min wall
+        if(cells.boarderYmin=="reflect") {
+            double dyMin = p.position.y - domainMin.y;
+            if (dyMin < dist) {
+                Particle wall;
+                wall.position = Vec3D(p.position.x, domainMin.y, p.position.z);
+                auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
+                p.force += f;
+            }
+        }
 
-        forceCalculationSystem(const_cast<Args&>(arguments), p, ghost);
+        // Y max wall
+        if(cells.boarderYmax=="reflect") {
+            double dyMax = domainMax.y - p.position.y;
+            if (dyMax < dist) {
+                Particle wall;
+                wall.position = Vec3D(p.position.x, domainMax.y, p.position.z);
+                auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
+                p.force += f;
+            }
+        }
+
+        // Z min wall
+        if(cells.boarderZmin=="reflect") {
+            double dzMin = p.position.z - domainMin.z;
+            if (dzMin < dist) {
+                Particle wall;
+                wall.position = Vec3D(p.position.x, p.position.y, domainMin.z);
+                auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
+                p.force += f;
+            }
+        }
+
+        // Z max wall
+        if(cells.boarderZmax=="reflect") {
+            double dzMax = domainMax.z - p.position.z;
+            if (dzMax < dist) {
+                Particle wall;
+                wall.position = Vec3D(p.position.x, p.position.y, domainMax.z);
+                auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
+                p.force += f;
+            }
+        }
     });
 }
 

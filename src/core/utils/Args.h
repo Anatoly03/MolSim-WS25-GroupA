@@ -98,6 +98,22 @@ struct Args {
     Vec3I domain_max = Vec3I(10);
 
     /**
+     * @brief the boarder handling for each side.
+     */
+    std::string boarderXmin = "reflect";
+
+    std::string boarderXmax = "reflect";
+
+    std::string boarderYmin = "reflect";
+
+    std::string boarderYmax = "reflect";
+
+    std::string boarderZmin = "reflect";
+
+    std::string boarderZmax = "reflect";
+
+
+    /**
      * @brief Benchmark flag. Set by CLI.
      */
     bool benchmark_enabled = false;

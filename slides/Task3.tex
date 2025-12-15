@@ -247,6 +247,20 @@ particles:
     \end{tikzpicture}
 \end{frame}
 
+\simpleframe\begin{frame}{Linked Cells}
+    `Keep it simple'-type implementation:
+
+    \vspace{0.5cm}
+    \begin{itemize}
+        \item Implementing hashmap key trait for \texttt{Vec3}
+        \item Naive HashMap implementation mapping cell index \texttt{Vec3 index -> ParticleContainer}
+        \item Iterating over neighboring cells only for force calculations
+        \item \blue{Boundary Conditions:} Same simplicity, iterating over domain borders, updating border chunks.
+        \item Benefit: \blue{Theoretically constant access time}, and ability to offload cells by design.
+    \end{itemize}
+\end{frame}
+
+\simpleframe\begin{frame}{Our physics is acting weird – Cuboid Example Case Study}
 \simpleframe\begin{frame}{Implementing Linked Cells}
     \begin{columns}
         \begin{column}{0.5\textwidth}
@@ -344,6 +358,17 @@ particles:
             \end{figure}
         \end{column}
     \end{columns}
+\end{frame}
+
+\simpleframe\begin{frame}{Our physics is acting weird}
+    Multiple Issues (a combination of all made it difficult to debug):
+
+    \begin{itemize}
+        \item Errors in cell reindexing. ($\rightarrow$ Some particles disappearing)
+        \item Time step ($\Delta t$) too large for high velocities. ($\rightarrow$ Inability to `bounce back')
+        \item Flawed Brownian motion implementation.
+        \item Using plain length instead of squared length in force calculations. ($\rightarrow$ Force too large $\rightarrow$  Velocity too large)
+    \end{itemize}
 \end{frame}
 
 \simpleframe\begin{frame}[fragile]{Benchmarks - Two Body Collisions}
