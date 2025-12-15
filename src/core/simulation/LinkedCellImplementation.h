@@ -171,6 +171,7 @@ class LinkedCellImplementation : public Simulation {
         delayForce(); // implemented in super class
         calculateForce();
         // calculateBorderBehaviour();
+        calculateTemperature();
         calculateVelocity(); // implemented in super class
     }
 };
