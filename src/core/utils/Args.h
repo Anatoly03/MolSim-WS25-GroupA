@@ -111,6 +111,7 @@ struct Args {
      * @brief Default version of the algorithm to use. Overridden by CLI.
      */
     int version = 1;
+
     /**
      * @brief Default target temperature. Overridden by CLI.
      */
@@ -126,6 +127,10 @@ struct Args {
      */
     double maximumTemperatureDifference = INFINITY;
 
+
+    /**
+     * @brief In case temperature is 0 , set change velocity to match default initial temperature. Overridden by CLI.
+     */
     double  initialtemperature = 0.2;
 
 
