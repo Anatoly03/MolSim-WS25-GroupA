@@ -9,6 +9,8 @@
 #include "../physics/Force.h"
 #include "../ParticleContainer.h"
 #include "../Particle.h"
+#include "../utils/MaxwellBoltzmannDistribution.h"
+
 
 #include "spdlog/spdlog.h"
 
@@ -135,10 +137,28 @@ class Simulation {
     virtual void calculateTemperature(){
         double tmp = 0;
         forEachParticle([this, &tmp](Particle &particle) {
-            tmp += (particle.mass * particle.velocity.length2()) / 2;
-            particle.delayForce();
+
+                tmp += (particle.mass * particle.velocity.length2()) / 2;
+
+            //particle.delayForce();
         });
+
+
+
         int n = particleCount();
+
+        //incase there is no temperature, start with an initiate temperature
+        int initT = 20;
+        if(tmp==0){
+            forEachParticle([this, &initT, &tmp](Particle &particle) {
+
+                particle.velocity = maxwellBoltzmannDistributedVelocity(initT, 3);
+                tmp += (particle.mass * particle.velocity.length2()) / 2;
+                //particle.delayForce();
+            });
+
+
+        }
         //assumes there is only 3 dimensions
         int d = 3;
 
