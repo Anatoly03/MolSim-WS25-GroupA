@@ -174,6 +174,7 @@ class YamlReader : public FileReader {
         const std::string temperatureScaling = unwrap_node<std::string>(args.temperatureScaling, "config", "temperature scaling");
         const double maximumTemperatureDifference = unwrap_node<double>(args.maximumTemperatureDifference, "config", "maximum temperature difference");
         const int thermostatStep = unwrap_node<int>(args.thermostatStep, "config", "thermostat step");
+        const double initialtemperature = unwrap_node<double>(args.initialtemperature, "config", "Initial temperature");
 
 
         if (args.delta_t_cli) {
@@ -206,7 +207,7 @@ class YamlReader : public FileReader {
         args.temperatureScaling = temperatureScaling;
         args.maximumTemperatureDifference = maximumTemperatureDifference;
         args.thermostatStep = thermostatStep;
-
+        args.initialtemperature = initialtemperature;
 
 
     }

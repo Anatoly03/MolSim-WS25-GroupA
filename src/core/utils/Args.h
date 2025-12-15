@@ -126,6 +126,9 @@ struct Args {
      */
     double maximumTemperatureDifference = INFINITY;
 
+    double  initialtemperature = 0.2;
+
+
     /**
      * @brief Default number of time steps after which the thermostat is periodically applied. Overridden by CLI.
      */

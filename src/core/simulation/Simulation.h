@@ -148,7 +148,7 @@ class Simulation {
         int n = particleCount();
 
         //incase there is no temperature, start with an initiate temperature
-        int initT = 20;
+        int initT = arguments.initialtemperature;
         if(tmp==0){
             forEachParticle([this, &initT, &tmp](Particle &particle) {
 
