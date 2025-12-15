@@ -118,3 +118,34 @@
 [2025-11-29 13:44:34.671] [info] average: 230.8294s
 [2025-11-29 13:44:34.671] [info] total:   461.6587s
 
+<--- below is overhead measurement for eingabe-sonne
+<--- linked cells performs worse than direct sum
+<---
+<--- also note that linked cells with a simple cell size
+<--- loses the comet particle, and cell despawn mechanics
+<--- was not implemented here yet
+<---
+<--- to preserve the particle (70000+ iterations with
+<--- 0.01 velocity, one needs a domain size height of at
+<--- least 467), this would take roughly 25 seconds on same device
+
+./build/MolSim input/eingabe-sonne.yml -B5 -V0                                                           ✔ 
+[2025-11-29 17:46:29.202] [trace] benchmark: iteration 0: in 0.0380s
+[2025-11-29 17:46:29.246] [trace] benchmark: iteration 1: in 0.0427s
+[2025-11-29 17:46:29.286] [trace] benchmark: iteration 2: in 0.0396s
+[2025-11-29 17:46:29.330] [trace] benchmark: iteration 3: in 0.0443s
+[2025-11-29 17:46:29.368] [trace] benchmark: iteration 4: in 0.0376s
+[2025-11-29 17:46:29.368] [debug] benchmark: finish 5 iterations, over 4 particles, over 71429 iterations
+[2025-11-29 17:46:29.368] [info] average: 0.0404s
+[2025-11-29 17:46:29.368] [info] total:   0.2022s
+
+./build/MolSim input/eingabe-sonne.yml -B5 -V1                                                           ✔ 
+[2025-11-29 17:46:45.701] [trace] benchmark: iteration 0: in 0.1061s
+[2025-11-29 17:46:45.808] [trace] benchmark: iteration 1: in 0.1057s
+[2025-11-29 17:46:45.896] [trace] benchmark: iteration 2: in 0.0885s
+[2025-11-29 17:46:45.996] [trace] benchmark: iteration 3: in 0.0994s
+[2025-11-29 17:46:46.086] [trace] benchmark: iteration 4: in 0.0897s
+[2025-11-29 17:46:46.086] [warning] particle count changed during simulation: was 4, at end is 3
+[2025-11-29 17:46:46.086] [debug] benchmark: finish 5 iterations, over 4 particles, over 71429 iterations
+[2025-11-29 17:46:46.086] [info] average: 0.0979s
+[2025-11-29 17:46:46.086] [info] total:   0.4894s
