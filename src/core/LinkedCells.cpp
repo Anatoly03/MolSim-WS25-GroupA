@@ -22,20 +22,54 @@ int LinkedCells::clearOutOfBoundsCells() {
             continue;
         }
 
+
         auto &particles = it.second;
+        //checks for periodic boundaries
+        if(boarderXmin == "periodic" ||
+           boarderXmax == "periodic" ||
+           boarderYmin == "periodic" ||
+           boarderYmax == "periodic" ||
+           boarderZmin == "periodic" ||
+           boarderZmax == "periodic") {
+            for (auto pIt = particles.begin(); pIt != particles.end();) {
+                Particle &p = *pIt;
+                if (p.position.x < domainMin.x && boarderXmin == "periodic") {
+                    p.position.x += (domainMax.x - domainMin.x);
+                } else if (p.position.x > domainMax.x && boarderXmax == "periodic") {
+                    p.position.x -= (domainMax.x - domainMin.x);
+                }
+                if (p.position.y < domainMin.y && boarderYmin == "periodic") {
+                    p.position.y += (domainMax.y - domainMin.y);
+                } else if (p.position.y > domainMax.y && boarderYmax == "periodic") {
+                    p.position.y -= (domainMax.y - domainMin.y);
+                }
+                if (p.position.z < domainMin.z && boarderZmin == "periodic") {
+                    p.position.z += (domainMax.z - domainMin.z);
+                } else if (p.position.z > domainMax.z && boarderZmax == "periodic") {
+                    p.position.z -= (domainMax.z - domainMin.z);
+                }
+                Vec3I newIndex = getIndex(p);
+                if (newIndex != cellIndex) {
+                    //removes particle from old cell and add into new cell
+                    containers[newIndex].push_back(std::move(p));
+                    pIt = particles.erase(pIt);
+                } else {
+                    ++pIt;
+                }
 
 
-
-
-        particles.erase(
-                std::remove_if(particles.begin(), particles.end(),
-                               [&](const Particle &p) {
-                                   return (p.position.x < domainMin.x || p.position.x > domainMax.x ||
-                                           p.position.y < domainMin.y || p.position.y > domainMax.y ||
-                                           p.position.z < domainMin.z || p.position.z > domainMax.z);
-                               }),
-                particles.end()
-        );
+            }
+        }else{
+            particles.erase(
+                    std::remove_if(particles.begin(), particles.end(),
+                                   [&](const Particle &p) {
+                                       return (p.position.x < domainMin.x || p.position.x > domainMax.x ||
+                                               p.position.y < domainMin.y || p.position.y > domainMax.y ||
+                                               p.position.z < domainMin.z || p.position.z > domainMax.z);
+                                   }),
+                    particles.end()
+            );
+        }
     }
 
 
