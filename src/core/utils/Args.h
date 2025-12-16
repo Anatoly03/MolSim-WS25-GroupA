@@ -112,6 +112,10 @@ struct Args {
 
     std::string boarderZmax = "reflect";
 
+    /**
+     * @brief Default factor of the gravity to use. Overridden by CLI.
+     */
+    double gravityFactor = 0;
 
     /**
      * @brief Benchmark flag. Set by CLI.

@@ -177,6 +177,7 @@ class YamlReader : public FileReader {
         const std::string boarderZmin = unwrap_node<std::string>("reflect", "config", "boarderZmin");
         const std::string boarderZmax = unwrap_node<std::string>("reflect", "config", "boarderZmax");
 
+        const double gravityFactor = unwrap_node<double>(args.gravityFactor, "config", "gravityFactor");
 
 
 
@@ -214,6 +215,7 @@ class YamlReader : public FileReader {
         args.boarderYmax = boarderYmax;
         args.boarderZmin = boarderZmin;
         args.boarderZmax = boarderZmax;
+        args.gravityFactor = gravityFactor;
     }
 
     /**
