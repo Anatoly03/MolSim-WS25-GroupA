@@ -279,7 +279,7 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
            Vec3I cellIndex = domainMin + Vec3I(0, xyPlane.y, xyPlane.z);
            containers.erase(cellIndex);
        }*/
-        std::cout<<"minX"<<std::endl;
+        //std::cout<<"minX"<<std::endl;
         //std::cout<<"minX"<<std::endl;
         clearOutOfBoundsCells();
     }
