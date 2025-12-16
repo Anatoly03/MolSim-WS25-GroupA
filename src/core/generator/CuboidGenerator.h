@@ -41,6 +41,11 @@ class CuboidGenerator : public ParticleGenerator {
     Vec3D initial_velocity;
 
     /**
+     * @brief Standard epsilon of the particles in the cuboid.
+     */
+    double epsilon;
+
+    /**
      * @brief Generate particles into the given container.
      */
     virtual void generate(ParticleContainer &/*particles*/) override;

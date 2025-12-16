@@ -50,6 +50,15 @@ class Particle {
     // NOLINTNEXTLINE unused-variable
     int p_id = 0;
 
+    /**
+    * @brief Unique sigma for this particle
+    */
+    int sigma = 0;
+
+    /**
+    * @brief Unique sigma for this particle
+    */
+    int epsilon = 0;
    public:
     /**
      * @brief Default constructor for Particle.

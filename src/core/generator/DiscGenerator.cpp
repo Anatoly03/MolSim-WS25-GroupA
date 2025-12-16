@@ -22,6 +22,10 @@ void DiscGenerator::generate(ParticleContainer &particles) {
 
         if (brownian_sigma > 0.0) {
             particle.velocity += maxwellBoltzmannDistributedVelocity(brownian_sigma, 2);
+            particle.sigma = brownian_sigma;
+        }
+        if (epsilon > 0.0) {
+            particle.epsilon = epsilon;
         }
 
         particle.mass = mass;

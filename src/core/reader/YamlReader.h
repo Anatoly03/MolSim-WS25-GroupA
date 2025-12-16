@@ -87,11 +87,13 @@ class YamlReader : public FileReader {
         Vec3D velocity = node["velocity"].as<Vec3<double>>();
         double mass = node["mass"].as<double>();
         double brownian_sigma = node["brownian_sigma"].as<double>();
-        
+        double epsilon = node["epsilon"].as<double>();
+
         double h;
         if (node["sigma"]) {
             double sigma = node["sigma"].as<double>();
             h = std::pow(2.0, 1.0 / 6.0) * sigma;
+
         } else {
             h = node["dist"].as<double>();
         };
@@ -104,6 +106,7 @@ class YamlReader : public FileReader {
         cuboid.mass = mass;
         cuboid.initial_velocity = velocity;
         cuboid.brownian_sigma = brownian_sigma;
+        cuboid.epsilon = epsilon;
 
         cuboid.generate(particles);
     }
@@ -118,6 +121,8 @@ class YamlReader : public FileReader {
         double mass = node["mass"].as<double>();
         double brownian_sigma = node["brownian_sigma"].as<double>();
         double spacing = node["dist"].as<double>();
+        double epsilon = node["epsilon"].as<double>();
+
 
         DiscGenerator disc;
 
@@ -127,6 +132,8 @@ class YamlReader : public FileReader {
         disc.mass = mass;
         disc.initial_velocity = velocity;
         disc.brownian_sigma = brownian_sigma;
+        disc.epsilon = epsilon;
+
 
         disc.generate(particles);
     }
@@ -141,6 +148,8 @@ class YamlReader : public FileReader {
         double mass = node["mass"].as<double>();
         double brownian_sigma = node["brownian_sigma"].as<double>();
         double spacing = node["dist"].as<double>();
+        double epsilon = node["epsilon"].as<double>();
+
 
         BallGenerator ball;
 
@@ -150,6 +159,8 @@ class YamlReader : public FileReader {
         ball.mass = mass;
         ball.initial_velocity = velocity;
         ball.brownian_sigma = brownian_sigma;
+        ball.epsilon = epsilon;
+
 
         ball.generate(particles);
     }
@@ -241,6 +252,8 @@ class YamlReader : public FileReader {
         particle.position = node["position"].as<Vec3<double>>();
         particle.velocity = node["velocity"].as<Vec3<double>>();
         particle.mass = node["mass"].as<double>();
+        particle.sigma = node["sigma"].as<double>();
+        particle.epsilon = node["epsilon"].as<double>();
 
         particles.add(particle);
     }
