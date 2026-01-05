@@ -24,6 +24,21 @@ class Simulation {
      */
     force_calculation_system forceCalculationSystem = lennard_jones_system;
 
+    /**
+     * @brief Buffer counting amount of particle updates in a second interval.
+     */
+    int particleUpdatesPerSecond = 0;
+
+    /**
+     * @brief Buffer counting amount of ticks in a second interval.
+     */
+    int ticksPerSecond = 0;
+
+    /**
+     * @brief 
+     */
+    timespec lastSecondUpdate = {};
+
    public:
     /**
      * @brief Current simulation iteration.
@@ -172,6 +187,7 @@ class Simulation {
      * @brief Run the simulation for a given time with specified time step.
      */
     virtual void run(const cb_type &callback) {
+        timespec time_now;
         const double start = arguments.start_time;
         const double end = arguments.end_time;
         const double delta_t = arguments.delta_t;
@@ -179,8 +195,19 @@ class Simulation {
         plotParticles(callback);
 
         for (double t = start; t < end; t += delta_t) {
+            clock_gettime(CLOCK_MONOTONIC, &time_now);
+
+            if (time_now.tv_sec - lastSecondUpdate.tv_sec >= 1) {
+                spdlog::debug("measure: {} particles updated in {} ticks", particleUpdatesPerSecond, ticksPerSecond);
+
+                particleUpdatesPerSecond = 0;
+                ticksPerSecond = 0;
+                lastSecondUpdate = time_now;
+            }
+
             tick();
             iteration++;
+            ticksPerSecond++;
 
             if (iteration % arguments.output_interval == 0) {
                 plotParticles(callback);
