@@ -165,7 +165,7 @@ class Simulation {
      */
     virtual void applyGravity() {
         forEachParticle([this](Particle &particle) {
-            particle.force.y -= arguments.gravityFactor * particle.mass;
+            particle.force.y += arguments.gravityFactor * particle.mass;
         });
     }
 

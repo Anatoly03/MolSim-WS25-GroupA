@@ -42,6 +42,11 @@ class DiscGenerator : public ParticleGenerator {
     Vec3D initial_velocity;
 
     /**
+     * @brief Standard sigma of the particles in the cuboid.
+     */
+    double sigma;
+
+    /**
      * @brief Standard epsilon of the particles in the cuboid.
      */
     double epsilon;

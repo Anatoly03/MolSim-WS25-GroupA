@@ -42,6 +42,8 @@ Particle::Particle(const Particle &other) {
     force = other.force;
     old_force = other.old_force;
     mass = other.mass;
+    sigma = other.sigma;
+    epsilon = other.epsilon;
 
     spdlog::trace("Particle generated (by copy)!");
 }

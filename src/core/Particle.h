@@ -53,12 +53,12 @@ class Particle {
     /**
     * @brief Unique sigma for this particle
     */
-    int sigma = 0;
+    double sigma = 0;
 
     /**
     * @brief Unique sigma for this particle
     */
-    int epsilon = 0;
+    double epsilon = 0;
    public:
     /**
      * @brief Default constructor for Particle.

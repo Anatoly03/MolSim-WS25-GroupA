@@ -81,24 +81,38 @@ class YamlReader : public FileReader {
     /**
      * @brief Get particle from YAML::Node
      */
-    void readCuboidNode(ParticleContainer &particles, const YAML::Node &node) const {
+    void readCuboidNode(ParticleContainer &particles, const YAML::Node &node, Args &args) const {
         auto amount = node["n"].as<Vec3<int>>();
         Vec3D position = node["position"].as<Vec3<double>>();
         Vec3D velocity = node["velocity"].as<Vec3<double>>();
         double mass = node["mass"].as<double>();
         double brownian_sigma = node["brownian_sigma"].as<double>();
-        double epsilon = node["epsilon"].as<double>();
+
+
+        double epsilon;
+
+
+        if(node["epsilon"]) {
+            epsilon = node["epsilon"].as<double>();
+        }else{
+            //std::cout<<"args eps "<<args.epsilon<<std::endl;
+            epsilon = args.epsilon;
+        }
+
 
         double h;
+        CuboidGenerator cuboid;
+
+
         if (node["sigma"]) {
             double sigma = node["sigma"].as<double>();
             h = std::pow(2.0, 1.0 / 6.0) * sigma;
-
+            cuboid.sigma = sigma;
         } else {
             h = node["dist"].as<double>();
-        };
 
-        CuboidGenerator cuboid;
+            cuboid.sigma = args.sigma;
+        };
 
         cuboid.position = position;
         cuboid.size = amount;
@@ -114,15 +128,25 @@ class YamlReader : public FileReader {
     /**
      * @brief Get particle from YAML::Node
      */
-    void readDiscNode(ParticleContainer &particles, const YAML::Node &node) const {
+    void readDiscNode(ParticleContainer &particles, const YAML::Node &node, Args &args) const {
         int radius = node["radius"].as<int>();
         Vec3D center = node["center"].as<Vec3<double>>();
         Vec3D velocity = node["velocity"].as<Vec3<double>>();
         double mass = node["mass"].as<double>();
         double brownian_sigma = node["brownian_sigma"].as<double>();
         double spacing = node["dist"].as<double>();
-        double epsilon = node["epsilon"].as<double>();
-
+        double epsilon;
+        if(node["epsilon"]) {
+            epsilon = node["epsilon"].as<double>();
+        }else{
+            epsilon = args.epsilon;
+        }
+        double sigma;
+        if(node["sigma"]) {
+            sigma = node["sigma"].as<double>();
+        }else{
+            sigma = args.sigma;
+        }
 
         DiscGenerator disc;
 
@@ -133,6 +157,7 @@ class YamlReader : public FileReader {
         disc.initial_velocity = velocity;
         disc.brownian_sigma = brownian_sigma;
         disc.epsilon = epsilon;
+        disc.sigma = sigma;
 
 
         disc.generate(particles);
@@ -141,15 +166,25 @@ class YamlReader : public FileReader {
     /**
      * @brief Get particle from YAML::Node
      */
-    void readBallNode(ParticleContainer &particles, const YAML::Node &node) const {
+    void readBallNode(ParticleContainer &particles, const YAML::Node &node, Args &args) const {
         int radius = node["radius"].as<int>();
         Vec3D center = node["center"].as<Vec3<double>>();
         Vec3D velocity = node["velocity"].as<Vec3<double>>();
         double mass = node["mass"].as<double>();
         double brownian_sigma = node["brownian_sigma"].as<double>();
         double spacing = node["dist"].as<double>();
-        double epsilon = node["epsilon"].as<double>();
-
+        double epsilon;
+        if(node["epsilon"]) {
+             epsilon = node["epsilon"].as<double>();
+        }else{
+            epsilon = args.epsilon;
+        }
+        double sigma;
+        if(node["sigma"]) {
+            sigma = node["sigma"].as<double>();
+        }else{
+            sigma = args.sigma;
+        }
 
         BallGenerator ball;
 
@@ -160,6 +195,8 @@ class YamlReader : public FileReader {
         ball.initial_velocity = velocity;
         ball.brownian_sigma = brownian_sigma;
         ball.epsilon = epsilon;
+        ball.sigma = sigma;
+
 
 
         ball.generate(particles);
@@ -232,19 +269,19 @@ class YamlReader : public FileReader {
     /**
      * @brief Get particle from YAML::Node
      */
-    void readNode(ParticleContainer &particles, const YAML::Node &node) const {
+    void readNode(ParticleContainer &particles, const YAML::Node &node, Args &args) const {
         std::string node_type = node["type"] ? (node["type"].as<std::string>()) : "particle";
 
         if (node_type == "cuboid") {
-            return readCuboidNode(particles, node);
+            return readCuboidNode(particles, node, args);
         }
         
         if (node_type == "ball") {
-            return readBallNode(particles, node);
+            return readBallNode(particles, node, args);
         }
 
         if (node_type == "disc") {
-            return readDiscNode(particles, node);
+            return readDiscNode(particles, node, args);
         }
 
         Particle particle;
@@ -252,8 +289,20 @@ class YamlReader : public FileReader {
         particle.position = node["position"].as<Vec3<double>>();
         particle.velocity = node["velocity"].as<Vec3<double>>();
         particle.mass = node["mass"].as<double>();
-        particle.sigma = node["sigma"].as<double>();
-        particle.epsilon = node["epsilon"].as<double>();
+
+
+
+        if(node["epsilon"]) {
+            particle.epsilon = node["epsilon"].as<double>();
+        }else{
+            particle.epsilon = args.epsilon;
+        }
+
+        if(node["sigma"]) {
+            particle.sigma = node["sigma"].as<double>();
+        }else{
+            particle.sigma = args.sigma;
+        }
 
         particles.add(particle);
     }
@@ -287,11 +336,11 @@ class YamlReader : public FileReader {
 
         if (node.IsSequence()) {
             for (YAML::const_iterator it=node.begin();it!=node.end();++it) {
-                readNode(particles, *it);
+                readNode(particles, *it, args);
             }
         } else if (node.IsMap()) {
             for(YAML::const_iterator it=node.begin();it!=node.end();++it) {
-                readNode(particles, it->second);
+                readNode(particles, it->second, args);
             }
         }
 
