@@ -2,6 +2,7 @@
 #pragma once
 
 #include <functional>
+#include <chrono>
 
 #include "../math/Vec3.h"
 #include "../utils/Args.h"
@@ -37,7 +38,7 @@ class Simulation {
     /**
      * @brief 
      */
-    timespec lastSecondUpdate = {};
+    std::chrono::steady_clock::time_point lastSecondUpdate = std::chrono::steady_clock::now();
 
    public:
     /**
@@ -187,7 +188,7 @@ class Simulation {
      * @brief Run the simulation for a given time with specified time step.
      */
     virtual void run(const cb_type &callback) {
-        timespec time_now;
+        std::chrono::steady_clock::time_point time_now;
         const double start = arguments.start_time;
         const double end = arguments.end_time;
         const double delta_t = arguments.delta_t;
@@ -195,10 +196,11 @@ class Simulation {
         plotParticles(callback);
 
         for (double t = start; t < end; t += delta_t) {
-            clock_gettime(CLOCK_MONOTONIC, &time_now);
+            time_now = std::chrono::steady_clock::now();
+            auto secs = std::chrono::duration_cast<std::chrono::seconds>(time_now - lastSecondUpdate).count();
 
-            if (time_now.tv_sec - lastSecondUpdate.tv_sec >= 1) {
-                spdlog::debug("measure: {} particles updated in {} ticks", particleUpdatesPerSecond, ticksPerSecond);
+            if (secs >= 1) {
+                spdlog::debug("measure frame: {} particles updated in {} ticks", particleUpdatesPerSecond, ticksPerSecond);
 
                 particleUpdatesPerSecond = 0;
                 ticksPerSecond = 0;
