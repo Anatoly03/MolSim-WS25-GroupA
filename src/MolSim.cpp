@@ -230,7 +230,7 @@ int main(int argc, char *argsv[]) {
     const auto N = particles.size();
     double mups = 0.0;
     if (seconds > 0.0) {
-        mups = (static_cast<double>(N) * static_cast<double>(iteration)) / seconds;
+        mups = (static_cast<double>(N) * static_cast<double>(iteration)) / seconds / 1e6;
     }
 
     std::cout << "Simulation loop time: " << seconds << " s\n";
@@ -285,7 +285,7 @@ void calculateForce() {
         
         // Clamp force magnitude to prevent explosions
         if (std::abs(fmag) > 1e6) {
-            std::cerr << "Warning: Large force detected (distance=" << distance << ", fmag=" << fmag << ")" << std::endl;
+            // Silent clamping - warning output can slow down performance significantly
             fmag = std::copysign(1e6, fmag);
         }
         
