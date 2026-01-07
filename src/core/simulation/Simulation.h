@@ -26,10 +26,17 @@ class Simulation {
      */
     force_calculation_system forceCalculationSystem = lennard_jones_system;
 
+#ifdef TRACY_ENABLE
     /**
      * @brief Buffer counting amount of particle updates in a second interval.
      */
     int particleUpdatesPerSecond = 0;
+
+    /**
+     * @brief Buffer counting amount of particle updates in a second interval.
+     */
+    int forceParticlePairsPerSecond = 0;
+#endif
 
     /**
      * @brief 
@@ -125,6 +132,10 @@ class Simulation {
             // Newton 3: For every action, there is an equal and opposite reaction.
             par1.force += force;
             par2.force -= force;
+
+#ifdef TRACY_ENABLE
+            forceParticlePairsPerSecond++;
+#endif
         });
     }
 
@@ -209,27 +220,29 @@ class Simulation {
         for (double t = start; t < end; t += delta_t) {
             PROFILE_FRAME_MARK;
 
+#ifdef TRACY_ENABLE
             time_now = std::chrono::steady_clock::now();
             auto secs = std::chrono::duration_cast<std::chrono::seconds>(time_now - lastSecondUpdate).count();
 
             if (secs >= 1) {
                 // spdlog::debug("measure frame: {} particles updated in {} ticks", particleUpdatesPerSecond, ticksPerSecond);
                 particleUpdatesPerSecond = 0;
+                forceParticlePairsPerSecond = 0;
                 lastSecondUpdate = time_now;
             }
 
+            particleUpdatesPerSecond += particleCount();
+
+            PROFILE_PLOT("Particles Per Second", particleUpdatesPerSecond);
+            PROFILE_PLOT("Force Particle Pairs Per Second", forceParticlePairsPerSecond);
+#endif
+
             tick();
             iteration++;
-            // ticksPerSecond++;
-
-            // count particle updates for logging
-            particleUpdatesPerSecond += particleCount();
 
             if (iteration % arguments.output_interval == 0) {
                 plotParticles(callback);
             }
-
-            PROFILE_PLOT("Particles Per Second", particleUpdatesPerSecond);
 
             spdlog::debug("Iteration {} finished.", iteration);
         }
