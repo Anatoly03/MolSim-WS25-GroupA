@@ -32,11 +32,6 @@ class Simulation {
     int particleUpdatesPerSecond = 0;
 
     /**
-     * @brief Buffer counting amount of ticks in a second interval.
-     */
-    int ticksPerSecond = 0;
-
-    /**
      * @brief 
      */
     std::chrono::steady_clock::time_point lastSecondUpdate = std::chrono::steady_clock::now();
@@ -205,10 +200,8 @@ class Simulation {
             auto secs = std::chrono::duration_cast<std::chrono::seconds>(time_now - lastSecondUpdate).count();
 
             if (secs >= 1) {
-                spdlog::debug("measure frame: {} particles updated in {} ticks", particleUpdatesPerSecond, ticksPerSecond);
-
+                // spdlog::debug("measure frame: {} particles updated in {} ticks", particleUpdatesPerSecond, ticksPerSecond);
                 particleUpdatesPerSecond = 0;
-                ticksPerSecond = 0;
                 lastSecondUpdate = time_now;
             }
 
@@ -224,7 +217,6 @@ class Simulation {
             }
 
             PROFILE_PLOT("Particles Per Second", particleUpdatesPerSecond);
-            PROFILE_PLOT("Ticks Per Second", ticksPerSecond);
 
             spdlog::debug("Iteration {} finished.", iteration);
         }
