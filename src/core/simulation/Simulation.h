@@ -68,8 +68,11 @@ class Simulation {
      * @brief Plot the particles of a particular iteration to a file.
      */
     void plotParticles(const cb_type &callback) {
+#ifdef TRACY_ENABLE
+#else
         if (arguments.benchmark_enabled) return;
         callback(iteration, *this);
+#endif
     }
 
    public:
@@ -92,6 +95,8 @@ class Simulation {
      * @brief Updates the position for a all particles.
      */
     virtual void calculatePosition() {
+        PROFILE_ZONE_NAMED("Position Calculation");
+
         forEachParticle([this](Particle &particle) {
             calculateSinglePosition(particle, arguments.delta_t);
         });
@@ -101,6 +106,8 @@ class Simulation {
      * @brief Updates the velocity for a all particles.
      */
     virtual void calculateVelocity() {
+        PROFILE_ZONE_NAMED("Velocity Calculation");
+
         forEachParticle([this](Particle &particle) {
             calculateSingleVelocity(particle, arguments.delta_t);
         });
@@ -110,6 +117,8 @@ class Simulation {
      * @brief calculate the force for all particles
      */
     virtual void calculateForce() {
+        PROFILE_ZONE_NAMED("Force Calculation");
+
         forEachDistinctParticlePair([&](Particle &par1, Particle &par2) {
             Vec3D force = forceCalculationSystem(const_cast<Args&>(arguments), par1, par2);
 
@@ -123,6 +132,8 @@ class Simulation {
      * @brief Delays the position for all particles.
      */
     virtual void delayPosition() {
+        PROFILE_ZONE_NAMED("Position Delay");
+
         forEachParticle([this](Particle &particle) {
             particle.delayPosition();
         });
@@ -132,6 +143,8 @@ class Simulation {
      * @brief Delays the force for all particles.
      */
     virtual void delayForce() {
+        PROFILE_ZONE_NAMED("Force Delay");
+
         forEachParticle([this](Particle &particle) {
             particle.delayForce();
         });

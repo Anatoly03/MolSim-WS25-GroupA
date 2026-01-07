@@ -9,6 +9,7 @@
  * @brief Reindex particles that switched cells.
  */
 void LinkedCellImplementation::reindexParticles() {
+    PROFILE_ZONE_NAMED("Particle to Cell Reindexation");
     cells.reindex();
 };
 
@@ -17,16 +18,14 @@ void LinkedCellImplementation::reindexParticles() {
  * particle-border collision or particle extinction
  */
 void LinkedCellImplementation::calculateBorderBehaviour() {
+    PROFILE_ZONE_NAMED("Border Behaviour Calculation");
+
     // brief: simple repulsion from border using ghost particles
     //const int REPULSION = 1;
-
-
 
     const double dist = std::pow(2.0, 1.0/6.0) * arguments.sigma;
 
     cells.forEachBordered([&](Particle &p, Vec3I /*ghostCellIndex*/) {
-
-
         //
         //     cell    ghost cell
         // |----------| - - - - -|
