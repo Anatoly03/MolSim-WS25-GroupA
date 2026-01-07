@@ -106,19 +106,19 @@
     \maketitle
 \end{frame}
 
-\simpleframe\begin{frame}{Profiling Integration - Tracy}
+\simpleframe\begin{frame}{Profiling Integration}{Tracy}
     \begin{center}
         \includegraphics[width=0.85\textwidth]{media/profile-tracy.png}
     \end{center}
 \end{frame}
 
-\simpleframe\begin{frame}{Profiling Integration - Tracy}
+\simpleframe\begin{frame}{Profiling Integration}{Example}
     \begin{center}
         \includegraphics[width=0.85\textwidth]{media/profile-example.png}
     \end{center}
 \end{frame}
 
-\simpleframe\begin{frame}[noframenumbering]{Profiling Integration - Analysing Zones}
+\simpleframe\begin{frame}[noframenumbering]{Profiling Integration}{Analysing Zones}
     \begin{center}
         \includegraphics[width=0.6\textwidth]{media/profile-zones.png}
     \end{center}
@@ -128,6 +128,27 @@
     \blue{We need to focus on optimizing force calculation and border behaviour.}
 
     \footnotetext[1]{Commit: cc4ed05a08ea63fc6138b524bb29cfacbb9d7409}
+\end{frame}
+
+\simpleframe\begin{frame}[noframenumbering]{Profiling Integration}{Tracy Zones}
+    \begin{center}
+        \includegraphics[width=0.6\textwidth]{media/profile-zones.png}
+    \end{center}
+
+    Position and Velocity updates are efficient, the most time consuming part is border behaviour calculation as well as force calculation.\footnotemark
+
+    \blue{We need to focus on optimizing force calculation and border behaviour.}
+
+    \footnotetext[1]{Commit: cc4ed05a08ea63fc6138b524bb29cfacbb9d7409}
+\end{frame}
+
+\simpleframe\begin{frame}{Profiling Integration}{Tracy Benefits}
+    \begin{itemize}
+        \item \blue{Nanosecond Resolution}: Extremely precise profiling.
+        \item \blue{Frame captures}: Analyze performance over simulation loops. \blue{Perfect for us!}
+        \item \blue{Custom Zones}: Profile specific code sections like force calculations.
+        \item \blue{Zero overhead when disabled!} Performance unaffected in release builds.
+    \end{itemize}
 \end{frame}
 
 \end{document}
