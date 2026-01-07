@@ -1,0 +1,133 @@
+\documentclass[aspectratio=169]{beamer}
+\usepackage{babel}
+% \usepackage[german]{babel}
+
+\usepackage{tikz, transparent, colortbl, listings, pgfplots}
+\usepackage[export]{adjustbox}
+\usepackage[skins,theorems]{tcolorbox}
+ 
+\usetikzlibrary{automata,positioning}
+\setbeamercovered{transparent}
+\pgfplotsset{compat=1.18}
+\tcbset{highlight math style={enhanced,colframe=red,colback=white,arc=0pt,boxrule=1pt}}
+
+%
+% Cited from Ausarbeitung/aspdoc.cls
+%
+\lstset{
+    language=C++,
+    basicstyle=\upshape\footnotesize\ttfamily,
+    numbers=left,                   % where to put the line-numbers
+    numberstyle=\tiny\color{gray},  % the style that is used for the line-numbers
+    numbersep=5pt,                  % how far the line-numbers are from the code
+    showstringspaces=false,
+    frame=single,                   % adds a frame around the code
+    rulecolor=\color{black},
+    tabsize=2,                      % sets default tabsize to 2 spaces
+    captionpos=b,                   % sets the caption-position to bottom
+    breaklines=true,                % sets automatic line breaking
+    breakatwhitespace=false,        % sets if automatic breaks should only happen at whitespace
+    title=\lstname,                 % show the filename of files included with \lstinputlisting;
+    keywordstyle=\color{blue},      % keyword style
+    commentstyle=\color{dkgreen},   % comment style
+    stringstyle=\color{mauve},      % string literal style
+    escapeinside={\%*}{*)},         % if you want to add LaTeX within your code
+}
+
+% \lstset{
+%     language=YAML,
+%     basicstyle=\upshape\footnotesize\ttfamily,
+%     numbers=left,
+%     numberstyle=\tiny\color{gray},
+%     numbersep=5pt,
+%     showstringspaces=false,
+%     frame=single,
+%     rulecolor=\color{black},
+%     tabsize=2,
+%     captionpos=b,
+%     breaklines=true,
+%     breakatwhitespace=false,
+%     title=\lstname,
+%     keywordstyle=\color{blue},
+%     commentstyle=\color{dkgreen},
+%     stringstyle=\color{mauve},
+%     escapeinside={\%*}{*)},
+% }
+
+% Useful Read:
+% https://www.overleaf.com/learn/latex/Beamer
+
+\title{Molecular Dynamics}
+\subtitle{Group A}
+\author{Haoyuan Ma \and Zhengying Zhao \and Anatoly Weinstein}
+\date{31st of October 2025}
+
+\newcommand{\framebackground}[2]{
+    \begin{tikzpicture}
+        \transparent{#1}
+        \node[inner sep=0] at (current page.center) {
+            \includegraphics[height=\paperheight, right]{./media/tum-uhrenturm.png}
+        };
+        \transparent{1}
+        \node[anchor=south, text width=\paperwidth, text height=1.5cm, draw=none, align=center] at (current page.south) {
+            \insertpagenumber
+        };
+        \transparent{#2}
+        \node[anchor=south, text width=\paperwidth, text height=1.5cm, draw=none, align=right] at (current page.south) {
+            \small Haoyuan Ma, Zhengying Z, Anatoly W. \,\,
+        };
+    \end{tikzpicture}
+}
+
+\newcommand{\headerframe}{
+    \usebackgroundtemplate{
+        \framebackground{0.2}{1}
+    }
+}
+
+\newcommand{\simpleframe}{
+    \usebackgroundtemplate{
+        \framebackground{0}{1}
+    }
+}
+
+\newcommand{\blue}[1]{{\color{beamer@blendedblue} #1}}
+\newcommand{\yellow}[1]{{\color[HTML]{AF8F10} #1}}
+\newcommand{\gray}[1]{{\color[HTML]{8F8F8F} #1}}
+\newcommand{\red}[1]{{\color[HTML]{FF5F5F} #1}}
+
+\begin{document}
+
+%
+% Frame
+%
+\usebackgroundtemplate{\framebackground{0.2}{0}}
+\begin{frame}
+    \maketitle
+\end{frame}
+
+\simpleframe\begin{frame}{Profiling Integration - Tracy}
+    \begin{center}
+        \includegraphics[width=0.85\textwidth]{media/profile-tracy.png}
+    \end{center}
+\end{frame}
+
+\simpleframe\begin{frame}{Profiling Integration - Tracy}
+    \begin{center}
+        \includegraphics[width=0.85\textwidth]{media/profile-example.png}
+    \end{center}
+\end{frame}
+
+\simpleframe\begin{frame}[noframenumbering]{Profiling Integration - Analysing Zones}
+    \begin{center}
+        \includegraphics[width=0.6\textwidth]{media/profile-zones.png}
+    \end{center}
+
+    Position and Velocity updates are efficient, the most time consuming part is border behaviour calculation as well as force calculation.\footnotemark
+
+    \blue{We need to focus on optimizing force calculation and border behaviour.}
+
+    \footnotetext[1]{Commit: cc4ed05a08ea63fc6138b524bb29cfacbb9d7409}
+\end{frame}
+
+\end{document}
