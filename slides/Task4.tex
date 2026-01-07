@@ -118,28 +118,16 @@
     \end{center}
 \end{frame}
 
-\simpleframe\begin{frame}[noframenumbering]{Profiling Integration}{Analysing Zones}
-    \begin{center}
-        \includegraphics[width=0.6\textwidth]{media/profile-zones.png}
-    \end{center}
-
-    Position and Velocity updates are efficient, the most time consuming part is border behaviour calculation as well as force calculation.\footnotemark
-
-    \blue{We need to focus on optimizing force calculation and border behaviour.}
-
-    \footnotetext[1]{Commit: cc4ed05a08ea63fc6138b524bb29cfacbb9d7409}
-\end{frame}
-
 \simpleframe\begin{frame}[noframenumbering]{Profiling Integration}{Tracy Zones}
     \begin{center}
-        \includegraphics[width=0.6\textwidth]{media/profile-zones.png}
+        \includegraphics[width=0.5\textwidth]{media/profile-zones.png}
     \end{center}
 
     Position and Velocity updates are efficient, the most time consuming part is border behaviour calculation as well as force calculation.\footnotemark
 
     \blue{We need to focus on optimizing force calculation and border behaviour.}
 
-    \footnotetext[1]{Commit: cc4ed05a08ea63fc6138b524bb29cfacbb9d7409}
+    \footnotetext[1]{Commit: cc4ed05a08ea63fc6138b524bb29cfacbb9d7409, running \texttt{./build/MolSim input/cuboid-3200.yml -t 10000 }}
 \end{frame}
 
 \simpleframe\begin{frame}{Profiling Integration}{Tracy Benefits}
