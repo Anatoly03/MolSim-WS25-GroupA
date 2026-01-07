@@ -2,6 +2,7 @@
 #pragma once
 
 #include "../utils/Args.h"
+#include "../utils/TracyHelper.h"
 #include "../math/Vec3.h"
 #include "../LinkedCells.h"
 #include "../ParticleContainer.h"
@@ -174,5 +175,7 @@ class LinkedCellImplementation : public Simulation {
         calculateForce();
         calculateBorderBehaviour();
         calculateVelocity(); // implemented in super class
+
+        PROFILE_PLOT("Active Cells", cells.cellCount());
     }
 };

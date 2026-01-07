@@ -135,6 +135,13 @@ class LinkedCells {
     }
 
     /**
+     * @brief Get the number of total active cells.
+     */
+    virtual int cellCount() const {
+        return containers.size();
+    }
+
+    /**
      * @brief Absorb a particle container and sort particles into cells.
      */
     virtual void absorb(ParticleContainer &particles) {
