@@ -33,6 +33,7 @@ inline const force_calculation_system lennard_jones_system = [](const Args &args
     Vec3D dist = par1.position - par2.position;
 
     double r1 = dist.length();
+    //std::cout<<"cutoff  "<<args.cutoff_radius<<std::endl;
     if (r1 > args.cutoff_radius) return Vec3D();  // cut off for performance
     double r2 = dist.length2();
     if (r2 == 0.0) return Vec3D(); // cut in to avoid high values
@@ -41,15 +42,34 @@ inline const force_calculation_system lennard_jones_system = [](const Args &args
     double rootedEpsilon = std::sqrt(par1.epsilon * par2.epsilon);
 
 
-    double min=pow(2,1/6) * averagedSigma;
-    if (r2 < min) r2=min;
+    double min = (pow(2,1/6)-0.01) * averagedSigma;
+    //double a = 0. * averagedSigma;
+    if (r1 < min) {
+        r2 = min * min;
+        //r2=r1*r1;
+    }
+    //r2 = r2 + a * a;
 
     double inv_r2 = 1.0 / r2;               // (xi -xj)
+    //std::cout<<"trigger inv_r2 "<<inv_r2<<std::endl;
     double sr2 = std::pow(averagedSigma, 2) * inv_r2;  // (sigma / (xi -xj))^2
+    //std::cout<<"trigger sr2 "<<sr2<<std::endl;
+
+    //std::cout<<"trigger sr2 "<<sr2<<std::endl;
     double sr6 = sr2 * sr2 * sr2;           // (sigma / (xi -xj))^6
+    //std::cout<<"trigger sr6 "<<sr6<<std::endl;
+
     double sr12 = sr6 * sr6;                // (sigma / (xi -xj))^12
+    //std::cout<<"trigger sr12 "<<sr12<<std::endl;
+
 
     double scalar = 24.0 * rootedEpsilon * inv_r2 * (2.0 * sr12 - sr6);
+    //std::cout<<"trigger scalar "<<scalar<<std::endl;
+
+    /*double Fmax = 50.0; // try 50, then adjust up/down
+     if (scalar > Fmax) scalar = Fmax;
+     if (scalar < -Fmax) scalar = -Fmax;*/
+
     return scalar * dist.normal();
 };
 

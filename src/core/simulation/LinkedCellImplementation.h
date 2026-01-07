@@ -168,8 +168,54 @@ class LinkedCellImplementation : public Simulation {
      */
     void tick() override {
         calculatePosition(); // implemented in super class
+
+        cells.forEach([&](Particle &p) {
+            if (p.position.y < domainMin.y) {
+
+
+                double penetration = domainMin.y - p.position.y;
+                p.position.y = domainMin.y + penetration;
+                Particle wall;
+                wall.sigma = p.sigma;
+                wall.epsilon = p.epsilon;
+                wall.position.y = domainMin.y - (p.sigma * pow(2,1/6));
+                wall.position.x = p.position.x;
+                wall.position.z = p.position.z;
+
+
+                auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
+                p.force += f;
+                p.velocity.y = -p.velocity.y;
+            }
+            if (p.position.y > domainMax.y) {
+                double penetration = p.position.y - domainMax.y;
+                p.position.y = domainMax.y - penetration;
+                p.velocity.y = -p.velocity.y;
+            }
+            if (p.position.x < domainMin.x) {
+                double penetration = domainMin.x - p.position.x;
+                p.position.x = domainMin.x + penetration;
+                p.velocity.x = -p.velocity.x;
+            }
+            if (p.position.x > domainMax.x) {
+                double penetration = p.position.x - domainMax.x;
+                p.position.x = domainMax.x - penetration;
+                p.velocity.x = -p.velocity.x;
+            }
+            if (p.position.z < domainMin.z) {
+            double penetration = domainMin.z - p.position.z;
+            p.position.z = domainMin.z + penetration;
+            p.velocity.z = -p.velocity.z;
+        }
+            if (p.position.z > domainMax.z) {
+                double penetration = p.position.z - domainMax.z;
+                p.position.z = domainMax.z - penetration;
+                p.velocity.z = -p.velocity.z;
+            }
+        });
         delayPosition(); // implemented in super class
         reindexParticles();
+
         delayForce(); // implemented in super class
         calculateForce();
         applyGravity();

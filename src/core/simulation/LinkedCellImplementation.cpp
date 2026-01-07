@@ -48,7 +48,10 @@ void LinkedCellImplementation::calculateBorderBehaviour() {
             double dxMin = p.position.x - domainMin.x;
             if (dxMin < dist) {
                 Particle wall;
+
                 wall.position = Vec3D(domainMin.x, p.position.y, p.position.z);
+                wall.sigma=1;
+                wall.epsilon=1;
                 auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
                 p.force += f;
             }
@@ -61,6 +64,8 @@ void LinkedCellImplementation::calculateBorderBehaviour() {
             if (dxMax < dist) {
                 Particle wall;
                 wall.position = Vec3D(domainMax.x, p.position.y, p.position.z);
+                wall.sigma=1;
+                wall.epsilon=1;
                 auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
                 p.force += f;
             }
@@ -71,8 +76,25 @@ void LinkedCellImplementation::calculateBorderBehaviour() {
             double dyMin = p.position.y - domainMin.y;
             if (dyMin < dist) {
                 Particle wall;
+                //std::cout<<"link imple sigms y min "<<p.sigma<<std::endl;
+                //wall.position = Vec3D(p.position.x, domainMin.y, p.position.z);
+                //double wall_offset = (p.sigma + 1)/2;  // or 0.5*sigma
                 wall.position = Vec3D(p.position.x, domainMin.y, p.position.z);
+
+                wall.sigma=1;
+                wall.epsilon=0.01;
+                std::cout<<"link imple p y min "<<p.force.x<<" "<<p.force.y<<" "<<p.force.z<<std::endl;
+                //double actual_r = (p.position - wall.position).length();
+                //std::cout << "Ymin r = " << actual_r << "  dist=" << std::pow(2.0, 1.0/6.0) * ((p.sigma+1))/2 <<" deyMin "<< dyMin<< std::endl;
+                //std::cout << "diff normal = "<<(p.position-wall.position).normal().x<<" "<<(p.position-wall.position).normal().y<<" "<<(p.position-wall.position).normal().z << std::endl;
+
                 auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
+
+
+                std::cout<<"link imple f y min "<<f.x<<" "<<f.y<<" "<<f.z<<std::endl;
+                //std::cout<<std::endl;
+
+
                 p.force += f;
             }
         }
@@ -83,6 +105,8 @@ void LinkedCellImplementation::calculateBorderBehaviour() {
             if (dyMax < dist) {
                 Particle wall;
                 wall.position = Vec3D(p.position.x, domainMax.y, p.position.z);
+                wall.sigma=1;
+                wall.epsilon=1;
                 auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
                 p.force += f;
             }
@@ -94,6 +118,8 @@ void LinkedCellImplementation::calculateBorderBehaviour() {
             if (dzMin < dist) {
                 Particle wall;
                 wall.position = Vec3D(p.position.x, p.position.y, domainMin.z);
+                wall.sigma=1;
+                wall.epsilon=1;
                 auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
                 p.force += f;
             }
@@ -105,6 +131,8 @@ void LinkedCellImplementation::calculateBorderBehaviour() {
             if (dzMax < dist) {
                 Particle wall;
                 wall.position = Vec3D(p.position.x, p.position.y, domainMax.z);
+                wall.sigma=1;
+                wall.epsilon=1;
                 auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
                 p.force += f;
             }
