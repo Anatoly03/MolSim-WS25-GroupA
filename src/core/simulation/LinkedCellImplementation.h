@@ -174,8 +174,5 @@ class LinkedCellImplementation : public Simulation {
         calculateForce();
         calculateBorderBehaviour();
         calculateVelocity(); // implemented in super class
-
-        // count particle updates for logging
-        particleUpdatesPerSecond += particleCount();
     }
 };

@@ -7,6 +7,7 @@
 #include "../math/Vec3.h"
 #include "../utils/Args.h"
 #include "../utils/ArrayUtils.h"
+#include "../utils/TracyHelper.h"
 #include "../physics/Force.h"
 #include "../ParticleContainer.h"
 #include "../Particle.h"
@@ -188,6 +189,8 @@ class Simulation {
      * @brief Run the simulation for a given time with specified time step.
      */
     virtual void run(const cb_type &callback) {
+        PROFILE_FUNCTION;
+
         std::chrono::steady_clock::time_point time_now;
         const double start = arguments.start_time;
         const double end = arguments.end_time;
@@ -196,6 +199,8 @@ class Simulation {
         plotParticles(callback);
 
         for (double t = start; t < end; t += delta_t) {
+            PROFILE_FRAME_MARK;
+
             time_now = std::chrono::steady_clock::now();
             auto secs = std::chrono::duration_cast<std::chrono::seconds>(time_now - lastSecondUpdate).count();
 
@@ -209,11 +214,17 @@ class Simulation {
 
             tick();
             iteration++;
-            ticksPerSecond++;
+            // ticksPerSecond++;
+
+            // count particle updates for logging
+            particleUpdatesPerSecond += particleCount();
 
             if (iteration % arguments.output_interval == 0) {
                 plotParticles(callback);
             }
+
+            PROFILE_PLOT("Particles Per Second", particleUpdatesPerSecond);
+            PROFILE_PLOT("Ticks Per Second", ticksPerSecond);
 
             spdlog::debug("Iteration {} finished.", iteration);
         }
