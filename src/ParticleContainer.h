@@ -7,6 +7,7 @@
 #include <vector>
 
 #include "Particle.h"
+#include <functional>
 #include "math/Vec3.h"
 
 /**
@@ -104,6 +105,16 @@ class ParticleContainer {
      * @param reserve Number of particles to reserve space for.
      */
     void reserve(size_type reserve = 0) { particles.reserve(reserve); }
+
+    /**
+     * @brief Get reference to last particle in the container.
+     */
+    Particle &back() { return particles.back(); }
+
+    /**
+     * @brief Get const reference to last particle in the container.
+     */
+    const Particle &back() const { return particles.back(); }
 
     /**
      * @brief Iteration over single particles.

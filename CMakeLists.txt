@@ -28,8 +28,11 @@ file(GLOB_RECURSE MY_SRC
 
 # create make target
 add_executable(MolSim ${MY_SRC}
-        src/ParticleContainer.cpp
-        src/ParticleContainer.h)
+    src/ParticleContainer.cpp
+    src/ParticleContainer.h
+    src/Frame.cpp
+    src/Frame.h
+    src/outputWriter/CheckpointWriter.cpp)
 
 target_include_directories(MolSim
         PRIVATE

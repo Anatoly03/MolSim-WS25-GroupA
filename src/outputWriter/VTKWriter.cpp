@@ -9,6 +9,7 @@
 #include "VTKWriter.h"
 
 #include <vtkCellArray.h>
+#include <vtkCellType.h>
 #include <vtkDoubleArray.h>
 #include <vtkFloatArray.h>
 #include <vtkIntArray.h>
@@ -20,6 +21,7 @@
 #include <sstream>
 
 #include "../ParticleContainer.h"
+#include <string>
 
 namespace outputWriter {
 
@@ -44,18 +46,26 @@ void VTKWriter::plotParticles(ParticleContainer &particles, const std::string &f
     typeArray->SetName("type");
     typeArray->SetNumberOfComponents(1);
 
+    // Create vertex cells for each particle
+    auto cells = vtkSmartPointer<vtkCellArray>::New();
+    
+    vtkIdType pointId = 0;
     for (const auto &p : particles) {
         points->InsertNextPoint(p.getPosition().asArray().data());
         massArray->InsertNextValue(static_cast<float>(p.getMass()));
         velocityArray->InsertNextTuple(p.getVelocity().asArray().data());
         forceArray->InsertNextTuple(p.getForce().asArray().data());
         typeArray->InsertNextValue(p.getType());
+        
+        // Create a vertex cell for this particle
+        cells->InsertNextCell(1, &pointId);
+        pointId++;
     }
 
     // Set up the grid
-
     auto grid = vtkSmartPointer<vtkUnstructuredGrid>::New();
     grid->SetPoints(points);
+    grid->SetCells(VTK_VERTEX, cells);
 
     // Add arrays to the grid
     grid->GetPointData()->AddArray(massArray);
@@ -75,6 +85,8 @@ void VTKWriter::plotParticles(ParticleContainer &particles, const std::string &f
 
     // Write the file
     writer->Write();
+
+    (void)filename; (void)iteration; // nothing else to do here
 }
 }  // namespace outputWriter
 #endif

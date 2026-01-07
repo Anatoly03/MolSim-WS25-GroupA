@@ -111,6 +111,11 @@ class Particle {
     void delayForce();
 
     /**
+     * @brief Set the old force value directly (used when restoring from checkpoint)
+     */
+    void setOldForce(const Vec3D &old_force_);
+
+    /**
      * @brief Retrieve the old force of the Particle. It is the force
      * delayed by one time step.
      */

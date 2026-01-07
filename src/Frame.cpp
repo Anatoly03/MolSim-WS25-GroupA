@@ -21,10 +21,22 @@ void printHelp(const char *progname) {
             "Input File Format:\n"
             "  The input file contains the initial configuration of the particles.\n\n"
             "Options:\n"
-            "  -o, --output <path>   output path, file name after last slash (default: ./MD_vtk, example: "
-            "path/to/output/vtk)\n"
+            "  -o, --output <path>   output path, file name after last slash (default: ./MD_vtk)\n"
             "  -t, --time <int>      total simulation time (default: 1000)\n"
             "  -d, --delta <float>   time step delta (default: 0.014)\n"
+            "  -c, --checkpoint <path>   write checkpoint file to <path> when --checkpoint-time is reached\n"
+            "  -k, --checkpoint-time <float>   time at which checkpoint is written (default: disabled)\n"
+            "  -g, --ggrav <float>   gravity acceleration (default: 0.0, negative points downwards)\n"
+            "  -D, --add-disc <x,y,r>   add a disc of particles centered at x,y with radius r\n"
+            "  -N, --nthermostat <int>   apply thermostat every N iterations (0 to disable, default: 1000)\n"
+            "  -T, --tinit <float>   target temperature for thermostat (default: 0.5)\n"
+            "  --Lx <float>   domain size in x (default: 303)\n"
+            "  --Ly <float>   domain size in y (default: 180)\n"
+            "  -p, --periodic-lr       set left/right boundaries to periodic (default: reflective)\n"
+            "  -s, --sigma <float>    Lennard-Jones sigma (default: 1.2)\n"
+            "  -e, --epsilon <float>  Lennard-Jones epsilon (default: 1.0)\n"
+            "  -r, --rcut <float>     cutoff radius for LJ (default: 2.5*sigma)\n"
+            "  -i, --no-io            disable all I/O (plots/checkpoint) for benchmarking\n"
             "  -h, --help            print this help message\n\n"
             "Example:\n"
             "  %s input.txt -o output/simulation -t 500 -d 0.01\n",
@@ -38,7 +50,7 @@ void printHelp(const char *progname) {
  */
 [[noreturn]]
 void printUsage(const char *progname) {
-    fprintf(stderr, "Usage: %s -h\n", progname);
+    fprintf(stderr, "Usage: %s [input] [options]\nTry '%s --help' for more information.\n", progname, progname);
     exit(1);
 }
 
@@ -46,8 +58,7 @@ void printUsage(const char *progname) {
  * @brief Preprocess output option to create the folders if not
  * existing and retrieve pattern.
  * @return True if successful, false in case of an error.
- * @details Recursive function creating all necessary folders. This
- * should be run directly after the project arguments have been processed.
+ * @details Recursive function creating all necessary folders.
  */
 bool createPath(const char *output_pattern, const char *directory_offset = "") {
     std::string out_str(output_pattern);
@@ -91,8 +102,60 @@ Args ProcessArgs(int argc, char *argv[]) {
             case 'd':
                 args.delta_t = atof(optarg);
                 break;
+            case 'c':
+                args.checkpoint_path = const_cast<char *>(optarg);
+                break;
+            case 'k':
+                args.checkpoint_time = atof(optarg);
+                break;
+            case 'g':
+                args.ggrav = atof(optarg);
+                break;
+            case 'D': {
+                // parse three values: cx, cy, R. Accept comma or space separated values
+                double cx = 0, cy = 0, r = -1;
+                // try comma-separated first
+                if (sscanf(optarg, "%lf,%lf,%lf", &cx, &cy, &r) < 3) {
+                    // fallback to space-separated
+                    if (sscanf(optarg, "%lf %lf %lf", &cx, &cy, &r) < 3) {
+                        fprintf(stderr, "error: invalid disc format '%s'. Use: x,y,r or 'x y r'\n", optarg);
+                        printUsage(progname);
+                    }
+                }
+                args.disc_center_x = cx;
+                args.disc_center_y = cy;
+                args.disc_radius = r;
+                break;
+            }
+            case 'N':
+                args.nthermostat = atoi(optarg);
+                break;
+            case 'T':
+                args.Tinit = atof(optarg);
+                break;
+            case 'X':
+                args.Lx = atof(optarg);
+                break;
+            case 'Y':
+                args.Ly = atof(optarg);
+                break;
+            case 'p':
+                args.periodic_lr = true;
+                break;
             case 'o':
                 args.output_path = const_cast<char *>(optarg);
+                break;
+            case 's':
+                args.sigma = atof(optarg);
+                break;
+            case 'e':
+                args.epsilon = atof(optarg);
+                break;
+            case 'r':
+                args.rcut = atof(optarg);
+                break;
+            case 'i':
+                args.no_io = true;
                 break;
 
             case 'h':  // -h or --help
@@ -115,11 +178,12 @@ Args ProcessArgs(int argc, char *argv[]) {
     // preprocess output option if not provided
     if (args.output_path == nullptr) {
         args.output_path = const_cast<char *>("MD_vtk");
-    } else {
-        if (!createPath(args.output_path)) {
-            fprintf(stderr, "error: could not create output directory\n");
-            printUsage(progname);
-        }
+    }
+
+    // create output path if necessary
+    if (!createPath(args.output_path)) {
+        fprintf(stderr, "error: could not create output path '%s'\n", args.output_path);
+        exit(1);
     }
 
     return args;

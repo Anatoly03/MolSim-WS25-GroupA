@@ -96,6 +96,11 @@ void Particle::delayForce() {
 }
 
 /**
+ * @brief Set the old force directly (used when restoring from checkpoint files)
+ */
+void Particle::setOldForce(const Vec3D &old_force_) { this->old_force = old_force_; }
+
+/**
  * @brief Get the delayed force effective on this Particle
  * in the previous tick.
  */

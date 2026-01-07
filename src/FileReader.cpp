@@ -17,7 +17,7 @@
 FileReader::FileReader() = default;
 FileReader::~FileReader() = default;
 
-void FileReader::readFile(ParticleContainer &particles, char *filename) {
+void FileReader::readFile(ParticleContainer &particles, char *filename, double *out_time) {
     Vec3D position;
     Vec3D velocity;
     double mass;
@@ -30,7 +30,22 @@ void FileReader::readFile(ParticleContainer &particles, char *filename) {
         getline(input_file, tmp_string);
         std::cout << "Read line: " << tmp_string << std::endl;
 
-        while (tmp_string.empty() or tmp_string[0] == '#') {
+        // if the first non-empty/comment line starts with #CHECKPOINT, try to parse a #time line next
+        while (tmp_string.empty() || tmp_string[0] == '#') {
+            // if this is a #time header and out_time is provided, parse the time
+            if (out_time != nullptr) {
+                std::istringstream header(tmp_string);
+                std::string tag;
+                header >> tag;
+                if (tag == "#time") {
+                    double tval = 0.0;
+                    if (header >> tval) {
+                        *out_time = tval;
+                        std::cout << "Parsed checkpoint time: " << *out_time << std::endl;
+                    }
+                }
+            }
+
             getline(input_file, tmp_string);
             std::cout << "Read line: " << tmp_string << std::endl;
         }
@@ -58,7 +73,30 @@ void FileReader::readFile(ParticleContainer &particles, char *filename) {
             }
             datastream >> mass;
 
-            particles.emplace_back(position, (velocity), mass);
+            // default values in case it's a legacy/simple input file
+            int type = 0;
+            Vec3D force{0.0, 0.0, 0.0};
+            Vec3D old_force{0.0, 0.0, 0.0};
+
+            // try to read additional fields if present (type, force, old_force)
+            if (datastream >> type) {
+                // attempt to read current force
+                if (!(datastream >> force.x >> force.y >> force.z)) {
+                    // reset to zero if incomplete
+                    force = Vec3D(0.0);
+                }
+
+                // attempt to read old force
+                if (!(datastream >> old_force.x >> old_force.y >> old_force.z)) {
+                    old_force = Vec3D(0.0);
+                }
+            }
+
+            // emplace directly and then set forces to avoid an extra deprecated copy
+            particles.emplace_back(position, (velocity), mass, type);
+            // set the forces on the emplaced particle
+            particles.back().setForce(force);
+            particles.back().setOldForce(old_force);
 
             getline(input_file, tmp_string);
             std::cout << "Read line: " << tmp_string << std::endl;

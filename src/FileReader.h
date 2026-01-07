@@ -13,5 +13,7 @@ class FileReader {
     FileReader();
     virtual ~FileReader();
 
-    void readFile(ParticleContainer &particles, char *filename);
+    // readFile: reads particles and optional checkpoint time. If out_time != nullptr
+    // and the file contains a "#time <t>" header, *out_time is set to that value.
+    void readFile(ParticleContainer &particles, char *filename, double *out_time = nullptr);
 };

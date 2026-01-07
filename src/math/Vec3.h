@@ -42,6 +42,8 @@ struct Vec3 {
     Vec3() : x(0), y(0), z(0) {}
     Vec3(T e) : x(e), y(e), z(e) {}
     Vec3(T x_, T y_, T z_) : x(x_), y(y_), z(z_) {}
+    // explicit copy constructor to avoid deprecated implicit copy
+    Vec3(const Vec3 &other) = default;
 
     // methods
 

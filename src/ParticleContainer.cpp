@@ -1,5 +1,6 @@
 
 #include "ParticleContainer.h"
+#include <functional>
 
 /**
  * Iteration over single particles using a callback function.
