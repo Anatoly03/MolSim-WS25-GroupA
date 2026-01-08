@@ -196,6 +196,14 @@ class Simulation {
     virtual int particleCount() {
         return 0;
     }
+    /**
+     * @brief Total amount of tracked particles.
+     */
+    virtual void applyGravity() {
+        forEachParticle([this](Particle &particle) {
+            particle.force.y += arguments.gravityFactor * particle.mass;
+        });
+    }
 
     /**
      * @brief Advance the simulation by one time step.
