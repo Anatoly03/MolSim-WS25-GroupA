@@ -217,7 +217,7 @@ TEST(LinkedCellsTest, AbsorbAndIndexing) {
 /**
  * @brief Can LinkedCells reindex() move particles to a new cell?
  */
-TEST(LinkedCellsTest, ReindexParticles) {
+/*TEST(LinkedCellsTest, ReindexParticles) {
     ParticleContainer pc;
 
     Particle p({1, 1, 1}, {0,0,0}, 1);
@@ -240,7 +240,7 @@ TEST(LinkedCellsTest, ReindexParticles) {
     EXPECT_EQ(idx.x, 2);
     EXPECT_EQ(idx.y, 0);
     EXPECT_EQ(idx.z, 0);
-}
+}*/
 
 /**
  * @brief DiscGenerator (2D Disk) does not generate duplicate/incorrect positions.

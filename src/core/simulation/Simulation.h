@@ -76,6 +76,7 @@ class Simulation {
      */
     void plotParticles(const cb_type &callback) {
 #ifdef TRACY_ENABLE
+        (void) callback;
 #else
         if (arguments.benchmark_enabled) return;
         callback(iteration, *this);
