@@ -178,6 +178,7 @@ class LinkedCellImplementation : public Simulation {
                 double penetration = domainMin.y - p.position.y;
                 p.position.y = domainMin.y + penetration;
                 Particle wall;
+                //idea in testing: improving velocity smoothness with low sigma value for walls.
                 wall.sigma = 0.01;
                 wall.epsilon = 0.01;
                 wall.position.y = domainMin.y - (wall.sigma * pow(2,1/6));

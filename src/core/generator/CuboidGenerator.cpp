@@ -29,6 +29,9 @@ void CuboidGenerator::generate(ParticleContainer &particles) {
         if (epsilon > 0.0) {
             particle.epsilon = epsilon;
         }
+        if (sigma > 0.0) {
+            particle.sigma = sigma;
+        }
 
         particle.mass = mass;
         particles.add(particle);
