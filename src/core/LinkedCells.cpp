@@ -25,27 +25,27 @@ int LinkedCells::clearOutOfBoundsCells() {
 
         auto &particles = it.second;
         //checks for periodic boundaries
-        if(boarderXmin == "periodic" ||
-           boarderXmax == "periodic" ||
-           boarderYmin == "periodic" ||
-           boarderYmax == "periodic" ||
-           boarderZmin == "periodic" ||
-           boarderZmax == "periodic") {
+        if(boarderXmin == 2 ||
+           boarderXmax == 2 ||
+           boarderYmin == 2 ||
+           boarderYmax == 2 ||
+           boarderZmin == 2 ||
+           boarderZmax == 2) {
             for (auto pIt = particles.begin(); pIt != particles.end();) {
                 Particle &p = *pIt;
-                if (p.position.x < domainMin.x && boarderXmin == "periodic") {
+                if (p.position.x < domainMin.x && boarderXmin == 2) {
                     p.position.x += (domainMax.x - domainMin.x);
-                } else if (p.position.x > domainMax.x && boarderXmax == "periodic") {
+                } else if (p.position.x > domainMax.x && boarderXmax == 2) {
                     p.position.x -= (domainMax.x - domainMin.x);
                 }
-                if (p.position.y < domainMin.y && boarderYmin == "periodic") {
+                if (p.position.y < domainMin.y && boarderYmin == 2) {
                     p.position.y += (domainMax.y - domainMin.y);
-                } else if (p.position.y > domainMax.y && boarderYmax == "periodic") {
+                } else if (p.position.y > domainMax.y && boarderYmax == 2) {
                     p.position.y -= (domainMax.y - domainMin.y);
                 }
-                if (p.position.z < domainMin.z && boarderZmin == "periodic") {
+                if (p.position.z < domainMin.z && boarderZmin == 2) {
                     p.position.z += (domainMax.z - domainMin.z);
-                } else if (p.position.z > domainMax.z && boarderZmax == "periodic") {
+                } else if (p.position.z > domainMax.z && boarderZmax == 2) {
                     p.position.z -= (domainMax.z - domainMin.z);
                 }
                 Vec3I newIndex = getIndex(p);
@@ -192,7 +192,7 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
 
 // XY PLANE [FRONT]
 //std::cout<<boarderXmin<<std::endl;
-    if(boarderZmin=="reflect") {
+    if(boarderZmin==1) {
 //std::cout<<"minZ"<<std::endl;
         for (auto xyPlane: Vec3Iter(domainSize.x, domainSize.y, 1)) {
             Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, xyPlane.y, 0);
@@ -207,11 +207,12 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
            Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, xyPlane.y, 0);
            containers.erase(cellIndex);
        }*/
-        clearOutOfBoundsCells();
+        if(boarderZmin==0)
+       clearOutOfBoundsCells();
     }
 
 // XY PLANE [BACK]
-    if(boarderZmax == "reflect") {
+    if(boarderZmax == 1) {
         for (auto xyPlane: Vec3Iter(domainSize.x, domainSize.y, 1)) {
             Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, xyPlane.y, domainSize.z - 1);
             auto &particles = containers[cellIndex];
@@ -225,11 +226,12 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
            Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, xyPlane.y, domainSize.z - 1);
            containers.erase(cellIndex);
        }*/
+        if(boarderZmax==0)
         clearOutOfBoundsCells();
     }
 
 // XZ PLANE [NORTH]
-    if(boarderYmin=="reflect") {
+    if(boarderYmin== 1) {
         for (auto xyPlane: Vec3Iter(domainSize.x, 1, domainSize.z)) {
             Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, 0, xyPlane.z);
             auto &particles = containers[cellIndex];
@@ -243,11 +245,12 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
            Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, 0, xyPlane.z);
            containers.erase(cellIndex);
        }*/
-        clearOutOfBoundsCells();
+        if(boarderYmin==0)
+            clearOutOfBoundsCells();
     }
 
 // XZ PLANE [SOUTH]
-    if(boarderYmax=="reflect") {
+    if(boarderYmax == 1) {
         for (auto xyPlane: Vec3Iter(domainSize.x, 1, domainSize.z)) {
             Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, domainSize.y - 1, xyPlane.z);
             auto &particles = containers[cellIndex];
@@ -261,11 +264,12 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
            Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, domainSize.y - 1, xyPlane.z);
            containers.erase(cellIndex);
        }*/
-        clearOutOfBoundsCells();
+        if(boarderYmax==0)
+       clearOutOfBoundsCells();
     }
 
 // YZ PLANE [WEST]
-    if(boarderXmin=="reflect") {
+    if(boarderXmin == 1) {
         for (auto xyPlane: Vec3Iter(1, domainSize.y, domainSize.z)) {
             Vec3I cellIndex = domainMin + Vec3I(0, xyPlane.y, xyPlane.z);
             auto &particles = containers[cellIndex];
@@ -281,11 +285,12 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
        }*/
         //std::cout<<"minX"<<std::endl;
         //std::cout<<"minX"<<std::endl;
-        clearOutOfBoundsCells();
+        if(boarderXmin==0)
+            clearOutOfBoundsCells();
     }
 
 // YZ PLANE [EAST]
-    if(boarderXmax=="reflect") {
+    if(boarderXmax == 1) {
         for (auto xyPlane: Vec3Iter(1, domainSize.y, domainSize.z)) {
             Vec3I cellIndex = domainMin + Vec3I(domainSize.x - 1, xyPlane.y, xyPlane.z);
             auto &particles = containers[cellIndex];
@@ -299,6 +304,7 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
            Vec3I cellIndex = domainMin + Vec3I(domainSize.x - 1, xyPlane.y, xyPlane.z);
            containers.erase(cellIndex);
        }*/
+        if(boarderXmax==1)
         clearOutOfBoundsCells();
     }
 }

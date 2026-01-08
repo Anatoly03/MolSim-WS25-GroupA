@@ -169,45 +169,46 @@ class LinkedCellImplementation : public Simulation {
     void tick() override {
         calculatePosition(); // implemented in super class
 
+        //clamping particles back into the domain.
         cells.forEach([&](Particle &p) {
-            if (p.position.y < domainMin.y) {
+            if (p.position.y < domainMin.y && arguments.boarderYmin == 1) {
 
 
                 double penetration = domainMin.y - p.position.y;
                 p.position.y = domainMin.y + penetration;
                 Particle wall;
-                wall.sigma = p.sigma;
-                wall.epsilon = p.epsilon;
-                wall.position.y = domainMin.y - (p.sigma * pow(2,1/6));
+                wall.sigma = 0.01;
+                wall.epsilon = 0.01;
+                wall.position.y = domainMin.y - (wall.sigma * pow(2,1/6));
                 wall.position.x = p.position.x;
                 wall.position.z = p.position.z;
 
 
                 auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
                 p.force += f;
-                p.velocity.y = -p.velocity.y;
+                //p.velocity.y = -p.velocity.y;
             }
-            if (p.position.y > domainMax.y) {
+            if (p.position.y > domainMax.y && arguments.boarderYmax == 1) {
                 double penetration = p.position.y - domainMax.y;
                 p.position.y = domainMax.y - penetration;
                 p.velocity.y = -p.velocity.y;
             }
-            if (p.position.x < domainMin.x) {
+            if (p.position.x < domainMin.x && arguments.boarderXmin == 1) {
                 double penetration = domainMin.x - p.position.x;
                 p.position.x = domainMin.x + penetration;
                 p.velocity.x = -p.velocity.x;
             }
-            if (p.position.x > domainMax.x) {
+            if (p.position.x > domainMax.x && arguments.boarderXmax == 1) {
                 double penetration = p.position.x - domainMax.x;
                 p.position.x = domainMax.x - penetration;
                 p.velocity.x = -p.velocity.x;
             }
-            if (p.position.z < domainMin.z) {
+            if (p.position.z < domainMin.z && arguments.boarderZmin == 1) {
             double penetration = domainMin.z - p.position.z;
             p.position.z = domainMin.z + penetration;
             p.velocity.z = -p.velocity.z;
         }
-            if (p.position.z > domainMax.z) {
+            if (p.position.z > domainMax.z && arguments.boarderZmax == 1) {
                 double penetration = p.position.z - domainMax.z;
                 p.position.z = domainMax.z - penetration;
                 p.velocity.z = -p.velocity.z;

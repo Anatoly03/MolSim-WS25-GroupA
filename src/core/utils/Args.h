@@ -99,18 +99,22 @@ struct Args {
 
     /**
      * @brief the boarder handling for each side.
+     * Delete when out of bounds: 0
+     * reflective: 1
+     * periodic: 2
+     * outflow: 3
      */
-    std::string boarderXmin = "reflect";
+    int boarderXmin = 1;
 
-    std::string boarderXmax = "reflect";
+    int boarderXmax = 1;
 
-    std::string boarderYmin = "reflect";
+    int boarderYmin = 1;
 
-    std::string boarderYmax = "reflect";
+    int boarderYmax = 1;
 
-    std::string boarderZmin = "reflect";
+    int boarderZmin = 1;
 
-    std::string boarderZmax = "reflect";
+    int boarderZmax = 1;
 
     /**
      * @brief Default factor of the gravity to use. Overridden by CLI.

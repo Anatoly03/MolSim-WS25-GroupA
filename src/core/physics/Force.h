@@ -42,7 +42,7 @@ inline const force_calculation_system lennard_jones_system = [](const Args &args
     double rootedEpsilon = std::sqrt(par1.epsilon * par2.epsilon);
 
 
-    double min = (pow(2,1/6)-0.01) * averagedSigma;
+    double min = (pow(2,1/6)) * averagedSigma;
     //double a = 0. * averagedSigma;
     if (r1 < min) {
         r2 = min * min;

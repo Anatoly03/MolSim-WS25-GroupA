@@ -257,12 +257,66 @@ class YamlReader : public FileReader {
         args.attraction_method = attraction_method;
         //std::cout<<boarderXmin<<std::endl;
 
-        args.boarderXmin = boarderXmin;
-        args.boarderXmax = boarderXmax;
-        args.boarderYmin = boarderYmin;
-        args.boarderYmax = boarderYmax;
-        args.boarderZmin = boarderZmin;
-        args.boarderZmax = boarderZmax;
+        if(boarderXmin == "reflect"){
+            args.boarderXmin = 1;
+        }else if(boarderXmin == "periodic"){
+            args.boarderXmin = 2;
+        }else if(boarderXmin == "outflow"){
+            args.boarderXmin = 3;
+        }else{
+            args.boarderXmin = 0;
+        }
+
+        if(boarderXmax == "reflect"){
+            args.boarderXmax = 1;
+        }else if(boarderXmax == "periodic"){
+            args.boarderXmax = 2;
+        }else if(boarderXmax == "outflow"){
+            args.boarderXmax = 3;
+        }else{
+            args.boarderXmax = 0;
+        }
+
+        if(boarderYmin == "reflect"){
+            args.boarderYmin = 1;
+        }else if(boarderYmin == "periodic"){
+            args.boarderYmin = 2;
+        }else if(boarderYmin == "outflow"){
+            args.boarderYmin = 3;
+        }else{
+            args.boarderYmin = 0;
+        }
+
+        if(boarderYmax == "reflect"){
+            args.boarderYmax = 1;
+        }else if(boarderYmax == "periodic"){
+            args.boarderYmax = 2;
+        }else if(boarderYmax == "outflow"){
+            args.boarderYmax = 3;
+        }else{
+            args.boarderYmax = 0;
+        }
+
+        if(boarderZmin == "reflect"){
+            args.boarderZmin = 1;
+        }else if(boarderZmin == "periodic"){
+            args.boarderZmin = 2;
+        }else if(boarderZmin == "outflow"){
+            args.boarderZmin = 3;
+        }else{
+            args.boarderZmin = 0;
+        }
+
+        if(boarderZmax == "reflect"){
+            args.boarderZmax = 1;
+        }else if(boarderZmax == "periodic"){
+            args.boarderZmax = 2;
+        }else if(boarderZmax == "outflow"){
+            args.boarderZmax = 3;
+        }else{
+            args.boarderZmax = 0;
+        }
+
         args.gravityFactor = gravityFactor;
     }
 
