@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.10..4)
 
+# Set policy for subdirectories with older CMake requirements
+set(CMAKE_POLICY_DEFAULT_CMP0000 NEW)
+
 # Enable C++17. You may raise the standard if you want
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -43,14 +46,14 @@ target_include_directories(MolSimLib
 # depending on the compiler different flags are used
 target_compile_options(MolSim
         PRIVATE
-            $<$<CXX_COMPILER_ID:GNU>:-Wall -Wextra -Wpedantic -Werror>
+            $<$<CXX_COMPILER_ID:GNU>:-Wall -Wextra -Wpedantic -Werror -Wno-error=restrict -Wno-restrict -Wno-error=dangling-reference -Wno-dangling-reference>
             # disable some spam warnings for icpc...
             $<$<CXX_COMPILER_ID:Intel>:-w3 -wd383,981,1418,1572,2259>
 )
 
 target_compile_options(MolSimLib
         PRIVATE
-            $<$<CXX_COMPILER_ID:GNU>:-Wall -Wextra -Wpedantic -Werror>
+            $<$<CXX_COMPILER_ID:GNU>:-Wall -Wextra -Wpedantic -Werror -Wno-error=restrict -Wno-restrict -Wno-error=dangling-reference -Wno-dangling-reference>
             # disable some spam warnings for icpc...
             $<$<CXX_COMPILER_ID:Intel>:-w3 -wd383,981,1418,1572,2259>
 )

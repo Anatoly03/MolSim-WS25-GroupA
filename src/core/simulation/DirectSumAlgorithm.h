@@ -71,7 +71,6 @@ class DirectSumAlgorithm : public Simulation {
         calculatePosition(); // implemented in super class
         delayForce(); // implemented in super class
         calculateForce();
-        calculateTemperature();
         calculateVelocity(); // implemented in super class
     }
 };

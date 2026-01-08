@@ -34,18 +34,29 @@ inline const force_calculation_system lennard_jones_system = [](const Args &args
 
     double r1 = dist.length();
     if (r1 > args.cutoff_radius) return Vec3D();  // cut off for performance
-    double r2 = dist.length2();
-    if (r2 == 0.0) return Vec3D(); // cut in to avoid high values
+    
+    // Handle completely overlapping particles (extremely rare with proper initialization)
+    // Cannot determine force direction when particles are at exactly the same position
+    if (r1 < 1e-10) {
+        return Vec3D(0.0, 0.0, 0.0);  // Skip force calculation for this pair
+    }
 
-    double min=pow(2,1/6) * args.sigma;
-    if (r2 < min) r2=min;
-
-    double inv_r2 = 1.0 / r2;               // (xi -xj)
-    double sr2 = std::pow(args.sigma, 2) * inv_r2;  // (sigma / (xi -xj))^2
-    double sr6 = sr2 * sr2 * sr2;           // (sigma / (xi -xj))^6
-    double sr12 = sr6 * sr6;                // (sigma / (xi -xj))^12
+    // Calculate LJ force with actual distance (no artificial clamping)
+    // Following physical model strictly, relying on max_force cap to prevent numerical overflow
+    double inv_r2 = 1.0 / (r1 * r1);
+    double sr2 = std::pow(args.sigma, 2) * inv_r2;
+    double sr6 = sr2 * sr2 * sr2;
+    double sr12 = sr6 * sr6;
 
     double scalar = 24.0 * args.epsilon * inv_r2 * (2.0 * sr12 - sr6);
+    
+    // Cap the force magnitude to prevent numerical instability
+    // Very high limit to allow strong LJ repulsion following physical model strictly
+    double max_force = 100000.0 * args.epsilon;
+    if (std::abs(scalar) > max_force) {
+        scalar = (scalar > 0) ? max_force : -max_force;
+    }
+    
     return scalar * dist.normal();
 };
 

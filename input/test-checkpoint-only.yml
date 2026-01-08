@@ -1,0 +1,34 @@
+name: Test Checkpoint Loading Only
+
+config:
+  delta_time: 0.0005
+  total_time: 0.1
+  output_interval: 10
+  output: ../output/test_checkpoint
+  
+  domain_min: [0, 0, 0]
+  domain_max: [303, 180, 1]
+  cell_size: [3, 3, 3]
+  
+  epsilon: 1.0
+  sigma: 1.2
+  cut_off: 3.0
+  
+  gravity_force: [0.0, 0.0, -12.44]
+  
+  thermostat_interval: 0
+  thermostat_temperature: 0.0
+  initial_temperature: 0.5
+  
+  boarderXmin: "reflect"
+  boarderXmax: "reflect"
+  boarderYmin: "reflect"
+  boarderYmax: "reflect"
+  boarderZmin: "reflect"
+  boarderZmax: "reflect"
+  
+  attraction: "lennard-jones"
+  
+  checkpoint_input: "D:/Study/zzy/new/MolSim-WS25-GroupA/output/equilibrated.chkpt"
+
+# No particles section - only load from checkpoint

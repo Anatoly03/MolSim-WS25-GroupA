@@ -12,6 +12,7 @@
 #include "../math/Vec3.h"
 #include "../Particle.h"
 #include "FileReader.h"
+#include "CheckpointReader.h"
 
 #include <fstream>
 #include <iomanip>
@@ -170,11 +171,20 @@ class YamlReader : public FileReader {
         const double cut_off = unwrap_node<double>(args.cutoff_radius, "config", "cut_off");
         const std::string attraction_method = unwrap_node<std::string>("lennard-jones", "config", "attraction");
 
-        const double temperature = unwrap_node<double>(args.temperature, "config", "temperature");
-        const std::string temperatureScaling = unwrap_node<std::string>(args.temperatureScaling, "config", "temperature scaling");
-        const double maximumTemperatureDifference = unwrap_node<double>(args.maximumTemperatureDifference, "config", "maximum temperature difference");
-        const int thermostatStep = unwrap_node<int>(args.thermostatStep, "config", "thermostat step");
-        const double initialtemperature = unwrap_node<double>(args.initialtemperature, "config", "Initial temperature");
+        const std::string boarderXmin = unwrap_node<std::string>("reflect", "config", "boarderXmin");
+        const std::string boarderXmax = unwrap_node<std::string>("reflect", "config", "boarderXmax");
+        const std::string boarderYmin = unwrap_node<std::string>("reflect", "config", "boarderYmin");
+        const std::string boarderYmax = unwrap_node<std::string>("reflect", "config", "boarderYmax");
+        const std::string boarderZmin = unwrap_node<std::string>("reflect", "config", "boarderZmin");
+        const std::string boarderZmax = unwrap_node<std::string>("reflect", "config", "boarderZmax");
+
+        const Vec3D gravity_force = unwrap_node<Vec3D>(args.gravity_force, "config", "gravity_force");
+        const int thermostat_interval = unwrap_node<int>(args.thermostat_interval, "config", "thermostat_interval");
+        const double thermostat_temperature = unwrap_node<double>(args.thermostat_temperature, "config", "thermostat_temperature");
+        const double initial_temperature = unwrap_node<double>(args.initial_temperature, "config", "initial_temperature");
+        const std::string checkpoint_path = unwrap_node<std::string>(args.checkpoint_path, "config", "checkpoint_path");
+
+
 
 
         if (args.delta_t_cli) {
@@ -203,13 +213,20 @@ class YamlReader : public FileReader {
         args.sigma = sigma;
         args.cutoff_radius = cut_off;
         args.attraction_method = attraction_method;
-        args.temperature = temperature;
-        args.temperatureScaling = temperatureScaling;
-        args.maximumTemperatureDifference = maximumTemperatureDifference;
-        args.thermostatStep = thermostatStep;
-        args.initialtemperature = initialtemperature;
+        //std::cout<<boarderXmin<<std::endl;
 
+        args.boarderXmin = boarderXmin;
+        args.boarderXmax = boarderXmax;
+        args.boarderYmin = boarderYmin;
+        args.boarderYmax = boarderYmax;
+        args.boarderZmin = boarderZmin;
+        args.boarderZmax = boarderZmax;
 
+        args.gravity_force = gravity_force;
+        args.thermostat_interval = thermostat_interval;
+        args.thermostat_temperature = thermostat_temperature;
+        args.initial_temperature = initial_temperature;
+        args.checkpoint_path = checkpoint_path;
     }
 
     /**
@@ -257,10 +274,31 @@ class YamlReader : public FileReader {
         // read global physics config
         readConfig(args);
 
+        // Check if we should load from a checkpoint file first
+        std::string checkpoint_input = unwrap_node<std::string>("", "config", "checkpoint_input");
+        if (!checkpoint_input.empty()) {
+            spdlog::info("Loading particles from checkpoint file: {}", checkpoint_input);
+            CheckpointReader checkpointReader;
+            Args checkpointArgs;
+            // Create a persistent copy of the string to avoid dangling pointer
+            static std::string checkpoint_path_copy;
+            checkpoint_path_copy = checkpoint_input;
+            checkpointArgs.input_file = const_cast<char*>(checkpoint_path_copy.c_str());
+            if (!checkpointReader.readFile(particles, checkpointArgs)) {
+                spdlog::error("Failed to load checkpoint file: {}", checkpoint_input);
+                return false;
+            }
+        }
+
         // parse particles
         if (!head["particles"]) {
-            spdlog::error("yaml file {} has no 'particles' entry", args.input_file);
-            return false;
+            if (checkpoint_input.empty()) {
+                spdlog::error("yaml file {} has no 'particles' entry", args.input_file);
+                return false;
+            } else {
+                // No additional particles to add, just using checkpoint
+                return true;
+            }
         }
 
         // parse particles

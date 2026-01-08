@@ -45,6 +45,13 @@ class LinkedCells {
     typedef std::map<Vec3I, std::vector<Particle> >::iterator iterator;
     typedef std::map<Vec3I, std::vector<Particle> >::const_iterator const_iterator;
 
+    std::string boarderXmin;
+    std::string boarderXmax;
+    std::string boarderYmin;
+    std::string boarderYmax;
+    std::string boarderZmin;
+    std::string boarderZmax;
+
     /**
      * @brief Default constructor for LinkedCells.
      */
@@ -155,6 +162,19 @@ class LinkedCells {
         domainMax = max;
 
         return domainMax - domainMin;
+    }
+
+    /**
+     * @brief set border types.
+     * @note Range is inclusive.
+     */
+    virtual void setBorder(std::string boarderXmin,std::string boarderXmax,std::string boarderYmin,std::string boarderYmax,std::string boarderZmin,std::string boarderZmax) {
+        this->boarderXmin = boarderXmin;
+        this->boarderXmax = boarderXmax;
+        this->boarderYmin = boarderYmin;
+        this->boarderYmax = boarderYmax;
+        this->boarderZmin = boarderZmin;
+        this->boarderZmax = boarderZmax;
     }
 
     /**

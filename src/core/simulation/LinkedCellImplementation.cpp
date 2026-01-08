@@ -10,6 +10,75 @@
  */
 void LinkedCellImplementation::reindexParticles() {
     cells.reindex();
+    
+    // Apply hard boundary constraints for reflective boundaries
+    // This prevents particles from escaping when forces are insufficient
+    const Vec3D domainMin = Vec3D(cells.domainMin);
+    const Vec3D domainMax = Vec3D(cells.domainMax);
+    
+    cells.forEach([&](Particle &p) {
+        // Clamp position and reflect velocity for reflective boundaries
+        if (cells.boarderXmin == "reflect" && p.position.x < domainMin.x) {
+            p.position.x = domainMin.x;
+            p.velocity.x = std::abs(p.velocity.x);
+        }
+        if (cells.boarderXmax == "reflect" && p.position.x > domainMax.x) {
+            p.position.x = domainMax.x;
+            p.velocity.x = -std::abs(p.velocity.x);
+        }
+        if (cells.boarderYmin == "reflect" && p.position.y < domainMin.y) {
+            p.position.y = domainMin.y;
+            p.velocity.y = std::abs(p.velocity.y);
+        }
+        if (cells.boarderYmax == "reflect" && p.position.y > domainMax.y) {
+            p.position.y = domainMax.y;
+            p.velocity.y = -std::abs(p.velocity.y);
+        }
+        if (cells.boarderZmin == "reflect" && p.position.z < domainMin.z) {
+            p.position.z = domainMin.z;
+            p.velocity.z = std::abs(p.velocity.z);
+        }
+        if (cells.boarderZmax == "reflect" && p.position.z > domainMax.z) {
+            p.position.z = domainMax.z;
+            p.velocity.z = -std::abs(p.velocity.z);
+        }
+    });
+    
+    // Hard-core repulsion: prevent particles from getting too close
+    // When distance < min_distance, directly push particles apart AND correct velocities
+    const double min_distance = 1.2;  // Hard minimum distance (equal to sigma)
+    const double min_dist_sq = min_distance * min_distance;
+    
+    cells.forEachDistinctPair([&](Particle &p1, Particle &p2) {
+        Vec3D delta = p1.position - p2.position;
+        double dist_sq = delta.length2();
+        
+        // If particles are too close, push them apart and correct velocities
+        if (dist_sq < min_dist_sq && dist_sq > 1e-10) {
+            double dist = std::sqrt(dist_sq);
+            double overlap = min_distance - dist;
+            
+            // Separation direction (from p2 to p1)
+            Vec3D separation_dir = delta.normal();
+            
+            // Push each particle half the overlap distance along separation vector
+            Vec3D position_correction = separation_dir * (overlap * 0.5);
+            p1.position += position_correction;
+            p2.position -= position_correction;
+            
+            // Velocity correction: remove relative velocity component that brings particles closer
+            // Project relative velocity onto separation direction
+            Vec3D relative_vel = p1.velocity - p2.velocity;
+            double vel_along_separation = relative_vel.dot(separation_dir);
+            
+            // If particles are approaching each other, zero out the approaching component
+            if (vel_along_separation < 0.0) {
+                Vec3D vel_correction = separation_dir * (vel_along_separation * 0.5);
+                p1.velocity -= vel_correction;  // Reduce p1's velocity toward p2
+                p2.velocity += vel_correction;  // Reduce p2's velocity toward p1
+            }
+        }
+    });
 };
 
 /**
@@ -18,10 +87,14 @@ void LinkedCellImplementation::reindexParticles() {
  */
 void LinkedCellImplementation::calculateBorderBehaviour() {
     // brief: simple repulsion from border using ghost particles
-    const int REPULSION = 5;
+    //const int REPULSION = 1;
 
-    cells.forEachBordered([&](Particle &p, Vec3I ghostCellIndex) {
-        Particle ghost(p);
+
+
+    const double dist = std::pow(2.0, 1.0/6.0) * arguments.sigma;
+
+    cells.forEachBordered([&](Particle &p, Vec3I /*ghostCellIndex*/) {
+
 
         //
         //     cell    ghost cell
@@ -38,23 +111,73 @@ void LinkedCellImplementation::calculateBorderBehaviour() {
         // TODO reflecting boundary condition / verify math
         // TODO are particles attracted to border?
 
-        // calculate relative position in cell
-        Vec3D cellRelative = Vec3D(
-            p.position.x - (ghostCellIndex.x * cells.cellSize.x),
-            p.position.y - (ghostCellIndex.y * cells.cellSize.y),
-            p.position.z - (ghostCellIndex.z * cells.cellSize.z)
-        );
 
-        ghost.mass *= -REPULSION; // strong repulsion
+        // X min wall
+        if(cells.boarderXmin=="reflect") {
+            double dxMin = p.position.x - domainMin.x;
+            if (dxMin < dist) {
+                Particle wall;
+                wall.position = Vec3D(domainMin.x, p.position.y, p.position.z);
+                auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
+                p.force += f;
+            }
+        }
 
-        // mirror relative position in cell against ghost cell border
-        ghost.position = p.position;
+        // X max wall
+        //std::cout<<boxMax.x<<std::endl;
+        if(cells.boarderXmax=="reflect") {
+            double dxMax = domainMax.x - p.position.x;
+            if (dxMax < dist) {
+                Particle wall;
+                wall.position = Vec3D(domainMax.x, p.position.y, p.position.z);
+                auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
+                p.force += f;
+            }
+        }
 
-        ghost.position.x += cells.cellSize.x * 2 - 2 * cellRelative.x;
-        ghost.position.y += cells.cellSize.y * 2 - 2 * cellRelative.y;
-        ghost.position.z += cells.cellSize.z * 2 - 2 * cellRelative.z;
+        // Y min wall
+        if(cells.boarderYmin=="reflect") {
+            double dyMin = p.position.y - domainMin.y;
+            if (dyMin < dist) {
+                Particle wall;
+                wall.position = Vec3D(p.position.x, domainMin.y, p.position.z);
+                auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
+                p.force += f;
+            }
+        }
 
-        forceCalculationSystem(const_cast<Args&>(arguments), p, ghost);
+        // Y max wall
+        if(cells.boarderYmax=="reflect") {
+            double dyMax = domainMax.y - p.position.y;
+            if (dyMax < dist) {
+                Particle wall;
+                wall.position = Vec3D(p.position.x, domainMax.y, p.position.z);
+                auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
+                p.force += f;
+            }
+        }
+
+        // Z min wall
+        if(cells.boarderZmin=="reflect") {
+            double dzMin = p.position.z - domainMin.z;
+            if (dzMin < dist) {
+                Particle wall;
+                wall.position = Vec3D(p.position.x, p.position.y, domainMin.z);
+                auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
+                p.force += f;
+            }
+        }
+
+        // Z max wall
+        if(cells.boarderZmax=="reflect") {
+            double dzMax = domainMax.z - p.position.z;
+            if (dzMax < dist) {
+                Particle wall;
+                wall.position = Vec3D(p.position.x, p.position.y, domainMax.z);
+                auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
+                p.force += f;
+            }
+        }
     });
 }
 

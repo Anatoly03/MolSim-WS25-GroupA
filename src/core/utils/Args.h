@@ -98,6 +98,47 @@ struct Args {
     Vec3I domain_max = Vec3I(10);
 
     /**
+     * @brief the boarder handling for each side.
+     */
+    std::string boarderXmin = "reflect";
+
+    std::string boarderXmax = "reflect";
+
+    std::string boarderYmin = "reflect";
+
+    std::string boarderYmax = "reflect";
+
+    std::string boarderZmin = "reflect";
+
+    std::string boarderZmax = "reflect";
+
+    /**
+     * @brief External gravitational force vector (e.g., {0, -12.44, 0}).
+     */
+    Vec3D gravity_force = Vec3D(0.0);
+
+    /**
+     * @brief Thermostat application interval (0 = disabled).
+     */
+    int thermostat_interval = 0;
+
+    /**
+     * @brief Target temperature for thermostat.
+     */
+    double thermostat_temperature = 0.0;
+
+    /**
+     * @brief Initial temperature for particle generation.
+     */
+    double initial_temperature = 0.0;
+
+    /**
+     * @brief Checkpoint file path to save simulation state.
+     */
+    std::string checkpoint_path = "";
+
+
+    /**
      * @brief Benchmark flag. Set by CLI.
      */
     bool benchmark_enabled = false;
@@ -111,33 +152,6 @@ struct Args {
      * @brief Default version of the algorithm to use. Overridden by CLI.
      */
     int version = 1;
-
-    /**
-     * @brief Default target temperature. Overridden by CLI.
-     */
-    double temperature= 1;
-
-    /**
-     * @brief Default temperature scaling. Overridden by CLI.
-     */
-    std::string temperatureScaling = "directly";
-
-    /**
-     * @brief Default maximum temperature difference. Overridden by CLI.
-     */
-    double maximumTemperatureDifference = INFINITY;
-
-
-    /**
-     * @brief In case temperature is 0 , set change velocity to match default initial temperature. Overridden by CLI.
-     */
-    double  initialtemperature = 0.2;
-
-
-    /**
-     * @brief Default number of time steps after which the thermostat is periodically applied. Overridden by CLI.
-     */
-    int thermostatStep = 1;
 
     /**
      * @brief Default constructor.

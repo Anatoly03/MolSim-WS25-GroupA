@@ -9,8 +9,6 @@
 #include "../physics/Force.h"
 #include "../ParticleContainer.h"
 #include "../Particle.h"
-#include "../utils/MaxwellBoltzmannDistribution.h"
-
 
 #include "spdlog/spdlog.h"
 
@@ -31,8 +29,6 @@ class Simulation {
      * @brief Current simulation iteration.
      */
     int iteration = 0;
-
-    double currentTemperature = 0;
 
    public:
     typedef const std::function<void(int/*iteration*/, Simulation&)> cb_type;
@@ -79,8 +75,6 @@ class Simulation {
      * @brief Updates the velocity for a single particles.
      */
     virtual void calculateSingleVelocity(Particle &particle, double dt);
-
-
 
     /**
      * @brief Updates the position for a all particles.
@@ -132,45 +126,14 @@ class Simulation {
     }
 
     /**
-   * @brief Updates the current temperature for the simulation.
-   */
-    virtual void calculateTemperature(){
-        double tmp = 0;
-        forEachParticle([this, &tmp](Particle &particle) {
+     * @brief Apply thermostat to all particles (Maxwell-Boltzmann distribution rescaling).
+     */
+    virtual void applyThermostat();
 
-                tmp += (particle.mass * particle.velocity.length2()) / 2;
-
-            //particle.delayForce();
-        });
-
-
-
-        int n = particleCount();
-
-        //incase there is no temperature, start with an initiate temperature
-        int initT = arguments.initialtemperature;
-        if(tmp==0){
-            forEachParticle([this, &initT, &tmp](Particle &particle) {
-
-                particle.velocity = maxwellBoltzmannDistributedVelocity(initT, 3);
-                tmp += (particle.mass * particle.velocity.length2()) / 2;
-                //particle.delayForce();
-            });
-
-
-        }
-        //assumes there is only 3 dimensions
-        int d = 3;
-
-        //boltzmann constant
-        double kB = 1;
-        if(n > 0) { currentTemperature = (tmp * 2) / (n * d * kB); }
-        else{
-            std::cout<<"no particle present"<<std::endl;
-        }
-
-
-    }
+    /**
+     * @brief Calculate current kinetic energy of all particles.
+     */
+    virtual double calculateKineticEnergy();
 
    public:
     /**
@@ -228,6 +191,12 @@ class Simulation {
         for (double t = start; t < end; t += delta_t) {
             tick();
             iteration++;
+
+            // Apply thermostat at specified intervals
+            if (arguments.thermostat_interval > 0 && 
+                iteration % arguments.thermostat_interval == 0) {
+                applyThermostat();
+            }
 
             if (iteration % arguments.output_interval == 0) {
                 plotParticles(callback);

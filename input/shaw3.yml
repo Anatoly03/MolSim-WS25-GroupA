@@ -1,0 +1,244 @@
+name: shaw3
+
+config:
+  delta_time: 0.0001
+  total_time: 200
+  output_interval: 1
+  cell_size: [2, 2, 2]
+  domain_min: [-15, -8, 0]
+  domain_max: [15,25,0]
+  epsilon: 5.0
+
+particles:
+  p1:
+    position: [ 0.0, 0.0, 0.0 ]
+    velocity: [ 0.2, 0.0, 0.0 ]
+    mass: 1.0e-8
+  p2:
+    position: [ 1.1225, 0.0, 0.0 ]
+    velocity: [ 0.0, 0.2, 0.0 ]
+    mass: 1.0e-8
+  p3:
+    position: [ 0.0, 1.1225, 0.0 ]
+    velocity: [ 0.0, 0.0, 0.0 ]
+    mass: 1.0e-8
+  p4:
+    position: [ 0.0, 2.245, 0.0 ]
+    velocity: [ 0.0, -0.2, 0.0 ]
+    mass: 1.0e-8
+  p5:
+    position: [ 0.0, 3.3675, 0.0 ]
+    velocity: [ 0.2, 0.0, 0.0 ]
+    mass: 1.0e-8
+  p6:
+    position: [ -1.1225, 3.3675, 0.0 ]
+    velocity: [ 0.0, 0.0, 0.0 ]
+    mass: 1.0e-8
+  p7:
+    position: [ -2.245, 2.245, 0.0 ]
+    velocity: [ 0.0, -0.2, 0.0 ]
+    mass: 1.0e-8
+  p8:
+    position: [ -3.3675, 1.1225, 0.0 ]
+    velocity: [ 0.0, 0.0, 0.0 ]
+    mass: 1.0e-8
+  p9:
+    position: [ -4.49, 0.0, 0.0 ]
+    velocity: [ 0.2, 0.0, 0.0 ]
+    mass: 1.0e-8
+  p10:
+    position: [ -5.6125, 0.0, 0.0 ]
+    velocity: [ 0.0, -0.2, 0.0 ]
+    mass: 1.0e-8
+  p11:
+    position: [ -5.6125, 1.1225, 0.0 ]
+    velocity: [ 0.2, 0.0, 0.0 ]
+    mass: 1.0e-8
+  p12:
+    position: [ -5.6125, 2.245, 0.0 ]
+    velocity: [ 0.0, 0.2, 0.0 ]
+    mass: 1.0e-8
+  p13:
+    position: [ -4.49, 3.3675, 0.0 ]
+    velocity: [ 0.0, 0.0, 0.0 ]
+    mass: 1.0e-8
+  p14:
+    position: [ -4.49, 4.49, 0.0 ]
+    velocity: [ 0.2, 0.0, 0.0 ]
+    mass: 1.0e-8
+  p15:
+    position: [ -3.3675, 5.6125, 0.0 ]
+    velocity: [ 0.0, 0.1, 0.0 ]
+    mass: 1.0e-8
+  p16:
+    position: [ -2.245, 6.735, 0.0 ]
+    velocity: [ 0.1, 0.0, 0.0 ]
+    mass: 1.0e-8
+  p17:
+    position: [ -1.1225, 7.8575, 0.0 ]
+    velocity: [ 0.0, -0.2, 0.0 ]
+    mass: 1.0e-8
+  p18:
+    position: [ -1.1225, 8.98, 0.0 ]
+    velocity: [ 0.1, 0.1, 0.0 ]
+    mass: 1.0e-8
+  p19:
+    position: [ -1.1225, 10.1025, 0.0 ]
+    velocity: [ 0.1, 0.0, 0.0 ]
+    mass: 1.0e-8
+  p20:
+    position: [ -2.245, 11.225, 0.0 ]
+    velocity: [ 0.2, 0.0, 0.0 ]
+    mass: 1.0e-8
+  p21:
+    position: [ -3.3675, 12.3475, 0.0 ]
+    velocity: [ 0.0, 0.0, 0.0 ]
+    mass: 1.0e-8
+  p22:
+    position: [ -2.245, 12.3475, 0.0 ]
+    velocity: [ 0.0, 0.2, 0.0 ]
+    mass: 1.0e-8
+  p23:
+    position: [ -1.1225, 12.3475, 0.0 ]
+    velocity: [ -0.2, 0.0, 0.0 ]
+    mass: 1.0e-8
+  p24:
+    position: [ 0.0, 12.3475, 0.0 ]
+    velocity: [ 0.0, 0.1, 0.0 ]
+    mass: 1.0e-8
+  p25:
+    position: [ 0.0, 13.47, 0.0 ]
+    velocity: [ -0.1, 0.0, 0.0 ]
+    mass: 1.0e-8
+  p26:
+    position: [ 0.0, 14.5925, 0.0 ]
+    velocity: [ -0.1, -0.1, 0.0 ]
+    mass: 1.0e-8
+  p27:
+    position: [ 1.1225, 12.3475, 0.0 ]
+    velocity: [ 0.0, 0.0, 0.0 ]
+    mass: 1.0e-8
+  p28:
+    position: [ 2.245, 12.3475, 0.0 ]
+    velocity: [ 0.0, -0.1, 0.0 ]
+    mass: 1.0e-8
+  p29:
+    position: [ 2.245, 13.47, 0.0 ]
+    velocity: [ 0.1, 0.0, 0.0 ]
+    mass: 1.0e-8
+  p30:
+    position: [ 2.245, 14.5925, 0.0 ]
+    velocity: [ 0.0, 0.1, 0.0 ]
+    mass: 1.0e-8
+  p31:
+    position: [ 3.3675, 12.3475, 0.0 ]
+    velocity: [ 0.0, 0.0, 0.0 ]
+    mass: 1.0e-8
+  p32:
+    position: [ 4.49, 12.3475, 0.0 ]
+    velocity: [ 0.0, -0.1, 0.0 ]
+    mass: 1.0e-8
+  p33:
+    position: [ 3.3675, 11.225, 0.0 ]
+    velocity: [ 0.1, 0.0, 0.0 ]
+    mass: 1.0e-8
+  p34:
+    position: [ 2.245, 10.1025, 0.0 ]
+    velocity: [ 0.0, 0.2, 0.0 ]
+    mass: 1.0e-8
+  p35:
+    position: [ 2.245, 8.98, 0.0 ]
+    velocity: [ 0.0, 0.0, 0.0 ]
+    mass: 1.0e-8
+  p36:
+    position: [ 3.3675, 7.8575, 0.0 ]
+    velocity: [ 0.0, -0.1, 0.0 ]
+    mass: 1.0e-8
+  p37:
+    position: [ 4.49, 6.735, 0.0 ]
+    velocity: [ 0.1, 0.0, 0.0 ]
+    mass: 1.0e-8
+  p38:
+    position: [ 4.49, 5.6125, 0.0 ]
+    velocity: [ 0.0, -0.1, 0.0 ]
+    mass: 1.0e-8
+  p39:
+    position: [ 4.490, 4.490, 0.0 ]
+    velocity: [ 0.0, 0.1, 0.0 ]
+    mass: 1.0e-8
+  p40:
+    position: [ 4.490, 3.3675, 0.0 ]
+    velocity: [ 0.1, -0.1, 0.0 ]
+    mass: 1.0e-8
+  p41:
+    position: [ 3.3675, 2.245, 0.0 ]
+    velocity: [ 0.0, -0.1, 0.0 ]
+    mass: 1.0e-8
+  p42:
+    position: [ 2.245, 1.1225, 0.0 ]
+    velocity: [ 0.0, 0.0, 0.0 ]
+    mass: 1.0e-8
+  p43:
+    position: [ 1.1225, 0.0, 0.0 ]
+    velocity: [ 0.0, -0.1, 0.0 ]
+    mass: 1.0e-8
+  p44:
+    position: [ 0.0, 5.6125, 0.0 ]
+    velocity: [ 0.0, -0.1, 0.0 ]
+    mass: 1.0e-8
+  p45:
+    position: [ -1.1225, 5.6125, 0.0 ]
+    velocity: [ 0.0, 0.1, 0.0 ]
+    mass: 1.0e-8
+  p46:
+    position: [ 2.245, 5.6125, 0.0 ]
+    velocity: [ 0.1, 0.1, 0.0 ]
+    mass: 1.0e-8
+  p47:
+    position: [ 3.3675, 5.6125, 0.0 ]
+    velocity: [ 0.0, 0.2, 0.0 ]
+    mass: 1.0e-8
+  p48:
+    position: [ 0.0, 7.8575, 0.0 ]
+    velocity: [ 0.0, -0.1, 0.0 ]
+    mass: 1.0e-8
+  p49:
+    position: [ 1.1225, 7.8575, 0.0 ]
+    velocity: [ 0.0, -0.1, 0.0 ]
+    mass: 1.0e-8
+  p50:
+    position: [ 2.245, 7.8575, 0.0 ]
+    velocity: [ 0.1, 0.0, 0.0 ]
+    mass: 1.0e-8
+  p51:
+    position: [ 0.0, 8.98, 0.0 ]
+    velocity: [ 0.1, -0.1, 0.0 ]
+    mass: 1.0e-8
+  p52:
+    position: [ 1.1225, 8.98, 0.0 ]
+    velocity: [ 0.0, -0.1, 0.0 ]
+    mass: 1.0e-8
+  p53:
+    position: [ 0.0, 10.1025, 0.0 ]
+    velocity: [ 0.1, 0.0, 0.0 ]
+    mass: 1.0e-8
+  p54:
+    position: [ 1.1225, 10.1025, 0.0 ]
+    velocity: [ 0.0, 0.1, 0.0 ]
+    mass: 1.0e-8
+  p55:
+    position: [ 0.0, 11.225, 0.0 ]
+    velocity: [ 0.1, 0.1, 0.0 ]
+    mass: 1.0e-8
+  p56:
+    position: [ -1.1225, 11.225, 0.0 ]
+    velocity: [ 0.0, -0.1, 0.0 ]
+    mass: 1.0e-8
+  p57:
+    position: [ 1.1225, 11.225, 0.0 ]
+    velocity: [ 0.1, 0.0, 0.0 ]
+    mass: 1.0e-8
+  p58:
+    position: [ 2.245, 11.225, 0.0 ]
+    velocity: [ 0.0, -0.1, 0.0 ]
+    mass: 1.0e-8

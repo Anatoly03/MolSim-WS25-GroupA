@@ -1,0 +1,38 @@
+name: Test Disc Generation Only
+
+config:
+  delta_time: 0.0005
+  total_time: 0.1
+  output_interval: 10
+  output: ../output/test_disc_vtk
+  
+  domain_min: [0, 0, 0]
+  domain_max: [303, 180, 1]
+  cell_size: [3, 3, 3]
+  
+  epsilon: 1.0
+  sigma: 1.2
+  cut_off: 3.0
+  
+  gravity_force: [0.0, -12.44, 0.0]
+  
+  thermostat_interval: 0
+  
+  boarderXmin: "reflect"
+  boarderXmax: "reflect"
+  boarderYmin: "reflect"
+  boarderYmax: "reflect"
+  boarderZmin: "reflect"
+  boarderZmax: "reflect"
+  
+  attraction: "lennard-jones"
+
+particles:
+  drop_disc:
+    type: disc
+    center: [150.0, 150.0, 0.0]
+    radius: 17  # Physical radius ~ 17*1.2 = 20.4 units
+    dist: 1.2
+    mass: 1.0
+    velocity: [0.0, 0.0, 0.0]
+    brownian_sigma: 0.0

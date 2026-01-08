@@ -5,6 +5,7 @@
 #include "../core/reader/FileReader.h"
 #include "../core/simulation/Simulation.h"
 #include "../core/simulation/DirectSumAlgorithm.h"
+#include "../core/writer/CheckpointWriter.h"
 #include "Frame.h"
 
 #include "spdlog/spdlog.h"
@@ -49,6 +50,12 @@ int main(int argc, char *argsv[]) {
         simulation->run([ &writer, &args](int iteration, Simulation& sim){
             writer->plot(args.output_path, iteration, sim);
         });
+
+        // Save checkpoint if requested
+        if (!args.checkpoint_path.empty()) {
+            CheckpointWriter checkpointWriter;
+            checkpointWriter.plotCheckpoint(args.checkpoint_path, *simulation);
+        }
 
         return 0;
     }
