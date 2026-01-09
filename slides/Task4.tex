@@ -239,6 +239,41 @@
         \item Measurements performed with compiler optimizations enabled
         \item Build type: \texttt{Release} (O3)
     \end{itemize}
+\usebackgroundtemplate{\framebackground{0.2}{0}}
+\begin{frame}
+    \maketitle
+\end{frame}
+
+\simpleframe\begin{frame}{Thermostats}
+\begin{center}
+\includegraphics[width=0.6\textwidth]{media/lowTemp_2Bodies.png}
+\end{center}
+As seen in lowTemp2Bodies.mp4
+\end{frame}
+
+\simpleframe\begin{frame}{Thermostats}
+\begin{center}
+\includegraphics[width=0.6\textwidth]{media/highTemp_2Bodies.png}
+\end{center}
+As seen in highTemp2Bodies.mp4
+\end{frame}
+
+\simpleframe\begin{frame}{Problem with reflective boundaries}
+\begin{center}
+\includegraphics[width=0.60\textwidth]{media/normGrav.png}
+\end{center}
+A problem appears with balancing repulsion strength between wall and particles.
+
+As seen in liquid2normGravity.mp4
+\end{frame}
+
+\simpleframe\begin{frame}{Problem with reflective boundaries}
+\begin{center}
+\includegraphics[width=0.60\textwidth]{media/lowGrav.png}
+\end{center}
+Solved by clamping particles back into domain space, resulting unnatural velocity behavior.
+This is not ideal.
+As seen in liquid2LowGravity.mp4
 \end{frame}
 
 \begin{frame}{Runtime Measurement}
