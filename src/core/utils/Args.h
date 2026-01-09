@@ -102,7 +102,7 @@ struct Args {
      * Delete when out of bounds: 0
      * reflective: 1
      * periodic: 2
-     * outflow: 3
+     * outflow: 3 <---need working
      */
     int boarderXmin = 1;
 

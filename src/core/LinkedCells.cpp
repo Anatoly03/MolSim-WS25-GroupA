@@ -207,7 +207,7 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
            Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, xyPlane.y, 0);
            containers.erase(cellIndex);
        }*/
-        if(boarderZmin==0)
+
        clearOutOfBoundsCells();
     }
 
@@ -226,7 +226,7 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
            Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, xyPlane.y, domainSize.z - 1);
            containers.erase(cellIndex);
        }*/
-        if(boarderZmax==0)
+
         clearOutOfBoundsCells();
     }
 
@@ -245,7 +245,7 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
            Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, 0, xyPlane.z);
            containers.erase(cellIndex);
        }*/
-        if(boarderYmin==0)
+
             clearOutOfBoundsCells();
     }
 
@@ -264,7 +264,7 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
            Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, domainSize.y - 1, xyPlane.z);
            containers.erase(cellIndex);
        }*/
-        if(boarderYmax==0)
+
        clearOutOfBoundsCells();
     }
 
@@ -285,7 +285,7 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
        }*/
         //std::cout<<"minX"<<std::endl;
         //std::cout<<"minX"<<std::endl;
-        if(boarderXmin==0)
+
             clearOutOfBoundsCells();
     }
 
@@ -304,7 +304,7 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
            Vec3I cellIndex = domainMin + Vec3I(domainSize.x - 1, xyPlane.y, xyPlane.z);
            containers.erase(cellIndex);
        }*/
-        if(boarderXmax==1)
+
         clearOutOfBoundsCells();
     }
 }
