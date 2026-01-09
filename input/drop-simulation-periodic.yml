@@ -1,0 +1,54 @@
+name: Drop in Basin - Main Simulation with Disc (Periodic Boundaries)
+
+config:
+  # Time parameters
+  delta_time: 0.0005
+  total_time: 40
+  output_interval: 200
+  output: ../output/drop_periodic_vtk
+  
+  # Domain parameters - Size L = {303, 180}
+  domain_min: [0, 0, 0]
+  domain_max: [303, 180, 1]
+  cell_size: [3, 3, 3]
+  
+  # Lennard-Jones parameters
+  epsilon: 1.0
+  sigma: 1.2
+  cut_off: 3.0  # 2.5 * sigma = 2.5 * 1.2 = 3.0
+  
+  # Gravity: g_grav = -12.44 in y-direction
+  gravity_force: [0.0, -12.44, 0.0]
+  
+  # Thermostat disabled for this phase (set interval to 0)
+  thermostat_interval: 0
+  thermostat_temperature: 0.0
+  initial_temperature: 0.5
+  
+  # Boundary conditions - periodic on left/right, reflective on top/bottom
+  boarderXmin: "periodic"
+  boarderXmax: "periodic"
+  boarderYmin: "reflect"
+  boarderYmax: "reflect"
+  boarderZmin: "reflect"
+  boarderZmax: "reflect"
+  
+  # Use Lennard-Jones force
+  attraction: "lennard-jones"
+  
+  # Load equilibrated state from checkpoint
+  checkpoint_input: "../output/equilibrated.chkpt"
+
+particles:
+  # Drop (disc) parameters:
+  # xs = {150, 150} (center) - try different positions
+  # Rs = 20 (radius)
+  # Use same parameters as liquid
+  drop_disc:
+    type: disc
+    center: [75.0, 150.0, 0.0]  # Changed starting position (left side)
+    radius: 20
+    dist: 1.2  # h = 1.2, same as liquid
+    mass: 1.0
+    velocity: [0.0, 0.0, 0.0]  # Initial velocity is zero
+    brownian_sigma: 0.0
