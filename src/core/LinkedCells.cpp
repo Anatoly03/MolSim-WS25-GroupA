@@ -4,13 +4,13 @@
 
 #include "spdlog/spdlog.h"
 #include <fmt/format.h>
+#include <omp.h>
 
 /**
 * iterate over all cells and removes out of range
 */
 int LinkedCells::clearOutOfBoundsCells() {
     std::vector<Vec3I> cellsToRemove;
-
 
     for (auto &it : containers) {
         const Vec3I &cellIndex = it.first;
@@ -85,7 +85,12 @@ int LinkedCells::clearOutOfBoundsCells() {
 * Iteration over containers, each over single particles using a callback function.
 */
 void LinkedCells::forEach(const std::function<void(Particle &)> &callback) {
+    #pragma omp parallel
+    #pragma omp single nowait
     for (auto &it : containers) {
+        #pragma omp task firstprivate(it) shared(callback)
+        {
+
         const Vec3I &cellIndex = it.first;
         auto &particles = it.second;
 
@@ -107,6 +112,8 @@ void LinkedCells::forEach(const std::function<void(Particle &)> &callback) {
 
         for (auto &p: particles) {
             callback(p);
+        }
+
         }
     }
 }
