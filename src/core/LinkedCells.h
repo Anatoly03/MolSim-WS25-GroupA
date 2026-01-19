@@ -20,9 +20,14 @@
 class LinkedCells {
    private:
     /**
-     * @brief Internal storage of particle containers.
+     * @brief Internal storage of particle indeces that are managed by cell.
      */
-    std::map<Vec3I, std::vector<Particle>> containers;
+    std::map<Vec3I, std::vector<int>> containers;
+
+    /**
+     * @brief Method to get particle reference from index. Provided by parent.
+     */
+    get_particle particleGetter;
 
    public:
     /**
@@ -41,9 +46,10 @@ class LinkedCells {
     Vec3I domainMax = Vec3I(0);
     
    public:
-    typedef std::map<Vec3I, std::vector<Particle> >::size_type size_type;
-    typedef std::map<Vec3I, std::vector<Particle> >::iterator iterator;
-    typedef std::map<Vec3I, std::vector<Particle> >::const_iterator const_iterator;
+    typedef const std::function<&Particle(int/*particleId*/)> get_particle;
+    typedef std::map<Vec3I, std::vector<int> >::size_type size_type;
+    typedef std::map<Vec3I, std::vector<int> >::iterator iterator;
+    typedef std::map<Vec3I, std::vector<int> >::const_iterator const_iterator;
 
     int boarderXmin;
     int boarderXmax;
@@ -145,8 +151,8 @@ class LinkedCells {
      * @brief Absorb a particle container and sort particles into cells.
      */
     virtual void absorb(ParticleContainer &particles) {
-        particles.forEach([&](Particle &p) {
-            add(p);
+        particles.forEachIndexed([&](Particle &p, int index) {
+            add(p, index);
         });
     }
 
@@ -154,9 +160,9 @@ class LinkedCells {
      * @brief Add a new Particle to the cell manager.
      * @returns Index of the cell.
      */
-    virtual Vec3I add(Particle &particle) {
-        auto cellIndex = getIndex(particle);
-        containers[cellIndex].emplace_back(particle);
+    virtual Vec3I add(Particle &p, int particleId) {
+        auto cellIndex = getIndex(p);
+        containers[cellIndex].emplace_back(particleId);
         return cellIndex;
     }
 
@@ -191,19 +197,19 @@ class LinkedCells {
      */
     virtual int clearOutOfBoundsCells();
 
-    /**
-     * @brief Iteration over single particles.
-     * @param callback Function to be called for each particle.
-     * @example
-     * ```c++
-     * LinkedCells cells;
-     *
-     * cells.forEach([](Particle &particle) {
-     *     std::cout << particle.toString() << std::endl;
-     * });
-     * ```
-     */
-    virtual void forEach(const std::function<void(Particle &)> &callback);
+    // /**
+    //  * @brief Iteration over single particles.
+    //  * @param callback Function to be called for each particle.
+    //  * @example
+    //  * ```c++
+    //  * LinkedCells cells;
+    //  *
+    //  * cells.forEach([](Particle &particle) {
+    //  *     std::cout << particle.toString() << std::endl;
+    //  * });
+    //  * ```
+    //  */
+    // virtual void forEach(const std::function<void(Particle &)> &callback);
 
     /**
      * @brief Iteration over distinct particle pairs per cell.

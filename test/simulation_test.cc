@@ -10,10 +10,11 @@
  * zero delta.
  */
 TEST(SimulationPositionZeroDeltaTest, BasicAssertions) {
+    ParticleContainer particles;
     Args args;
     args.delta_t = 0.0;
 
-    Simulation simulation(args);
+    Simulation simulation(particles, args);
     Particle part(Vec3D(1.0, 2.0, 3.0), Vec3D(1.0), 1.0);
 
     simulation.calculateSinglePosition(part, args.delta_t);
@@ -25,10 +26,11 @@ TEST(SimulationPositionZeroDeltaTest, BasicAssertions) {
  * one delta.
  */
 TEST(SimulationPositionTest, BasicAssertions) {
+    ParticleContainer particles;
     Args args;
     args.delta_t = 1.0;
 
-    Simulation simulation(args);
+    Simulation simulation(particles, args);
     Particle part(Vec3D(1.0, 2.0, 3.0), Vec3D(1.0), 1.0);
     part.force = Vec3D(0.0);
 
