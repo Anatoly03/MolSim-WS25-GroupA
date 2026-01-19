@@ -118,6 +118,20 @@ class ParticleContainer {
      */
     virtual void forEach(const std::function<void(Particle &)> &callback);
 
+    /**
+     * @brief Iteration over single particles paired with their index.
+     * @param callback Function to be called for each particle.
+     * @example
+     * ```c++
+     * ParticleContainer container;
+     *
+     * container.forEach([](Particle &particle, int index) {
+     *     std::cout << particle.toString() << std::endl;
+     * });
+     * ```
+     */
+    virtual void forEachIndexed(const std::function<void(Particle &, int)> &callback);
+
     // /**
     //  * @brief Reduction of an accumulator value, processing over all single particles.
     //  */

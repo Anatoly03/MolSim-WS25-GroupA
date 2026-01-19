@@ -11,7 +11,6 @@
 int LinkedCells::clearOutOfBoundsCells() {
     std::vector<Vec3I> cellsToRemove;
 
-
     for (auto &it : containers) {
         const Vec3I &cellIndex = it.first;
 
