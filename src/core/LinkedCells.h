@@ -22,9 +22,12 @@ class LinkedCells {
     /**
      * @brief Internal storage of particle containers.
      */
-    std::map<Vec3I, std::vector<Particle>> containers;
+    //std::map<Vec3I, std::vector<Particle>> containers;
+    std::map<Vec3I, std::vector<int>> containers;
+    std::vector<Particle> particlesVector;
 
-   public:
+
+public:
     /**
      * @brief cell divison size
      */
@@ -41,9 +44,9 @@ class LinkedCells {
     Vec3I domainMax = Vec3I(0);
     
    public:
-    typedef std::map<Vec3I, std::vector<Particle> >::size_type size_type;
-    typedef std::map<Vec3I, std::vector<Particle> >::iterator iterator;
-    typedef std::map<Vec3I, std::vector<Particle> >::const_iterator const_iterator;
+    typedef std::map<Vec3I, std::vector<int> >::size_type size_type;
+    typedef std::map<Vec3I, std::vector<int> >::iterator iterator;
+    typedef std::map<Vec3I, std::vector<int> >::const_iterator const_iterator;
 
     int boarderXmin;
     int boarderXmax;
@@ -60,7 +63,7 @@ class LinkedCells {
     /**
      * @brief Constructor for LinkedCells specifying cell size.
      */
-    LinkedCells(Vec3I cellSize) : cellSize(cellSize) {
+    LinkedCells(Vec3I cellSize, const std::vector<Particle> &particles) : particlesVector(particles),cellSize(cellSize) {
         if (cellSize.x == 0 || cellSize.y == 0 || cellSize.z == 0) {
             spdlog::error("cell size for linked cells was set to zero-volume: ({},{},{})", cellSize.x, cellSize.y, cellSize.z);
         }
@@ -156,7 +159,7 @@ class LinkedCells {
      */
     virtual Vec3I add(Particle &particle) {
         auto cellIndex = getIndex(particle);
-        containers[cellIndex].emplace_back(particle);
+        containers[cellIndex].emplace_back(particle.p_id);
         return cellIndex;
     }
 

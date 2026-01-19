@@ -31,7 +31,7 @@ class LinkedCellImplementation : public Simulation {
     /**
      * @brief the +2 contribute to creating ghost cells which helps with boundery
      */
-    LinkedCellImplementation(ParticleContainer &particles, const Args &args) : Simulation(args), cells(args.cell_size) {
+    LinkedCellImplementation(ParticleContainer &particles, const Args &args) : Simulation(args), cells(args.cell_size, particles.getVector()) {
         // constants, to be set later
         // double size = 10;
         // double xOfDomain = 40;
@@ -80,6 +80,8 @@ class LinkedCellImplementation : public Simulation {
      * @brief reindex particles into new chunks
      */
     void reindexParticles();
+
+    //Vec3D calculateWallForce(const Args & /*args*/, const Particle &par1, const Particle &par2);
 
     /**
      * @brief calculate special physics for domain-bordering cells, e.g.
@@ -175,8 +177,8 @@ class LinkedCellImplementation : public Simulation {
             if (p.position.y < domainMin.y && arguments.boarderYmin == 1) {
 
 
-                double penetration = domainMin.y - p.position.y;
-                p.position.y = domainMin.y + penetration;
+                //double penetration = domainMin.y - p.position.y;
+                //p.position.y = domainMin.y + penetration;
                 Particle wall;
                 //idea in testing: improving velocity smoothness with low sigma value for walls.
                 wall.sigma = 0.01;

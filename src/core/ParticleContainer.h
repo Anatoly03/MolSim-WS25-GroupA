@@ -42,6 +42,14 @@ class ParticleContainer {
     ~ParticleContainer() = default;
 
     /**
+     * @brief gives particle vector.
+     */
+
+    std::vector<Particle> getVector(){
+        return particles;
+    }
+
+    /**
      * @brief Begin non-const iterator for ParticleContainer.
      * @note Allows range-based for loops.
      * @example

@@ -49,6 +49,8 @@ class Simulation {
      */
     int iteration = 0;
 
+    std::vector<Particle> particles; // this contains all particle data, and particle at index j has the id j.
+
    public:
     typedef const std::function<void(int/*iteration*/, Simulation&)> cb_type;
 

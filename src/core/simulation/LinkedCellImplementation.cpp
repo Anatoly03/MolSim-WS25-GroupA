@@ -13,6 +13,31 @@ void LinkedCellImplementation::reindexParticles() {
     cells.reindex();
 };
 
+
+/*Vec3D LinkedCellImplementation::calculateWallForce(const Args & args, const Particle &par1, const Particle &par2){
+    double dy = par1.position.y - par2.position.y;
+
+};*/
+
+double lj_wall_force(double dist, double sigma, double eps_wall) {
+    // dist = distance from particle to wall plane (always positive)
+    // eps_wall = strengthened epsilon for wall
+
+    double rcut = std::pow(2.0, 1.0/6.0) * sigma;
+    if (dist >= rcut) return 0.0;
+    double s_over_z = sigma / dist;
+    double s3 = s_over_z * s_over_z * s_over_z;
+    double s9 = s3 * s3 * s3; // LJ 9-3 wall force
+    double F = eps_wall * ( (6.0/5.0) * s9 / dist - 3.0 * s3 / dist );
+
+    // Safety cap
+    const double Fmax = 5.0;
+    if (F > Fmax) F = Fmax;
+
+    return F;
+}
+
+
 /**
  * @brief calculate special physics for domain-bordering cells, e.g.
  * particle-border collision or particle extinction
@@ -72,17 +97,25 @@ void LinkedCellImplementation::calculateBorderBehaviour() {
 
         // Y min wall
         if(cells.boarderYmin==1) {
-            double dyMin = p.position.y - domainMin.y;
+
+            double dist = p.position.y - domainMin.y;
+            if (dist > 0.0) {
+                double f = lj_wall_force(dist, p.sigma, p.epsilon);
+                p.force.y += f;
+                if(f!=0)
+                std::cout<<"link imple f y min "<<f<<std::endl;
+            }
+            /*double dyMin = p.position.y - domainMin.y;
             if (dyMin < dist) {
                 Particle wall;
                 //std::cout<<"link imple sigms y min "<<p.sigma<<std::endl;
                 //wall.position = Vec3D(p.position.x, domainMin.y, p.position.z);
-                //double wall_offset = (p.sigma + 1)/2;  // or 0.5*sigma
+                //double wall_offset = (p.sigma)/2;  // or 0.5*sigma
                 wall.position = Vec3D(p.position.x, domainMin.y, p.position.z);
 
-                wall.sigma=1;
-                wall.epsilon=1;
-                //std::cout<<"link imple p y min "<<p.force.x<<" "<<p.force.y<<" "<<p.force.z<<std::endl;
+                wall.sigma=p.sigma;
+                wall.epsilon=p.epsilon;
+                std::cout<<"link imple p y min "<<p.force.x<<" "<<p.force.y<<" "<<p.force.z<<std::endl;
                 //double actual_r = (p.position - wall.position).length();
                 //std::cout << "Ymin r = " << actual_r << "  dist=" << std::pow(2.0, 1.0/6.0) * ((p.sigma+1))/2 <<" deyMin "<< dyMin<< std::endl;
                 //std::cout << "diff normal = "<<(p.position-wall.position).normal().x<<" "<<(p.position-wall.position).normal().y<<" "<<(p.position-wall.position).normal().z << std::endl;
@@ -90,12 +123,12 @@ void LinkedCellImplementation::calculateBorderBehaviour() {
                 auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
 
 
-                //std::cout<<"link imple f y min "<<f.x<<" "<<f.y<<" "<<f.z<<std::endl;
+                std::cout<<"link imple f y min "<<f.x<<" "<<f.y<<" "<<f.z<<std::endl;
                 //std::cout<<std::endl;
 
 
                 p.force += f;
-            }
+            }*/
         }
 
         // Y max wall
