@@ -98,6 +98,13 @@ class ParticleContainer {
     void reserve(size_type reserve = 0) { particles.reserve(reserve); }
 
     /**
+     * @brief Access operator for ParticleContainer by particle index.
+     */
+    const Particle& operator[](std::size_t i) const {
+        return particles[i];
+    }
+
+    /**
      * @brief Iteration over single particles.
      * @param callback Function to be called for each particle.
      * @example
