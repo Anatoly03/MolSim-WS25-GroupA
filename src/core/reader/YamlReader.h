@@ -8,6 +8,7 @@
 #include "../generator/BallGenerator.h"
 #include "../generator/CuboidGenerator.h"
 #include "../generator/DiscGenerator.h"
+#include "../generator/MembraneGenerator.h"
 #include "../physics/Force.h"
 #include "../utils/Args.h"
 #include "../math/Vec3.h"
@@ -226,6 +227,20 @@ class YamlReader : public FileReader {
         std::vector<std::vector<int>> membrane_particles(size.x, std::vector<int>(size.y));
         
         // TODO
+        MembraneGenerator membrane;
+
+        membrane.center = position;
+        membrane.spacing = spacing;
+        membrane.mass = mass;
+        membrane.initial_velocity = velocity;
+        membrane.brownian_sigma = brownian_sigma;
+        membrane.epsilon = epsilon;
+        membrane.sigma = sigma;
+        membrane.width = size.x;
+        membrane.height = size.y;
+
+        membrane.generate(particles);
+
         
         // particles.addMembrane(membrane);
     }

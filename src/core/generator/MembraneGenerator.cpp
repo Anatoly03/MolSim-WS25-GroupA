@@ -10,4 +10,23 @@
  */
 void MembraneGenerator::generate(ParticleContainer &particles) {
     // TODO implement this
+    const int dimension = dimensions();
+    Membrane newMembrane(std::function<Particle&(int)>([&particles](int index) -> Particle& { return particles[index]; }));
+
+    for (int i = 0; i < width; ++i) {
+        for (int j = 0; j < height; ++j) {
+            Particle particle;
+
+            particle.position.x += i * spacing;
+            particle.position.y += j * spacing;
+
+            particle.velocity = initial_velocity;
+
+
+
+
+
+        }
+
+    }
 }

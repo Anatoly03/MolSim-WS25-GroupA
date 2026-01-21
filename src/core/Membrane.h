@@ -40,7 +40,7 @@ class Membrane {
      * Iterates over all particles and calculates forces from direct and diagonal neighbors.
      */
     void updateForce() {
-        int width = particles.size();
+        size_t width = particles.size();
 
         for (size_t x = 1; x < width; ++x) {
             for (size_t y = 1; y < particles[x].size(); ++y) {
