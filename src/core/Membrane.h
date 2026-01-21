@@ -102,5 +102,30 @@ class Membrane {
      */
     void updateForcesDiagonalNeighbors(size_t i, size_t j) {
         // TODO: Implementation
+
+        // stiffness constant
+        double k = 1;
+
+        // average bond length
+        double r0 = 1;
+
+        Particle& p_i = particleGetter(i);
+        Particle& p_j = particleGetter(j);
+        Vec3 d = p_j.position - p_i.position;
+        double dist2 = d.length2();
+
+        if (dist2 == 0.0) { return; }
+
+        double rest_term = std::sqrt(2.0) * r0;
+
+        double factor = k * (dist2 - rest_term) / dist2;
+
+        Vec3 F = d * factor;
+
+
+        p_i.force += F;
+        p_j.force += -(F);
+
+
     }
 };
