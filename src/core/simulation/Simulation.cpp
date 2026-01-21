@@ -1,7 +1,6 @@
 
 #include "../math/Vec3.h"
 #include "Simulation.h"
-#include "DirectSumAlgorithm.h"
 #include "LinkedCellImplementation.h"
 
 #include "spdlog/spdlog.h"
@@ -12,13 +11,13 @@
 std::shared_ptr<Simulation> Simulation::createSimulation(ParticleContainer &particles, const Args &args) {
     switch (args.version) {
         case 0:
-            return std::make_shared<DirectSumAlgorithm>(particles, args);
+            return std::make_shared<Simulation>(particles, args);
         case 1:
             return std::make_shared<LinkedCellImplementation>(particles, args);
     }
 
     spdlog::critical("unreachable: args.version was {} in simulation factory", args.version);
-    return std::make_shared<DirectSumAlgorithm>(particles, args);
+    return std::make_shared<Simulation>(particles, args);
 }
 
 /**

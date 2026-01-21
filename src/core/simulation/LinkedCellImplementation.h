@@ -31,7 +31,10 @@ class LinkedCellImplementation : public Simulation {
     /**
      * @brief the +2 contribute to creating ghost cells which helps with boundery
      */
-    LinkedCellImplementation(ParticleContainer &particles, const Args &args) : Simulation(args), cells(args.cell_size) {
+    LinkedCellImplementation(ParticleContainer &particles, const Args &args) :
+        Simulation(particles, args),
+        cells(std::function<Particle&(int)>([this](int index) -> Particle& { return _internal_particle_getter(index); }), args.cell_size)
+    {
         // constants, to be set later
         // double size = 10;
         // double xOfDomain = 40;
@@ -61,6 +64,10 @@ class LinkedCellImplementation : public Simulation {
     }
 
    private:
+    Particle& _internal_particle_getter(int index) {
+        return const_cast<Particle&>(particles[index]);
+    }
+
     // /**
     //  * @brief Places all particles into correct cells.
     //  */

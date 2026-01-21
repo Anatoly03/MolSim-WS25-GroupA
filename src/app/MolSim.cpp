@@ -4,7 +4,6 @@
 #include "../core/ParticleContainer.h"
 #include "../core/reader/FileReader.h"
 #include "../core/simulation/Simulation.h"
-#include "../core/simulation/DirectSumAlgorithm.h"
 #include "Frame.h"
 
 #include "spdlog/spdlog.h"
