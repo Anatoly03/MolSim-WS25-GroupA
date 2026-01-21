@@ -11,7 +11,11 @@
 void MembraneGenerator::generate(ParticleContainer &particles) {
     // TODO implement this
     const int dimension = dimensions();
-    Membrane newMembrane(std::function<Particle&(int)>([&particles](int index) -> Particle& { return particles[index]; }));
+    int index = particles.particleCount();
+
+    Membrane newMembrane(std::function<Particle&(int)>([&particles](int index) -> Particle& { return particles[index]; }), width,height);
+    newMembrane.stiffness = this->stiffness;
+    newMembrane.bond_length = this->bond_length;
 
     for (int i = 0; i < width; ++i) {
         for (int j = 0; j < height; ++j) {
@@ -22,8 +26,22 @@ void MembraneGenerator::generate(ParticleContainer &particles) {
 
             particle.velocity = initial_velocity;
 
+            if (brownian_sigma > 0.0) {
+                particle.velocity += maxwellBoltzmannDistributedVelocity(brownian_sigma, dimension);
 
 
+            }
+            if (epsilon > 0.0) {
+                particle.epsilon = epsilon;
+            }
+            if (sigma > 0.0) {
+                particle.sigma = sigma;
+            }
+
+            particle.mass = mass;
+            particles.add(particle);
+            newMembrane.particles[i][j] = index;
+            index++;
 
 
         }

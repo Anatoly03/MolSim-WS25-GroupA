@@ -13,21 +13,34 @@
 class Membrane {
    private:
     // two dimensional sheet of particles
-    std::vector<std::vector<int>> particles;
 
    public:
+    std::vector<std::vector<int>> particles;
+
     /**
      * @brief Typedef for particle getter function
      */
     typedef std::function<Particle&(int)> get_particle;
+
+    /**
+     * @brief Standard stiffness of the particles in the membrane.
+     */
+    double stiffness;
+
+    /**
+     * @brief Standard bond length of the particles in the membrane.
+     */
+    double bond_length;
 
    public:
 
     /**
      * @brief Constructor specifying particle getter.
      */
-    Membrane(get_particle getter) : particleGetter(getter) {
-
+    Membrane(get_particle getter, int width, int height) : particleGetter(getter) {
+        for (auto x = 0; x < width; x++) {
+            particles.emplace_back(height);
+        }
     }
 
     /**
@@ -59,8 +72,7 @@ class Membrane {
 
    private:
     get_particle particleGetter;
-    double stiffness = 300.0;  // Stiffness constant k
-    double bondLength = 1.0;   // Average bond length r0
+
 
     /**
      * @brief Calculate forces between particle and its direct neighbors using harmonic potential.
@@ -72,10 +84,10 @@ class Membrane {
      */
     void updateForcesDirectNeighbors(size_t i, size_t j) {
         // stiffness constant
-        double k = 1;
+        double k = stiffness;
 
         // average bond length
-        double r0 = 1;
+        double r0 = bond_length;
 
         Particle& p_i = particleGetter(i);
         Particle& p_j = particleGetter(j);
@@ -104,10 +116,10 @@ class Membrane {
         // TODO: Implementation
 
         // stiffness constant
-        double k = 1;
+        double k = stiffness;
 
         // average bond length
-        double r0 = 1;
+        double r0 = bond_length;
 
         Particle& p_i = particleGetter(i);
         Particle& p_j = particleGetter(j);

@@ -221,10 +221,10 @@ class YamlReader : public FileReader {
         double brownian_sigma = node["brownian_sigma"] ? node["brownian_sigma"].as<double>() : 0.0;
 
         // Store starting particle index
-        int start_index = particles.particleCount();
+        //int start_index = particles.particleCount();
         
         // Create 2D grid of particles
-        std::vector<std::vector<int>> membrane_particles(size.x, std::vector<int>(size.y));
+        //std::vector<std::vector<int>> membrane_particles(size.x, std::vector<int>(size.y));
         
         // TODO
         MembraneGenerator membrane;
@@ -238,6 +238,8 @@ class YamlReader : public FileReader {
         membrane.sigma = sigma;
         membrane.width = size.x;
         membrane.height = size.y;
+        membrane.stiffness = stiffness;
+        membrane.bond_length = bond_length;
 
         membrane.generate(particles);
 

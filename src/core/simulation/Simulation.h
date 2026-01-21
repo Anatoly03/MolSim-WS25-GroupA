@@ -16,15 +16,18 @@
 
 class Simulation {
    protected:
+   /**
+     * @brief Reference to the particle container.
+     */
+    ParticleContainer& particles;
+
+
     /**
      * @brief CLI input arguments, constant for the simulation run.
      */
     const Args arguments;
 
-    /**
-     * @brief Reference to the particle container.
-     */
-    ParticleContainer& particles;
+
 
     /**
      * @brief Force calculation method

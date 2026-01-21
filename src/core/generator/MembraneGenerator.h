@@ -46,16 +46,27 @@ class MembraneGenerator : public ParticleGenerator {
     Vec3D initial_velocity;
 
     /**
-     * @brief Standard sigma of the particles in the cuboid.
+     * @brief Standard sigma of the particles in the membrane.
      */
     double sigma;
 
     /**
-     * @brief Standard epsilon of the particles in the cuboid.
+     * @brief Standard epsilon of the particles in the membrane.
      */
     double epsilon;
 
-   protected:
+    /**
+     * @brief Standard stiffness of the particles in the membrane.
+     */
+    double stiffness;
+
+    /**
+     * @brief Standard bond length of the particles in the membrane.
+     */
+    double bond_length;
+
+
+protected:
     /**
      * Constant, amount of dimensions.
      */
