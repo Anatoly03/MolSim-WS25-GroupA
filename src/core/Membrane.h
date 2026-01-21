@@ -59,15 +59,39 @@ class Membrane {
 
    private:
     get_particle particleGetter;
+    double stiffness = 300.0;  // Stiffness constant k
+    double bondLength = 1.0;   // Average bond length r0
 
     /**
-     * @brief Calculate forces between particle and its direct neighbors.
+     * @brief Calculate forces between particle and its direct neighbors using harmonic potential.
+     * Harmonic potential: U(xi, xj) = k/2 * (||xi - xj||2 - r0)^2
+     * Force: F = -2 * k * (||xi - xj||2 - r0) * (xi - xj)
      * 
-     * @param i Particle 1
-     * @param j Particle 2
+     * @param i Particle 1 index
+     * @param j Particle 2 index
      */
     void updateForcesDirectNeighbors(size_t i, size_t j) {
-        // TODO: Implementation
+        // stiffness constant
+        double k = 1;
+
+        // average bond length
+        double r0 = 1;
+
+        Particle& p_i = particleGetter(i);
+        Particle& p_j = particleGetter(j);
+
+        Vec3 delta = p_i.position - p_j.position;
+        double dist = delta.length2();
+        
+        // Force magnitude: -2 * k * (distance - r0)
+        double forceMagnitude = -2.0 * k * (dist - r0);
+        
+        // Force direction: normalized displacement vector
+        Vec3 force = delta * (forceMagnitude / dist);
+        
+        // Apply Newton's third law: forces are equal and opposite
+        p_i.force += force;
+        p_j.force += -force;
     }
 
     /**
