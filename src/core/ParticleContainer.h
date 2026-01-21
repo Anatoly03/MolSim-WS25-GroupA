@@ -21,6 +21,8 @@ class ParticleContainer {
      */
     std::vector<Particle> particles;
 
+    // TODO add membranes storage
+
    public:
     typedef std::vector<Particle>::size_type size_type;
     typedef std::vector<Particle>::iterator iterator;

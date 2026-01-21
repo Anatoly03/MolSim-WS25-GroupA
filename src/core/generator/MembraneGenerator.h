@@ -1,0 +1,71 @@
+
+#pragma once
+
+#include "../math/Vec3.h"
+#include "../ParticleContainer.h"
+#include "Generator.h"
+
+/**
+ * @brief Particle generator abstraction.
+ */
+class MembraneGenerator : public ParticleGenerator {
+   public:
+    /**
+     * @brief Focus point/ center of disc.
+     */
+    Vec3D center;
+
+    /**
+     * @brief Width of the membrane.
+     */
+    int width;
+
+    /**
+     * @brief Height of the membrane.
+     */
+    int height;
+
+    /**
+     * @brief Distance between neighboring particles along each axis.
+     */
+    double spacing;
+    
+    /**
+     * @brief Mass of each particle.
+     */
+    double mass;
+
+    /**
+     * @brief Standard deviation (average magnitude) of the Brownian velocity.
+     */
+    double brownian_sigma;
+
+    /**
+     * @brief Initial Velocity of each particle.
+     */
+    Vec3D initial_velocity;
+
+    /**
+     * @brief Standard sigma of the particles in the cuboid.
+     */
+    double sigma;
+
+    /**
+     * @brief Standard epsilon of the particles in the cuboid.
+     */
+    double epsilon;
+
+   protected:
+    /**
+     * Constant, amount of dimensions.
+     */
+    virtual int dimensions() const {
+        return 2;
+    };
+
+    /**
+     * @brief Generate particles into the given container.
+     */
+   public:
+    virtual void generate(ParticleContainer &/*particles*/) override;
+};
