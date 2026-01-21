@@ -33,7 +33,7 @@ class LinkedCellImplementation : public Simulation {
      */
     LinkedCellImplementation(ParticleContainer &particles, const Args &args) :
         Simulation(particles, args),
-        cells((LinkedCells::get_particle)([&particles](int index){ return particles[index]; }), args.cell_size)
+        cells([&particles](int index){ return particles[index]; }, args.cell_size)
     {
         // constants, to be set later
         // double size = 10;

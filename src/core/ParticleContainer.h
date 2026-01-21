@@ -105,6 +105,13 @@ class ParticleContainer {
     }
 
     /**
+     * @brief Access operator for ParticleContainer by particle index.
+     */
+    Particle& operator[](std::size_t i) {
+        return particles[i];
+    }
+
+    /**
      * @brief Iteration over single particles.
      * @param callback Function to be called for each particle.
      * @example
