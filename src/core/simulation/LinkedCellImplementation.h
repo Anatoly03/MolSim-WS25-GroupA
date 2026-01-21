@@ -230,6 +230,12 @@ class LinkedCellImplementation : public Simulation {
         calculateForce();
         applyGravity();
         calculateBorderBehaviour();
+        
+        // Update forces from membrane interactions
+        particles.forEachMembrane([](Membrane &membrane) {
+            membrane.updateForce();
+        });
+        
         calculateVelocity(); // implemented in super class
 
         PROFILE_PLOT("Active Cells", cells.cellCount());
