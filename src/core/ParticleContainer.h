@@ -8,6 +8,7 @@
 #include <vector>
 
 #include "Particle.h"
+#include "Membrane.h"
 #include "math/Vec3.h"
 
 /**
@@ -21,7 +22,10 @@ class ParticleContainer {
      */
     std::vector<Particle> particles;
 
-    // TODO add membranes storage
+    /**
+     * Internal storage of membranes.
+     */
+    std::vector<Membrane> membranes;
 
    public:
     typedef std::vector<Particle>::size_type size_type;
@@ -164,4 +168,27 @@ class ParticleContainer {
      * ```
      */
     virtual void forEachDistinctPair(const std::function<void(Particle &, Particle &)> &callback);
+
+    /**
+     * @brief Add a new Membrane to the container.
+     */
+    void addMembrane(const Membrane &membrane) { membranes.emplace_back(membrane); }
+
+    /**
+     * @brief Iteration over all membranes.
+     * @param callback Function to be called for each membrane.
+     * @example
+     * ```c++
+     * ParticleContainer container;
+     *
+     * container.forEachMembrane([](Membrane &membrane) {
+     *     membrane.updateForce();
+     * });
+     * ```
+     */
+    void forEachMembrane(const std::function<void(Membrane &)> &callback) {
+        for (auto &membrane : membranes) {
+            callback(membrane);
+        }
+    }
 };
