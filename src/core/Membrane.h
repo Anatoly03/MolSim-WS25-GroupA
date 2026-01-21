@@ -103,4 +103,4 @@ class Membrane {
     void updateForcesDiagonalNeighbors(size_t i, size_t j) {
         // TODO: Implementation
     }
-}
+};

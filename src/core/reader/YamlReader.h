@@ -4,6 +4,7 @@
 #pragma once
 
 #include "../ParticleContainer.h"
+#include "../Membrane.h"
 #include "../generator/BallGenerator.h"
 #include "../generator/CuboidGenerator.h"
 #include "../generator/DiscGenerator.h"
@@ -203,6 +204,33 @@ class YamlReader : public FileReader {
     }
 
     /**
+     * @brief Get membrane from YAML::Node
+     */
+    void readMembraneNode(ParticleContainer &particles, const YAML::Node &node, Args &args) const {
+        auto size = node["n"].as<Vec3<int>>();
+        Vec3D position = node["position"].as<Vec3<double>>();
+        Vec3D velocity = node["velocity"].as<Vec3<double>>();
+        double mass = node["mass"].as<double>();
+        double spacing = node["dist"].as<double>();
+        double stiffness = node["stiffness"] ? node["stiffness"].as<double>() : 300.0;
+        double bond_length = node["bond_length"] ? node["bond_length"].as<double>() : spacing;
+        
+        double epsilon = node["epsilon"] ? node["epsilon"].as<double>() : args.epsilon;
+        double sigma = node["sigma"] ? node["sigma"].as<double>() : args.sigma;
+        double brownian_sigma = node["brownian_sigma"] ? node["brownian_sigma"].as<double>() : 0.0;
+
+        // Store starting particle index
+        int start_index = particles.particleCount();
+        
+        // Create 2D grid of particles
+        std::vector<std::vector<int>> membrane_particles(size.x, std::vector<int>(size.y));
+        
+        // TODO
+        
+        // particles.addMembrane(membrane);
+    }
+
+    /**
      * @brief Get particle from YAML::Node
      */
     void readConfig(Args &args) const {
@@ -336,6 +364,10 @@ class YamlReader : public FileReader {
 
         if (node_type == "disc") {
             return readDiscNode(particles, node, args);
+        }
+        
+        if (node_type == "membrane") {
+            return readMembraneNode(particles, node, args);
         }
 
         Particle particle;
