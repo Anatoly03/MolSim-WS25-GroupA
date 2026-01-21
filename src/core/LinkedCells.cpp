@@ -32,7 +32,7 @@ int LinkedCells::clearOutOfBoundsCells() {
            boarderZmin == 2 ||
            boarderZmax == 2) {
             for (auto pIt = particles.begin(); pIt != particles.end();) {
-                Particle &p = *pIt;
+                Particle &p = particleGetter(*pIt);
                 if (p.position.x < domainMin.x && boarderXmin == 2) {
                     p.position.x += (domainMax.x - domainMin.x);
                 } else if (p.position.x > domainMax.x && boarderXmax == 2) {
@@ -51,7 +51,7 @@ int LinkedCells::clearOutOfBoundsCells() {
                 Vec3I newIndex = getIndex(p);
                 if (newIndex != cellIndex) {
                     //removes particle from old cell and add into new cell
-                    containers[newIndex].push_back(std::move(p));
+                    containers[newIndex].push_back(*pIt);
                     pIt = particles.erase(pIt);
                 } else {
                     ++pIt;
@@ -62,7 +62,8 @@ int LinkedCells::clearOutOfBoundsCells() {
         }else{
             particles.erase(
                     std::remove_if(particles.begin(), particles.end(),
-                                   [&](const Particle &p) {
+                                   [&](int particleIndex) {
+                                       const Particle &p = particleGetter(particleIndex);
                                        return (p.position.x < domainMin.x || p.position.x > domainMax.x ||
                                                p.position.y < domainMin.y || p.position.y > domainMax.y ||
                                                p.position.z < domainMin.z || p.position.z > domainMax.z);
@@ -94,8 +95,8 @@ void LinkedCells::forEach(const std::function<void(Particle &)> &callback) {
         const Vec3I &cellIndex = it.first;
         auto &particles = it.second;
 
-        for (auto &p: particles) {
-            callback(p);
+        for (auto &particleIndex: particles) {
+            callback(particleGetter(particleIndex));
         }
 
         }
@@ -150,8 +151,8 @@ void LinkedCells::forEachDistinctPair(const std::function<void(Particle &, Parti
 * @brief wrapper for 'for each bordered' without relative chunk
 */
 void LinkedCells::forEachBordered(const std::function<void(Particle &)> &callback) {
-    forEachBordered([&callback](Particle &p, Vec3I /*ghostCellIndex*/) {
-        callback(particleGetter(p);
+    forEachBordered([this, &callback](Particle &p, Vec3I /*ghostCellIndex*/) {
+        callback(p);
     });
 }
 
@@ -308,7 +309,7 @@ void LinkedCells::reindex() {
         auto &particles = it.second;
 
         for (size_t i = 0; i < particles.size(); i++) {
-            Particle &p = particles[i];
+            Particle &p = particleGetter(particles[i]);
 
             const auto currentCellIndex = it.first;
             const auto newCellIndex = getIndex(p);
@@ -324,7 +325,7 @@ void LinkedCells::reindex() {
 
             if (newCellIndex != currentCellIndex) {
 // add to new container
-                containers[newCellIndex].emplace_back(p);
+                containers[newCellIndex].emplace_back(particles[i]);
 
 // remove from current container
                 particles.erase(particles.begin() + i);

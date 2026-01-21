@@ -24,6 +24,13 @@ class LinkedCells {
      */
     std::map<Vec3I, std::vector<int>> containers;
 
+   public:
+    /**
+     * @brief Typedef for particle getter function
+     */
+    typedef std::function<Particle&(int)> get_particle;
+
+   private:
     /**
      * @brief Method to get particle reference from index. Provided by parent.
      */
@@ -44,9 +51,6 @@ class LinkedCells {
      * @brief cell divison size
      */
     Vec3I domainMax = Vec3I(0);
-    
-   public:
-    typedef const std::function<&Particle(int/*particleId*/)> get_particle;
     typedef std::map<Vec3I, std::vector<int> >::size_type size_type;
     typedef std::map<Vec3I, std::vector<int> >::iterator iterator;
     typedef std::map<Vec3I, std::vector<int> >::const_iterator const_iterator;
@@ -59,18 +63,19 @@ class LinkedCells {
     int boarderZmax;
 
     /**
-     * @brief Default constructor for LinkedCells.
+     * @brief Constructor for LinkedCells specifying particle getter and cell size.
      */
-    LinkedCells() = default;
-
-    /**
-     * @brief Constructor for LinkedCells specifying cell size.
-     */
-    LinkedCells(Vec3I cellSize) : cellSize(cellSize) {
+    template<typename Getter>
+    LinkedCells(Getter getter, Vec3I cellSize) : particleGetter(std::function<Particle&(int)>(getter)), cellSize(cellSize) {
         if (cellSize.x == 0 || cellSize.y == 0 || cellSize.z == 0) {
             spdlog::error("cell size for linked cells was set to zero-volume: ({},{},{})", cellSize.x, cellSize.y, cellSize.z);
         }
     }
+
+    /**
+     * @brief Constructor for LinkedCells specifying cell size only (getter required later).
+     */
+    LinkedCells(Vec3I cellSize) : LinkedCells([](int) -> Particle& { throw std::runtime_error("particleGetter not initialized"); }, cellSize) {}
 
     /**
      * @brief Copy constructor for LinkedCells.
@@ -209,7 +214,7 @@ class LinkedCells {
     //  * });
     //  * ```
     //  */
-    // virtual void forEach(const std::function<void(Particle &)> &callback);
+    virtual void forEach(const std::function<void(Particle &)> &callback);
 
     /**
      * @brief Iteration over distinct particle pairs per cell.
