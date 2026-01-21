@@ -65,7 +65,7 @@ class Simulation {
     /**
      * @brief Default constructor
      */
-    Simulation(ParticleContainer &p, const Args &args) : particles(p), arguments(args) {
+    Simulation(ParticleContainer &p, const Args &args) : arguments(args), particles(p) {
         // use the attraction provided by args
         forceCalculationSystem = get_force_system_by_name(args.attraction_method);
     }
