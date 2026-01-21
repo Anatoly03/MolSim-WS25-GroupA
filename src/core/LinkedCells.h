@@ -65,17 +65,11 @@ class LinkedCells {
     /**
      * @brief Constructor for LinkedCells specifying particle getter and cell size.
      */
-    template<typename Getter>
-    LinkedCells(Getter getter, Vec3I cellSize) : particleGetter(std::function<Particle&(int)>(getter)), cellSize(cellSize) {
+    LinkedCells(get_particle getter, Vec3I cellSize) : particleGetter(getter), cellSize(cellSize) {
         if (cellSize.x == 0 || cellSize.y == 0 || cellSize.z == 0) {
             spdlog::error("cell size for linked cells was set to zero-volume: ({},{},{})", cellSize.x, cellSize.y, cellSize.z);
         }
     }
-
-    /**
-     * @brief Constructor for LinkedCells specifying cell size only (getter required later).
-     */
-    LinkedCells(Vec3I cellSize) : LinkedCells([](int) -> Particle& { throw std::runtime_error("particleGetter not initialized"); }, cellSize) {}
 
     /**
      * @brief Copy constructor for LinkedCells.
