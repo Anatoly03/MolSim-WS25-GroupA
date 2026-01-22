@@ -4,7 +4,6 @@
 #include "../Particle.h"
 #include "../utils/Args.h"
 #include "../math/Vec3.h"
-#include "../Particle.h"
 
 #include "spdlog/spdlog.h"
 

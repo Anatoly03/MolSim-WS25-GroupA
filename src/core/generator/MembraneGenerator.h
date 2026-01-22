@@ -65,6 +65,7 @@ class MembraneGenerator : public ParticleGenerator {
      */
     double bond_length;
 
+    Args arguments;
 
 protected:
     /**

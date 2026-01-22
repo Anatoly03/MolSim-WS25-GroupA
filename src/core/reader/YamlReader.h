@@ -240,6 +240,7 @@ class YamlReader : public FileReader {
         membrane.height = size.y;
         membrane.stiffness = stiffness;
         membrane.bond_length = bond_length;
+        membrane.arguments = args;
 
         membrane.generate(particles);
 
