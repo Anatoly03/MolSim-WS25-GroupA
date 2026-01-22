@@ -11,6 +11,10 @@
 #include "spdlog/spdlog.h"
 #include <fmt/format.h>
 
+#ifdef OPENMP
+#include <omp.h>
+#endif
+
 class LinkedCellImplementation : public Simulation {
    public:
     LinkedCells cells;
@@ -160,6 +164,103 @@ class LinkedCellImplementation : public Simulation {
      */
     void forEachDistinctParticlePair(const std::function<void(Particle &, Particle &)> &callback) override {
         cells.forEachDistinctPair(callback);
+    }
+
+    /**
+     * @brief calculate the force for all particles (overridden to support parallel strategies)
+     */
+    void calculateForce() override {
+        PROFILE_ZONE_NAMED("Force Calculation");
+
+        // reset forces
+        cells.forEach([&](Particle &p){ p.force = Vec3D(0); });
+
+        using PS = Args::ParallelStrategy;
+
+        if (arguments.parallel_strategy == PS::None) {
+            cells.forEachDistinctPair([&](Particle &par1, Particle &par2) {
+                Vec3D force = forceCalculationSystem(const_cast<Args &>(arguments), par1, par2);
+                par1.force += force;
+                par2.force -= force;
+#ifdef TRACY_ENABLE
+                forceParticlePairsPerSecond++;
+#endif
+            });
+            return;
+        }
+
+        // Buffer strategy: per-thread accumulation buffers
+        if (arguments.parallel_strategy == PS::Buffer) {
+            const int nParticles = particles.particleCount();
+
+#ifdef OPENMP
+            // set runtime schedule from args
+            omp_sched_t sched = omp_sched_static;
+            if (arguments.omp_schedule == "dynamic") sched = omp_sched_dynamic;
+            else if (arguments.omp_schedule == "guided") sched = omp_sched_guided;
+            omp_set_schedule(sched, arguments.omp_chunk);
+            const int nThreads = omp_get_max_threads();
+#else
+            const int nThreads = 1;
+#endif
+
+            std::vector<std::vector<Vec3D>> buffers(nThreads, std::vector<Vec3D>(nParticles, Vec3D(0)));
+
+            cells.forEachDistinctPairIndexed([&](int i1, int i2) {
+#ifdef OPENMP
+                int tid = omp_get_thread_num();
+#else
+                int tid = 0;
+#endif
+                Vec3D f = forceCalculationSystem(const_cast<Args &>(arguments), particles[i1], particles[i2]);
+                buffers[tid][i1] += f;
+                buffers[tid][i2] -= f;
+#ifdef TRACY_ENABLE
+                forceParticlePairsPerSecond++;
+#endif
+            });
+
+            // merge buffers
+            for (int t = 0; t < nThreads; t++) {
+                for (int i = 0; i < nParticles; i++) {
+                    if (buffers[t][i].length() != 0.0) { // avoid some work
+                        particles[i].force += buffers[t][i];
+                    }
+                }
+            }
+
+            return;
+        }
+
+        // Critical strategy: parallel iteration, protected updates
+        if (arguments.parallel_strategy == PS::Critical) {
+#ifdef OPENMP
+            omp_sched_t sched = omp_sched_static;
+            if (arguments.omp_schedule == "dynamic") sched = omp_sched_dynamic;
+            else if (arguments.omp_schedule == "guided") sched = omp_sched_guided;
+            omp_set_schedule(sched, arguments.omp_chunk);
+#endif
+
+            cells.forEachDistinctPairIndexed([&](int i1, int i2) {
+                Vec3D f = forceCalculationSystem(const_cast<Args &>(arguments), particles[i1], particles[i2]);
+#ifdef OPENMP
+                #pragma omp critical
+                {
+                    particles[i1].force += f;
+                    particles[i2].force -= f;
+                }
+#else
+                particles[i1].force += f;
+                particles[i2].force -= f;
+#endif
+#ifdef TRACY_ENABLE
+                forceParticlePairsPerSecond++;
+#endif
+            });
+
+            return;
+        }
+
     }
 
     /**

@@ -136,6 +136,14 @@ struct Args {
      */
     int version = 1;
 
+    enum class ParallelStrategy { None, Buffer, Critical };
+
+    ParallelStrategy parallel_strategy = ParallelStrategy::None;
+
+    std::string omp_schedule = "static";
+
+    int omp_chunk = 0; // 0=default
+
     /**
      * @brief Default constructor.
      */

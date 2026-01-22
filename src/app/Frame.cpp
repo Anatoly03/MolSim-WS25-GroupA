@@ -188,7 +188,7 @@ Args ProcessArgs(int argc, char *argv[]) {
         args.output_path = "MD_vtk";
     } else {
         if (!createPath(args.output_path.c_str())) {
-            spdlog::error("could not create path: {}", args.output_path);
+            spdlog::error("could not create path: {}", args.output_path.c_str());
             printUsage(progname);
         }
     }

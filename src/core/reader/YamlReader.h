@@ -227,6 +227,10 @@ class YamlReader : public FileReader {
 
         const double gravityFactor = unwrap_node<double>(args.gravityFactor, "config", "gravityFactor");
 
+        const std::string parallel_strategy = unwrap_node<std::string>("none", "config", "parallel", "strategy");
+        const std::string omp_schedule = unwrap_node<std::string>(args.omp_schedule, "config", "parallel", "omp_schedule");
+        const int omp_chunk = unwrap_node<int>(args.omp_chunk, "config", "parallel", "omp_chunk");
+
 
 
         if (args.delta_t_cli) {
@@ -242,7 +246,7 @@ class YamlReader : public FileReader {
         }
 
         if (args.output_file_cli) {
-            spdlog::warn("output path in {} overridden by CLI argument: `{}` -> `{}`", args.input_file, output_path, args.output_path);
+            spdlog::warn("output path in {} overridden by CLI argument: `{}` -> `{}`", args.input_file, output_path.c_str(), args.output_path.c_str());
         } else {
             args.output_path = output_path;
         }
@@ -318,6 +322,20 @@ class YamlReader : public FileReader {
         }
 
         args.gravityFactor = gravityFactor;
+
+        // parallel configuration
+        if (parallel_strategy == "none") {
+            args.parallel_strategy = Args::ParallelStrategy::None;
+        } else if (parallel_strategy == "buffer") {
+            args.parallel_strategy = Args::ParallelStrategy::Buffer;
+        } else if (parallel_strategy == "critical") {
+            args.parallel_strategy = Args::ParallelStrategy::Critical;
+        } else {
+            args.parallel_strategy = Args::ParallelStrategy::None;
+        }
+
+        args.omp_schedule = omp_schedule;
+        args.omp_chunk = omp_chunk;
     }
 
     /**

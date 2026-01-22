@@ -6,6 +6,8 @@
 #include <fmt/format.h>
 #include <omp.h>
 
+// (omp.h already included at file scope)
+
 /**
 * iterate over all cells and removes out of range
 */
@@ -89,10 +91,13 @@ void LinkedCells::forEach(const std::function<void(Particle &)> &callback) {
     #pragma omp parallel
     #pragma omp single nowait
     for (auto &it : containers) {
+<<<<<<< HEAD
         #pragma omp task firstprivate(it) shared(callback)
         {
 
         const Vec3I &cellIndex = it.first;
+=======
+>>>>>>> 8a40306 (parallelization: initial implementation; version 0)
         auto &particles = it.second;
 
         for (auto &particleIndex: particles) {
@@ -135,7 +140,9 @@ void LinkedCells::forEachDistinctPair(const std::function<void(Particle &, Parti
             if (!ascending(domainMin.y, nIndex.y, domainMax.y)) continue;
             if (!ascending(domainMin.z, nIndex.z, domainMax.z)) continue;
 
-            auto &neighbour = containers[nIndex];
+            auto neighbourIt = containers.find(nIndex);
+            if (neighbourIt == containers.end()) continue;
+            auto &neighbour = neighbourIt->second;
 
 // calculate all distinct pairs across chunks
             for (size_t i = 0; i < particles.size(); i++) {
@@ -145,6 +152,98 @@ void LinkedCells::forEachDistinctPair(const std::function<void(Particle &, Parti
             }
         }
     }
+}
+
+
+/**
+ * Iteration over distinct particle pairs yielding raw particle indices.
+ * This variant can be parallelized more easily by callers.
+ */
+void LinkedCells::forEachDistinctPairIndexed(const std::function<void(int, int)> &callback) {
+    const int CHUNK_RADIUS = 2;
+
+// OpenMP header included at file scope when available (via CMake)
+
+    // Collect keys to avoid concurrent map iteration issues when parallelizing
+    std::vector<Vec3I> keys;
+    keys.reserve(containers.size());
+    for (const auto &it : containers) {
+        const Vec3I &cellIndex = it.first;
+        if (!ascending(domainMin.x, cellIndex.x, domainMax.x)) continue;
+        if (!ascending(domainMin.y, cellIndex.y, domainMax.y)) continue;
+        if (!ascending(domainMin.z, cellIndex.z, domainMax.z)) continue;
+        keys.push_back(cellIndex);
+    }
+
+#ifdef OPENMP
+    #pragma omp parallel for schedule(runtime)
+    for (int k = 0; k < static_cast<int>(keys.size()); k++) {
+        const Vec3I cellIndex = keys[k];
+        auto &particles = containers[cellIndex];
+
+        // pairs within same cell
+        for (size_t i = 0; i < particles.size(); i++) {
+            for (size_t j = i + 1; j < particles.size(); j++) {
+                if (i == j) continue;
+                callback(particles[i], particles[j]);
+            }
+        }
+
+        // neighbouring cells
+        for (const Vec3I indexDelta : Vec3Iter(CHUNK_RADIUS)) {
+            const Vec3I nIndex = cellIndex + indexDelta;
+            if (indexDelta.length() == 0) continue;
+            if (!ascending(domainMin.x, nIndex.x, domainMax.x)) continue;
+            if (!ascending(domainMin.y, nIndex.y, domainMax.y)) continue;
+            if (!ascending(domainMin.z, nIndex.z, domainMax.z)) continue;
+
+            auto neighbourIt = containers.find(nIndex);
+            if (neighbourIt == containers.end()) continue;
+            auto &neighbour = neighbourIt->second;
+
+            for (size_t i = 0; i < particles.size(); i++) {
+                for (size_t j = 0; j < neighbour.size(); j++) {
+                    callback(particles[i], neighbour[j]);
+                }
+            }
+        }
+    }
+#else
+    for (const auto &it : containers) {
+        const Vec3I &cellIndex = it.first;
+        auto &particles = it.second;
+
+        if (!ascending(domainMin.x, cellIndex.x, domainMax.x)) continue;
+        if (!ascending(domainMin.y, cellIndex.y, domainMax.y)) continue;
+        if (!ascending(domainMin.z, cellIndex.z, domainMax.z)) continue;
+
+        for (size_t i = 0; i < particles.size(); i++) {
+            for (size_t j = i + 1; j < particles.size(); j++) {
+                if (i == j) continue;
+                callback(particles[i], particles[j]);
+            }
+        }
+
+        for (const Vec3I indexDelta : Vec3Iter(CHUNK_RADIUS)) {
+            const Vec3I nIndex = cellIndex + indexDelta; // neighbour index
+
+            if (indexDelta.length() == 0) continue;
+            if (!ascending(domainMin.x, nIndex.x, domainMax.x)) continue;
+            if (!ascending(domainMin.y, nIndex.y, domainMax.y)) continue;
+            if (!ascending(domainMin.z, nIndex.z, domainMax.z)) continue;
+
+            auto neighbourIt = containers.find(nIndex);
+            if (neighbourIt == containers.end()) continue;
+            auto &neighbour = neighbourIt->second;
+
+            for (size_t i = 0; i < particles.size(); i++) {
+                for (size_t j = 0; j < neighbour.size(); j++) {
+                    callback(particles[i], neighbour[j]);
+                }
+            }
+        }
+    }
+#endif
 }
 
 /**

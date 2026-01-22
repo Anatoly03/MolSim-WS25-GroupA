@@ -6,6 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Options
 option(ENABLE_VTK_OUTPUT "Enable VTK output support" ON)
+option(ENABLE_OPENMP "Enable OpenMP support" ON)
 
 # define project name, version
 project(PSEMolDyn VERSION 0.0.1 LANGUAGES CXX)
@@ -73,4 +74,21 @@ include(add-fmt)
 include(add-spdlog)
 include(add-yaml)
 include(add-tracy)
+<<<<<<< HEAD
 include(openmp)
+=======
+
+# OpenMP support
+if(ENABLE_OPENMP)
+    find_package(OpenMP)
+    if(OpenMP_CXX_FOUND)
+        message(STATUS "OpenMP found: enabling OpenMP support")
+        target_link_libraries(MolSim PRIVATE OpenMP::OpenMP_CXX)
+        target_link_libraries(MolSimLib PRIVATE OpenMP::OpenMP_CXX)
+        target_compile_definitions(MolSim PRIVATE OPENMP)
+        target_compile_definitions(MolSimLib PRIVATE OPENMP)
+    else()
+        message(STATUS "OpenMP not found on this system")
+    endif()
+endif()
+>>>>>>> 8a40306 (parallelization: initial implementation; version 0)

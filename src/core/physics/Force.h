@@ -80,6 +80,6 @@ inline const force_calculation_system get_force_system_by_name(const std::string
     if (name == "newton") return newton_gravity_system;
     if (name == "lennard-jones") return lennard_jones_system;
 
-    spdlog::warn("Force system '{}' not recognized, defaulting to 'lennard-jones'", name);
+    spdlog::warn("Force system '{}' not recognized, defaulting to 'lennard-jones'", name.c_str());
     return lennard_jones_system; // default
 }

@@ -23,7 +23,7 @@ std::unique_ptr<FileReader> FileReader::getReaderForFile(const std::string &file
     // no file extension retrieved assumes 'txt' format
     std::string extension;
     if (extension_start == std::string::npos) {
-        spdlog::error("no file extension detected in file `{}`, assume 'txt'", fileName);
+        spdlog::error("no file extension detected in file `{}`, assume 'txt'", fileName.c_str());
         extension = "txt";
     } else {
         extension = fileName.substr(extension_start + 1);
@@ -41,6 +41,6 @@ std::unique_ptr<FileReader> FileReader::getReaderForFile(const std::string &file
     }
 
 
-    spdlog::error("no reader available for file extension `{}`, assume 'txt'", extension);
+    spdlog::error("no reader available for file extension `{}`, assume 'txt'", extension.c_str());
     return std::make_unique<TxtReader>();
 }

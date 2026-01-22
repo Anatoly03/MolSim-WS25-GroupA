@@ -225,6 +225,13 @@ class LinkedCells {
     virtual void forEachDistinctPair(const std::function<void(Particle &, Particle &)> &callback);
 
     /**
+     * @brief Iteration over distinct particle pairs by particle indices.
+     * @note This variant yields raw particle indices which is useful for
+     *       parallel strategies that need index-based accumulation.
+     */
+    virtual void forEachDistinctPairIndexed(const std::function<void(int, int)> &callback);
+
+    /**
      * @brief Iteration over single particles which are located in the cells near the domain border.
      * @param callback Function to be called for each particle.
      */
