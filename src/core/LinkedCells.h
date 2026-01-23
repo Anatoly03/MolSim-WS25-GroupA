@@ -262,4 +262,12 @@ class LinkedCells {
 
         return cellIndex;
     }
+
+    /**
+     * @brief Access particle by its global index as used inside the linked-cell containers.
+     * This forwards to the internal `particleGetter` provided at construction.
+     */
+    Particle& getParticleByIndex(int idx) {
+        return particleGetter(idx);
+    }
 };

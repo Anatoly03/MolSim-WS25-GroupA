@@ -1,0 +1,61 @@
+# Rayleigh–Taylor instability in 3D
+# Worksheet 5 – Task 3
+# Used for OpenMP strong-scaling (Task 2)
+
+version: 1
+
+# ---------------- Simulation control ----------------
+output_path: "output/rayleigh_taylor_3d"
+
+start_time: 0
+end_time: 100
+delta_t: 0.0005
+output_interval: 100
+
+# ---------------- Physics ----------------
+attraction_method: "lennard-jones"
+
+# gravity is applied in y-direction in applyGravity()
+gravityFactor: -12.44
+
+cutoff_radius: 3.6        # = 3.0 * sigma1 (sigma1 = 1.2)
+cell_size: [4.0, 4.0, 4.0]
+
+# ---------------- Domain ----------------
+domain_min: [0.0, 0.0, 0.0]
+domain_max: [60.0, 60.0, 60.0]
+
+# boundary handling
+# 0 delete | 1 reflective | 2 periodic
+boarderXmin: 2
+boarderXmax: 2
+boarderYmin: 1
+boarderYmax: 1
+boarderZmin: 2
+boarderZmax: 2
+
+# ---------------- Thermostat ----------------
+initial_temperature: 40
+thermostat_interval: 1000
+
+# ---------------- Parallelization (Task 2) ----------------
+# none | buffer | coloring
+parallel_strategy: critical
+
+# ---------------- Initial particle setup ----------------
+cuboids:
+  - x: [0.6, 0.6, 0.6]
+    v: [0.0, 0.0, 0.0]
+    n: [50, 20, 50]
+    h: 1.2
+    m: 1.0
+    epsilon: 1.0
+    sigma: 1.2
+
+  - x: [0.6, 24.6, 0.6]
+    v: [0.0, 0.0, 0.0]
+    n: [50, 20, 50]
+    h: 1.2
+    m: 2.0
+    epsilon: 1.0
+    sigma: 1.1

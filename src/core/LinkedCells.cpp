@@ -88,24 +88,28 @@ int LinkedCells::clearOutOfBoundsCells() {
 * Iteration over containers, each over single particles using a callback function.
 */
 void LinkedCells::forEach(const std::function<void(Particle &)> &callback) {
+#ifdef OPENMP
+    // Parallelize over cells by creating tasks for each cell.
     #pragma omp parallel
     #pragma omp single nowait
-    for (auto &it : containers) {
-<<<<<<< HEAD
-        #pragma omp task firstprivate(it) shared(callback)
-        {
-
-        const Vec3I &cellIndex = it.first;
-=======
->>>>>>> 8a40306 (parallelization: initial implementation; version 0)
-        auto &particles = it.second;
-
-        for (auto &particleIndex: particles) {
-            callback(particleGetter(particleIndex));
+    {
+        for (auto &it : containers) {
+            #pragma omp task firstprivate(it)
+            {
+                auto &particles = it.second;
+                for (auto &particleIndex: particles) {
+                    callback(particleGetter(particleIndex));
+                }
+            }
         }
-
-        }
+        #pragma omp taskwait
     }
+#else
+    for (auto &it : containers) {
+        auto &particles = it.second;
+        for (auto &particleIndex: particles) callback(particleGetter(particleIndex));
+    }
+#endif
 }
 
 /**

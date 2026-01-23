@@ -1,0 +1,17 @@
+strategy,threads,seconds,exit_code,logfile
+buffer,1,0.052065,255,/Users/zhengyingzhao/Desktop/PSE/MolSim-WS25-GroupA/output/bench/bench_buffer_1.log
+buffer,2,0.051562,255,/Users/zhengyingzhao/Desktop/PSE/MolSim-WS25-GroupA/output/bench/bench_buffer_2.log
+buffer,4,0.045907,255,/Users/zhengyingzhao/Desktop/PSE/MolSim-WS25-GroupA/output/bench/bench_buffer_4.log
+buffer,8,0.049416,255,/Users/zhengyingzhao/Desktop/PSE/MolSim-WS25-GroupA/output/bench/bench_buffer_8.log
+buffer,14,0.046033,255,/Users/zhengyingzhao/Desktop/PSE/MolSim-WS25-GroupA/output/bench/bench_buffer_14.log
+buffer,16,0.049471,255,/Users/zhengyingzhao/Desktop/PSE/MolSim-WS25-GroupA/output/bench/bench_buffer_16.log
+buffer,28,0.046996,255,/Users/zhengyingzhao/Desktop/PSE/MolSim-WS25-GroupA/output/bench/bench_buffer_28.log
+buffer,56,0.048687,255,/Users/zhengyingzhao/Desktop/PSE/MolSim-WS25-GroupA/output/bench/bench_buffer_56.log
+critical,1,0.048650,255,/Users/zhengyingzhao/Desktop/PSE/MolSim-WS25-GroupA/output/bench/bench_critical_1.log
+critical,2,0.047779,255,/Users/zhengyingzhao/Desktop/PSE/MolSim-WS25-GroupA/output/bench/bench_critical_2.log
+critical,4,0.048805,255,/Users/zhengyingzhao/Desktop/PSE/MolSim-WS25-GroupA/output/bench/bench_critical_4.log
+critical,8,0.048617,255,/Users/zhengyingzhao/Desktop/PSE/MolSim-WS25-GroupA/output/bench/bench_critical_8.log
+critical,14,0.050898,255,/Users/zhengyingzhao/Desktop/PSE/MolSim-WS25-GroupA/output/bench/bench_critical_14.log
+critical,16,0.046890,255,/Users/zhengyingzhao/Desktop/PSE/MolSim-WS25-GroupA/output/bench/bench_critical_16.log
+critical,28,0.048001,255,/Users/zhengyingzhao/Desktop/PSE/MolSim-WS25-GroupA/output/bench/bench_critical_28.log
+critical,56,0.047432,255,/Users/zhengyingzhao/Desktop/PSE/MolSim-WS25-GroupA/output/bench/bench_critical_56.log

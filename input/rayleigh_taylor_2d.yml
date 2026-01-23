@@ -1,0 +1,52 @@
+config:
+  # time
+  delta_time: 0.0005
+  total_time: 50.0                
+  # output
+  output: "output/rayleigh_taylor_2d_big"
+  output_interval: 100            
+
+  # linked-cells / domain
+  cell_size: [4, 4, 1]            
+  domain_max: [300, 54, 1]       
+
+  epsilon: 1.0
+  sigma: 1.2
+  cut_off: 3.0                   
+  attraction: "lennard-jones"
+
+  boarderXmin: "periodic"
+  boarderXmax: "periodic"
+  boarderYmin: "reflect"
+  boarderYmax: "reflect"
+  boarderZmin: "reflect"
+  boarderZmax: "reflect"
+
+  gravityFactor: -12.44           
+  parallel:
+    strategy: "buffer"
+    omp_schedule: "static"
+    omp_chunk: 0
+
+particles:
+  # Liquid 1 (bottom / lighter)
+  - type: cuboid
+    n: [250, 20, 1]
+    position: [0.6, 2.0, 0.0]
+    velocity: [0.0, 0.0, 0.0]
+    mass: 1.0
+    epsilon: 1.0
+    sigma: 1.2
+    dist: 1.2
+    brownian_sigma: 6.3249         
+
+  # Liquid 2 (top / heavier)
+  - type: cuboid
+    n: [250, 20, 1]
+    position: [0.6, 27.0, 0.0]
+    velocity: [0.0, 0.0, 0.0]
+    mass: 2.0
+    epsilon: 1.0
+    sigma: 1.1
+    dist: 1.2
+    brownian_sigma: 4.4721        

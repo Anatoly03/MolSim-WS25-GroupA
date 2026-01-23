@@ -74,9 +74,6 @@ include(add-fmt)
 include(add-spdlog)
 include(add-yaml)
 include(add-tracy)
-<<<<<<< HEAD
-include(openmp)
-=======
 
 # OpenMP support
 if(ENABLE_OPENMP)
@@ -91,4 +88,3 @@ if(ENABLE_OPENMP)
         message(STATUS "OpenMP not found on this system")
     endif()
 endif()
->>>>>>> 8a40306 (parallelization: initial implementation; version 0)
