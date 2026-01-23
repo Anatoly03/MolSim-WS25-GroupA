@@ -139,6 +139,15 @@ void LinkedCellImplementation::calculateBorderBehaviour() {
     });
 }
 
+void LinkedCellImplementation::calculateMembraneBehaviour() {
+    PROFILE_ZONE_NAMED("Membrane Behaviour Calculation");
+
+    // Update forces from membrane interactions
+    particles.forEachMembrane([](Membrane &membrane) {
+        membrane.updateForce();
+    });
+}
+
 // /**
 //  * @brief places all particles into correct cells using the cell index
 //  */
