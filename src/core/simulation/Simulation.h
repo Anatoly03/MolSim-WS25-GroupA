@@ -135,6 +135,8 @@ class Simulation {
     virtual void calculateForce() {
         PROFILE_ZONE_NAMED("Force Calculation");
 
+        if(no_force_system == arguments.attraction_method)return;
+
         forEachDistinctParticlePair([&](Particle &par1, Particle &par2) {
             Vec3D force = forceCalculationSystem(const_cast<Args&>(arguments), par1, par2);
 

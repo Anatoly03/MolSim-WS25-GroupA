@@ -78,11 +78,19 @@ inline const force_calculation_system lennard_jones_system = [](const Args &args
 };
 
 /**
+ * @brief Lennard-Jones force calculation system.
+ */
+inline const force_calculation_system no_force_system = [](const Args &, const Particle &, const Particle &) -> Vec3D {
+    return Vec3D();
+};
+
+/**
  * @details Returns the force calculation system by its name.
  */
 inline const force_calculation_system get_force_system_by_name(const std::string &name) {
     if (name == "newton") return newton_gravity_system;
     if (name == "lennard-jones") return lennard_jones_system;
+    if (name== "null") return no_force_system;
 
     spdlog::warn("Force system '{}' not recognized, defaulting to 'lennard-jones'", name);
     return lennard_jones_system; // default
