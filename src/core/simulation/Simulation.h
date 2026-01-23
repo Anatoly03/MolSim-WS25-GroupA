@@ -200,6 +200,7 @@ class Simulation {
      * ```
      */
     virtual void forEachDistinctParticlePair(const std::function<void(Particle &, Particle &)> &callback) {
+        PROFILE_ZONE_NAMED("Distinct Particle Pair Iteration [DirectSum]");
         particles.forEachDistinctPair(callback);
     }
     

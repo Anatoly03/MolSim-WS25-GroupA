@@ -3,6 +3,7 @@
 
 #include "../Particle.h"
 #include "../utils/Args.h"
+#include "../utils/TracyHelper.h"
 #include "../math/Vec3.h"
 
 #include "spdlog/spdlog.h"
@@ -16,6 +17,8 @@ using force_calculation_system = std::function<Vec3D(const Args& args, const Par
  * @details Newton/ Coloumb-like calculation of attraction
  */
 inline const force_calculation_system newton_gravity_system = [](const Args & /*args*/, const Particle &par1, const Particle &par2) -> Vec3D {
+    PROFILE_ZONE_NAMED("Newton Gravity Force Calculation");
+
     Vec3D dist = par2.position - par1.position;
 
     double r1 = dist.length();
@@ -29,8 +32,7 @@ inline const force_calculation_system newton_gravity_system = [](const Args & /*
  * @brief Lennard-Jones force calculation system.
  */
 inline const force_calculation_system lennard_jones_system = [](const Args &args, const Particle &par1, const Particle &par2) -> Vec3D {
-    if(par1.isMembrane && par2.isMembrane)return Vec3D();
-
+    PROFILE_ZONE_NAMED("Lennard-Jones Force Calculation");
 
     Vec3D dist = par1.position - par2.position;
 
