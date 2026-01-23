@@ -40,7 +40,7 @@ class ParticleContainer {
     /**
      * @brief Copy constructor for ParticleContainer.
      */
-    explicit ParticleContainer(const ParticleContainer &other) : particles(other.particles) {}
+    explicit ParticleContainer(const ParticleContainer &other) : particles(other.particles), membranes(other.membranes) {}
 
     /**
      * @brief ParticleContainer destructor.
@@ -187,6 +187,7 @@ class ParticleContainer {
      * ```
      */
     void forEachMembrane(const std::function<void(Membrane &)> &callback) {
+
         for (auto &membrane : membranes) {
             callback(membrane);
         }

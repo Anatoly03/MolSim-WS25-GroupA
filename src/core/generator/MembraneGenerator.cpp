@@ -46,5 +46,6 @@ void MembraneGenerator::generate(ParticleContainer &particles) {
         }
 
     }
+    particles.addMembrane(newMembrane);
 
 }

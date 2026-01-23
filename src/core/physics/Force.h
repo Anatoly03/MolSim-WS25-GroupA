@@ -29,6 +29,9 @@ inline const force_calculation_system newton_gravity_system = [](const Args & /*
  * @brief Lennard-Jones force calculation system.
  */
 inline const force_calculation_system lennard_jones_system = [](const Args &args, const Particle &par1, const Particle &par2) -> Vec3D {
+    if(par1.isMembrane && par2.isMembrane)return Vec3D();
+
+
     Vec3D dist = par1.position - par2.position;
 
     double r1 = dist.length();
