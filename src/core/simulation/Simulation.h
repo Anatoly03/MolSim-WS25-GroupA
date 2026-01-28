@@ -7,6 +7,7 @@
 #include "../math/Vec3.h"
 #include "../utils/Args.h"
 #include "../utils/ArrayUtils.h"
+#include "../utils/ThermoStatistics.h"
 #include "../utils/TracyHelper.h"
 #include "../physics/Force.h"
 #include "../ParticleContainer.h"
@@ -34,6 +35,21 @@ class Simulation {
      * @brief Force calculation method
      */
     force_calculation_system forceCalculationSystem = lennard_jones_system;
+
+    /**
+     * @brief Thermodynamic statistics (diffusion variance + RDF).
+     */
+    ThermoStatistics thermoStats;
+
+    /**
+     * @brief Domain description for statistics.
+     */
+    Domain statsDomain;
+
+    /**
+     * @brief Enable stats measurement.
+     */
+    bool statsEnabled = false;
 
 #ifdef TRACY_ENABLE
     /**
@@ -69,9 +85,20 @@ class Simulation {
     /**
      * @brief Default constructor
      */
-    Simulation(ParticleContainer &p, const Args &args) : arguments(args), particles(p) {
+    Simulation(ParticleContainer &p, const Args &args)
+        : arguments(args),
+          particles(p),
+          thermoStats(args.stats_every, args.rdf_dr, args.rdf_bins, args.output_path) {
         // use the attraction provided by args
         forceCalculationSystem = get_force_system_by_name(args.attraction_method);
+
+        statsEnabled = args.stats_every > 0;
+
+        statsDomain.min = Vec3D(args.domain_min.x, args.domain_min.y, args.domain_min.z);
+        statsDomain.max = Vec3D(args.domain_max.x, args.domain_max.y, args.domain_max.z);
+        statsDomain.periodicX = (args.boarderXmin == 2 && args.boarderXmax == 2);
+        statsDomain.periodicY = (args.boarderYmin == 2 && args.boarderYmax == 2);
+        statsDomain.periodicZ = (args.boarderZmin == 2 && args.boarderZmax == 2);
     }
 
     /**
@@ -267,6 +294,10 @@ class Simulation {
 
             tick();
             iteration++;
+
+            if (statsEnabled) {
+                thermoStats.maybeMeasure(iteration, particles, statsDomain);
+            }
 
             if (iteration % arguments.output_interval == 0) {
                 plotParticles(callback);

@@ -210,6 +210,9 @@ class YamlReader : public FileReader {
         const double total_time = unwrap_node<double>(args.end_time, "config", "total_time");
         const std::string output_path = unwrap_node<std::string>(args.output_path, "config", "output");
         const int output_interval = unwrap_node<int>(args.output_interval, "config", "output_interval");
+        const int stats_every = unwrap_node<int>(args.stats_every, "config", "stats_every");
+        const double rdf_dr = unwrap_node<double>(args.rdf_dr, "config", "rdf_dr");
+        const int rdf_bins = unwrap_node<int>(args.rdf_bins, "config", "rdf_bins");
         const Vec3I cell_size = unwrap_node<Vec3I>(args.cell_size, "config", "cell_size");
         const Vec3I domain_min = unwrap_node<Vec3I>(args.domain_min, "config", "domain_min");
         const Vec3I domain_max = unwrap_node<Vec3I>(args.domain_max, "config", "domain_max");
@@ -248,6 +251,9 @@ class YamlReader : public FileReader {
         }
 
         args.output_interval = output_interval;
+        args.stats_every = stats_every;
+        args.rdf_dr = rdf_dr;
+        args.rdf_bins = rdf_bins;
         args.cell_size = cell_size;
         args.domain_min = domain_min;
         args.domain_max = domain_max;

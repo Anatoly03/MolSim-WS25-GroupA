@@ -67,6 +67,21 @@ struct Args {
     int output_interval = 10;
 
     /**
+     * @brief Thermodynamics stats interval (steps). 0 disables measurement.
+     */
+    int stats_every = 1000;
+
+    /**
+     * @brief RDF bin width.
+     */
+    double rdf_dr = 0.1;
+
+    /**
+     * @brief RDF number of bins.
+     */
+    int rdf_bins = 200;
+
+    /**
      * @brief Cell size for linked cell implementation. Provided by input files.
      */
     Vec3I cell_size = Vec3I(5, 5, 5);
