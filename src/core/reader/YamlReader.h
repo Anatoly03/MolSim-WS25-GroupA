@@ -226,8 +226,7 @@ class YamlReader : public FileReader {
         const std::string boarderZmax = unwrap_node<std::string>("reflect", "config", "boarderZmax");
 
         const double gravityFactor = unwrap_node<double>(args.gravityFactor, "config", "gravityFactor");
-
-
+        const int parallelization_strategy = unwrap_node<int>(args.parallelization_strategy, "config", "parallelization_strategy");
 
         if (args.delta_t_cli) {
             spdlog::warn("delta_time in {} overridden by CLI argument: {} -> {}", args.input_file, delta_time, args.delta_t);
@@ -318,6 +317,7 @@ class YamlReader : public FileReader {
         }
 
         args.gravityFactor = gravityFactor;
+        args.parallelization_strategy = parallelization_strategy;
     }
 
     /**
