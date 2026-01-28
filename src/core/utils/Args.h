@@ -83,6 +83,12 @@ struct Args {
     double cutoff_radius = 3.0;
 
     /**
+     * @brief Lower smoothing radius `r_l` for smoothed Lennard-Jones potential.
+     * Default chosen to typical LJ cutoff scale.
+     */
+    double smoothing_radius_lower = 2.5;
+
+    /**
      * @brief Attraction method to use. Provided by input files.
      */
     std::string attraction_method = "lennard-jones";

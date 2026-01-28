@@ -216,6 +216,7 @@ class YamlReader : public FileReader {
         const double epsilon = unwrap_node<double>(args.epsilon, "config", "epsilon");
         const double sigma = unwrap_node<double>(args.sigma, "config", "sigma");
         const double cut_off = unwrap_node<double>(args.cutoff_radius, "config", "cut_off");
+        const double smoothing_radius_lower = unwrap_node<double>(args.smoothing_radius_lower, "config", "smoothing_radius_lower");
         const std::string attraction_method = unwrap_node<std::string>("lennard-jones", "config", "attraction");
 
         const std::string boarderXmin = unwrap_node<std::string>("reflect", "config", "boarderXmin");
@@ -253,6 +254,7 @@ class YamlReader : public FileReader {
         args.epsilon = epsilon;
         args.sigma = sigma;
         args.cutoff_radius = cut_off;
+        args.smoothing_radius_lower = smoothing_radius_lower;
         args.attraction_method = attraction_method;
         //std::cout<<boarderXmin<<std::endl;
 
