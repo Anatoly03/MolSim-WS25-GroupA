@@ -5,11 +5,12 @@
 #include <vector>
 
 #include "Particle.h"
-#include "ParticleContainer.h"
+//#include "ParticleContainer.h"
 #include "math/Vec3.h"
 #include <cmath>
 #include <limits>
 #include "./utils/Args.h"
+class ParticleContainer;
 
 class Membrane {
    private:
@@ -64,6 +65,22 @@ public:
      * Iterates over all particles and calculates forces from direct and diagonal neighbors.
      */
     void updateForce() {
+
+
+        /*for (size_t i = 0; i < particles.size(); ++i) {
+            for (size_t j = 0; j < particles[0].size(); ++j) {
+                int idx = particles[i][j];
+                Particle& pTest = particleGetter(idx);
+                std::cout << "Particle index/id: " << idx << " has " << pTest.neighborParticles.size() << " neighbors\n";
+                for (int nIndex : pTest.neighborParticles) {
+                    std::cout << " Neighbor index/id: " << nIndex << "\n";
+                }
+                std::cout<<std::endl;
+            }
+        }*/
+
+
+
         size_t width = particles.size();
         applyLJForce();
         for (size_t x = 1; x < width; ++x) {
@@ -115,9 +132,9 @@ public:
                         Vec3D dist = pi.position - pj.position;
 
                         double r1 = dist.length();
-                        if (r1 > arguments.cutoff_radius) return ;  // cut off for performance
+                        if (r1 > arguments.cutoff_radius) continue;  // cut off for performance
                         double r2 = dist.length2();
-                        if (r2 == 0.0) return; // cut in to avoid high values
+                        if (r2 == 0.0) continue; // cut in to avoid high values
 
                         double averagedSigma = (pi.sigma + pj.sigma) / 2;
                         double rootedEpsilon = std::sqrt(pi.epsilon * pj.epsilon);

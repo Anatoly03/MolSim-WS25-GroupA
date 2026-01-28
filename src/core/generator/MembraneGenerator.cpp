@@ -36,7 +36,8 @@ void MembraneGenerator::generate(ParticleContainer &particles) {
             if (sigma > 0.0) {
                 particle.sigma = sigma;
             }
-
+            particle.isMembrane = true;
+            particle.p_id = index;
             particle.mass = mass;
             particles.add(particle);
             newMembrane.particles[i][j] = index;
@@ -46,6 +47,39 @@ void MembraneGenerator::generate(ParticleContainer &particles) {
         }
 
     }
+
+
+    //adds the neighbors of the particles
+    for (int i = 0; i < width; ++i) {
+        for (int j = 0; j < height; ++j) {
+
+            int currentIndex = newMembrane.particles[i][j];
+            Particle &p = particles[currentIndex];
+
+            // Loop over neighbor offsets (-1, 0, +1)
+            for (int di = -1; di <= 1; ++di) {
+                for (int dj = -1; dj <= 1; ++dj) {
+
+                    // Skip the particle itself
+                    if (di == 0 && dj == 0) continue;
+
+                    int ni = i + di;
+                    int nj = j + dj;
+
+                    // Check bounds
+                    if (ni >= 0 && ni < width && nj >= 0 && nj < height) {
+                        //std::cout<<"MemGen trigger "<<std::endl;
+
+                        p.neighborParticles.push_back((newMembrane.particles[ni][nj]));
+                    }
+                }
+            }
+        }
+    }
+
+
+
+
     particles.addMembrane(newMembrane);
 
 }

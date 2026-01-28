@@ -27,6 +27,7 @@ inline const force_calculation_system newton_gravity_system = [](const Args & /*
     double mulMass = par1.mass * par2.mass;
     return dist * (mulMass / (std::pow(r1, 3)));
 };
+static const double cbrt2 = std::pow(2.0, 1.0/6.0);
 
 /**
  * @brief Lennard-Jones force calculation system.
@@ -35,8 +36,26 @@ inline const force_calculation_system lennard_jones_system = [](const Args &args
     PROFILE_ZONE_NAMED("Lennard-Jones Force Calculation");
 
     Vec3D dist = par1.position - par2.position;
-
     double r1 = dist.length();
+    //std::cout<<"is mem? "<<par1.isMembrane<<std::endl;
+
+    if(par1.isMembrane && par2.isMembrane){
+        for (size_t i = 0; i < par1.neighborParticles.size(); ++i) {
+            //std::cout<<par1.neighborParticles[i]<<std::endl;
+            //std::cout<<par2.p_id <<std::endl;
+
+            if(par1.neighborParticles[i] == par2.p_id || r1 > (pow(2,1/6)) * par1.sigma) {
+                //std::cout<<"neighbor "<<std::endl;
+                return Vec3D();
+            }
+
+
+        }
+
+
+
+    }
+
     //std::cout<<"cutoff  "<<args.cutoff_radius<<std::endl;
     if (r1 > args.cutoff_radius) return Vec3D();  // cut off for performance
     double r2 = dist.length2();
@@ -46,7 +65,7 @@ inline const force_calculation_system lennard_jones_system = [](const Args &args
     double rootedEpsilon = std::sqrt(par1.epsilon * par2.epsilon);
 
 
-    double min = (pow(2,1/6)) * averagedSigma;
+    double min = cbrt2 * averagedSigma;
     //double a = 0. * averagedSigma;
     if (r1 < min) {
         r2 = min * min;
@@ -74,7 +93,7 @@ inline const force_calculation_system lennard_jones_system = [](const Args &args
      if (scalar > Fmax) scalar = Fmax;
      if (scalar < -Fmax) scalar = -Fmax;*/
 
-    return scalar * dist.normal();
+    return scalar * dist * (1.0 / r1);
 };
 
 /**

@@ -44,6 +44,7 @@ Particle::Particle(const Particle &other) {
     mass = other.mass;
     sigma = other.sigma;
     epsilon = other.epsilon;
+    isMembrane = other.isMembrane;
 
     spdlog::trace("Particle generated (by copy)!");
 }

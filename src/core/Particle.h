@@ -9,6 +9,7 @@
 
 #include <array>
 #include <string>
+#include <vector>
 
 #include "math/Vec3.h"
 
@@ -59,7 +60,17 @@ class Particle {
     * @brief Unique sigma for this particle
     */
     double epsilon = 0;
-   public:
+    /**
+    * @brief remembers all neighbor particles
+    */
+    std::vector<int> neighborParticles;
+    /**
+    * @brief check if particle is part of a membrane
+    */
+    bool isMembrane = false;
+
+
+public:
     /**
      * @brief Default constructor for Particle.
      */
