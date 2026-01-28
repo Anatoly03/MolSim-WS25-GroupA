@@ -137,6 +137,14 @@ struct Args {
     int version = 1;
 
     /**
+     * @brief OpenMP parallelization strategy. 
+     * 0 = Direct O(n^2) parallelization with thread-local accumulators
+     * 1 = Cell-based O(n) parallelization with atomic updates (default)
+     * Provided by input files.
+     */
+    int parallelization_strategy = 1;
+
+    /**
      * @brief Default constructor.
      */
     Args() = default;
