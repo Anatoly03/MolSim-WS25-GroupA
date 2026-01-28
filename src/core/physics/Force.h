@@ -5,8 +5,8 @@
 
 #include "../Particle.h"
 #include "../utils/Args.h"
+#include "../utils/TracyHelper.h"
 #include "../math/Vec3.h"
-#include "../Particle.h"
 
 #include "spdlog/spdlog.h"
 
@@ -19,6 +19,8 @@ using force_calculation_system = std::function<Vec3D(const Args& args, const Par
  * @details Newton/ Coloumb-like calculation of attraction
  */
 inline const force_calculation_system newton_gravity_system = [](const Args & /*args*/, const Particle &par1, const Particle &par2) -> Vec3D {
+    PROFILE_ZONE_NAMED("Newton Gravity Force Calculation");
+
     Vec3D dist = par2.position - par1.position;
 
     double r1 = dist.length();
@@ -32,6 +34,8 @@ inline const force_calculation_system newton_gravity_system = [](const Args & /*
  * @brief Lennard-Jones force calculation system.
  */
 inline const force_calculation_system lennard_jones_system = [](const Args &args, const Particle &par1, const Particle &par2) -> Vec3D {
+    PROFILE_ZONE_NAMED("Lennard-Jones Force Calculation");
+
     Vec3D dist = par1.position - par2.position;
 
     double r1 = dist.length();
@@ -76,11 +80,19 @@ inline const force_calculation_system lennard_jones_system = [](const Args &args
 };
 
 /**
+ * @brief Lennard-Jones force calculation system.
+ */
+inline const force_calculation_system no_force_system = [](const Args &, const Particle &, const Particle &) -> Vec3D {
+    return Vec3D();
+};
+
+/**
  * @details Returns the force calculation system by its name.
  */
 inline const force_calculation_system get_force_system_by_name(const std::string &name) {
     if (name == "newton") return newton_gravity_system;
     if (name == "lennard-jones") return lennard_jones_system;
+    if (name== "null") return no_force_system;
 
     spdlog::warn("Force system '{}' not recognized, defaulting to 'lennard-jones'", name);
     return lennard_jones_system; // default

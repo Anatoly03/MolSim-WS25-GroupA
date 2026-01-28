@@ -99,6 +99,11 @@ class LinkedCellImplementation : public Simulation {
      */
     void calculateBorderBehaviour();
 
+    /**
+     * @todo document
+     */
+    void calculateMembraneBehaviour();
+
     // /**
     //  * @brief return all particles in ghost/halo cells
     //  */
@@ -164,6 +169,7 @@ class LinkedCellImplementation : public Simulation {
      * ```
      */
     void forEachDistinctParticlePair(const std::function<void(Particle &, Particle &)> &callback) override {
+        PROFILE_ZONE_NAMED("Distinct Particle Pair Iteration [LinkedCells]");
         cells.forEachDistinctPair(callback);
     }
 
@@ -260,6 +266,7 @@ class LinkedCellImplementation : public Simulation {
         calculateForce();
         applyGravity();
         calculateBorderBehaviour();
+        calculateMembraneBehaviour();
         calculateVelocity(); // implemented in super class
 
         PROFILE_PLOT("Active Cells", cells.cellCount());

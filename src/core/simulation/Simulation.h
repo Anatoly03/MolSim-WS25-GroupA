@@ -20,15 +20,18 @@
 
 class Simulation {
    protected:
+   /**
+     * @brief Reference to the particle container.
+     */
+    ParticleContainer& particles;
+
+
     /**
      * @brief CLI input arguments, constant for the simulation run.
      */
     const Args arguments;
 
-    /**
-     * @brief Reference to the particle container.
-     */
-    ParticleContainer& particles;
+
 
     /**
      * @brief Force calculation method
@@ -142,6 +145,8 @@ class Simulation {
     virtual void calculateForce() {
         PROFILE_ZONE_NAMED("Force Calculation");
 
+        if(no_force_system == arguments.attraction_method)return;
+
         forEachDistinctParticlePair([&](Particle &par1, Particle &par2) {
             Vec3D force = forceCalculationSystem(const_cast<Args&>(arguments), par1, par2);
 
@@ -207,6 +212,7 @@ class Simulation {
      * ```
      */
     virtual void forEachDistinctParticlePair(const std::function<void(Particle &, Particle &)> &callback) {
+        PROFILE_ZONE_NAMED("Distinct Particle Pair Iteration [DirectSum]");
         particles.forEachDistinctPair(callback);
     }
     
