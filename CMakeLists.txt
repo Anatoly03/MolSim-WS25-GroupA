@@ -1,11 +1,18 @@
 cmake_minimum_required(VERSION 3.10..4)
 
+# Set CMake policy to allow older dependencies (yaml-cpp uses 3.4)
+cmake_policy(SET CMP0091 NEW)
+if (POLICY CMP0126)
+    cmake_policy(SET CMP0126 NEW)
+endif()
+
 # Enable C++17. You may raise the standard if you want
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Options
 option(ENABLE_VTK_OUTPUT "Enable VTK output support" ON)
+option(ENABLE_OPENMP "Enable OpenMP parallelization" ON)
 
 # define project name, version
 project(PSEMolDyn VERSION 0.0.1 LANGUAGES CXX)
@@ -60,6 +67,15 @@ add_custom_target(clean-vtk COMMAND rm -rf *.xyz *.vtu *.out)
 
 # add additional modules
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/modules)
+
+# Enable OpenMP if requested
+if(ENABLE_OPENMP)
+    find_package(OpenMP REQUIRED)
+    target_link_libraries(MolSim PRIVATE OpenMP::OpenMP_CXX)
+    target_link_libraries(MolSimLib PRIVATE OpenMP::OpenMP_CXX)
+    target_compile_definitions(MolSim PRIVATE OPENMP)
+    target_compile_definitions(MolSimLib PRIVATE OPENMP)
+endif()
 
 #enables VTK
 if(ENABLE_VTK_OUTPUT)
