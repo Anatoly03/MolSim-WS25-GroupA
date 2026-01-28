@@ -38,13 +38,14 @@ inline const force_calculation_system lennard_jones_system = [](const Args &args
     Vec3D dist = par1.position - par2.position;
     double r1 = dist.length();
     //std::cout<<"is mem? "<<par1.isMembrane<<std::endl;
+    double r2 = dist.length2();
 
     if(par1.isMembrane && par2.isMembrane){
         for (size_t i = 0; i < par1.neighborParticles.size(); ++i) {
             //std::cout<<par1.neighborParticles[i]<<std::endl;
             //std::cout<<par2.p_id <<std::endl;
 
-            if(par1.neighborParticles[i] == par2.p_id || r1 > (pow(2,1/6)) * par1.sigma) {
+            if(par1.neighborParticles[i] == par2.p_id) {
                 //std::cout<<"neighbor "<<std::endl;
                 return Vec3D();
             }
@@ -58,7 +59,6 @@ inline const force_calculation_system lennard_jones_system = [](const Args &args
 
     //std::cout<<"cutoff  "<<args.cutoff_radius<<std::endl;
     if (r1 > args.cutoff_radius) return Vec3D();  // cut off for performance
-    double r2 = dist.length2();
     if (r2 == 0.0) return Vec3D(); // cut in to avoid high values
 
     double averagedSigma = (par1.sigma + par2.sigma) / 2;
@@ -67,6 +67,26 @@ inline const force_calculation_system lennard_jones_system = [](const Args &args
 
     double min = cbrt2 * averagedSigma;
     //double a = 0. * averagedSigma;
+    if (par1.isMembrane && par2.isMembrane){
+        double r_cut = std::pow(2.0, 1.0/6.0) * averagedSigma;
+        if (r1 >= r_cut) return Vec3D();
+        double inv_r2 = 1.0 / r2;
+        double sr2 = std::pow(averagedSigma, 2) * inv_r2;
+        double sr6 = sr2 * sr2 * sr2;
+
+        double sr12 = sr6 * sr6;
+
+        double scalar = 24.0 * rootedEpsilon * inv_r2 * (2.0 * sr12 - sr6);
+
+
+        return scalar * dist * (1.0 / r1);
+
+
+
+    }
+
+
+
     if (r1 < min) {
         r2 = min * min;
         //r2=r1*r1;

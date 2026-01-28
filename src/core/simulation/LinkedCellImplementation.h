@@ -267,13 +267,13 @@ class LinkedCellImplementation : public Simulation {
         delayForce(); // implemented in super class
         calculateForce();
 
-        std::cout<<"LinkedCellImple: particles.forEachMembrane start"<<std::endl;
+        //std::cout<<"LinkedCellImple: particles.forEachMembrane start"<<std::endl;
 
         particles.forEachMembrane([](Membrane &membrane) {
             membrane.updateForce();
         });
 
-        std::cout<<"LinkedCellImple: particles.forEachMembrane end"<<std::endl;
+        //std::cout<<"LinkedCellImple: particles.forEachMembrane end"<<std::endl;
 
         applyGravity();
         calculateBorderBehaviour();
@@ -285,7 +285,7 @@ class LinkedCellImplementation : public Simulation {
 
         PROFILE_PLOT("Active Cells", cells.cellCount());
 
-        std::cout<<""<<std::endl;
+        //std::cout<<""<<std::endl;
 
     }
 };
