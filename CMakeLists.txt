@@ -50,14 +50,14 @@ target_include_directories(MolSimLib
 # depending on the compiler different flags are used
 target_compile_options(MolSim
         PRIVATE
-            $<$<CXX_COMPILER_ID:GNU>:-Wall -Wextra -Wpedantic -Werror>
+            $<$<CXX_COMPILER_ID:GNU>:-Wall -Wextra -Wpedantic -Werror -Wno-dangling-reference -Wno-restrict>
             # disable some spam warnings for icpc...
             $<$<CXX_COMPILER_ID:Intel>:-w3 -wd383,981,1418,1572,2259>
 )
 
 target_compile_options(MolSimLib
         PRIVATE
-            $<$<CXX_COMPILER_ID:GNU>:-Wall -Wextra -Wpedantic -Werror>
+            $<$<CXX_COMPILER_ID:GNU>:-Wall -Wextra -Wpedantic -Werror -Wno-dangling-reference -Wno-restrict>
             # disable some spam warnings for icpc...
             $<$<CXX_COMPILER_ID:Intel>:-w3 -wd383,981,1418,1572,2259>
 )
