@@ -1,0 +1,58 @@
+name: 3D Rayleigh-Taylor Instability
+
+config:
+  delta_time: 0.002
+  total_time: 10
+  output_interval: 10
+  cell_size: [2.5, 2.5, 2.5]
+  domain_min: [-10, -10, -10]
+  domain_max: [10, 30, 10]
+  gravity: 9.81
+  parallelization_strategy: 1  # 0 = Direct O(n^2), 1 = Cell-based O(n) (default)
+  border:
+    x_min: 1   # reflective
+    x_max: 1   # reflective
+    y_min: 1   # reflective
+    y_max: 1   # reflective
+    z_min: 1   # reflective
+    z_max: 1   # reflective
+
+particles:
+  # Heavy fluid on top (denser)
+  heavy_top:
+    type: cuboid
+    n: [40, 20, 40]
+    position: [-5, 10, -5]
+    velocity: [0.0, 0.0, 0.0]
+    mass: 1.0
+    sigma: 1.0
+    epsilon: 1.0
+    dist: 0.5
+    brownian_sigma: 0.0
+    
+  # Light fluid on bottom (less dense)
+  light_bottom:
+    type: cuboid
+    n: [40, 20, 40]
+    position: [-5, -5, -5]
+    velocity: [0.0, 0.0, 0.0]
+    mass: 0.5
+    sigma: 1.2
+    epsilon: 0.8
+    dist: 0.5
+    brownian_sigma: 0.0
+    
+  # Small perturbation for instability growth
+  perturbation:
+    type: ball
+    n: 500
+    position: [0, 5, 0]
+    velocity: [0.0, -0.5, 0.0]
+    mass: 1.0
+    sigma: 1.0
+    epsilon: 1.0
+    radius: 1.5
+    brownian_sigma: 0.0
+
+#physics:
+#  force_model: lennard-jones
