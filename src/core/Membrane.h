@@ -105,10 +105,8 @@ public:
         }
     }
 
-   private:
-    get_particle particleGetter;
 
-    void applyZUPForce(double amount){
+    void updateZUPForce(double amount){
         if(particles.size()>=18&&particles[0].size()>=25){
             Particle particle1 = particleGetter(particles[17][24]);
             Particle particle2 = particleGetter(particles[17][25]);
@@ -124,6 +122,10 @@ public:
 
 
     }
+   private:
+    get_particle particleGetter;
+
+
 
 
     void applyLJForce() {

@@ -272,7 +272,7 @@ class LinkedCellImplementation : public Simulation {
         particles.forEachMembrane([](Membrane &membrane) {
             membrane.updateForce();
         });
-
+        applyZUPForce();
         //std::cout<<"LinkedCellImple: particles.forEachMembrane end"<<std::endl;
 
         applyGravity();

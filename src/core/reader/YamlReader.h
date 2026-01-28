@@ -272,6 +272,7 @@ class YamlReader : public FileReader {
         const std::string boarderZmax = unwrap_node<std::string>("reflect", "config", "boarderZmax");
 
         const double gravityFactor = unwrap_node<double>(args.gravityFactor, "config", "gravityFactor");
+        const double zUpConstant = unwrap_node<double>(args.gravityFactor, "config", "Z-UP constant");
 
 
 
@@ -364,6 +365,7 @@ class YamlReader : public FileReader {
         }
 
         args.gravityFactor = gravityFactor;
+        args.zUpConstant = zUpConstant;
     }
 
     /**

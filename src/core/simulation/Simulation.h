@@ -224,10 +224,11 @@ class Simulation {
 
 
     void applyZUPForce(){
-        particles.forEachMembrane([](Membrane &membrane) {
-            membrane.updateForce();
-        });
-
+        if(iteration <= 500) {
+            particles.forEachMembrane([this](Membrane &membrane) {
+                membrane.updateZUPForce(arguments.zUpConstant);
+            });
+        }
 
     }
 
