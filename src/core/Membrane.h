@@ -82,7 +82,7 @@ public:
 
 
         size_t width = particles.size();
-        applyLJForce();
+        //applyLJForce();
         for (size_t x = 1; x < width; ++x) {
             for (size_t y = 1; y < particles[x].size(); ++y) {
                 int par = particles[x][y];
@@ -108,7 +108,22 @@ public:
    private:
     get_particle particleGetter;
 
+    void applyZUPForce(double amount){
+        if(particles.size()>=18&&particles[0].size()>=25){
+            Particle particle1 = particleGetter(particles[17][24]);
+            Particle particle2 = particleGetter(particles[17][25]);
+            Particle particle3 = particleGetter(particles[18][24]);
+            Particle particle4 = particleGetter(particles[18][25]);
+            particle1.force.y += amount;
+            particle2.force.y += amount;
+            particle3.force.y += amount;
+            particle4.force.y += amount;
 
+
+        }
+
+
+    }
 
 
     void applyLJForce() {
