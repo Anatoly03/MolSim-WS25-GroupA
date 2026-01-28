@@ -5,6 +5,7 @@
 #include <fstream>
 #include <iomanip>
 #include <sstream>
+#include <filesystem>
 
 #include "spdlog/spdlog.h"
 
@@ -90,6 +91,16 @@ void ThermoStatistics::writeToCSV(int step, double var, const std::vector<double
     if (outputPrefix_.empty()) {
         spdlog::warn("ThermoStatistics: output prefix is empty, skipping CSV write.");
         return;
+    }
+
+    const std::filesystem::path prefixPath(outputPrefix_);
+    const std::filesystem::path parentDir = prefixPath.parent_path();
+    if (!parentDir.empty()) {
+        std::error_code ec;
+        std::filesystem::create_directories(parentDir, ec);
+        if (ec) {
+            spdlog::warn("ThermoStatistics: could not create output directory '{}'", parentDir.string());
+        }
     }
 
     // diffusion.csv: step,var

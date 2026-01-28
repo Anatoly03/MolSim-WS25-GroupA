@@ -1,0 +1,47 @@
+name: ASM5 Task5 - Slow Cooling Argon
+
+config:
+  delta_time: 0.001
+  total_time: 250
+  output_interval: 1000
+  output: ../output/asm5_task5_slow_cooling
+
+  domain_min: [0, 0, 0]
+  domain_max: [9, 9, 9]
+  cell_size: [3, 3, 3]
+
+  epsilon: 1.0
+  sigma: 1.0
+  cut_off: 2.3
+  smoothing_radius_lower: 1.9
+  attraction: "smoothed-lennard-jones"
+
+  gravityFactor: 0.0
+
+  boarderXmin: "periodic"
+  boarderXmax: "periodic"
+  boarderYmin: "periodic"
+  boarderYmax: "periodic"
+  boarderZmin: "periodic"
+  boarderZmax: "periodic"
+
+  # Thermostat parameters (as specified)
+  initial_temperature: 3.0
+  target_temperature: 0.5
+  delta_temperature: 7.8e-4
+  ntherm: 50
+
+  # If using checkpoint input in your workflow, set it here:
+  checkpoint_input: "../output/asm5_task5_equilibrated.chkpt"
+
+particles:
+  argon_fluid:
+    type: cuboid
+    position: [0.575, 0.575, 0.575]
+    n: [8, 8, 8]
+    dist: 1.15
+    mass: 1.0
+    sigma: 1.0
+    epsilon: 1.0
+    velocity: [0.0, 0.0, 0.0]
+    brownian_sigma: 0.0

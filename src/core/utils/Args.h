@@ -67,6 +67,26 @@ struct Args {
     int output_interval = 10;
 
     /**
+     * @brief Thermostat initial temperature (Tinit).
+     */
+    double initial_temperature = 0.0;
+
+    /**
+     * @brief Thermostat target temperature (Ttarget).
+     */
+    double target_temperature = 0.0;
+
+    /**
+     * @brief Thermostat temperature step (ΔT).
+     */
+    double delta_temperature = 0.0;
+
+    /**
+     * @brief Thermostat application interval (ntherm). 0 disables.
+     */
+    int ntherm = 0;
+
+    /**
      * @brief Thermodynamics stats interval (steps). 0 disables measurement.
      */
     int stats_every = 1000;
@@ -141,6 +161,16 @@ struct Args {
      * @brief Default factor of the gravity to use. Overridden by CLI.
      */
     double gravityFactor = 0;
+
+    /**
+     * @brief Optional checkpoint input path.
+     */
+    std::string checkpoint_input;
+
+    /**
+     * @brief Optional checkpoint output path.
+     */
+    std::string checkpoint_output;
 
     /**
      * @brief Benchmark flag. Set by CLI.

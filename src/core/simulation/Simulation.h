@@ -3,6 +3,8 @@
 
 #include <functional>
 #include <chrono>
+#include <cmath>
+#include <algorithm>
 
 #include "../math/Vec3.h"
 #include "../utils/Args.h"
@@ -20,7 +22,7 @@
 #endif
 
 class Simulation {
-   protected:
+    protected:
     /**
      * @brief CLI input arguments, constant for the simulation run.
      */
@@ -35,6 +37,15 @@ class Simulation {
      * @brief Force calculation method
      */
     force_calculation_system forceCalculationSystem = lennard_jones_system;
+
+    /**
+     * @brief Thermostat settings.
+     */
+    bool thermostatEnabled = false;
+    int thermostatInterval = 0;
+    double thermostatTarget = 0.0;
+    double thermostatDelta = 0.0;
+    double thermostatCurrent = 0.0;
 
     /**
      * @brief Thermodynamic statistics (diffusion variance + RDF).
@@ -99,6 +110,12 @@ class Simulation {
         statsDomain.periodicX = (args.boarderXmin == 2 && args.boarderXmax == 2);
         statsDomain.periodicY = (args.boarderYmin == 2 && args.boarderYmax == 2);
         statsDomain.periodicZ = (args.boarderZmin == 2 && args.boarderZmax == 2);
+
+        thermostatInterval = args.ntherm;
+        thermostatTarget = args.target_temperature;
+        thermostatDelta = std::abs(args.delta_temperature);
+        thermostatCurrent = (args.initial_temperature > 0.0) ? args.initial_temperature : args.target_temperature;
+        thermostatEnabled = thermostatInterval > 0 && (thermostatTarget > 0.0 || thermostatCurrent > 0.0);
     }
 
     /**
@@ -272,6 +289,10 @@ class Simulation {
 
         plotParticles(callback);
 
+        if (thermostatEnabled) {
+            applyInitialThermostat();
+        }
+
         for (double t = start; t < end; t += delta_t) {
             PROFILE_FRAME_MARK;
 
@@ -295,6 +316,10 @@ class Simulation {
             tick();
             iteration++;
 
+            if (thermostatEnabled) {
+                applyThermostat();
+            }
+
             if (statsEnabled) {
                 thermoStats.maybeMeasure(iteration, particles, statsDomain);
             }
@@ -306,8 +331,70 @@ class Simulation {
             spdlog::debug("Iteration {} finished.", iteration);
         }
 
+        if (!arguments.checkpoint_output.empty()) {
+            saveCheckpoint();
+        }
+
         spdlog::info("Output written. Terminating...");
     }
+
+   protected:
+    int thermostatDimensions() const {
+        const double z_extent = arguments.domain_max.z - arguments.domain_min.z;
+        return (z_extent <= 1.0) ? 2 : 3;
+    }
+
+    double computeTemperature() {
+        const int N = particleCount();
+        if (N <= 0) return 0.0;
+
+        double sum = 0.0;
+        forEachParticle([&](Particle &p) {
+            sum += p.mass * p.velocity.dot(p.velocity);
+        });
+
+        const int dim = thermostatDimensions();
+        if (dim <= 0) return 0.0;
+        return sum / (static_cast<double>(dim) * static_cast<double>(N));
+    }
+
+    void scaleVelocities(double scale) {
+        forEachParticle([&](Particle &p) {
+            p.velocity *= scale;
+        });
+    }
+
+    void applyInitialThermostat() {
+        if (thermostatCurrent <= 0.0) return;
+        const double currentT = computeTemperature();
+        if (currentT <= 0.0) return;
+        const double scale = std::sqrt(thermostatCurrent / currentT);
+        scaleVelocities(scale);
+    }
+
+    void applyThermostat() {
+        if (thermostatInterval <= 0) return;
+        if (iteration % thermostatInterval != 0) return;
+
+        if (thermostatDelta <= 0.0) {
+            thermostatCurrent = thermostatTarget;
+        } else if (thermostatCurrent < thermostatTarget) {
+            thermostatCurrent = std::min(thermostatCurrent + thermostatDelta, thermostatTarget);
+        } else if (thermostatCurrent > thermostatTarget) {
+            thermostatCurrent = std::max(thermostatCurrent - thermostatDelta, thermostatTarget);
+        }
+
+        if (thermostatCurrent <= 0.0) return;
+        const double currentT = computeTemperature();
+        if (currentT <= 0.0) return;
+
+        const double scale = std::sqrt(thermostatCurrent / currentT);
+        scaleVelocities(scale);
+    }
+
+    void saveCheckpoint();
+
+    public:
 
     //
     // STATIC

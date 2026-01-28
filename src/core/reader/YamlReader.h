@@ -12,6 +12,7 @@
 #include "../math/Vec3.h"
 #include "../Particle.h"
 #include "FileReader.h"
+#include "CheckpointReader.h"
 
 #include <fstream>
 #include <iomanip>
@@ -124,7 +125,6 @@ class YamlReader : public FileReader {
 
         cuboid.generate(particles);
     }
-
     /**
      * @brief Get particle from YAML::Node
      */
@@ -220,6 +220,12 @@ class YamlReader : public FileReader {
         const double sigma = unwrap_node<double>(args.sigma, "config", "sigma");
         const double cut_off = unwrap_node<double>(args.cutoff_radius, "config", "cut_off");
         const double smoothing_radius_lower = unwrap_node<double>(args.smoothing_radius_lower, "config", "smoothing_radius_lower");
+        const double initial_temperature = unwrap_node<double>(args.initial_temperature, "config", "initial_temperature");
+        const double target_temperature = unwrap_node<double>(args.target_temperature, "config", "target_temperature");
+        const double delta_temperature = unwrap_node<double>(args.delta_temperature, "config", "delta_temperature");
+        const int ntherm = unwrap_node<int>(args.ntherm, "config", "ntherm");
+        const std::string checkpoint_input = unwrap_node<std::string>(args.checkpoint_input, "config", "checkpoint_input");
+        const std::string checkpoint_output = unwrap_node<std::string>(args.checkpoint_output, "config", "checkpoint_output");
         const std::string attraction_method = unwrap_node<std::string>("lennard-jones", "config", "attraction");
 
         const std::string boarderXmin = unwrap_node<std::string>("reflect", "config", "boarderXmin");
@@ -261,6 +267,12 @@ class YamlReader : public FileReader {
         args.sigma = sigma;
         args.cutoff_radius = cut_off;
         args.smoothing_radius_lower = smoothing_radius_lower;
+        args.initial_temperature = initial_temperature;
+        args.target_temperature = target_temperature;
+        args.delta_temperature = delta_temperature;
+        args.ntherm = ntherm;
+        args.checkpoint_input = checkpoint_input;
+        args.checkpoint_output = checkpoint_output;
         args.attraction_method = attraction_method;
         //std::cout<<boarderXmin<<std::endl;
 
@@ -386,6 +398,14 @@ class YamlReader : public FileReader {
 
         // read global physics config
         readConfig(args);
+
+        // if checkpoint input is provided, load it and skip particle generation
+        if (!args.checkpoint_input.empty()) {
+            CheckpointReader checkpointReader;
+            Args checkpointArgs = args;
+            checkpointArgs.input_file = const_cast<char *>(args.checkpoint_input.c_str());
+            return checkpointReader.readFile(particles, checkpointArgs);
+        }
 
         // parse particles
         if (!head["particles"]) {
