@@ -70,11 +70,18 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/modules)
 
 # Enable OpenMP if requested
 if(ENABLE_OPENMP)
-    find_package(OpenMP REQUIRED)
-    target_link_libraries(MolSim PRIVATE OpenMP::OpenMP_CXX)
-    target_link_libraries(MolSimLib PRIVATE OpenMP::OpenMP_CXX)
-    target_compile_definitions(MolSim PRIVATE OPENMP)
-    target_compile_definitions(MolSimLib PRIVATE OPENMP)
+    find_package(OpenMP QUIET)
+    if(OpenMP_CXX_FOUND)
+        target_link_libraries(MolSim PRIVATE OpenMP::OpenMP_CXX)
+        target_link_libraries(MolSimLib PRIVATE OpenMP::OpenMP_CXX)
+        target_compile_definitions(MolSim PRIVATE OPENMP)
+        target_compile_definitions(MolSimLib PRIVATE OPENMP)
+        message(STATUS "OpenMP support: ENABLED")
+    else()
+        message(WARNING "OpenMP not found, building without OpenMP support")
+    endif()
+else()
+    message(STATUS "OpenMP support: DISABLED")
 endif()
 
 #enables VTK
