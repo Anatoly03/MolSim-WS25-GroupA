@@ -86,7 +86,6 @@ int LinkedCells::clearOutOfBoundsCells() {
 */
 void LinkedCells::forEach(const std::function<void(Particle &)> &callback) {
     for (auto &it : containers) {
-        //const Vec3I &cellIndex = it.first;
         auto &particles = it.second;
 
         for (auto &particleIndex: particles) {

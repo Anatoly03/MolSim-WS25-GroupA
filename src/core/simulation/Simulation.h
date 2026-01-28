@@ -14,6 +14,10 @@
 
 #include "spdlog/spdlog.h"
 
+#ifdef OPENMP
+#include <omp.h>
+#endif
+
 class Simulation {
    protected:
    /**
@@ -68,7 +72,7 @@ class Simulation {
     /**
      * @brief Default constructor
      */
-    Simulation(ParticleContainer &p, const Args &args) : particles(p), arguments(args) {
+    Simulation(ParticleContainer &p, const Args &args) : arguments(args), particles(p) {
         // use the attraction provided by args
         forceCalculationSystem = get_force_system_by_name(args.attraction_method);
     }
@@ -113,9 +117,12 @@ class Simulation {
     virtual void calculatePosition() {
         PROFILE_ZONE_NAMED("Position Calculation");
 
-        forEachParticle([this](Particle &particle) {
-            calculateSinglePosition(particle, arguments.delta_t);
-        });
+#ifdef OPENMP
+        #pragma omp parallel for schedule(static)
+#endif
+        for (int i = 0; i < particles.particleCount(); ++i) {
+            calculateSinglePosition(particles[i], arguments.delta_t);
+        }
     }
 
     /**
@@ -124,9 +131,12 @@ class Simulation {
     virtual void calculateVelocity() {
         PROFILE_ZONE_NAMED("Velocity Calculation");
 
-        forEachParticle([this](Particle &particle) {
-            calculateSingleVelocity(particle, arguments.delta_t);
-        });
+#ifdef OPENMP
+        #pragma omp parallel for schedule(static)
+#endif
+        for (int i = 0; i < particles.particleCount(); ++i) {
+            calculateSingleVelocity(particles[i], arguments.delta_t);
+        }
     }
 
     /**
