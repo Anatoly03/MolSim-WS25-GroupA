@@ -1,5 +1,7 @@
 #pragma once
 
+#ifdef OPENMP
+
 #include "../LinkedCells.h"
 #include "../Particle.h"
 #include "ForceOptimized.h"
@@ -115,3 +117,5 @@ public:
  * // 运行时设置线程数：
  * export OMP_NUM_THREADS=4
  */
+
+#endif  // OPENMP
