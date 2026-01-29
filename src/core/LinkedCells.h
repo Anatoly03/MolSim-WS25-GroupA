@@ -62,9 +62,17 @@ class LinkedCells {
     int boarderZmin;
     int boarderZmax;
 
+    ParticleContainer particleContainer;
+
     /**
      * @brief Constructor for LinkedCells specifying particle getter and cell size.
      */
+    /*LinkedCells(ParticleContainer& particleContainer1, Vec3I cellSize) :  cellSize(cellSize),particleContainer(particleContainer1) {
+        if (cellSize.x == 0 || cellSize.y == 0 || cellSize.z == 0) {
+            spdlog::error("cell size for linked cells was set to zero-volume: ({},{},{})", cellSize.x, cellSize.y, cellSize.z);
+        }
+    }*/
+
     LinkedCells(get_particle getter, Vec3I cellSize) : particleGetter(getter), cellSize(cellSize) {
         if (cellSize.x == 0 || cellSize.y == 0 || cellSize.z == 0) {
             spdlog::error("cell size for linked cells was set to zero-volume: ({},{},{})", cellSize.x, cellSize.y, cellSize.z);
@@ -153,6 +161,8 @@ class LinkedCells {
         particles.forEachIndexed([&](Particle &p, int index) {
             add(p, index);
         });
+
+
     }
 
     /**

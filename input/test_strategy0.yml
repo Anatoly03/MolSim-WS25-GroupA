@@ -1,0 +1,22 @@
+name: Quick Test - Strategy 0
+
+config:
+  delta_time: 0.002
+  total_time: 0.2
+  output_interval: 10
+  cell_size: [2.5, 2.5, 2.5]
+  domain_min: [-5, -5, -5]
+  domain_max: [5, 5, 5]
+  parallelization_strategy: 0
+
+particles:
+  test:
+    type: cuboid
+    n: [10, 10, 10]
+    position: [-2.5, -2.5, -2.5]
+    velocity: [0.0, 0.0, 0.0]
+    mass: 1.0
+    sigma: 1.0
+    epsilon: 1.0
+    dist: 0.5
+    brownian_sigma: 0.0

@@ -7,9 +7,14 @@
 #include "../LinkedCells.h"
 #include "../ParticleContainer.h"
 #include "Simulation.h"
+#include "ParallelizationStrategies.h"
 
 #include "spdlog/spdlog.h"
 #include <fmt/format.h>
+
+#ifdef OPENMP
+#include <omp.h>
+#endif
 
 class LinkedCellImplementation : public Simulation {
    public:
@@ -31,6 +36,38 @@ class LinkedCellImplementation : public Simulation {
     /**
      * @brief the +2 contribute to creating ghost cells which helps with boundery
      */
+    /*LinkedCellImplementation(ParticleContainer &particles, const Args &args) :
+        Simulation(particles, args),
+        cells( particles,args.cell_size)
+    {
+        // constants, to be set later
+        // double size = 10;
+        // double xOfDomain = 40;
+        // double yOfDomain = 40;
+        // double zOfDomain = 40;
+        // double cutOff = 2.5;
+
+        // nx = static_cast<int>(std::ceil(xOfDomain / static_cast<double>(size))) + 2;
+        // ny = static_cast<int>(std::ceil(yOfDomain / static_cast<double>(size))) + 2;
+        // nz = static_cast<int>(std::ceil(zOfDomain / static_cast<double>(size))) + 2;
+
+        // //cells.resize(nx * ny * nz);
+        // //cellSize=size;
+        // setMinMax();
+
+        cells.absorb(particles);
+        cells.setDomainSize(args.domain_min, args.domain_max);
+        domainMin=args.domain_min;
+        domainMax=args.domain_max;
+        cells.setBorder(args.boarderXmin,args.boarderXmax,args.boarderYmin,args.boarderYmax,args.boarderZmin,args.boarderZmax);
+        auto removedCells = cells.clearOutOfBoundsCells();
+        if (removedCells != 0) {
+            spdlog::warn("out of bounds particles in {} cells removed", removedCells);
+        }
+
+        // this->cutOff=cutOff;
+    }*/
+
     LinkedCellImplementation(ParticleContainer &particles, const Args &args) :
         Simulation(particles, args),
         cells(std::function<Particle&(int)>([this](int index) -> Particle& { return _internal_particle_getter(index); }), args.cell_size)
@@ -93,6 +130,11 @@ class LinkedCellImplementation : public Simulation {
      * particle-border collision or particle extinction
      */
     void calculateBorderBehaviour();
+
+    /**
+     * @todo document
+     */
+    void calculateMembraneBehaviour();
 
     // /**
     //  * @brief return all particles in ghost/halo cells
@@ -159,6 +201,7 @@ class LinkedCellImplementation : public Simulation {
      * ```
      */
     void forEachDistinctParticlePair(const std::function<void(Particle &, Particle &)> &callback) override {
+        PROFILE_ZONE_NAMED("Distinct Particle Pair Iteration [LinkedCells]");
         cells.forEachDistinctPair(callback);
     }
 
@@ -170,6 +213,31 @@ class LinkedCellImplementation : public Simulation {
     }
 
     /**
+     * @brief Override calculateForce with parallelization strategy selection
+     */
+    void calculateForce() override {
+        PROFILE_ZONE_NAMED("Force Calculation");
+
+        if (arguments.parallelization_strategy == 0) {
+            // Strategy 0: Direct O(n^2) parallelization
+            DirectParallelizationStrategy::calculateForces(
+                cells,
+                particles,
+                forceCalculationSystem,
+                arguments
+            );
+        } else {
+            // Strategy 1 (default): Cell-based O(n) parallelization
+            CellBasedParallelizationStrategy::calculateForces(
+                cells,
+                particles,
+                forceCalculationSystem,
+                arguments
+            );
+        }
+    }
+
+    /**
      * @brief Advance the simulation by one time step.
      * @note This performs position, force, and velocity calculations.
      * No prints are performed and this method is benchmark viable.
@@ -178,7 +246,7 @@ class LinkedCellImplementation : public Simulation {
         calculatePosition(); // implemented in super class
 
         //clamping particles back into the domain.
-        cells.forEach([&](Particle &p) {
+        /*cells.forEach([&](Particle &p) {
             if (p.position.y < domainMin.y && arguments.boarderYmin == 1) {
 
 
@@ -222,16 +290,32 @@ class LinkedCellImplementation : public Simulation {
                 p.position.z = domainMax.z - penetration;
                 p.velocity.z = -p.velocity.z;
             }
-        });
+        });*/
         delayPosition(); // implemented in super class
         reindexParticles();
 
         delayForce(); // implemented in super class
         calculateForce();
+
+        //std::cout<<"LinkedCellImple: particles.forEachMembrane start"<<std::endl;
+
+        particles.forEachMembrane([](Membrane &membrane) {
+            membrane.updateForce();
+        });
+        applyZUPForce();
+        //std::cout<<"LinkedCellImple: particles.forEachMembrane end"<<std::endl;
+
         applyGravity();
         calculateBorderBehaviour();
+
+        calculateMembraneBehaviour();
+
+
         calculateVelocity(); // implemented in super class
 
         PROFILE_PLOT("Active Cells", cells.cellCount());
+
+        //std::cout<<""<<std::endl;
+
     }
 };

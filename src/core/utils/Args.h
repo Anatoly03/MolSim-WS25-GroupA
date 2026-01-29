@@ -122,6 +122,11 @@ struct Args {
     double gravityFactor = 0;
 
     /**
+     * @brief Default factor of the zUpConstant to use. Overridden by CLI.
+     */
+    double zUpConstant = 0.01;
+
+    /**
      * @brief Benchmark flag. Set by CLI.
      */
     bool benchmark_enabled = false;
@@ -135,6 +140,14 @@ struct Args {
      * @brief Default version of the algorithm to use. Overridden by CLI.
      */
     int version = 1;
+
+    /**
+     * @brief OpenMP parallelization strategy. 
+     * 0 = Direct O(n^2) parallelization with thread-local accumulators
+     * 1 = Cell-based O(n) parallelization with atomic updates (default)
+     * Provided by input files.
+     */
+    int parallelization_strategy = 1;
 
     /**
      * @brief Default constructor.

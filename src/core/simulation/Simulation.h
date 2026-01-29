@@ -14,22 +14,32 @@
 
 #include "spdlog/spdlog.h"
 
+#ifdef OPENMP
+#include <omp.h>
+#endif
+
 class Simulation {
    protected:
+   /**
+     * @brief Reference to the particle container.
+     */
+    ParticleContainer& particles;
+
+
     /**
      * @brief CLI input arguments, constant for the simulation run.
      */
     const Args arguments;
 
     /**
-     * @brief Reference to the particle container.
-     */
-    ParticleContainer& particles;
-
-    /**
      * @brief Force calculation method
      */
     force_calculation_system forceCalculationSystem = lennard_jones_system;
+
+    /**
+     * @brief Flag to track if force calculation is enabled
+     */
+    bool forceCalculationEnabled = true;
 
 #ifdef TRACY_ENABLE
     /**
@@ -68,6 +78,7 @@ class Simulation {
     Simulation(ParticleContainer &p, const Args &args) : particles(p), arguments(args) {
         // use the attraction provided by args
         forceCalculationSystem = get_force_system_by_name(args.attraction_method);
+        forceCalculationEnabled = (args.attraction_method != "null");
     }
 
     /**
@@ -110,9 +121,12 @@ class Simulation {
     virtual void calculatePosition() {
         PROFILE_ZONE_NAMED("Position Calculation");
 
-        forEachParticle([this](Particle &particle) {
-            calculateSinglePosition(particle, arguments.delta_t);
-        });
+#ifdef OPENMP
+        #pragma omp parallel for schedule(static)
+#endif
+        for (int i = 0; i < particles.particleCount(); ++i) {
+            calculateSinglePosition(particles[i], arguments.delta_t);
+        }
     }
 
     /**
@@ -121,9 +135,12 @@ class Simulation {
     virtual void calculateVelocity() {
         PROFILE_ZONE_NAMED("Velocity Calculation");
 
-        forEachParticle([this](Particle &particle) {
-            calculateSingleVelocity(particle, arguments.delta_t);
-        });
+#ifdef OPENMP
+        #pragma omp parallel for schedule(static)
+#endif
+        for (int i = 0; i < particles.particleCount(); ++i) {
+            calculateSingleVelocity(particles[i], arguments.delta_t);
+        }
     }
 
     /**
@@ -131,6 +148,8 @@ class Simulation {
      */
     virtual void calculateForce() {
         PROFILE_ZONE_NAMED("Force Calculation");
+
+        if(!forceCalculationEnabled)return;
 
         forEachDistinctParticlePair([&](Particle &par1, Particle &par2) {
             Vec3D force = forceCalculationSystem(const_cast<Args&>(arguments), par1, par2);
@@ -197,6 +216,7 @@ class Simulation {
      * ```
      */
     virtual void forEachDistinctParticlePair(const std::function<void(Particle &, Particle &)> &callback) {
+        PROFILE_ZONE_NAMED("Distinct Particle Pair Iteration [DirectSum]");
         particles.forEachDistinctPair(callback);
     }
     
@@ -213,6 +233,17 @@ class Simulation {
         forEachParticle([this](Particle &particle) {
             particle.force.y += arguments.gravityFactor * particle.mass;
         });
+    }
+
+
+
+    void applyZUPForce(){
+        if(iteration <= 500) {
+            particles.forEachMembrane([this](Membrane &membrane) {
+                membrane.updateZUPForce(arguments.zUpConstant);
+            });
+        }
+
     }
 
     /**
