@@ -22,6 +22,11 @@ class Simulation {
     const Args arguments;
 
     /**
+     * @brief Reference to the particle container.
+     */
+    ParticleContainer& particles;
+
+    /**
      * @brief Force calculation method
      */
     force_calculation_system forceCalculationSystem = lennard_jones_system;
@@ -60,7 +65,7 @@ class Simulation {
     /**
      * @brief Default constructor
      */
-    Simulation(const Args &args) : arguments(args) {
+    Simulation(ParticleContainer &p, const Args &args) : arguments(args), particles(p) {
         // use the attraction provided by args
         forceCalculationSystem = get_force_system_by_name(args.attraction_method);
     }
@@ -175,7 +180,9 @@ class Simulation {
      * });
      * ```
      */
-    virtual void forEachParticle(const std::function<void(Particle &)> &/*callback*/) {}
+    virtual void forEachParticle(const std::function<void(Particle &)> & callback) {
+        particles.forEach(callback);
+    }
     
     /**
      * @brief Iteration over every particle for writer callback.
@@ -189,13 +196,15 @@ class Simulation {
      * });
      * ```
      */
-    virtual void forEachDistinctParticlePair(const std::function<void(Particle &, Particle &)> &/*callback*/) {}
+    virtual void forEachDistinctParticlePair(const std::function<void(Particle &, Particle &)> &callback) {
+        particles.forEachDistinctPair(callback);
+    }
     
     /**
      * @brief Total amount of tracked particles.
      */
     virtual int particleCount() {
-        return 0;
+        return particles.particleCount();
     }
     /**
      * @brief Total amount of tracked particles.
