@@ -6,6 +6,7 @@
 
 #include "../Particle.h"
 #include "../utils/Args.h"
+#include "../utils/TracyHelper.h"
 #include "../math/Vec3.h"
 #include "spdlog/spdlog.h"
 
@@ -107,6 +108,8 @@ inline Vec3D smoothedLJForce(const Vec3D& xi, const Vec3D& xj, double epsilon,
  * @details Newton/ Coloumb-like calculation of attraction
  */
 inline const force_calculation_system newton_gravity_system = [](const Args & /*args*/, const Particle &par1, const Particle &par2) -> Vec3D {
+    PROFILE_ZONE_NAMED("Newton Gravity Force Calculation");
+
     Vec3D dist = par2.position - par1.position;
 
     double r1 = dist.length();
@@ -120,6 +123,8 @@ inline const force_calculation_system newton_gravity_system = [](const Args & /*
  * @brief Lennard-Jones force calculation system.
  */
 inline const force_calculation_system lennard_jones_system = [](const Args &args, const Particle &par1, const Particle &par2) -> Vec3D {
+    PROFILE_ZONE_NAMED("Lennard-Jones Force Calculation");
+
     Vec3D dist = par1.position - par2.position;
 
     double r1 = dist.length();
@@ -146,6 +151,13 @@ inline const force_calculation_system smoothed_lennard_jones_system = [](const A
 
     return smoothedLJForce(par1.position, par2.position, rootedEpsilon, 
                           averagedSigma, args.smoothing_radius_lower, args.cutoff_radius);
+};
+
+/**
+ * @brief Lennard-Jones force calculation system.
+ */
+inline const force_calculation_system no_force_system = [](const Args &, const Particle &, const Particle &) -> Vec3D {
+    return Vec3D();
 };
 
 /**

@@ -29,14 +29,14 @@ class Simulation {
     const Args arguments;
 
     /**
-     * @brief Reference to the particle container.
-     */
-    ParticleContainer& particles;
-
-    /**
      * @brief Force calculation method
      */
     force_calculation_system forceCalculationSystem = lennard_jones_system;
+
+    /**
+     * @brief Flag to track if force calculation is enabled
+     */
+    bool forceCalculationEnabled = true;
 
     /**
      * @brief Thermostat settings.
@@ -186,6 +186,8 @@ class Simulation {
     virtual void calculateForce() {
         PROFILE_ZONE_NAMED("Force Calculation");
 
+        if(!forceCalculationEnabled)return;
+
         forEachDistinctParticlePair([&](Particle &par1, Particle &par2) {
             Vec3D force = forceCalculationSystem(const_cast<Args&>(arguments), par1, par2);
 
@@ -251,6 +253,7 @@ class Simulation {
      * ```
      */
     virtual void forEachDistinctParticlePair(const std::function<void(Particle &, Particle &)> &callback) {
+        PROFILE_ZONE_NAMED("Distinct Particle Pair Iteration [DirectSum]");
         particles.forEachDistinctPair(callback);
     }
     
