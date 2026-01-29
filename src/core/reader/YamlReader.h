@@ -73,10 +73,23 @@ class YamlReader : public FileReader {
 
         // final unwrap_or
         if (current) {
-            return current.as<T>();
-        } else {
-            return _default;
+            try {
+                return current.as<T>();
+            } catch (const YAML::BadConversion &e) {
+                std::string path;
+                if constexpr (sizeof...(K) > 0) {
+                    bool first = true;
+                    for (const auto &k : {std::string(keys)...}) {
+                        if (!first) path += "/";
+                        path += k;
+                        first = false;
+                    }
+                }
+                spdlog::error("bad YAML conversion at key '{}' in {}: {}", path, _default, e.what());
+                return _default;
+            }
         }
+        return _default;
     }
 
     /**
@@ -214,8 +227,8 @@ class YamlReader : public FileReader {
         const double rdf_dr = unwrap_node<double>(args.rdf_dr, "config", "rdf_dr");
         const int rdf_bins = unwrap_node<int>(args.rdf_bins, "config", "rdf_bins");
         const Vec3I cell_size = unwrap_node<Vec3I>(args.cell_size, "config", "cell_size");
-        const Vec3I domain_min = unwrap_node<Vec3I>(args.domain_min, "config", "domain_min");
-        const Vec3I domain_max = unwrap_node<Vec3I>(args.domain_max, "config", "domain_max");
+        const Vec3D domain_min = unwrap_node<Vec3D>(args.domain_min, "config", "domain_min");
+        const Vec3D domain_max = unwrap_node<Vec3D>(args.domain_max, "config", "domain_max");
         const double epsilon = unwrap_node<double>(args.epsilon, "config", "epsilon");
         const double sigma = unwrap_node<double>(args.sigma, "config", "sigma");
         const double cut_off = unwrap_node<double>(args.cutoff_radius, "config", "cut_off");

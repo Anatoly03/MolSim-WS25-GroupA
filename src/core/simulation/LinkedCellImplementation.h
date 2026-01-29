@@ -21,8 +21,8 @@ class LinkedCellImplementation : public Simulation {
     LinkedCells cells;
 
    public:
-    Vec3I domainMin = Vec3I(1.0);
-    Vec3I domainMax = Vec3I(1.0);
+    Vec3D domainMin = Vec3D(1.0);
+    Vec3D domainMax = Vec3D(1.0);
 
     // int nx=0;
     // int ny=0;

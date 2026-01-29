@@ -131,12 +131,12 @@ struct Args {
     /**
      * @brief Cell size for linked cell implementation. Provided by input files.
      */
-    Vec3I domain_min = Vec3I(0);
+    Vec3D domain_min = Vec3D(0.0);
 
     /**
      * @brief Cell size for linked cell implementation. Provided by input files.
      */
-    Vec3I domain_max = Vec3I(10);
+    Vec3D domain_max = Vec3D(10.0);
 
     /**
      * @brief the boarder handling for each side.

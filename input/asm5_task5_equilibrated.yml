@@ -4,10 +4,10 @@ config:
   delta_time: 0.001
   total_time: 150
   output_interval: 1000
-  output: ../output/asm5_task5_equilibrated
+  output: output/task51/asm5_task5_equilibrated
 
   domain_min: [0, 0, 0]
-  domain_max: [9, 9, 9]
+  domain_max: [9.2, 9.2, 9.2]
   cell_size: [3, 3, 3]
 
   epsilon: 1.0
@@ -30,7 +30,7 @@ config:
   target_temperature: 3.0
   delta_temperature: 0.001
   ntherm: 40
-  checkpoint_output: "../output/asm5_task5_equilibrated.chkpt"
+  checkpoint_output: "output/task51/asm5_task5_equilibrated.chkpt"
 
 particles:
   argon_fluid:
