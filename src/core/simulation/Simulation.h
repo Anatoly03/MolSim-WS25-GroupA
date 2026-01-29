@@ -22,27 +22,21 @@
 #endif
 
 class Simulation {
-   protected:
-   /**
-     * @brief Reference to the particle container.
-     */
-    ParticleContainer& particles;
-
-
+    protected:
     /**
      * @brief CLI input arguments, constant for the simulation run.
      */
     const Args arguments;
 
     /**
+     * @brief Reference to the particle container.
+     */
+    ParticleContainer& particles;
+
+    /**
      * @brief Force calculation method
      */
     force_calculation_system forceCalculationSystem = lennard_jones_system;
-
-    /**
-     * @brief Flag to track if force calculation is enabled
-     */
-    bool forceCalculationEnabled = true;
 
     /**
      * @brief Thermostat settings.
@@ -102,10 +96,26 @@ class Simulation {
     /**
      * @brief Default constructor
      */
-    Simulation(ParticleContainer &p, const Args &args) : particles(p), arguments(args) {
+    Simulation(ParticleContainer &p, const Args &args)
+        : arguments(args),
+          particles(p),
+          thermoStats(args.stats_every, args.rdf_dr, args.rdf_bins, args.output_path) {
         // use the attraction provided by args
         forceCalculationSystem = get_force_system_by_name(args.attraction_method);
-        forceCalculationEnabled = (args.attraction_method != "null");
+
+        statsEnabled = args.stats_every > 0;
+
+        statsDomain.min = Vec3D(args.domain_min.x, args.domain_min.y, args.domain_min.z);
+        statsDomain.max = Vec3D(args.domain_max.x, args.domain_max.y, args.domain_max.z);
+        statsDomain.periodicX = (args.boarderXmin == 2 && args.boarderXmax == 2);
+        statsDomain.periodicY = (args.boarderYmin == 2 && args.boarderYmax == 2);
+        statsDomain.periodicZ = (args.boarderZmin == 2 && args.boarderZmax == 2);
+
+        thermostatInterval = args.ntherm;
+        thermostatTarget = args.target_temperature;
+        thermostatDelta = std::abs(args.delta_temperature);
+        thermostatCurrent = (args.initial_temperature > 0.0) ? args.initial_temperature : args.target_temperature;
+        thermostatEnabled = thermostatInterval > 0 && (thermostatTarget > 0.0 || thermostatCurrent > 0.0);
     }
 
     /**
@@ -176,8 +186,6 @@ class Simulation {
     virtual void calculateForce() {
         PROFILE_ZONE_NAMED("Force Calculation");
 
-        if(!forceCalculationEnabled)return;
-
         forEachDistinctParticlePair([&](Particle &par1, Particle &par2) {
             Vec3D force = forceCalculationSystem(const_cast<Args&>(arguments), par1, par2);
 
@@ -243,7 +251,6 @@ class Simulation {
      * ```
      */
     virtual void forEachDistinctParticlePair(const std::function<void(Particle &, Particle &)> &callback) {
-        PROFILE_ZONE_NAMED("Distinct Particle Pair Iteration [DirectSum]");
         particles.forEachDistinctPair(callback);
     }
     
