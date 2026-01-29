@@ -108,6 +108,29 @@
     \maketitle
 \end{frame}
 
+\simpleframe\begin{frame}{Refactoring}{Index-Based Particle Access}
+    \centering
+    \begin{tikzpicture}[node distance=1cm and 1cm, minimum height=1cm, minimum width=3cm]
+        \node[draw, rectangle] (data) {Particle Data};
+        \node[draw, rectangle, below=of data] (cells) {Linked Cells};
+        \node[draw, rectangle, right=1cm of cells] (membrane) {Membrane};
+        \node[draw, rectangle, right=of data] (sim) {Simulation};
+
+        \draw[->, thick] (cells) -- (data) node[midway, above] {};
+        \draw[->, thick] (membrane) -- (data) node[midway, above] {};
+
+        \draw[->, dotted] (sim) -- (data) node[midway, above] {};
+        \draw[->, dotted] (sim) -- (cells) node[midway, above] {};
+        \draw[->, dotted] (sim) -- (membrane) node[midway, above] {};
+    \end{tikzpicture}
+
+    \vspace{0.5cm}
+    \begin{itemize}
+        \item Particle data stored in generally accessible \texttt{vector}. \blue{Structures} like \texttt{LinkedCells} and \texttt{Membrane} \blue{store indices} instead of data.
+        \item Theoretical performance is worse because of \blue{indirect memory access}.
+    \end{itemize}
+\end{frame}
+
 \simpleframe\begin{frame}{Membran't}{Initial Problems with Membrane}
     \begin{columns}
         \begin{column}{0.3\textwidth}
@@ -123,6 +146,16 @@
     \vspace{0.5cm}
 
     Implosion of the membrane with itself. Technically expected because center of mass is membrane center, but unwanted behaviour.
+\end{frame}
+
+\simpleframe\begin{frame}{Membran't}{Performance Degradation with Membrane}
+    \begin{center}
+        \includegraphics[width=0.6\textwidth]{media/profiler-membrane-test.png}
+    \end{center}
+
+    \blue{Surprising Result: Severe Performance Degradation\footnotemark} when membrane is enabled.
+
+    \footnotetext[1]{Commit: 9671a0ef9d14e0c24e25b239b85218e17631162a, running \texttt{./build/MolSim input/MembraneTest.yml -t 1000 }}
 \end{frame}
 
 \simpleframe
