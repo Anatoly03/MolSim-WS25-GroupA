@@ -205,7 +205,7 @@ TEST(LinkedCellsTest, AbsorbAndIndexing) {
         return const_cast<Particle&>(*std::next(pc.begin(), index)); 
     }, Vec3I(5,5,5));
 
-    cells.setDomainSize({0,0,0}, {10,10,10});
+    cells.setDomainSize(Vec3I(0, 0, 0), Vec3I(10, 10, 10));
     cells.absorb(pc);
 
     EXPECT_EQ(cells.particleCount(), 2);

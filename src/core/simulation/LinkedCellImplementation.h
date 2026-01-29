@@ -7,17 +7,22 @@
 #include "../LinkedCells.h"
 #include "../ParticleContainer.h"
 #include "Simulation.h"
+#include "ParallelizationStrategies.h"
 
 #include "spdlog/spdlog.h"
 #include <fmt/format.h>
+
+#ifdef OPENMP
+#include <omp.h>
+#endif
 
 class LinkedCellImplementation : public Simulation {
    public:
     LinkedCells cells;
 
    public:
-    Vec3I domainMin = Vec3I(1.0);
-    Vec3I domainMax = Vec3I(1.0);
+    Vec3D domainMin = Vec3D(1.0);
+    Vec3D domainMax = Vec3D(1.0);
 
     // int nx=0;
     // int ny=0;
@@ -167,6 +172,31 @@ class LinkedCellImplementation : public Simulation {
      */
     int particleCount() override {
         return cells.particleCount();
+    }
+
+    /**
+     * @brief Override calculateForce with parallelization strategy selection
+     */
+    void calculateForce() override {
+        PROFILE_ZONE_NAMED("Force Calculation");
+
+        if (arguments.parallelization_strategy == 0) {
+            // Strategy 0: Direct O(n^2) parallelization
+            DirectParallelizationStrategy::calculateForces(
+                cells,
+                particles,
+                forceCalculationSystem,
+                arguments
+            );
+        } else {
+            // Strategy 1 (default): Cell-based O(n) parallelization
+            CellBasedParallelizationStrategy::calculateForces(
+                cells,
+                particles,
+                forceCalculationSystem,
+                arguments
+            );
+        }
     }
 
     /**

@@ -45,12 +45,12 @@ class LinkedCells {
     /**
      * @brief cell divison size
      */
-    Vec3I domainMin = Vec3I(0);
+    Vec3D domainMin = Vec3D(0.0);
 
     /**
      * @brief cell divison size
      */
-    Vec3I domainMax = Vec3I(0);
+    Vec3D domainMax = Vec3D(0.0);
     typedef std::map<Vec3I, std::vector<int> >::size_type size_type;
     typedef std::map<Vec3I, std::vector<int> >::iterator iterator;
     typedef std::map<Vec3I, std::vector<int> >::const_iterator const_iterator;
@@ -169,11 +169,18 @@ class LinkedCells {
      * @brief Set the domain boundaries and return domain size.
      * @note Range is inclusive.
      */
-    virtual Vec3I setDomainSize(Vec3I min, Vec3I max) {
+    virtual Vec3D setDomainSize(Vec3D min, Vec3D max) {
         domainMin = min;
         domainMax = max;
 
         return domainMax - domainMin;
+    }
+
+    /**
+     * @brief Set domain boundaries using integer vectors.
+     */
+    virtual Vec3D setDomainSize(Vec3I min, Vec3I max) {
+        return setDomainSize(Vec3D(min.x, min.y, min.z), Vec3D(max.x, max.y, max.z));
     }
 
     /**

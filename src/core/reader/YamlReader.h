@@ -12,6 +12,7 @@
 #include "../math/Vec3.h"
 #include "../Particle.h"
 #include "FileReader.h"
+#include "CheckpointReader.h"
 
 #include <fstream>
 #include <iomanip>
@@ -72,10 +73,23 @@ class YamlReader : public FileReader {
 
         // final unwrap_or
         if (current) {
-            return current.as<T>();
-        } else {
-            return _default;
+            try {
+                return current.as<T>();
+            } catch (const YAML::BadConversion &e) {
+                std::string path;
+                if constexpr (sizeof...(K) > 0) {
+                    bool first = true;
+                    for (const auto &k : {std::string(keys)...}) {
+                        if (!first) path += "/";
+                        path += k;
+                        first = false;
+                    }
+                }
+                spdlog::error("bad YAML conversion at key '{}' in {}: {}", path, _default, e.what());
+                return _default;
+            }
         }
+        return _default;
     }
 
     /**
@@ -124,7 +138,6 @@ class YamlReader : public FileReader {
 
         cuboid.generate(particles);
     }
-
     /**
      * @brief Get particle from YAML::Node
      */
@@ -210,12 +223,22 @@ class YamlReader : public FileReader {
         const double total_time = unwrap_node<double>(args.end_time, "config", "total_time");
         const std::string output_path = unwrap_node<std::string>(args.output_path, "config", "output");
         const int output_interval = unwrap_node<int>(args.output_interval, "config", "output_interval");
+        const int stats_every = unwrap_node<int>(args.stats_every, "config", "stats_every");
+        const double rdf_dr = unwrap_node<double>(args.rdf_dr, "config", "rdf_dr");
+        const int rdf_bins = unwrap_node<int>(args.rdf_bins, "config", "rdf_bins");
         const Vec3I cell_size = unwrap_node<Vec3I>(args.cell_size, "config", "cell_size");
-        const Vec3I domain_min = unwrap_node<Vec3I>(args.domain_min, "config", "domain_min");
-        const Vec3I domain_max = unwrap_node<Vec3I>(args.domain_max, "config", "domain_max");
+        const Vec3D domain_min = unwrap_node<Vec3D>(args.domain_min, "config", "domain_min");
+        const Vec3D domain_max = unwrap_node<Vec3D>(args.domain_max, "config", "domain_max");
         const double epsilon = unwrap_node<double>(args.epsilon, "config", "epsilon");
         const double sigma = unwrap_node<double>(args.sigma, "config", "sigma");
         const double cut_off = unwrap_node<double>(args.cutoff_radius, "config", "cut_off");
+        const double smoothing_radius_lower = unwrap_node<double>(args.smoothing_radius_lower, "config", "smoothing_radius_lower");
+        const double initial_temperature = unwrap_node<double>(args.initial_temperature, "config", "initial_temperature");
+        const double target_temperature = unwrap_node<double>(args.target_temperature, "config", "target_temperature");
+        const double delta_temperature = unwrap_node<double>(args.delta_temperature, "config", "delta_temperature");
+        const int ntherm = unwrap_node<int>(args.ntherm, "config", "ntherm");
+        const std::string checkpoint_input = unwrap_node<std::string>(args.checkpoint_input, "config", "checkpoint_input");
+        const std::string checkpoint_output = unwrap_node<std::string>(args.checkpoint_output, "config", "checkpoint_output");
         const std::string attraction_method = unwrap_node<std::string>("lennard-jones", "config", "attraction");
 
         const std::string boarderXmin = unwrap_node<std::string>("reflect", "config", "boarderXmin");
@@ -226,8 +249,7 @@ class YamlReader : public FileReader {
         const std::string boarderZmax = unwrap_node<std::string>("reflect", "config", "boarderZmax");
 
         const double gravityFactor = unwrap_node<double>(args.gravityFactor, "config", "gravityFactor");
-
-
+        const int parallelization_strategy = unwrap_node<int>(args.parallelization_strategy, "config", "parallelization_strategy");
 
         if (args.delta_t_cli) {
             spdlog::warn("delta_time in {} overridden by CLI argument: {} -> {}", args.input_file, delta_time, args.delta_t);
@@ -248,12 +270,22 @@ class YamlReader : public FileReader {
         }
 
         args.output_interval = output_interval;
+        args.stats_every = stats_every;
+        args.rdf_dr = rdf_dr;
+        args.rdf_bins = rdf_bins;
         args.cell_size = cell_size;
         args.domain_min = domain_min;
         args.domain_max = domain_max;
         args.epsilon = epsilon;
         args.sigma = sigma;
         args.cutoff_radius = cut_off;
+        args.smoothing_radius_lower = smoothing_radius_lower;
+        args.initial_temperature = initial_temperature;
+        args.target_temperature = target_temperature;
+        args.delta_temperature = delta_temperature;
+        args.ntherm = ntherm;
+        args.checkpoint_input = checkpoint_input;
+        args.checkpoint_output = checkpoint_output;
         args.attraction_method = attraction_method;
         //std::cout<<boarderXmin<<std::endl;
 
@@ -318,6 +350,7 @@ class YamlReader : public FileReader {
         }
 
         args.gravityFactor = gravityFactor;
+        args.parallelization_strategy = parallelization_strategy;
     }
 
     /**
@@ -378,6 +411,14 @@ class YamlReader : public FileReader {
 
         // read global physics config
         readConfig(args);
+
+        // if checkpoint input is provided, load it and skip particle generation
+        if (!args.checkpoint_input.empty()) {
+            CheckpointReader checkpointReader;
+            Args checkpointArgs = args;
+            checkpointArgs.input_file = const_cast<char *>(args.checkpoint_input.c_str());
+            return checkpointReader.readFile(particles, checkpointArgs);
+        }
 
         // parse particles
         if (!head["particles"]) {

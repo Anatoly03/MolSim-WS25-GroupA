@@ -2,6 +2,7 @@
 #include "../math/Vec3.h"
 #include "Simulation.h"
 #include "LinkedCellImplementation.h"
+#include "../writer/CheckpointWriter.h"
 
 #include "spdlog/spdlog.h"
 
@@ -33,4 +34,9 @@ void Simulation::calculateSinglePosition(Particle &particle, double dt) {
 void Simulation::calculateSingleVelocity(Particle &particle, double dt) {
     particle.velocity += dt * ((particle.force + particle.old_force) / (2 * particle.mass));
 
+}
+
+void Simulation::saveCheckpoint() {
+    CheckpointWriter writer;
+    writer.plotCheckpoint(arguments.checkpoint_output, *this);
 }
