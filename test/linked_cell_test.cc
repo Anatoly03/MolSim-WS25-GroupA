@@ -21,7 +21,11 @@ struct DistinctParticlePair {
  * and quantity functionality.
  */
 TEST(LinkedCellIndexTest, BasicAssertions) {
-    LinkedCells cells(Vec3I(5));
+    ParticleContainer pc;
+
+    LinkedCells cells([&pc](int index) -> Particle& { 
+        return const_cast<Particle&>(*std::next(pc.begin(), index)); 
+    }, Vec3I(5));
 
     Particle p1(Vec3D(1.0, 2.0, 3.0), Vec3D(4.0), 7); // in chunk 0,0,0
     Particle p2(Vec3D(2.0, 3.0, 4.0), Vec3D(5.0), 8); // in chunk 0,0,0
@@ -29,11 +33,13 @@ TEST(LinkedCellIndexTest, BasicAssertions) {
     Particle p4(Vec3D(6.0, 2.0, 2.0), Vec3D(6.0), 9); // in chunk 1,0,0
     Particle p5(Vec3D(11.0, 12.0, 13.0), Vec3D(6.0), 9); // in chunk 2,2,2
 
-    cells.add(p1);
-    cells.add(p2);
-    cells.add(p3);
-    cells.add(p4);
-    cells.add(p5);
+    pc.add(p1);
+    pc.add(p2);
+    pc.add(p3);
+    pc.add(p4);
+    pc.add(p5);
+
+    cells.absorb(pc);
 
     std::vector<DistinctParticlePair> interactions;
 
@@ -195,7 +201,10 @@ TEST(LinkedCellsTest, AbsorbAndIndexing) {
     pc.add(p1);
     pc.add(p2);
 
-    LinkedCells cells({5,5,5});
+    LinkedCells cells([&pc](int index) -> Particle& { 
+        return const_cast<Particle&>(*std::next(pc.begin(), index)); 
+    }, Vec3I(5,5,5));
+
     cells.setDomainSize({0,0,0}, {10,10,10});
     cells.absorb(pc);
 
