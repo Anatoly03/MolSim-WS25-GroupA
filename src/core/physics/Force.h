@@ -2,6 +2,7 @@
 #pragma once
 
 #include <functional>
+#include <cmath>
 
 #include "../Particle.h"
 #include "../utils/Args.h"
@@ -14,20 +15,24 @@
  */
 using force_calculation_system = std::function<Vec3D(const Args& args, const Particle &a, const Particle &b)>;
 
-inline double smoothingS(double d, double rl, double rc) {
-    if (d <= rl) return 1.0;
-    if (d >= rc) return 0.0;
+inline double smoothingS(double d2, double rl, double rc) {
+    const double rl2 = rl * rl;
+    const double rc2 = rc * rc;
+    if (d2 <= rl2) return 1.0;
+    if (d2 >= rc2) return 0.0;
 
-    const double denom = rc - rl;
-    const double a = d - rl;
-    const double numerator = (a * a) * (3.0 * rc - rl - 2.0 * d);
+    const double denom = rc2 - rl2;
+    const double a = d2 - rl2;
+    const double numerator = (a * a) * (3.0 * rc2 - rl2 - 2.0 * d2);
     return 1.0 - numerator / (denom * denom * denom);
 }
 
 inline double smoothedLJPotential(double d, double epsilon, double sigma, double rl, double rc) {
     if (d <= 1e-12) return 0.0;
-    if (d >= rc) return 0.0;
-    const double S = smoothingS(d, rl, rc);
+    const double d2 = d * d;
+    const double rc2 = rc * rc;
+    if (d2 >= rc2) return 0.0;
+    const double S = smoothingS(d2, rl, rc);
 
     const double inv = sigma / d;
     const double inv2 = inv * inv;
@@ -36,13 +41,16 @@ inline double smoothedLJPotential(double d, double epsilon, double sigma, double
     return 4.0 * epsilon * S * (inv12 - inv6);
 }
 
-inline double smoothingS_derivative(double d, double rl, double rc) {
-    if (d <= rl || d >= rc) return 0.0;
+inline double smoothingS_derivative(double d2, double rl, double rc) {
+    const double rl2 = rl * rl;
+    const double rc2 = rc * rc;
+    if (d2 <= rl2 || d2 >= rc2) return 0.0;
 
-    const double denom = rc - rl;
-    const double a = d - rl;
+    const double denom = rc2 - rl2;
+    const double a = d2 - rl2;
     const double denom_cubed = denom * denom * denom;
-    return -6.0 * a * (rc - d) / denom_cubed;
+    const double df = 2.0 * a * (3.0 * rc2 - rl2 - 2.0 * d2) - 2.0 * a * a;
+    return -df / denom_cubed;
 }
 
 inline Vec3D ljForceVector(const Vec3D& r, double d, double epsilon, double sigma) {
@@ -58,36 +66,40 @@ inline Vec3D ljForceVector(const Vec3D& r, double d, double epsilon, double sigm
     return r * factor;
 }
 
-inline double smoothedLJForceScalarMid(double d, double rl, double rc, 
-                                       double epsilon, double sigma) {
-    const double sig2 = sigma * sigma;
-    const double sig6 = sig2 * sig2 * sig2;
-    const double d2 = d * d;
-    const double d3 = d2 * d;
-    const double d6 = d3 * d3;
-    const double d7 = d6 * d;
-    const double d14 = d7 * d7;
-    const double denom = rc - rl;
-    const double denom3 = denom * denom * denom;
-    const double rc2 = rc * rc;
-    
-    const double term1 = rc2 * (2.0 * sig6 - d6);
-    const double term2 = rc * (3.0 * rl - d) * (d6 - 2.0 * sig6);
-    const double term3 = d * (5.0 * rl * sig6 - 2.0 * rl * d6 - 3.0 * sig6 * d + d7);
-    const double big = (rc - d) * (term1 + term2 + term3);
-    const double pref = -24.0 * sig6 * epsilon / (d14 * denom3);
-    
-    return pref * big;
-}
-
 inline Vec3D smoothedLJForce(const Vec3D& xi, const Vec3D& xj, double epsilon, 
                              double sigma, double rl, double rc) {
-    const Vec3D r = xj - xi;
-    const double d = r.length();
-    if (d <= 1e-12) return Vec3D();
-    if (d >= rc) return Vec3D();
-    if (d <= rl) return ljForceVector(r, d, epsilon, sigma);
-    const double scalar = smoothedLJForceScalarMid(d, rl, rc, epsilon, sigma);
+    const Vec3D r = xi - xj; // xj -> xi
+    const double d2 = r.length2();
+    const double rl2 = rl * rl;
+    const double rc2 = rc * rc;
+    if (d2 <= 1e-24) return Vec3D();
+    if (d2 >= rc2) return Vec3D();
+
+    const double d = std::sqrt(d2);
+    if (d <= rl) {
+        return ljForceVector(r, d, epsilon, sigma);
+    }
+
+    const double S = smoothingS(d2, rl, rc);
+    const double dS_dd2 = smoothingS_derivative(d2, rl, rc);
+    const double dS_dr = dS_dd2 * 2.0 * d;
+
+    const double sig2 = sigma * sigma;
+    const double sig6 = sig2 * sig2 * sig2;
+    const double sig12 = sig6 * sig6;
+
+    const double inv_r = 1.0 / d;
+    const double inv_r2 = inv_r * inv_r;
+    const double inv_r6 = inv_r2 * inv_r2 * inv_r2;
+    const double inv_r8 = inv_r6 * inv_r2;
+    const double inv_r12 = inv_r6 * inv_r6;
+    const double inv_r14 = inv_r12 * inv_r2;
+
+    const double A = sig12 * inv_r12 - sig6 * inv_r6;
+    const double scalar = 48.0 * epsilon * S * sig12 * inv_r14
+                        - 24.0 * epsilon * S * sig6 * inv_r8
+                        - 4.0 * epsilon * A * dS_dr * inv_r;
+
     return r * scalar;
 }
 
@@ -113,42 +125,18 @@ inline const force_calculation_system lennard_jones_system = [](const Args &args
     double r1 = dist.length();
     //std::cout<<"cutoff  "<<args.cutoff_radius<<std::endl;
     if (r1 > args.cutoff_radius) return Vec3D();  // cut off for performance
-    double r2 = dist.length2();
-    if (r2 == 0.0) return Vec3D(); // cut in to avoid high values
+    if (r1 == 0.0) return Vec3D(); // cut in to avoid high values
 
     double averagedSigma = (par1.sigma + par2.sigma) / 2;
     double rootedEpsilon = std::sqrt(par1.epsilon * par2.epsilon);
 
 
     double min = (pow(2,1/6)) * averagedSigma;
-    //double a = 0. * averagedSigma;
     if (r1 < min) {
-        r2 = min * min;
-        //r2=r1*r1;
+        r1 = min;
     }
-    //r2 = r2 + a * a;
 
-    double inv_r2 = 1.0 / r2;               // (xi -xj)
-    //std::cout<<"trigger inv_r2 "<<inv_r2<<std::endl;
-    double sr2 = std::pow(averagedSigma, 2) * inv_r2;  // (sigma / (xi -xj))^2
-    //std::cout<<"trigger sr2 "<<sr2<<std::endl;
-
-    //std::cout<<"trigger sr2 "<<sr2<<std::endl;
-    double sr6 = sr2 * sr2 * sr2;           // (sigma / (xi -xj))^6
-    //std::cout<<"trigger sr6 "<<sr6<<std::endl;
-
-    double sr12 = sr6 * sr6;                // (sigma / (xi -xj))^12
-    //std::cout<<"trigger sr12 "<<sr12<<std::endl;
-
-
-    double scalar = 24.0 * rootedEpsilon * inv_r2 * (2.0 * sr12 - sr6);
-    //std::cout<<"trigger scalar "<<scalar<<std::endl;
-
-    /*double Fmax = 50.0; // try 50, then adjust up/down
-     if (scalar > Fmax) scalar = Fmax;
-     if (scalar < -Fmax) scalar = -Fmax;*/
-
-    return scalar * dist.normal();
+    return ljForceVector(dist, r1, rootedEpsilon, averagedSigma);
 };
 
 inline const force_calculation_system smoothed_lennard_jones_system = [](const Args &args, const Particle &par1, const Particle &par2) -> Vec3D {

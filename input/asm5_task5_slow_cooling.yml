@@ -31,8 +31,8 @@ config:
   delta_temperature: 7.8e-4
   ntherm: 50
 
-  # If using checkpoint input in your workflow, set it here:
-  checkpoint_input: "output/task52/asm5_task5_slow_cooling.chkpt"
+  # Use equilibrated checkpoint as input
+  checkpoint_input: "output/task51/asm5_task5_equilibrated.chkpt"
 
 particles:
   argon_fluid:
