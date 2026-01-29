@@ -66,7 +66,6 @@ public:
      */
     void updateForce() {
 
-
         /*for (size_t i = 0; i < particles.size(); ++i) {
             for (size_t j = 0; j < particles[0].size(); ++j) {
                 int idx = particles[i][j];
@@ -108,14 +107,14 @@ public:
 
     void updateZUPForce(double amount){
         if(particles.size()>=18&&particles[0].size()>=25){
-            Particle particle1 = particleGetter(particles[17][24]);
-            Particle particle2 = particleGetter(particles[17][25]);
-            Particle particle3 = particleGetter(particles[18][24]);
-            Particle particle4 = particleGetter(particles[18][25]);
-            particle1.force.y += amount;
-            particle2.force.y += amount;
-            particle3.force.y += amount;
-            particle4.force.y += amount;
+            Particle& particle1 = particleGetter(particles[17][24]);
+            Particle& particle2 = particleGetter(particles[17][25]);
+            Particle& particle3 = particleGetter(particles[18][24]);
+            Particle& particle4 = particleGetter(particles[18][25]);
+            particle1.force.z += amount;
+            particle2.force.z += amount;
+            particle3.force.z += amount;
+            particle4.force.z += amount;
 
 
         }
@@ -215,16 +214,19 @@ public:
         Particle& p_i = particleGetter(i);
         Particle& p_j = particleGetter(j);
 
-        Vec3 delta = p_i.position - p_j.position;
+        Vec3 delta = p_j.position - p_i.position;
         double dist = delta.length2();
         
         // Force magnitude: -2 * k * (distance - r0)
-        double forceMagnitude = -2.0 * k * (dist - r0);
+        //double forceMagnitude = -2.0 * k * (dist - r0);
         
         // Force direction: normalized displacement vector
-        Vec3 force = delta * (forceMagnitude / dist);
+        //Vec3 force = delta * (forceMagnitude / dist);
         
         // Apply Newton's third law: forces are equal and opposite
+
+        double factor = k * (dist - r0) / dist;
+        Vec3 force = delta * factor;
         p_i.force += force;
         p_j.force += -force;
     }
@@ -253,8 +255,10 @@ public:
 
         double rest_term = std::sqrt(2.0) * r0;
 
-        double factor = k * (dist2 - rest_term) / dist2;
+        //double factor = k * (dist2 - rest_term) / dist2;
 
+        //Vec3 F = d * factor;
+        double factor = k * (dist2 - rest_term) / dist2;
         Vec3 F = d * factor;
 
 
