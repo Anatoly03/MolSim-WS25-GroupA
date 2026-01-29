@@ -29,6 +29,7 @@ inline const force_calculation_system newton_gravity_system = [](const Args & /*
     double mulMass = par1.mass * par2.mass;
     return dist * (mulMass / (std::pow(r1, 3)));
 };
+static const double cbrt2 = std::pow(2.0, 1.0/6.0);
 
 /**
  * @brief Lennard-Jones force calculation system.
@@ -37,19 +38,57 @@ inline const force_calculation_system lennard_jones_system = [](const Args &args
     PROFILE_ZONE_NAMED("Lennard-Jones Force Calculation");
 
     Vec3D dist = par1.position - par2.position;
-
     double r1 = dist.length();
+    //std::cout<<"is mem? "<<par1.isMembrane<<std::endl;
+    double r2 = dist.length2();
+
+    if(par1.isMembrane && par2.isMembrane){
+        for (size_t i = 0; i < par1.neighborParticles.size(); ++i) {
+            //std::cout<<par1.neighborParticles[i]<<std::endl;
+            //std::cout<<par2.p_id <<std::endl;
+
+            if(par1.neighborParticles[i] == par2.p_id) {
+                //std::cout<<"neighbor "<<std::endl;
+                return Vec3D();
+            }
+
+
+        }
+
+
+
+    }
+
     //std::cout<<"cutoff  "<<args.cutoff_radius<<std::endl;
     if (r1 > args.cutoff_radius) return Vec3D();  // cut off for performance
-    double r2 = dist.length2();
     if (r2 == 0.0) return Vec3D(); // cut in to avoid high values
 
     double averagedSigma = (par1.sigma + par2.sigma) / 2;
     double rootedEpsilon = std::sqrt(par1.epsilon * par2.epsilon);
 
 
-    double min = (pow(2,1/6)) * averagedSigma;
+    double min = cbrt2 * averagedSigma;
     //double a = 0. * averagedSigma;
+    if (par1.isMembrane && par2.isMembrane){
+        double r_cut = std::pow(2.0, 1.0/6.0) * averagedSigma;
+        if (r1 >= r_cut) return Vec3D();
+        double inv_r2 = 1.0 / r2;
+        double sr2 = std::pow(averagedSigma, 2) * inv_r2;
+        double sr6 = sr2 * sr2 * sr2;
+
+        double sr12 = sr6 * sr6;
+
+        double scalar = 24.0 * rootedEpsilon * inv_r2 * (2.0 * sr12 - sr6);
+
+
+        return scalar * dist * (1.0 / r1);
+
+
+
+    }
+
+
+
     if (r1 < min) {
         r2 = min * min;
         //r2=r1*r1;
@@ -76,7 +115,7 @@ inline const force_calculation_system lennard_jones_system = [](const Args &args
      if (scalar > Fmax) scalar = Fmax;
      if (scalar < -Fmax) scalar = -Fmax;*/
 
-    return scalar * dist.normal();
+    return scalar * dist * (1.0 / r1);
 };
 
 /**

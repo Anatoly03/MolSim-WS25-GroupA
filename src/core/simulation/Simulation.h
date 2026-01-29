@@ -235,6 +235,17 @@ class Simulation {
         });
     }
 
+
+
+    void applyZUPForce(){
+        if(iteration <= 500) {
+            particles.forEachMembrane([this](Membrane &membrane) {
+                membrane.updateZUPForce(arguments.zUpConstant);
+            });
+        }
+
+    }
+
     /**
      * @brief Advance the simulation by one time step.
      * @note This performs one calculation step of the simulation.

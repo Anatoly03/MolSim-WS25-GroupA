@@ -122,6 +122,11 @@ struct Args {
     double gravityFactor = 0;
 
     /**
+     * @brief Default factor of the zUpConstant to use. Overridden by CLI.
+     */
+    double zUpConstant = 0.01;
+
+    /**
      * @brief Benchmark flag. Set by CLI.
      */
     bool benchmark_enabled = false;

@@ -272,6 +272,7 @@ class YamlReader : public FileReader {
         const std::string boarderZmax = unwrap_node<std::string>("reflect", "config", "boarderZmax");
 
         const double gravityFactor = unwrap_node<double>(args.gravityFactor, "config", "gravityFactor");
+        const double zUpConstant = unwrap_node<double>(args.gravityFactor, "config", "Z-UP constant");
         const int parallelization_strategy = unwrap_node<int>(args.parallelization_strategy, "config", "parallelization_strategy");
 
         if (args.delta_t_cli) {
@@ -363,6 +364,7 @@ class YamlReader : public FileReader {
         }
 
         args.gravityFactor = gravityFactor;
+        args.zUpConstant = zUpConstant;
         args.parallelization_strategy = parallelization_strategy;
     }
 

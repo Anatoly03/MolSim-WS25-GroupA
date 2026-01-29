@@ -5,11 +5,12 @@
 #include <vector>
 
 #include "Particle.h"
-#include "ParticleContainer.h"
+//#include "ParticleContainer.h"
 #include "math/Vec3.h"
 #include <cmath>
 #include <limits>
 #include "./utils/Args.h"
+class ParticleContainer;
 
 class Membrane {
    private:
@@ -64,8 +65,23 @@ public:
      * Iterates over all particles and calculates forces from direct and diagonal neighbors.
      */
     void updateForce() {
+
+        /*for (size_t i = 0; i < particles.size(); ++i) {
+            for (size_t j = 0; j < particles[0].size(); ++j) {
+                int idx = particles[i][j];
+                Particle& pTest = particleGetter(idx);
+                std::cout << "Particle index/id: " << idx << " has " << pTest.neighborParticles.size() << " neighbors\n";
+                for (int nIndex : pTest.neighborParticles) {
+                    std::cout << " Neighbor index/id: " << nIndex << "\n";
+                }
+                std::cout<<std::endl;
+            }
+        }*/
+
+
+
         size_t width = particles.size();
-        applyLJForce();
+        //applyLJForce();
         for (size_t x = 1; x < width; ++x) {
             for (size_t y = 1; y < particles[x].size(); ++y) {
                 int par = particles[x][y];
@@ -88,6 +104,23 @@ public:
         }
     }
 
+
+    void updateZUPForce(double amount){
+        if(particles.size()>=18&&particles[0].size()>=25){
+            Particle& particle1 = particleGetter(particles[17][24]);
+            Particle& particle2 = particleGetter(particles[17][25]);
+            Particle& particle3 = particleGetter(particles[18][24]);
+            Particle& particle4 = particleGetter(particles[18][25]);
+            particle1.force.z += amount;
+            particle2.force.z += amount;
+            particle3.force.z += amount;
+            particle4.force.z += amount;
+
+
+        }
+
+
+    }
    private:
     get_particle particleGetter;
 
@@ -115,9 +148,9 @@ public:
                         Vec3D dist = pi.position - pj.position;
 
                         double r1 = dist.length();
-                        if (r1 > arguments.cutoff_radius) return ;  // cut off for performance
+                        if (r1 > arguments.cutoff_radius) continue;  // cut off for performance
                         double r2 = dist.length2();
-                        if (r2 == 0.0) return; // cut in to avoid high values
+                        if (r2 == 0.0) continue; // cut in to avoid high values
 
                         double averagedSigma = (pi.sigma + pj.sigma) / 2;
                         double rootedEpsilon = std::sqrt(pi.epsilon * pj.epsilon);
@@ -181,16 +214,19 @@ public:
         Particle& p_i = particleGetter(i);
         Particle& p_j = particleGetter(j);
 
-        Vec3 delta = p_i.position - p_j.position;
+        Vec3 delta = p_j.position - p_i.position;
         double dist = delta.length2();
         
         // Force magnitude: -2 * k * (distance - r0)
-        double forceMagnitude = -2.0 * k * (dist - r0);
+        //double forceMagnitude = -2.0 * k * (dist - r0);
         
         // Force direction: normalized displacement vector
-        Vec3 force = delta * (forceMagnitude / dist);
+        //Vec3 force = delta * (forceMagnitude / dist);
         
         // Apply Newton's third law: forces are equal and opposite
+
+        double factor = k * (dist - r0) / dist;
+        Vec3 force = delta * factor;
         p_i.force += force;
         p_j.force += -force;
     }
@@ -219,8 +255,10 @@ public:
 
         double rest_term = std::sqrt(2.0) * r0;
 
-        double factor = k * (dist2 - rest_term) / dist2;
+        //double factor = k * (dist2 - rest_term) / dist2;
 
+        //Vec3 F = d * factor;
+        double factor = k * (dist2 - rest_term) / dist2;
         Vec3 F = d * factor;
 
 

@@ -36,6 +36,38 @@ class LinkedCellImplementation : public Simulation {
     /**
      * @brief the +2 contribute to creating ghost cells which helps with boundery
      */
+    /*LinkedCellImplementation(ParticleContainer &particles, const Args &args) :
+        Simulation(particles, args),
+        cells( particles,args.cell_size)
+    {
+        // constants, to be set later
+        // double size = 10;
+        // double xOfDomain = 40;
+        // double yOfDomain = 40;
+        // double zOfDomain = 40;
+        // double cutOff = 2.5;
+
+        // nx = static_cast<int>(std::ceil(xOfDomain / static_cast<double>(size))) + 2;
+        // ny = static_cast<int>(std::ceil(yOfDomain / static_cast<double>(size))) + 2;
+        // nz = static_cast<int>(std::ceil(zOfDomain / static_cast<double>(size))) + 2;
+
+        // //cells.resize(nx * ny * nz);
+        // //cellSize=size;
+        // setMinMax();
+
+        cells.absorb(particles);
+        cells.setDomainSize(args.domain_min, args.domain_max);
+        domainMin=args.domain_min;
+        domainMax=args.domain_max;
+        cells.setBorder(args.boarderXmin,args.boarderXmax,args.boarderYmin,args.boarderYmax,args.boarderZmin,args.boarderZmax);
+        auto removedCells = cells.clearOutOfBoundsCells();
+        if (removedCells != 0) {
+            spdlog::warn("out of bounds particles in {} cells removed", removedCells);
+        }
+
+        // this->cutOff=cutOff;
+    }*/
+
     LinkedCellImplementation(ParticleContainer &particles, const Args &args) :
         Simulation(particles, args),
         cells(std::function<Particle&(int)>([this](int index) -> Particle& { return _internal_particle_getter(index); }), args.cell_size)
@@ -214,7 +246,7 @@ class LinkedCellImplementation : public Simulation {
         calculatePosition(); // implemented in super class
 
         //clamping particles back into the domain.
-        cells.forEach([&](Particle &p) {
+        /*cells.forEach([&](Particle &p) {
             if (p.position.y < domainMin.y && arguments.boarderYmin == 1) {
 
 
@@ -258,17 +290,32 @@ class LinkedCellImplementation : public Simulation {
                 p.position.z = domainMax.z - penetration;
                 p.velocity.z = -p.velocity.z;
             }
-        });
+        });*/
         delayPosition(); // implemented in super class
         reindexParticles();
 
         delayForce(); // implemented in super class
         calculateForce();
+
+        //std::cout<<"LinkedCellImple: particles.forEachMembrane start"<<std::endl;
+
+        particles.forEachMembrane([](Membrane &membrane) {
+            membrane.updateForce();
+        });
+        applyZUPForce();
+        //std::cout<<"LinkedCellImple: particles.forEachMembrane end"<<std::endl;
+
         applyGravity();
         calculateBorderBehaviour();
+
         calculateMembraneBehaviour();
+
+
         calculateVelocity(); // implemented in super class
 
         PROFILE_PLOT("Active Cells", cells.cellCount());
+
+        //std::cout<<""<<std::endl;
+
     }
 };
