@@ -14,6 +14,10 @@
 
 #include "spdlog/spdlog.h"
 
+#ifdef OPENMP
+#include <omp.h>
+#endif
+
 class Simulation {
    protected:
     /**
@@ -110,9 +114,12 @@ class Simulation {
     virtual void calculatePosition() {
         PROFILE_ZONE_NAMED("Position Calculation");
 
-        forEachParticle([this](Particle &particle) {
-            calculateSinglePosition(particle, arguments.delta_t);
-        });
+#ifdef OPENMP
+        #pragma omp parallel for schedule(static)
+#endif
+        for (int i = 0; i < particles.particleCount(); ++i) {
+            calculateSinglePosition(particles[i], arguments.delta_t);
+        }
     }
 
     /**
@@ -121,9 +128,12 @@ class Simulation {
     virtual void calculateVelocity() {
         PROFILE_ZONE_NAMED("Velocity Calculation");
 
-        forEachParticle([this](Particle &particle) {
-            calculateSingleVelocity(particle, arguments.delta_t);
-        });
+#ifdef OPENMP
+        #pragma omp parallel for schedule(static)
+#endif
+        for (int i = 0; i < particles.particleCount(); ++i) {
+            calculateSingleVelocity(particles[i], arguments.delta_t);
+        }
     }
 
     /**
