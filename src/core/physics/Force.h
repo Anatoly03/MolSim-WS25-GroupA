@@ -70,7 +70,7 @@ inline Vec3D smoothedLJForce(const Vec3D& xi, const Vec3D& xj, double epsilon,
                              double sigma, double rl, double rc) {
     const Vec3D r = xi - xj; // xj -> xi
     const double d2 = r.length2();
-    const double rl2 = rl * rl;
+    // const double rl2 = rl * rl;
     const double rc2 = rc * rc;
     if (d2 <= 1e-24) return Vec3D();
     if (d2 >= rc2) return Vec3D();
