@@ -2,10 +2,12 @@
 #pragma once
 
 #include <functional>
+#include <chrono>
 
 #include "../math/Vec3.h"
 #include "../utils/Args.h"
 #include "../utils/ArrayUtils.h"
+#include "../utils/TracyHelper.h"
 #include "../physics/Force.h"
 #include "../ParticleContainer.h"
 #include "../Particle.h"
@@ -20,9 +22,31 @@ class Simulation {
     const Args arguments;
 
     /**
+     * @brief Reference to the particle container.
+     */
+    ParticleContainer& particles;
+
+    /**
      * @brief Force calculation method
      */
     force_calculation_system forceCalculationSystem = lennard_jones_system;
+
+#ifdef TRACY_ENABLE
+    /**
+     * @brief Buffer counting amount of particle updates in a second interval.
+     */
+    int particleUpdatesPerSecond = 0;
+
+    /**
+     * @brief Buffer counting amount of particle updates in a second interval.
+     */
+    int forceParticlePairsPerSecond = 0;
+#endif
+
+    /**
+     * @brief 
+     */
+    std::chrono::steady_clock::time_point lastSecondUpdate = std::chrono::steady_clock::now();
 
    public:
     /**
@@ -41,7 +65,7 @@ class Simulation {
     /**
      * @brief Default constructor
      */
-    Simulation(const Args &args) : arguments(args) {
+    Simulation(ParticleContainer &p, const Args &args) : particles(p), arguments(args) {
         // use the attraction provided by args
         forceCalculationSystem = get_force_system_by_name(args.attraction_method);
     }
@@ -56,8 +80,12 @@ class Simulation {
      * @brief Plot the particles of a particular iteration to a file.
      */
     void plotParticles(const cb_type &callback) {
+#ifdef TRACY_ENABLE
+        (void) callback;
+#else
         if (arguments.benchmark_enabled) return;
         callback(iteration, *this);
+#endif
     }
 
    public:
@@ -80,6 +108,8 @@ class Simulation {
      * @brief Updates the position for a all particles.
      */
     virtual void calculatePosition() {
+        PROFILE_ZONE_NAMED("Position Calculation");
+
         forEachParticle([this](Particle &particle) {
             calculateSinglePosition(particle, arguments.delta_t);
         });
@@ -89,6 +119,8 @@ class Simulation {
      * @brief Updates the velocity for a all particles.
      */
     virtual void calculateVelocity() {
+        PROFILE_ZONE_NAMED("Velocity Calculation");
+
         forEachParticle([this](Particle &particle) {
             calculateSingleVelocity(particle, arguments.delta_t);
         });
@@ -98,12 +130,18 @@ class Simulation {
      * @brief calculate the force for all particles
      */
     virtual void calculateForce() {
+        PROFILE_ZONE_NAMED("Force Calculation");
+
         forEachDistinctParticlePair([&](Particle &par1, Particle &par2) {
             Vec3D force = forceCalculationSystem(const_cast<Args&>(arguments), par1, par2);
 
             // Newton 3: For every action, there is an equal and opposite reaction.
             par1.force += force;
             par2.force -= force;
+
+#ifdef TRACY_ENABLE
+            forceParticlePairsPerSecond++;
+#endif
         });
     }
 
@@ -111,6 +149,8 @@ class Simulation {
      * @brief Delays the position for all particles.
      */
     virtual void delayPosition() {
+        PROFILE_ZONE_NAMED("Position Delay");
+
         forEachParticle([this](Particle &particle) {
             particle.delayPosition();
         });
@@ -120,6 +160,8 @@ class Simulation {
      * @brief Delays the force for all particles.
      */
     virtual void delayForce() {
+        PROFILE_ZONE_NAMED("Force Delay");
+
         forEachParticle([this](Particle &particle) {
             particle.delayForce();
         });
@@ -138,7 +180,9 @@ class Simulation {
      * });
      * ```
      */
-    virtual void forEachParticle(const std::function<void(Particle &)> &/*callback*/) {}
+    virtual void forEachParticle(const std::function<void(Particle &)> & callback) {
+        particles.forEach(callback);
+    }
     
     /**
      * @brief Iteration over every particle for writer callback.
@@ -152,13 +196,23 @@ class Simulation {
      * });
      * ```
      */
-    virtual void forEachDistinctParticlePair(const std::function<void(Particle &, Particle &)> &/*callback*/) {}
+    virtual void forEachDistinctParticlePair(const std::function<void(Particle &, Particle &)> &callback) {
+        particles.forEachDistinctPair(callback);
+    }
     
     /**
      * @brief Total amount of tracked particles.
      */
     virtual int particleCount() {
-        return 0;
+        return particles.particleCount();
+    }
+    /**
+     * @brief Total amount of tracked particles.
+     */
+    virtual void applyGravity() {
+        forEachParticle([this](Particle &particle) {
+            particle.force.y += arguments.gravityFactor * particle.mass;
+        });
     }
 
     /**
@@ -172,6 +226,9 @@ class Simulation {
      * @brief Run the simulation for a given time with specified time step.
      */
     virtual void run(const cb_type &callback) {
+        PROFILE_FUNCTION;
+
+        std::chrono::steady_clock::time_point time_now;
         const double start = arguments.start_time;
         const double end = arguments.end_time;
         const double delta_t = arguments.delta_t;
@@ -179,6 +236,25 @@ class Simulation {
         plotParticles(callback);
 
         for (double t = start; t < end; t += delta_t) {
+            PROFILE_FRAME_MARK;
+
+#ifdef TRACY_ENABLE
+            time_now = std::chrono::steady_clock::now();
+            auto secs = std::chrono::duration_cast<std::chrono::seconds>(time_now - lastSecondUpdate).count();
+
+            if (secs >= 1) {
+                // spdlog::debug("measure frame: {} particles updated in {} ticks", particleUpdatesPerSecond, ticksPerSecond);
+                particleUpdatesPerSecond = 0;
+                forceParticlePairsPerSecond = 0;
+                lastSecondUpdate = time_now;
+            }
+
+            particleUpdatesPerSecond += particleCount();
+
+            PROFILE_PLOT("Particles Per Second", particleUpdatesPerSecond);
+            PROFILE_PLOT("Force Particle Pairs Per Second", forceParticlePairsPerSecond);
+#endif
+
             tick();
             iteration++;
 

@@ -9,6 +9,7 @@
  * @brief Reindex particles that switched cells.
  */
 void LinkedCellImplementation::reindexParticles() {
+    PROFILE_ZONE_NAMED("Particle to Cell Reindexation");
     cells.reindex();
 };
 
@@ -17,12 +18,14 @@ void LinkedCellImplementation::reindexParticles() {
  * particle-border collision or particle extinction
  */
 void LinkedCellImplementation::calculateBorderBehaviour() {
+    PROFILE_ZONE_NAMED("Border Behaviour Calculation");
+
     // brief: simple repulsion from border using ghost particles
-    const int REPULSION = 5;
+    //const int REPULSION = 1;
 
-    cells.forEachBordered([&](Particle &p, Vec3I ghostCellIndex) {
-        Particle ghost(p);
+    const double dist = std::pow(2.0, 1.0/6.0) * arguments.sigma;
 
+    cells.forEachBordered([&](Particle &p, Vec3I /*ghostCellIndex*/) {
         //
         //     cell    ghost cell
         // |----------| - - - - -|
@@ -38,23 +41,101 @@ void LinkedCellImplementation::calculateBorderBehaviour() {
         // TODO reflecting boundary condition / verify math
         // TODO are particles attracted to border?
 
-        // calculate relative position in cell
-        Vec3D cellRelative = Vec3D(
-            p.position.x - (ghostCellIndex.x * cells.cellSize.x),
-            p.position.y - (ghostCellIndex.y * cells.cellSize.y),
-            p.position.z - (ghostCellIndex.z * cells.cellSize.z)
-        );
 
-        ghost.mass *= -REPULSION; // strong repulsion
+        // X min wall
+        if(cells.boarderXmin==1) {
+            double dxMin = p.position.x - domainMin.x;
+            if (dxMin < dist) {
+                Particle wall;
 
-        // mirror relative position in cell against ghost cell border
-        ghost.position = p.position;
+                wall.position = Vec3D(domainMin.x, p.position.y, p.position.z);
+                wall.sigma=1;
+                wall.epsilon=1;
+                auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
+                p.force += f;
+            }
+        }
 
-        ghost.position.x += cells.cellSize.x * 2 - 2 * cellRelative.x;
-        ghost.position.y += cells.cellSize.y * 2 - 2 * cellRelative.y;
-        ghost.position.z += cells.cellSize.z * 2 - 2 * cellRelative.z;
+        // X max wall
+        //std::cout<<boxMax.x<<std::endl;
+        if(cells.boarderXmax==1) {
+            double dxMax = domainMax.x - p.position.x;
+            if (dxMax < dist) {
+                Particle wall;
+                wall.position = Vec3D(domainMax.x, p.position.y, p.position.z);
+                wall.sigma=1;
+                wall.epsilon=1;
+                auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
+                p.force += f;
+            }
+        }
 
-        forceCalculationSystem(const_cast<Args&>(arguments), p, ghost);
+        // Y min wall
+        if(cells.boarderYmin==1) {
+            double dyMin = p.position.y - domainMin.y;
+            if (dyMin < dist) {
+                Particle wall;
+                //std::cout<<"link imple sigms y min "<<p.sigma<<std::endl;
+                //wall.position = Vec3D(p.position.x, domainMin.y, p.position.z);
+                //double wall_offset = (p.sigma + 1)/2;  // or 0.5*sigma
+                wall.position = Vec3D(p.position.x, domainMin.y, p.position.z);
+
+                wall.sigma=1;
+                wall.epsilon=1;
+                //std::cout<<"link imple p y min "<<p.force.x<<" "<<p.force.y<<" "<<p.force.z<<std::endl;
+                //double actual_r = (p.position - wall.position).length();
+                //std::cout << "Ymin r = " << actual_r << "  dist=" << std::pow(2.0, 1.0/6.0) * ((p.sigma+1))/2 <<" deyMin "<< dyMin<< std::endl;
+                //std::cout << "diff normal = "<<(p.position-wall.position).normal().x<<" "<<(p.position-wall.position).normal().y<<" "<<(p.position-wall.position).normal().z << std::endl;
+
+                auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
+
+
+                //std::cout<<"link imple f y min "<<f.x<<" "<<f.y<<" "<<f.z<<std::endl;
+                //std::cout<<std::endl;
+
+
+                p.force += f;
+            }
+        }
+
+        // Y max wall
+        if(cells.boarderYmax==1) {
+            double dyMax = domainMax.y - p.position.y;
+            if (dyMax < dist) {
+                Particle wall;
+                wall.position = Vec3D(p.position.x, domainMax.y, p.position.z);
+                wall.sigma=1;
+                wall.epsilon=1;
+                auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
+                p.force += f;
+            }
+        }
+
+        // Z min wall
+        if(cells.boarderZmin==1) {
+            double dzMin = p.position.z - domainMin.z;
+            if (dzMin < dist) {
+                Particle wall;
+                wall.position = Vec3D(p.position.x, p.position.y, domainMin.z);
+                wall.sigma=1;
+                wall.epsilon=1;
+                auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
+                p.force += f;
+            }
+        }
+
+        // Z max wall
+        if(cells.boarderZmax==1) {
+            double dzMax = domainMax.z - p.position.z;
+            if (dzMax < dist) {
+                Particle wall;
+                wall.position = Vec3D(p.position.x, p.position.y, domainMax.z);
+                wall.sigma=1;
+                wall.epsilon=1;
+                auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
+                p.force += f;
+            }
+        }
     });
 }
 

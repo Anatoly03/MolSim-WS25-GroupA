@@ -23,6 +23,14 @@ void CuboidGenerator::generate(ParticleContainer &particles) {
 
         if (brownian_sigma > 0.0) {
             particle.velocity += maxwellBoltzmannDistributedVelocity(brownian_sigma, dimension);
+
+
+        }
+        if (epsilon > 0.0) {
+            particle.epsilon = epsilon;
+        }
+        if (sigma > 0.0) {
+            particle.sigma = sigma;
         }
 
         particle.mass = mass;

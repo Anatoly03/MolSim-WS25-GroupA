@@ -2,6 +2,7 @@
 #pragma once
 
 #include "../utils/Args.h"
+#include "../utils/TracyHelper.h"
 #include "../math/Vec3.h"
 #include "../LinkedCells.h"
 #include "../ParticleContainer.h"
@@ -30,7 +31,10 @@ class LinkedCellImplementation : public Simulation {
     /**
      * @brief the +2 contribute to creating ghost cells which helps with boundery
      */
-    LinkedCellImplementation(ParticleContainer &particles, const Args &args) : Simulation(args), cells(args.cell_size) {
+    LinkedCellImplementation(ParticleContainer &particles, const Args &args) :
+        Simulation(particles, args),
+        cells(std::function<Particle&(int)>([this](int index) -> Particle& { return _internal_particle_getter(index); }), args.cell_size)
+    {
         // constants, to be set later
         // double size = 10;
         // double xOfDomain = 40;
@@ -48,7 +52,9 @@ class LinkedCellImplementation : public Simulation {
 
         cells.absorb(particles);
         cells.setDomainSize(args.domain_min, args.domain_max);
-        
+        domainMin=args.domain_min;
+        domainMax=args.domain_max;
+        cells.setBorder(args.boarderXmin,args.boarderXmax,args.boarderYmin,args.boarderYmax,args.boarderZmin,args.boarderZmax);
         auto removedCells = cells.clearOutOfBoundsCells();
         if (removedCells != 0) {
             spdlog::warn("out of bounds particles in {} cells removed", removedCells);
@@ -58,6 +64,10 @@ class LinkedCellImplementation : public Simulation {
     }
 
    private:
+    Particle& _internal_particle_getter(int index) {
+        return const_cast<Particle&>(particles[index]);
+    }
+
     // /**
     //  * @brief Places all particles into correct cells.
     //  */
@@ -166,11 +176,62 @@ class LinkedCellImplementation : public Simulation {
      */
     void tick() override {
         calculatePosition(); // implemented in super class
+
+        //clamping particles back into the domain.
+        cells.forEach([&](Particle &p) {
+            if (p.position.y < domainMin.y && arguments.boarderYmin == 1) {
+
+
+                double penetration = domainMin.y - p.position.y;
+                p.position.y = domainMin.y + penetration;
+                Particle wall;
+                //idea in testing: improving velocity smoothness with low sigma value for walls.
+                wall.sigma = 0.01;
+                wall.epsilon = 0.01;
+                wall.position.y = domainMin.y - (wall.sigma * pow(2,1/6));
+                wall.position.x = p.position.x;
+                wall.position.z = p.position.z;
+
+
+                auto f = forceCalculationSystem(const_cast<Args &>(arguments), p, wall);
+                p.force += f;
+                //p.velocity.y = -p.velocity.y;
+            }
+            if (p.position.y > domainMax.y && arguments.boarderYmax == 1) {
+                double penetration = p.position.y - domainMax.y;
+                p.position.y = domainMax.y - penetration;
+                p.velocity.y = -p.velocity.y;
+            }
+            if (p.position.x < domainMin.x && arguments.boarderXmin == 1) {
+                double penetration = domainMin.x - p.position.x;
+                p.position.x = domainMin.x + penetration;
+                p.velocity.x = -p.velocity.x;
+            }
+            if (p.position.x > domainMax.x && arguments.boarderXmax == 1) {
+                double penetration = p.position.x - domainMax.x;
+                p.position.x = domainMax.x - penetration;
+                p.velocity.x = -p.velocity.x;
+            }
+            if (p.position.z < domainMin.z && arguments.boarderZmin == 1) {
+            double penetration = domainMin.z - p.position.z;
+            p.position.z = domainMin.z + penetration;
+            p.velocity.z = -p.velocity.z;
+        }
+            if (p.position.z > domainMax.z && arguments.boarderZmax == 1) {
+                double penetration = p.position.z - domainMax.z;
+                p.position.z = domainMax.z - penetration;
+                p.velocity.z = -p.velocity.z;
+            }
+        });
         delayPosition(); // implemented in super class
         reindexParticles();
+
         delayForce(); // implemented in super class
         calculateForce();
-        // calculateBorderBehaviour();
+        applyGravity();
+        calculateBorderBehaviour();
         calculateVelocity(); // implemented in super class
+
+        PROFILE_PLOT("Active Cells", cells.cellCount());
     }
 };

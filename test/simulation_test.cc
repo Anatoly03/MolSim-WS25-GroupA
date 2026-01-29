@@ -3,8 +3,6 @@
 #include "../src/core/Particle.h"
 #include "../src/core/ParticleContainer.h"
 #include "../src/core/simulation/Simulation.h"
-#include "../src/core/simulation/DirectSumAlgorithm.h"
-#include "../src/core/simulation/LinkedCellImplementation.h"
 #include "../src/core/math/Vec3.h"
 
 /**
@@ -12,10 +10,11 @@
  * zero delta.
  */
 TEST(SimulationPositionZeroDeltaTest, BasicAssertions) {
+    ParticleContainer particles;
     Args args;
     args.delta_t = 0.0;
 
-    Simulation simulation(args);
+    Simulation simulation(particles, args);
     Particle part(Vec3D(1.0, 2.0, 3.0), Vec3D(1.0), 1.0);
 
     simulation.calculateSinglePosition(part, args.delta_t);
@@ -27,10 +26,11 @@ TEST(SimulationPositionZeroDeltaTest, BasicAssertions) {
  * one delta.
  */
 TEST(SimulationPositionTest, BasicAssertions) {
+    ParticleContainer particles;
     Args args;
     args.delta_t = 1.0;
 
-    Simulation simulation(args);
+    Simulation simulation(particles, args);
     Particle part(Vec3D(1.0, 2.0, 3.0), Vec3D(1.0), 1.0);
     part.force = Vec3D(0.0);
 
@@ -56,7 +56,7 @@ TEST(DirectSumAttractionTest, BasicAssertions) {
     particles.add(part1);
     particles.add(part2);
 
-    DirectSumAlgorithm simulation(particles, args);
+    Simulation simulation(particles, args);
     double distance = (part1.position - part2.position).length();
 
     // pretick as position only updates after force and velocity propagates

@@ -98,6 +98,20 @@ class ParticleContainer {
     void reserve(size_type reserve = 0) { particles.reserve(reserve); }
 
     /**
+     * @brief Access operator for ParticleContainer by particle index.
+     */
+    const Particle& operator[](std::size_t i) const {
+        return particles[i];
+    }
+
+    /**
+     * @brief Access operator for ParticleContainer by particle index.
+     */
+    Particle& operator[](std::size_t i) {
+        return particles[i];
+    }
+
+    /**
      * @brief Iteration over single particles.
      * @param callback Function to be called for each particle.
      * @example
@@ -110,6 +124,20 @@ class ParticleContainer {
      * ```
      */
     virtual void forEach(const std::function<void(Particle &)> &callback);
+
+    /**
+     * @brief Iteration over single particles paired with their index.
+     * @param callback Function to be called for each particle.
+     * @example
+     * ```c++
+     * ParticleContainer container;
+     *
+     * container.forEach([](Particle &particle, int index) {
+     *     std::cout << particle.toString() << std::endl;
+     * });
+     * ```
+     */
+    virtual void forEachIndexed(const std::function<void(Particle &, int)> &callback);
 
     // /**
     //  * @brief Reduction of an accumulator value, processing over all single particles.

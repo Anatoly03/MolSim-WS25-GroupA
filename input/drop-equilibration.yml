@@ -1,0 +1,58 @@
+name: Drop in Basin - Equilibration Phase
+
+config:
+  # Time parameters
+  delta_time: 0.0005
+  total_time: 15
+  output_interval: 1000
+  output: ../output/equilibration_vtk
+  
+  # Domain parameters - Size L = {303, 180}
+  domain_min: [0, 0, 0]
+  domain_max: [303, 180, 1]
+  cell_size: [3, 3, 3]
+  
+  # Lennard-Jones parameters
+  epsilon: 1.0
+  sigma: 1.2
+  cut_off: 3.0  # 2.5 * sigma = 2.5 * 1.2 = 3.0
+  
+  # Gravity: g_grav = -12.44 in y-direction (2D simulation in X-Y plane)
+  gravity_force: [0.0, -12.44, 0.0]
+  
+  # Thermostat parameters
+  thermostat_interval: 1000  # Apply thermostat every 1000 iterations
+  thermostat_temperature: 0.5  # T_init = 0.5
+  initial_temperature: 0.5
+  
+  # Boundary conditions - reflective on all sides
+  boarderXmin: "reflect"
+  boarderXmax: "reflect"
+  boarderYmin: "reflect"
+  boarderYmax: "reflect"
+  boarderZmin: "reflect"
+  boarderZmax: "reflect"
+  
+  # Use Lennard-Jones force
+  attraction: "lennard-jones"
+  
+  # Save checkpoint at end of equilibration
+  checkpoint_path: "../output/equilibrated.chkpt"
+
+particles:
+  # Liquid basin parameters:
+  # xl = {1.5, 2} (position)
+  # h = 1.2 (spacing)
+  # nl = {250, 50} (number of particles)
+  # m = 1.0 (mass)
+  # epsilon = 1.0s
+  # v = {0, 0} (velocity)
+  # sigma = 1.2
+  liquid_basin:
+    type: cuboid
+    position: [1.5, 2.0, 0.0]  # Centered at X=151.5 (76.5+150/2), narrower initial width
+    n: [250, 50, 1]  # Reduced X particles to 150 for visible spreading effect
+    dist: 1.2  # h = 1.2 (corrected from 0.1)
+    mass: 1.0
+    velocity: [0.0, 0.0, 0.0]
+    brownian_sigma: 0.0

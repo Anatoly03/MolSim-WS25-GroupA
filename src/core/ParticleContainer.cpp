@@ -10,6 +10,15 @@ void ParticleContainer::forEach(const std::function<void(Particle &)> &callback)
 }
 
 /**
+ * Iteration over single particles with index using a callback function.
+ */
+void ParticleContainer::forEachIndexed(const std::function<void(Particle &, int)> &callback) {
+    for (size_t i = 0; i < particles.size(); i++) {
+        callback(particles[i], static_cast<int>(i));
+    }
+}
+
+/**
  * Iteration over distinct particle pairs using a callback function.
  * Index-based particle comparison ensures a pair has distinct particles.
  */

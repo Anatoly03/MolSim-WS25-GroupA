@@ -98,6 +98,30 @@ struct Args {
     Vec3I domain_max = Vec3I(10);
 
     /**
+     * @brief the boarder handling for each side.
+     * Delete when out of bounds: 0
+     * reflective: 1
+     * periodic: 2
+     * outflow: 3 <---need working
+     */
+    int boarderXmin = 1;
+
+    int boarderXmax = 1;
+
+    int boarderYmin = 1;
+
+    int boarderYmax = 1;
+
+    int boarderZmin = 1;
+
+    int boarderZmax = 1;
+
+    /**
+     * @brief Default factor of the gravity to use. Overridden by CLI.
+     */
+    double gravityFactor = 0;
+
+    /**
      * @brief Benchmark flag. Set by CLI.
      */
     bool benchmark_enabled = false;

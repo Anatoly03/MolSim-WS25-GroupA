@@ -20,9 +20,21 @@
 class LinkedCells {
    private:
     /**
-     * @brief Internal storage of particle containers.
+     * @brief Internal storage of particle indeces that are managed by cell.
      */
-    std::map<Vec3I, std::vector<Particle>> containers;
+    std::map<Vec3I, std::vector<int>> containers;
+
+   public:
+    /**
+     * @brief Typedef for particle getter function
+     */
+    typedef std::function<Particle&(int)> get_particle;
+
+   private:
+    /**
+     * @brief Method to get particle reference from index. Provided by parent.
+     */
+    get_particle particleGetter;
 
    public:
     /**
@@ -39,21 +51,21 @@ class LinkedCells {
      * @brief cell divison size
      */
     Vec3I domainMax = Vec3I(0);
-    
-   public:
-    typedef std::map<Vec3I, std::vector<Particle> >::size_type size_type;
-    typedef std::map<Vec3I, std::vector<Particle> >::iterator iterator;
-    typedef std::map<Vec3I, std::vector<Particle> >::const_iterator const_iterator;
+    typedef std::map<Vec3I, std::vector<int> >::size_type size_type;
+    typedef std::map<Vec3I, std::vector<int> >::iterator iterator;
+    typedef std::map<Vec3I, std::vector<int> >::const_iterator const_iterator;
+
+    int boarderXmin;
+    int boarderXmax;
+    int boarderYmin;
+    int boarderYmax;
+    int boarderZmin;
+    int boarderZmax;
 
     /**
-     * @brief Default constructor for LinkedCells.
+     * @brief Constructor for LinkedCells specifying particle getter and cell size.
      */
-    LinkedCells() = default;
-
-    /**
-     * @brief Constructor for LinkedCells specifying cell size.
-     */
-    LinkedCells(Vec3I cellSize) : cellSize(cellSize) {
+    LinkedCells(get_particle getter, Vec3I cellSize) : particleGetter(getter), cellSize(cellSize) {
         if (cellSize.x == 0 || cellSize.y == 0 || cellSize.z == 0) {
             spdlog::error("cell size for linked cells was set to zero-volume: ({},{},{})", cellSize.x, cellSize.y, cellSize.z);
         }
@@ -128,11 +140,18 @@ class LinkedCells {
     }
 
     /**
+     * @brief Get the number of total active cells.
+     */
+    virtual int cellCount() const {
+        return containers.size();
+    }
+
+    /**
      * @brief Absorb a particle container and sort particles into cells.
      */
     virtual void absorb(ParticleContainer &particles) {
-        particles.forEach([&](Particle &p) {
-            add(p);
+        particles.forEachIndexed([&](Particle &p, int index) {
+            add(p, index);
         });
     }
 
@@ -140,9 +159,9 @@ class LinkedCells {
      * @brief Add a new Particle to the cell manager.
      * @returns Index of the cell.
      */
-    virtual Vec3I add(Particle &particle) {
-        auto cellIndex = getIndex(particle);
-        containers[cellIndex].emplace_back(particle);
+    virtual Vec3I add(Particle &p, int particleId) {
+        auto cellIndex = getIndex(p);
+        containers[cellIndex].emplace_back(particleId);
         return cellIndex;
     }
 
@@ -158,24 +177,37 @@ class LinkedCells {
     }
 
     /**
+     * @brief set border types.
+     * @note Range is inclusive.
+     */
+    virtual void setBorder(int boarderXmin, int boarderXmax, int boarderYmin, int boarderYmax, int boarderZmin, int boarderZmax) {
+        this->boarderXmin = boarderXmin;
+        this->boarderXmax = boarderXmax;
+        this->boarderYmin = boarderYmin;
+        this->boarderYmax = boarderYmax;
+        this->boarderZmin = boarderZmin;
+        this->boarderZmax = boarderZmax;
+    }
+
+    /**
      * @brief Removes out of bounds cells.
      * @returns amount of removed cells
      * @note Range is inclusive.
      */
     virtual int clearOutOfBoundsCells();
 
-    /**
-     * @brief Iteration over single particles.
-     * @param callback Function to be called for each particle.
-     * @example
-     * ```c++
-     * LinkedCells cells;
-     *
-     * cells.forEach([](Particle &particle) {
-     *     std::cout << particle.toString() << std::endl;
-     * });
-     * ```
-     */
+    // /**
+    //  * @brief Iteration over single particles.
+    //  * @param callback Function to be called for each particle.
+    //  * @example
+    //  * ```c++
+    //  * LinkedCells cells;
+    //  *
+    //  * cells.forEach([](Particle &particle) {
+    //  *     std::cout << particle.toString() << std::endl;
+    //  * });
+    //  * ```
+    //  */
     virtual void forEach(const std::function<void(Particle &)> &callback);
 
     /**
