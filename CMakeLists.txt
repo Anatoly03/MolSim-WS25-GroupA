@@ -50,14 +50,14 @@ target_include_directories(MolSimLib
 # depending on the compiler different flags are used
 target_compile_options(MolSim
         PRIVATE
-            $<$<CXX_COMPILER_ID:GNU>:-Wall -Wextra -Wpedantic -Werror>
+            $<$<CXX_COMPILER_ID:GNU>:-Wall -Wextra -Wpedantic -Werror -Wno-dangling-reference -Wno-restrict>
             # disable some spam warnings for icpc...
             $<$<CXX_COMPILER_ID:Intel>:-w3 -wd383,981,1418,1572,2259>
 )
 
 target_compile_options(MolSimLib
         PRIVATE
-            $<$<CXX_COMPILER_ID:GNU>:-Wall -Wextra -Wpedantic -Werror>
+            $<$<CXX_COMPILER_ID:GNU>:-Wall -Wextra -Wpedantic -Werror -Wno-dangling-reference -Wno-restrict>
             # disable some spam warnings for icpc...
             $<$<CXX_COMPILER_ID:Intel>:-w3 -wd383,981,1418,1572,2259>
 )
@@ -70,18 +70,11 @@ list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/modules)
 
 # Enable OpenMP if requested
 if(ENABLE_OPENMP)
-    find_package(OpenMP QUIET)
-    if(OpenMP_CXX_FOUND)
-        target_link_libraries(MolSim PRIVATE OpenMP::OpenMP_CXX)
-        target_link_libraries(MolSimLib PRIVATE OpenMP::OpenMP_CXX)
-        target_compile_definitions(MolSim PRIVATE OPENMP)
-        target_compile_definitions(MolSimLib PRIVATE OPENMP)
-        message(STATUS "OpenMP support: ENABLED")
-    else()
-        message(WARNING "OpenMP not found, building without OpenMP support")
-    endif()
-else()
-    message(STATUS "OpenMP support: DISABLED")
+    find_package(OpenMP REQUIRED)
+    target_link_libraries(MolSim PRIVATE OpenMP::OpenMP_CXX)
+    target_link_libraries(MolSimLib PRIVATE OpenMP::OpenMP_CXX)
+    target_compile_definitions(MolSim PRIVATE OPENMP)
+    target_compile_definitions(MolSimLib PRIVATE OPENMP)
 endif()
 
 #enables VTK

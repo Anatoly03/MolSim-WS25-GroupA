@@ -21,8 +21,8 @@ class LinkedCellImplementation : public Simulation {
     LinkedCells cells;
 
    public:
-    Vec3I domainMin = Vec3I(1.0);
-    Vec3I domainMax = Vec3I(1.0);
+    Vec3D domainMin = Vec3D(1.0);
+    Vec3D domainMax = Vec3D(1.0);
 
     // int nx=0;
     // int ny=0;
@@ -99,11 +99,6 @@ class LinkedCellImplementation : public Simulation {
      */
     void calculateBorderBehaviour();
 
-    /**
-     * @todo document
-     */
-    void calculateMembraneBehaviour();
-
     // /**
     //  * @brief return all particles in ghost/halo cells
     //  */
@@ -169,7 +164,6 @@ class LinkedCellImplementation : public Simulation {
      * ```
      */
     void forEachDistinctParticlePair(const std::function<void(Particle &, Particle &)> &callback) override {
-        PROFILE_ZONE_NAMED("Distinct Particle Pair Iteration [LinkedCells]");
         cells.forEachDistinctPair(callback);
     }
 
@@ -266,7 +260,6 @@ class LinkedCellImplementation : public Simulation {
         calculateForce();
         applyGravity();
         calculateBorderBehaviour();
-        calculateMembraneBehaviour();
         calculateVelocity(); // implemented in super class
 
         PROFILE_PLOT("Active Cells", cells.cellCount());

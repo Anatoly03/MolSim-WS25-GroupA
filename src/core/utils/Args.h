@@ -67,6 +67,41 @@ struct Args {
     int output_interval = 10;
 
     /**
+     * @brief Thermostat initial temperature (Tinit).
+     */
+    double initial_temperature = 0.0;
+
+    /**
+     * @brief Thermostat target temperature (Ttarget).
+     */
+    double target_temperature = 0.0;
+
+    /**
+     * @brief Thermostat temperature step (ΔT).
+     */
+    double delta_temperature = 0.0;
+
+    /**
+     * @brief Thermostat application interval (ntherm). 0 disables.
+     */
+    int ntherm = 0;
+
+    /**
+     * @brief Thermodynamics stats interval (steps). 0 disables measurement.
+     */
+    int stats_every = 1000;
+
+    /**
+     * @brief RDF bin width.
+     */
+    double rdf_dr = 0.1;
+
+    /**
+     * @brief RDF number of bins.
+     */
+    int rdf_bins = 200;
+
+    /**
      * @brief Cell size for linked cell implementation. Provided by input files.
      */
     Vec3I cell_size = Vec3I(5, 5, 5);
@@ -83,6 +118,12 @@ struct Args {
     double cutoff_radius = 3.0;
 
     /**
+     * @brief Lower smoothing radius `r_l` for smoothed Lennard-Jones potential.
+     * Default chosen to typical LJ cutoff scale.
+     */
+    double smoothing_radius_lower = 2.5;
+
+    /**
      * @brief Attraction method to use. Provided by input files.
      */
     std::string attraction_method = "lennard-jones";
@@ -90,12 +131,12 @@ struct Args {
     /**
      * @brief Cell size for linked cell implementation. Provided by input files.
      */
-    Vec3I domain_min = Vec3I(0);
+    Vec3D domain_min = Vec3D(0.0);
 
     /**
      * @brief Cell size for linked cell implementation. Provided by input files.
      */
-    Vec3I domain_max = Vec3I(10);
+    Vec3D domain_max = Vec3D(10.0);
 
     /**
      * @brief the boarder handling for each side.
@@ -120,6 +161,16 @@ struct Args {
      * @brief Default factor of the gravity to use. Overridden by CLI.
      */
     double gravityFactor = 0;
+
+    /**
+     * @brief Optional checkpoint input path.
+     */
+    std::string checkpoint_input;
+
+    /**
+     * @brief Optional checkpoint output path.
+     */
+    std::string checkpoint_output;
 
     /**
      * @brief Benchmark flag. Set by CLI.

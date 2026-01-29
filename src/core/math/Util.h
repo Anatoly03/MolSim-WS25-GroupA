@@ -3,7 +3,8 @@
  * @brief Tests whether the provided arguments are in ascending order.
  */
 // TODO rewrite to macro or template vararg
-constexpr bool ascending(int a, int b, int c) {
+template <typename A, typename B, typename C>
+constexpr bool ascending(A a, B b, C c) {
     return a <= b && b <= c;
 }
 

@@ -4,6 +4,7 @@
 
 #include "spdlog/spdlog.h"
 #include <fmt/format.h>
+#include <cmath>
 
 /**
 * iterate over all cells and removes out of range
@@ -171,14 +172,24 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &)> &callbac
 * Iterate over six planes of cells.
 */
 void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &callback) {
-    const auto domainSize = domainMax - domainMin + Vec3I(1);
+    const Vec3I minIndex(
+        static_cast<int>(std::floor(domainMin.x / static_cast<double>(cellSize.x))),
+        static_cast<int>(std::floor(domainMin.y / static_cast<double>(cellSize.y))),
+        static_cast<int>(std::floor(domainMin.z / static_cast<double>(cellSize.z)))
+    );
+    const Vec3I maxIndex(
+        static_cast<int>(std::floor(domainMax.x / static_cast<double>(cellSize.x))),
+        static_cast<int>(std::floor(domainMax.y / static_cast<double>(cellSize.y))),
+        static_cast<int>(std::floor(domainMax.z / static_cast<double>(cellSize.z)))
+    );
+    const Vec3I domainSize = maxIndex - minIndex + Vec3I(1);
 
 // XY PLANE [FRONT]
 //std::cout<<boarderXmin<<std::endl;
     if(boarderZmin==1) {
 //std::cout<<"minZ"<<std::endl;
         for (auto xyPlane: Vec3Iter(domainSize.x, domainSize.y, 1)) {
-            Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, xyPlane.y, 0);
+            Vec3I cellIndex = minIndex + Vec3I(xyPlane.x, xyPlane.y, 0);
             auto &particles = containers[cellIndex];
 
             for (auto &p: particles) {
@@ -197,7 +208,7 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
 // XY PLANE [BACK]
     if(boarderZmax == 1) {
         for (auto xyPlane: Vec3Iter(domainSize.x, domainSize.y, 1)) {
-            Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, xyPlane.y, domainSize.z - 1);
+            Vec3I cellIndex = minIndex + Vec3I(xyPlane.x, xyPlane.y, domainSize.z - 1);
             auto &particles = containers[cellIndex];
 
             for (auto &p: particles) {
@@ -216,7 +227,7 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
 // XZ PLANE [NORTH]
     if(boarderYmin== 1) {
         for (auto xyPlane: Vec3Iter(domainSize.x, 1, domainSize.z)) {
-            Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, 0, xyPlane.z);
+            Vec3I cellIndex = minIndex + Vec3I(xyPlane.x, 0, xyPlane.z);
             auto &particles = containers[cellIndex];
 
             for (auto &p: particles) {
@@ -235,7 +246,7 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
 // XZ PLANE [SOUTH]
     if(boarderYmax == 1) {
         for (auto xyPlane: Vec3Iter(domainSize.x, 1, domainSize.z)) {
-            Vec3I cellIndex = domainMin + Vec3I(xyPlane.x, domainSize.y - 1, xyPlane.z);
+            Vec3I cellIndex = minIndex + Vec3I(xyPlane.x, domainSize.y - 1, xyPlane.z);
             auto &particles = containers[cellIndex];
 
             for (auto &p: particles) {
@@ -254,7 +265,7 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
 // YZ PLANE [WEST]
     if(boarderXmin == 1) {
         for (auto xyPlane: Vec3Iter(1, domainSize.y, domainSize.z)) {
-            Vec3I cellIndex = domainMin + Vec3I(0, xyPlane.y, xyPlane.z);
+            Vec3I cellIndex = minIndex + Vec3I(0, xyPlane.y, xyPlane.z);
             auto &particles = containers[cellIndex];
 
             for (auto &p: particles) {
@@ -275,7 +286,7 @@ void LinkedCells::forEachBordered(const std::function<void(Particle &, Vec3I)> &
 // YZ PLANE [EAST]
     if(boarderXmax == 1) {
         for (auto xyPlane: Vec3Iter(1, domainSize.y, domainSize.z)) {
-            Vec3I cellIndex = domainMin + Vec3I(domainSize.x - 1, xyPlane.y, xyPlane.z);
+            Vec3I cellIndex = minIndex + Vec3I(domainSize.x - 1, xyPlane.y, xyPlane.z);
             auto &particles = containers[cellIndex];
 
             for (auto &p: particles) {

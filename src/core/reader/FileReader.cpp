@@ -7,6 +7,7 @@
 
 #include "TxtReader.h"
 #include "YamlReader.h"
+#include "CheckpointReader.h"
 #include "spdlog/spdlog.h"
 
 /**
@@ -38,6 +39,11 @@ std::unique_ptr<FileReader> FileReader::getReaderForFile(const std::string &file
     // `yaml` yields YamlReader
     if (extension == "yaml" || extension == "yml") {
         return std::make_unique<YamlReader>();
+    }
+
+    // `chkpt` yields CheckpointReader
+    if (extension == "chkpt") {
+        return std::make_unique<CheckpointReader>();
     }
 
 
